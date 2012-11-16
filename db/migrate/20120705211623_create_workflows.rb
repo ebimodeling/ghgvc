@@ -17,5 +17,11 @@ class CreateWorkflows < ActiveRecord::Migration
 
   def self.down
     drop_table :workflows
+    
+    execute <<-SQL
+      ALTER TABLE workflows
+        AUTO_INCREMENT = 1;
+    SQL
+    
   end
 end

@@ -13,7 +13,7 @@ class AddDocumentsToRaws < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :internal_freezers_documents
+    drop_table :raws_documents
 
   end
 end

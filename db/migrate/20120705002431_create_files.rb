@@ -16,12 +16,19 @@ class CreateFiles < ActiveRecord::Migration
       t.references :file
     end
 
-    add_index :containers_files, [ :container_id, :container_type, :file_id ], :unique => true
+    add_index :containers_files, :container_id, :unique => true
+    add_index :containers_files, :container_type, :unique => true
+    add_index :containers_files, :file_id, :unique => true
 
   end
 
   def self.down
     drop_table :files
     drop_table :containers_files
+    
+    remove_index :containers_files, :container_id
+    remove_index :containers_files, :container_type
+    remove_index :containers_files, :file_id
+    
   end
 end

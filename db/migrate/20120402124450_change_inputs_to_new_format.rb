@@ -1,6 +1,5 @@
 class ChangeInputsToNewFormat < ActiveRecord::Migration
   def self.up
-    add_column :inputs, :file_id, :integer
     add_column :inputs, :parent_id, :integer 
     add_column :inputs, :user_id, :integer
     add_column :inputs, :access_level, :integer
@@ -12,7 +11,7 @@ class ChangeInputsToNewFormat < ActiveRecord::Migration
 
     create_table :input_files do |t|
       t.integer :file_id
-      t.intger :format_id
+      t.integer :format_id
       t.string :file_name
       t.string :file_path
       t.integer :machine_id
@@ -26,10 +25,10 @@ class ChangeInputsToNewFormat < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :inputs, :file_id, :integer
-    remove_column :inputs, :parent_id, :integer 
-    remove_column :inputs, :user_id, :integer
-    remove_column :inputs, :access_level, :integer
+    remove_column :inputs, :parent_id
+    remove_column :inputs, :user_id
+    remove_column :inputs, :access_level
+    remove_column :inputs, :raw
 
     add_column :inputs, :raw_id, :integer
     add_column :inputs, :format_id, :integer

@@ -5,5 +5,7 @@ class AddPrecisionToSpecies < ActiveRecord::Migration
   end
 
   def self.down
+    change_column :species, :pH_Minimum, :decimal
+    change_column :species, :pH_Maximum, :decimal
   end
 end

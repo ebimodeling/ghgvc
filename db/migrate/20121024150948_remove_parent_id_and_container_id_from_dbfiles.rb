@@ -5,7 +5,7 @@ class RemoveParentIdAndContainerIdFromDbfiles < ActiveRecord::Migration
   end
 
   def self.down
-    add_column :dbfiles, :parent_id
-    add_column :dbfiles, :container_id
+    add_column :dbfiles, :parent_id, :integer
+    add_column :dbfiles, :container_id, :integer
   end
 end

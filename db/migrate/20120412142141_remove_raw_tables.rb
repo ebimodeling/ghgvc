@@ -7,5 +7,9 @@ class RemoveRawTables < ActiveRecord::Migration
   end
 
   def self.down
+  
+    create_table :raws
+    create_table :raws_documents
+  
   end
 end

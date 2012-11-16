@@ -12,5 +12,8 @@ class CreateSessions < ActiveRecord::Migration
 
   def self.down
     drop_table :sessions
+    
+    remove_index :sessions, :session_id
+    remove_index :sessions, :updated_at
   end
 end

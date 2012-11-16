@@ -10,7 +10,7 @@ class AddEvenMoreIndexesToBety < ActiveRecord::Migration
     add_index :posteriors, :parent_id
     add_index :runs, :model_id
     add_index :runs, :site_id
-    remove_column :species, :plant_id
+#    remove_column :species, :plant_id
   end
 
   def self.down
@@ -24,6 +24,6 @@ class AddEvenMoreIndexesToBety < ActiveRecord::Migration
     remove_index :posteriors, :parent_id
     remove_index :runs, :model_id
     remove_index :runs, :site_id
-    add_column :species, :plant_id, :integer
+#    add_column :species, :plant_id, :integer
   end
 end

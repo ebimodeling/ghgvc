@@ -7,7 +7,7 @@ class AddDatesToRuns < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :runs, :start_date, :datetime
-    remove_column :runs, :end_date, :datetime
+    remove_column :runs, :start_date
+    remove_column :runs, :end_date
   end
 end

@@ -25,6 +25,6 @@ class CreateServices < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :services
+#    drop_table :services
   end
 end

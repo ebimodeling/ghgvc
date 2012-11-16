@@ -1,6 +1,6 @@
 class RunsInputs < ActiveRecord::Migration
   def self.up
-     create_table :inputs_runs, :id => false do |t|
+    create_table :inputs_runs, :id => false do |t|
       t.references :input
       t.references :run
 

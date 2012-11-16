@@ -14,5 +14,7 @@ class CreateCountyPaths < ActiveRecord::Migration
 
   def self.down
     drop_table :county_paths
+    remove_index :county_paths, [:county_id, :zoom]
+    remove_index :county_paths, :county_id
   end
 end

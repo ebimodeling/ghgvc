@@ -13,5 +13,6 @@ class CreateCitationsTreatments < ActiveRecord::Migration
 
   def self.down
     drop_table :citations_treatments
+    remove_index :citations_treatments, [ :citation_id, :treatment_id ], :unique => true
   end
 end

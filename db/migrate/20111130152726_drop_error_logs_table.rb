@@ -4,5 +4,6 @@ class DropErrorLogsTable < ActiveRecord::Migration
   end
 
   def self.down
+    create_table :error_logs
   end
 end

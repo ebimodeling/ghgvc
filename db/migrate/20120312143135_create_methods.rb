@@ -14,7 +14,8 @@ class CreateMethods < ActiveRecord::Migration
 
   def self.down
     drop_table :methods
-    add_column :traits, :method_id
-    add_column :yields, :method_id
+    
+    remove_column :traits, :method_id
+    remove_column :yields, :method_id
   end
 end

@@ -5,7 +5,7 @@ class AddFileIdToTables < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :dbfiles, :file_id, :integer
-    remove_column :inputs, :file_id, :integer
+    remove_column :dbfiles, :file_id
+    remove_column :inputs, :file_id
   end
 end
