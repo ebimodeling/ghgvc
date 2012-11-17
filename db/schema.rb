@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121116191308) do
+ActiveRecord::Schema.define(:version => 20121117210155) do
 
   create_table "citations", :force => true do |t|
     t.string   "author"
@@ -568,6 +568,12 @@ ActiveRecord::Schema.define(:version => 20121116191308) do
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
     t.string   "model_type"
+    t.integer  "site_id"
+    t.integer  "model_id"
+    t.string   "hostname"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string   "params"
   end
 
   add_index "simulationmodels", ["parent_id"], :name => "index_models_on_parent_id"
@@ -819,11 +825,15 @@ ActiveRecord::Schema.define(:version => 20121116191308) do
 
   create_table "workflows", :force => true do |t|
     t.string   "outdir"
-    t.datetime "started_at"
-    t.datetime "finished_at"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.datetime "created_at",                       :null => false
     t.datetime "updated_at",                       :null => false
     t.boolean  "advanced_edit", :default => false
+    t.integer  "site_id"
+    t.integer  "model_id",                         :null => false
+    t.string   "hostname"
+    t.string   "params"
   end
 
   create_table "yields", :force => true do |t|
