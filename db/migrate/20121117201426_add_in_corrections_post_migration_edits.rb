@@ -7,6 +7,7 @@ class AddInCorrectionsPostMigrationEdits < ActiveRecord::Migration
         
     rename_column :workflows, :started_at, :start_date
     rename_column :workflows, :finished_at, :end_date
+    rename_column :workflows, :outdir, :folder
     
     add_column :models, :site_id, :integer
     add_column :models, :model_id, :integer
@@ -24,6 +25,7 @@ class AddInCorrectionsPostMigrationEdits < ActiveRecord::Migration
         
     rename_column :workflows, :start_date, :started_at
     rename_column :workflows, :end_date, :finished_at
+    rename_column :workflows, :folder, :outdir
   
     remove_column :models, :site_id
     remove_column :models, :model_id

@@ -1,6 +1,10 @@
 Ghgvc::Application.routes.draw do
-  resources :users
 
+  match 'calculator/' => 'workflows#new'
+
+  resources :workflows
+  resources :pfts
+  resources :users
 
   get "static_pages/home"
   get "static_pages/help"

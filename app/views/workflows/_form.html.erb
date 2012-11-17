@@ -40,14 +40,6 @@
     <%= f.text_field :folder %>
   </div>
   <div class="field">
-    <%= f.label :started_at %><br />
-    <%= f.text_field :started_at %>
-  </div>
-  <div class="field">
-    <%= f.label :finished_at %><br />
-    <%= f.text_field :finished_at %>
-  </div>
-  <div class="field">
     <%= f.label :created_at %><br />
     <%= f.text_field :created_at %>
   </div>
@@ -56,8 +48,8 @@
     <%= f.text_field :updated_at %>
   </div>
   <div class="field">
-    <%= f.label :advanced_edit %><br />
-    <%= f.check_box :advanced_edit %>
+    <%= f.check_box :advanced_edit, :class => "inline-block" %>
+    <%= f.label :advanced_edit, :class => "inline-block" %><br />
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -824,7 +824,7 @@ ActiveRecord::Schema.define(:version => 20121117210155) do
   end
 
   create_table "workflows", :force => true do |t|
-    t.string   "outdir"
+    t.string   "folder"
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "created_at",                       :null => false

@@ -9,7 +9,7 @@ gem 'mysql2', '0.3.11'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :development do
-#  need to setup test mysql DB
+  gem 'annotate', '2.5.0'
 #  gem 'sqlite3', '1.3.5'
 end
 
