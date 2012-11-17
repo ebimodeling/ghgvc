@@ -1,0 +1,65 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Site:</b>
+  <%= @workflow.site_id %>
+</p>
+
+<p>
+  <b>Model:</b>
+  <%= @workflow.model_id %>
+</p>
+
+<p>
+  <b>Hostname:</b>
+  <%= @workflow.hostname %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%= @workflow.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%= @workflow.end_date %>
+</p>
+
+<p>
+  <b>Params:</b>
+  <%= @workflow.params %>
+</p>
+
+<p>
+  <b>Folder:</b>
+  <%= @workflow.folder %>
+</p>
+
+<p>
+  <b>Started at:</b>
+  <%= @workflow.started_at %>
+</p>
+
+<p>
+  <b>Finished at:</b>
+  <%= @workflow.finished_at %>
+</p>
+
+<p>
+  <b>Created at:</b>
+  <%= @workflow.created_at %>
+</p>
+
+<p>
+  <b>Updated at:</b>
+  <%= @workflow.updated_at %>
+</p>
+
+<p>
+  <b>Advanced edit:</b>
+  <%= @workflow.advanced_edit %>
+</p>
+
+
+<%= link_to 'Edit', edit_workflow_path(@workflow) %> |
+<%= link_to 'Back', workflows_path %>

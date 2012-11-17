@@ -1,0 +1,45 @@
+<h1>Listing workflows</h1>
+
+<table>
+  <tr>
+    <th>Site</th>
+    <th>Model</th>
+    <th>Hostname</th>
+    <th>Start date</th>
+    <th>End date</th>
+    <th>Params</th>
+    <th>Folder</th>
+    <th>Started at</th>
+    <th>Finished at</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th>Advanced edit</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @workflows.each do |workflow| %>
+  <tr>
+    <td><%= workflow.site_id %></td>
+    <td><%= workflow.model_id %></td>
+    <td><%= workflow.hostname %></td>
+    <td><%= workflow.start_date %></td>
+    <td><%= workflow.end_date %></td>
+    <td><%= workflow.params %></td>
+    <td><%= workflow.folder %></td>
+    <td><%= workflow.started_at %></td>
+    <td><%= workflow.finished_at %></td>
+    <td><%= workflow.created_at %></td>
+    <td><%= workflow.updated_at %></td>
+    <td><%= workflow.advanced_edit %></td>
+    <td><%= link_to 'Show', workflow %></td>
+    <td><%= link_to 'Edit', edit_workflow_path(workflow) %></td>
+    <td><%= link_to 'Destroy', workflow, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Workflow', new_workflow_path %>

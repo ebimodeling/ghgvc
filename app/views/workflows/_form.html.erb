@@ -1,0 +1,65 @@
+<%= form_for(@workflow) do |f| %>
+  <% if @workflow.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@workflow.errors.count, "error") %> prohibited this workflow from being saved:</h2>
+
+      <ul>
+      <% @workflow.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :site_id %><br />
+    <%= f.text_field :site_id %>
+  </div>
+  <div class="field">
+    <%= f.label :model_id %><br />
+    <%= f.text_field :model_id %>
+  </div>
+  <div class="field">
+    <%= f.label :hostname %><br />
+    <%= f.text_field :hostname %>
+  </div>
+  <div class="field">
+    <%= f.label :start_date %><br />
+    <%= f.text_field :start_date %>
+  </div>
+  <div class="field">
+    <%= f.label :end_date %><br />
+    <%= f.text_field :end_date %>
+  </div>
+  <div class="field">
+    <%= f.label :params %><br />
+    <%= f.text_field :params %>
+  </div>
+  <div class="field">
+    <%= f.label :folder %><br />
+    <%= f.text_field :folder %>
+  </div>
+  <div class="field">
+    <%= f.label :started_at %><br />
+    <%= f.text_field :started_at %>
+  </div>
+  <div class="field">
+    <%= f.label :finished_at %><br />
+    <%= f.text_field :finished_at %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.text_field :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.text_field :updated_at %>
+  </div>
+  <div class="field">
+    <%= f.label :advanced_edit %><br />
+    <%= f.check_box :advanced_edit %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,37 @@
+<%= form_for(@pft) do |f| %>
+  <% if @pft.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@pft.errors.count, "error") %> prohibited this pft from being saved:</h2>
+
+      <ul>
+      <% @pft.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :definition %><br />
+    <%= f.text_field :definition %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.text_field :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.text_field :updated_at %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :parent_id %><br />
+    <%= f.number_field :parent_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
