@@ -1,17 +1,8 @@
-<h1>Select A Site</h1>
 
-<div id="map_canvas" style="width: 700px; height: 300px"></div>
 
-<h3 class="inline-block">Radius: </h3>
-<select id="radius" class="inline-block">
-  <option value="20" selected >20</option>
-  <option value="40">40</option>
-  <option value="60">60</option>
-  <option value="80">80</option>
-  <option value="100">100</option>
-  <option value="200">200</option>
-</select>
+<div id="map_canvas"></div>
 
+<h3 class="center">Site Matches:</h3>
 <!--<div id="show_sites" style="display:none"></div>-->
 
 <script type="text/javascript">
@@ -69,8 +60,78 @@
 </script>
 
 
+<div class="container-fluid">  
+   <div class="accordion" id="geo_refined_pft_accordion">
+      <!-- ###### Native ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">  
+            Native
+          </a>  
+        </div>  
+        <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">  
+          <div class="accordion-inner">  
+            - Lorem ipsum dolor sit amet <br />
+            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
+            - incididunt ut labore et dolore magna aliqua. Ut enim <br />
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      
+      <!-- ###### Aggrading ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">  
+           Aggrading  
+          </a>  
+        </div>  
+        <div id="collapseTwo" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            - Lorem ipsum dolor sit amet <br />
+            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
+            - incididunt ut labore et dolore magna aliqua. Ut enim <br />  
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      
+      <!-- ###### Agroecosystems ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">  
+            Agroecosystems
+          </a>  
+        </div>  
+        <div id="collapseThree" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            - Lorem ipsum dolor sit amet <br />
+            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
+            - incididunt ut labore et dolore magna aliqua. Ut enim <br /> 
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      
+      <!-- ###### Biofuels ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">  
+            Biofuels
+          </a>  
+        </div>  
+        <div id="collapseThree" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            - Lorem ipsum dolor sit amet <br />
+            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
+            - incididunt ut labore et dolore magna aliqua. Ut enim <br /> 
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      
+  </div> <!-- <div class="container-fluid">  -->
+</div> <!-- <div class="accordion" id="accordion2"> -->
 
 
-<%= render 'form' %>
 
-<%= link_to 'Back', workflows_path %>
+
+<%#= render 'form' %>
+
+<%#= link_to 'Back', workflows_path %>

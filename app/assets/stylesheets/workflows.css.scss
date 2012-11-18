@@ -1,10 +1,31 @@
-// Place all the styles related to the Workflows controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "custom";
+
+#radius {
+  width: 100px;
+}
 
 #map_canvas { 
-  width: 860px;
-  height: 500px;
+  width: 700px;
+  height: 300px;
   margin: auto;
+}
+
+#geo_refined_pft_accordion {
+  width: 700px;
+  margin: auto;
+  a {
+    color: #000;
+    font-weight: bold;
+    &:visited {
+      color: #666;
+    }
+    &:hover {
+      color: #fff;
+      background-color: $green3;
+      -webkit-border-radius: 4px;
+      -moz-border-radius: 4px;
+      border-radius: 4px;
+    }
+  }
 }
 
