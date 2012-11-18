@@ -149,6 +149,7 @@ DEPENDENCIES
   capybara (= 1.1.2)
   coffee-rails (= 3.2.2)
   jquery-rails (= 2.0.2)
+  json
   mysql2 (= 0.3.11)
   rails (= 3.2.9)
   rspec-rails (= 2.11.0)

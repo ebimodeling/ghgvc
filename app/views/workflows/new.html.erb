@@ -59,6 +59,7 @@
 
 </script>
 
+<%#= p @ecosystems %>
 
 <div class="container-fluid">  
    <div class="accordion" id="geo_refined_pft_accordion">
@@ -70,10 +71,12 @@
           </a>  
         </div>  
         <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">  
-          <div class="accordion-inner">  
-            - Lorem ipsum dolor sit amet <br />
-            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
-            - incididunt ut labore et dolore magna aliqua. Ut enim <br />
+          <div class="accordion-inner">
+            <% for e in 0...@ecosystems.length %>
+              <% if @ecosystems[e]["category"].to_s == "native" %>
+                <%= p @ecosystems[e]["name"] %> <br />
+              <% end %>
+            <% end %>
           </div>  
         </div>  
       </div> <!-- <div class="accordion-group"> -->
@@ -87,9 +90,11 @@
         </div>  
         <div id="collapseTwo" class="accordion-body collapse">  
           <div class="accordion-inner">  
-            - Lorem ipsum dolor sit amet <br />
-            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
-            - incididunt ut labore et dolore magna aliqua. Ut enim <br />  
+            <% for e in 0...@ecosystems.length %>
+              <% if @ecosystems[e]["category"].to_s == "aggrading" %>
+                <%= p @ecosystems[e]["name"] %> <br />
+              <% end %>
+            <% end %> 
           </div>  
         </div>  
       </div> <!-- <div class="accordion-group"> -->
@@ -103,9 +108,11 @@
         </div>  
         <div id="collapseThree" class="accordion-body collapse">  
           <div class="accordion-inner">  
-            - Lorem ipsum dolor sit amet <br />
-            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
-            - incididunt ut labore et dolore magna aliqua. Ut enim <br /> 
+            <% for e in 0...@ecosystems.length %>
+              <% if @ecosystems[e]["category"].to_s == "agroecosystem" %>
+                <%= p @ecosystems[e]["name"] %> <br />
+              <% end %>
+            <% end %> 
           </div>  
         </div>  
       </div> <!-- <div class="accordion-group"> -->
@@ -119,9 +126,11 @@
         </div>  
         <div id="collapseThree" class="accordion-body collapse">  
           <div class="accordion-inner">  
-            - Lorem ipsum dolor sit amet <br />
-            - consectetur adipisicing elit, sed do eiusmod tempor  <br />
-            - incididunt ut labore et dolore magna aliqua. Ut enim <br /> 
+            <% for e in 0...@ecosystems.length %>
+              <% if @ecosystems[e]["category"].to_s == "biofuels" %>
+                <%= p @ecosystems[e]["name"] %> <br />
+              <% end %>
+            <% end %> 
           </div>  
         </div>  
       </div> <!-- <div class="accordion-group"> -->

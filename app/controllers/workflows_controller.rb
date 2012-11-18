@@ -25,6 +25,11 @@ class WorkflowsController < ApplicationController
   # GET /workflows/new.json
   def new
     @workflow = Workflow.new
+    # open data/default_ecosystems.json and parse
+    # object returned is an array of hashes... Ex:
+    # p @ecosystems[0] # will return a Hash
+    # p @ecosystems[0]["category"] # => "native"
+    @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
 
     respond_to do |format|
       format.html # new.html.erb
