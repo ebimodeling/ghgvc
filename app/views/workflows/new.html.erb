@@ -1,9 +1,17 @@
 
-
-<div id="map_canvas"></div>
-
-<h3 class="center">Site Matches:</h3>
-<!--<div id="show_sites" style="display:none"></div>-->
+<div id="geo_refined_input">
+  <div id="map_canvas"></div>
+  <h3 class="center, inline-block">Sites within a </h3>
+  <select id="radius" class="center, inline-block">
+    <option value="20">20</option>
+    <option value="40">40</option>
+    <option value="60">60</option>
+    <option value="80">80</option>
+    <option value="100">100</option>
+    <option value="200" selected >200</option>
+  </select> 
+  <h3 class="center, inline-block"> mi² area</h3>
+</div>
 
 <script type="text/javascript">
   var geocoder;
