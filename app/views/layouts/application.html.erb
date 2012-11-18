@@ -13,23 +13,11 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <!-- <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />-->
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA9Ac4XswpkdjIslQcRJzgwnbkEDdomZS4&amp;sensor=false"></script> 
     
-    <script type="text/javascript">
-      function initialize() {
-        var mapOptions = {
-          center: new google.maps.LatLng(-34.397, 150.644),
-          zoom: 8,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-        var map = new google.maps.Map(document.getElementById("map_canvas"),
-            mapOptions);
-      }
-    </script>
-    
   </head>
-  <body onload="initialize()">
+  <body>
     <header id="header_container" class="navbar navbar-fixed-top navbar-inverse">
       <div class="navbar-inner">
         <div class="container">

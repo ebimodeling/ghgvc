@@ -1,6 +1,75 @@
-<h1>New workflow</h1>
+<h1>Select A Site</h1>
 
-<div id="map_canvas"></div>
+<div id="map_canvas" style="width: 700px; height: 300px"></div>
+
+<h3 class="inline-block">Radius: </h3>
+<select id="radius" class="inline-block">
+  <option value="20" selected >20</option>
+  <option value="40">40</option>
+  <option value="60">60</option>
+  <option value="80">80</option>
+  <option value="100">100</option>
+  <option value="200">200</option>
+</select>
+
+<!--<div id="show_sites" style="display:none"></div>-->
+
+<script type="text/javascript">
+  var geocoder;
+  var address;
+  var latlng = new google.maps.LatLng(40.44,-95.98);
+  var myOptions = {
+    zoom: 4,
+    center: latlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+  overlay = [];
+
+  google.maps.event.addListener(map, "click", function(event) { 
+    console.log("google maps addListener triggered");
+    
+    if(overlay.length > 0) {        
+      overlay[0].setMap(null);
+      overlay.length = 0;
+    }
+    
+    var radius = $('#radius').val();
+    console.log("radius set at: " + radius );
+    
+    var lat = event.latLng.lat();
+    var lon = event.latLng.lng();
+    
+    var latOffset = radius/(69.1);
+    var lonOffset = radius/(53.0);
+    var paths = [
+       new google.maps.LatLng(lat + latOffset, lon + lonOffset),
+       new google.maps.LatLng(lat - latOffset, lon + lonOffset),
+       new google.maps.LatLng(lat - latOffset, lon - lonOffset),
+       new google.maps.LatLng(lat + latOffset, lon - lonOffset),
+       new google.maps.LatLng(lat + latOffset, lon + lonOffset)
+    ];
+    
+    // Sends out the square object to google maps to be drawn
+    overlay.push( new google.maps.Polygon({
+      paths: paths,
+      strokeColor: "#ff0000",
+      strokeWeight: 0,
+      strokeOpacity: 1,
+      fillColor: "#ff0000",
+      fillOpacity: 0.2,
+      clickable: false,
+      map: map
+    }))
+    
+  });
+
+</script>
+
+
+
 
 <%= render 'form' %>
 
