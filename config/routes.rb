@@ -1,13 +1,18 @@
 Ghgvc::Application.routes.draw do
 
   match 'calculator/' => 'workflows#new'
-
+   
   resources :workflows
   resources :pfts
   resources :users
 
-  get "static_pages/home"
-  get "static_pages/help"
+  # Static pages
+  match 'home/' => 'static_pages#home'
+  match 'contact/' => 'static_pages#contact'
+  match 'team/' => 'static_pages#team'
+  match 'clients/' => 'static_pages#clients'
+  match 'services/' => 'static_pages#services'
+  match 'research/' => 'static_pages#research'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
