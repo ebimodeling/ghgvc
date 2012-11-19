@@ -23,6 +23,7 @@
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
 
+  // Google coordinate plane increases in the positive number direction left to right
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
   overlay = [];
@@ -36,21 +37,26 @@
     }
     
     var radius = $('#radius').val();
-    console.log("radius set at: " + radius );
-    
     var lat = event.latLng.lat();
     var lon = event.latLng.lng();
-    
+
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
-    var paths = [
-       new google.maps.LatLng(lat + latOffset, lon + lonOffset),
-       new google.maps.LatLng(lat - latOffset, lon + lonOffset),
-       new google.maps.LatLng(lat - latOffset, lon - lonOffset),
-       new google.maps.LatLng(lat + latOffset, lon - lonOffset),
-       new google.maps.LatLng(lat + latOffset, lon + lonOffset)
-    ];
     
+    console.log("TopLeftCoord:     " + (lat + latOffset) + ", " + (lon + lonOffset) );
+    console.log("BottomRightCoord: " + (lat - latOffset) + ", " + (lon - lonOffset) );
+    
+    // 5 points are used to create a square 
+    // 4 corners and then a 5th point at the 
+    // exact coords of the first completing the shape
+    var paths = [
+       new google.maps.LatLng(lat + latOffset, lon + lonOffset), // top right
+       new google.maps.LatLng(lat - latOffset, lon + lonOffset), // bottom right
+       new google.maps.LatLng(lat - latOffset, lon - lonOffset), // bottom left
+       new google.maps.LatLng(lat + latOffset, lon - lonOffset), // top left
+       new google.maps.LatLng(lat + latOffset, lon + lonOffset)  // top right
+    ];
+
     // Sends out the square object to google maps to be drawn
     overlay.push( new google.maps.Polygon({
       paths: paths,
