@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.opengis.net/kml/2.2 http://schemas.opengis.net/kml/2.2.0/ogckml22.xsd http://www.google.com/kml/ext/2.2 http://code.google.com/apis/kml/schema/kml22gx.xsd">
+<Document id="Layers">
+  <name>Layers</name>
+  <Snippet></Snippet>
+  <Folder id="legend2">
+  	<name></name>
+  	<Style id="LegendRadioFolder2"><IconStyle><scale>0</scale></IconStyle><ListStyle><listItemType>radioFolder</listItemType></ListStyle></Style>
+  	<ScreenOverlay id="A2"><name>Upper Left</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.01" y="0.99" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.01" y="0.99" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="B2"><name>Upper Center</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.5" y="0.99" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.5" y="0.99" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="C2"><name>Upper Right</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.99" y="0.99" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.99" y="0.99" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="D2"><name>Center Left</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.01" y="0.5" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.01" y="0.5" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="E2"><name>Center</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="F2"><name>Center Right</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.99" y="0.5" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.99" y="0.5" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="G2"><name>Lower Left</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.01" y="0.01" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.01" y="0.01" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="H2"><name>Lower Center</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.5" y="0.01" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.5" y="0.01" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<ScreenOverlay id="I2"><name>Lower Right</name>
+  	  <color>b0ffffff</color>
+  		<Icon><href>https://raw.github.com/gist/4067178/889a8c86d63c1a4c8b648bbafe81fb701bfa2502/gistfile1.txtlegend2.png</href></Icon>
+  		<overlayXY x="0.99" y="0.01" xunits="fraction" yunits="fraction"/>
+  		<screenXY x="0.99" y="0.01" xunits="fraction" yunits="fraction"/>
+  	</ScreenOverlay>
+  	<Placemark id="ID_2"><name>None</name>
+  	 <styleUrl>#LegendRadioFolder2</styleUrl>
+  	</Placemark>
+  </Folder>
+
+  <GroundOverlay id="3">
+    <Snippet></Snippet>
+    <drawOrder>997</drawOrder>
+    <name>1. Tropical Peat Forest</name>
+    <Icon>
+      <!-- <href>http://pecandev.igb.illinois.edu/bety/kmls/Layer3_2.png</href> -->
+      <viewBoundScale>1.0</viewBoundScale>
+    </Icon>
+    <LatLonBox>
+      <north>37.41393009860006</north>
+      <south>-40.63419006459991</south>
+      <east>156.0</east>
+      <west>-103.0</west>
+      <rotation>0</rotation>
+    </LatLonBox>
+  </GroundOverlay> 
+
+
+  
+  <GroundOverlay id="7">
+    <GroundOverlayOptions>
+	<opacity>0.2</opacity>
+    </GroundOverlayOptions>
+    <Snippet></Snippet>
+    <drawOrder>993</drawOrder>
+    <name>5. Temperate Forest</name>
+    <Icon>
+      <opacity>00</opacity>
+      <!-- <href>http://pecandev.igb.illinois.edu/bety/kmls/Layer7_2.png</href> -->
+      <viewBoundScale>1.0</viewBoundScale>
+    </Icon>
+    <LatLonBox>
+      <north>82.26419905160014</north>
+      <south>-68.54710879959993</south>
+      <east>180</east>
+      <west>-157.8</west>
+      <rotation>0</rotation>
+    </LatLonBox>
+  </GroundOverlay>
+
+  <GroundOverlay id="8">
+    <GroundOverlayOptions>
+        <opacity>0.2</opacity>
+    </GroundOverlayOptions>
+    <Snippet></Snippet>
+    <drawOrder>12</drawOrder>
+    <name>vegtypes</name>
+    <Icon>
+      <opacity>00</opacity>
+      <href>http://pecandev.igb.illinois.edu/bety/main_overlay_80.png</href>
+      <viewBoundScale>1.0</viewBoundScale>
+    </Icon>
+    <LatLonBox>
+      <north>84</north>
+      <south>-59</south>
+      <east>179</east>
+      <west>-176.8</west>
+      <rotation>0</rotation>
+    </LatLonBox>
+  </GroundOverlay>
+
+  <GroundOverlay id="9">
+    <GroundOverlayOptions>
+        <opacity>0.2</opacity>
+    </GroundOverlayOptions>
+    <Snippet></Snippet>
+    <drawOrder>10</drawOrder>
+    <name>Wes biomes</name>
+    <Icon>
+      <!-- <href>http://pecandev.igb.illinois.edu/bety/wes_biomes_80.png</href> -->
+      <viewBoundScale>1.0</viewBoundScale>
+    </Icon>
+    <LatLonBox>
+      <north>84.8</north>
+      <south>-92</south>
+      <east>178</east>
+      <west>-179.7</west>
+      <rotation>0</rotation>
+    </LatLonBox>
+  </GroundOverlay>
+
+</Document>
+</kml>
+

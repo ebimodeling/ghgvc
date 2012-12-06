@@ -13,6 +13,8 @@ Ghgvc::Application.routes.draw do
   match 'clients/' => 'static_pages#clients'
   match 'services/' => 'static_pages#services'
   match 'research/' => 'static_pages#research'
+  
+  match 'get_biome/' => 'workflows#get_biome'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

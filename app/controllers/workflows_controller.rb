@@ -1,3 +1,5 @@
+require "numru/netcdf"
+
 class WorkflowsController < ApplicationController
   # GET /workflows
   # GET /workflows.json
@@ -19,6 +21,25 @@ class WorkflowsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @workflow }
     end
+  end
+
+  def get_biome
+    # get params passed in with either:
+    # http://localhost:3000/get_biome?lat=229&lng=191
+    # OR
+    # $.post("get_biome", { table: 1, id: 2 });
+    lat = params[:lat].to_i
+    lng = params[:lng].to_i
+    @netcdf = NumRu::NetCDF.open("netcdf/vegtype.nc")
+    
+    # get the given number for a biome
+    @biome_num = @netcdf.var("vegtype")[lat,lng,0,0][0]
+    # biome options
+    biome_opts = ["grassland","lamesauce","blah"]
+    @biome = biome_opts[@biome_num]
+    p "##################################"
+    p @biome
+
   end
 
   # GET /workflows/new
