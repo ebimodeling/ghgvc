@@ -27,9 +27,13 @@ class WorkflowsController < ApplicationController
     # get params passed in with either:
     # http://localhost:3000/get_biome?lat=229&lng=191
     # OR
-    # $.post("get_biome", { table: 1, id: 2 });
+    # $.post("get_biome", { table: 229, id: 191 });
     lat = params[:lat].to_i
     lng = params[:lng].to_i
+    p "##################################"
+    p lat
+    p lng
+    
     @netcdf = NumRu::NetCDF.open("netcdf/vegtype.nc")
     
     # get the given number for a biome
@@ -37,7 +41,6 @@ class WorkflowsController < ApplicationController
     # biome options
     biome_opts = ["grassland","lamesauce","blah"]
     @biome = biome_opts[@biome_num]
-    p "##################################"
     p @biome
 
   end
