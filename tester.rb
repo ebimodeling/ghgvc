@@ -14,8 +14,8 @@ require 'json'
 
 
 for e in 0...@ecosystems.length
-  if @ecosystems[e]["category"].to_s == "agroecosystems"
+#  if @ecosystems[e]["category"].to_s == "agroecosystems"
     p @ecosystems[e]["name"]
-  end
+#  end
 end 
 

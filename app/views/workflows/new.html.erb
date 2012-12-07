@@ -45,8 +45,25 @@
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
     
-    console.log("TopLeftCoord:     " + (lat + latOffset) + ", " + (lon + lonOffset) );
-    console.log("BottomRightCoord: " + (lat - latOffset) + ", " + (lon - lonOffset) );
+    // Must remap the coordinates from lat/lng to i/j values
+    
+
+    
+
+    
+
+
+    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
+      console.log(data);
+    });
+    
+    
+    
+    
+    
+    console.log("lon: " + lon + " lat: " + lat );
+    //console.log("TopLeftCoord:     " + (lat + latOffset) + ", " + (lon + lonOffset) );
+    //console.log("BottomRightCoord: " + (lat - latOffset) + ", " + (lon - lonOffset) );
     
     // 5 points are used to create a square 
     // 4 corners and then a 5th point at the 

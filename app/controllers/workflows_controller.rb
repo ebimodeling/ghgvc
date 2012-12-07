@@ -25,23 +25,96 @@ class WorkflowsController < ApplicationController
 
   def get_biome
     # get params passed in with either:
-    # http://localhost:3000/get_biome?lat=229&lng=191
+    # http://localhost:3000/get_biome?lat=127&lng=106
     # OR
-    # $.post("get_biome", { table: 229, id: 191 });
-    lat = params[:lat].to_i
+    # $.post("get_biome", { table: 127, id: 106 });
     lng = params[:lng].to_i
+    lat = params[:lat].to_i
     p "##################################"
-    p lat
-    p lng
+    puts "js inputs >>  lng: #{lng} / lat: #{lat}"
+    
+    def map_lng_netcdf_range(input)
+      lng_in_low = -179.75
+      lng_in_high = 179.75
+      lng_out_low = 0
+      lng_out_high = 720
+
+      # map onto [0,1] using input range
+      frac = ( input - lng_in_low ) / ( lng_in_high - lng_in_low )
+      # map onto output range
+      ( frac * ( lng_out_high - lng_out_low ) + lng_out_low ).to_i.round()
+    end
+    
+    def map_lat_netcdf_range(input)
+      # these following high/low values seem wrong, but are infact correct
+      # the coordinate value closest to the j = 0 value for the nextcdf file is where the lattitude = 89.75
+      # thus the min and max values are swapped
+      lat_in_low = 89.75
+      lat_in_high = -89.75
+      lat_out_low = 0
+      lat_out_high = 360
+
+      # map onto [0,1] using input range
+      frac = ( input - lat_in_low ) / ( lat_in_high - lat_in_low )
+      # map onto output range
+      ( frac * ( lat_out_high - lat_out_low ) + lat_out_low ).to_i.round()
+    end
+
+    # map values for valid inputs into netcdf
+#    i = map_lng_netcdf_range(lng)
+#    j = map_lat_netcdf_range(lat)
+    
+    i = map_lng_netcdf_range(lng)
+    j = map_lat_netcdf_range(lat)
+    p "i: #{i} ... lng"
+    p "j: #{j} ... lat"
     
     @netcdf = NumRu::NetCDF.open("netcdf/vegtype.nc")
-    
-    # get the given number for a biome
-    @biome_num = @netcdf.var("vegtype")[lat,lng,0,0][0]
+    @biome_num = @netcdf.var("vegtype")[i,j,0,0][0]
+#    @biome_num = @netcdf.var("vegtype")[127,102,0,0][0]
+#    @biome_num = @netcdf.var("vegtype")[-128,105,0,0][0]
+    puts "Biome Number: #{@biome_num}"
     # biome options
-    biome_opts = ["grassland","lamesauce","blah"]
-    @biome = biome_opts[@biome_num]
-    p @biome
+    biome_opts = [
+      "tropical peat forest",
+      "northern peatland",
+      "marsh & swamp",
+      "tropical forest",
+      "temperate forest",
+      "boreal forest",
+      "tropical savanna",
+      "temperate scrub/woodland",
+      "tundra",
+      "temperate grassland",
+      "aggrading tropical forest",
+      "aggrading temperate forest",
+      "desert",
+      "aggrading boreal forest",
+      "aggrading tropical non-forest",
+      "aggrading temperate non-forest",
+      "tropical pasture",
+      "temperate pasture",
+      "tropical cropland",
+      "temperate cropland",
+      "wetland rice",
+      "miscanthus",
+      "switchgrass",
+      "US corn",
+      "US soy"
+    ]
+
+    if @biome_num <= 15
+      @biome = biome_opts[@biome_num] 
+      p @biome
+      render :text => @biome
+    else
+      return :text => "none"
+    end
+    
+    # An option if we need to render as JSON
+#    respond_to do |format|
+#      format.json { render json: @biome }
+#    end
 
   end
 
