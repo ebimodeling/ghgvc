@@ -23,15 +23,15 @@ class WorkflowsController < ApplicationController
     end
   end
 
-  def get_biome
-    # get params passed in with either:
-    # http://localhost:3000/get_biome?lat=127&lng=106
+  # accepts a longitude, latitude:
+    # http://localhost:3000/get_biome?lng=106&lat=127
     # OR
-    # $.post("get_biome", { table: 127, id: 106 });
+    # $.post("get_biome", { lng: 106, lat: 127 });
+  # returns JSON object of the biome
+  def get_biome
     lng = params[:lng].to_i
     lat = params[:lat].to_i
-    p "##################################"
-    puts "js inputs >>  lng: #{lng} / lat: #{lat}"
+    #puts "js inputs >>  lng: #{lng} / lat: #{lat}"
     
     def map_lng_netcdf_range(input)
       lng_in_low = -179.75
@@ -103,18 +103,28 @@ class WorkflowsController < ApplicationController
       "US soy"
     ]
 
-    if @biome_num <= 15
-      @biome = biome_opts[@biome_num] 
-      p @biome
-      render :text => @biome
-    else
-      return :text => "none"
-    end
+    # open data/default_ecosystems.json and parse
+    # object returned is an array of hashes... Ex:
+    # p @ecosystems[0] # will return a Hash
+    # p @ecosystems[0]["category"] # => "native"
+    @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+
+    # FIXME: @biome_num for a given result in the netcdf file... does NOT match up to the given json object num
+    @biome = @ecosystems[@biome_num]
+    p @biome
     
-    # An option if we need to render as JSON
-#    respond_to do |format|
-#      format.json { render json: @biome }
+    # return straight text
+#    if @biome_num <= 15
+#      @biome = biome_opts[@biome_num] 
+#      p @biome
+#      render :text => @biome
+#    else
+#      return :text => "none"
 #    end
+
+    respond_to do |format|
+      format.json { render json: @biome }
+    end
 
   end
 
