@@ -1,0 +1,46 @@
+<!DOCTYPE html "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Google Maps JavaScript API Example</title>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyA9Ac4XswpkdjIslQcRJzgwnbkEDdomZS4&sensor=false"></script>
+    <script type="text/javascript">
+    
+
+
+    // specified for google maps API v3
+    // https://developers.google.com/maps/documentation/javascript/overlays#CustomOverlays
+    function initialize() {
+
+      var usa = new google.maps.LatLng(40.44,-95.98);
+      var world = new google.maps.LatLng( 0,0);
+      var mapOptions = {
+        zoom: 4,
+        center: usa,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+
+      var vegtype_bounds = new google.maps.LatLngBounds(
+          new google.maps.LatLng(-59,-176.8),
+          new google.maps.LatLng(84,179)
+      );
+      var vegtype = new google.maps.GroundOverlay( 'http://pecandev.igb.illinois.edu/bety/main_overlay_80.png', vegtype_bounds);
+      vegtype.setMap(map);
+    }
+
+    
+
+    
+    
+    
+
+
+    </script>
+  </head>
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 700px; height: 500px"></div>
+  </body>
+</html>
