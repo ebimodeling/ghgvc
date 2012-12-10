@@ -20,17 +20,16 @@
 $(document).ready(
 
 function initalize_google_map(){
-  type = $(document).find('.map_type_selector.active').html().toLowerCase();
+  var type = $(document).find('.map_type_selector.active').html().toLowerCase();
   console.log('initalize_google_map: '+ type);
 
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(40.44,-95.98);
   var myOptions = {
-    //draggableCursor: "http://rsbweb.nih.gov/ij/images/crosshair-cursor.gif",
     zoom: 4,
     center: latlng,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.TERRAIN
   };
 
   // Google coordinate plane increases in the positive number direction left to right
@@ -39,26 +38,27 @@ function initalize_google_map(){
 
   // setup of globalbiomes map  
   var globalbiomes_bounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-92,-179.7), // south-west
-    new google.maps.LatLng( 84.8,178) // north-east
+    new google.maps.LatLng(-92,-179), // south-west
+    new google.maps.LatLng( 84.8,178.7) // north-east
   );
   var globalbiomes = new google.maps.GroundOverlay( 'globalbiomes_overlay_80.png', globalbiomes_bounds );
 
   // setup of vegtype map  
   var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay_80.png', new google.maps.LatLngBounds( new google.maps.LatLng(-59,-176.8) , new google.maps.LatLng(84,179)) );
  
-
-  $(document).find('.map_type_selector.active').html().toLowerCase();
-  //console.log(vegtype.class);
-  
-  //huk
-  console.log(typeof vegtype);
+  // clear out existing biome matches
+  $('div[id*="_biomes"]').hide();
+  $('div[id*="_biomes"]').find('.biomes').html("");
   
   if (type == "vegtype" ){
     vegtype.setMap(map);
-  } else {
+  } else if (type == "globalbiomes" ) {
     globalbiomes.setMap(map);
+  } else {
+    // no map
   }
+  
+  
 
 
   //overlay = [];
@@ -75,7 +75,7 @@ function initalize_google_map(){
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
 
-    // clear any existing biome results
+    // clear out existing biome matches
     $('div[id*="_biomes"]').hide();
     $('div[id*="_biomes"]').find('.biomes').html("");
 
@@ -131,6 +131,11 @@ function initalize_google_map(){
   $('.map_type_selector').on('click', function () {
     $(document).find('.map_type_selector').removeClass('active');
     $(this).addClass('active');
+    
+    // clear out existing biome matches
+    $('div[id*="_biomes"]').hide();
+    $('div[id*="_biomes"]').find('.biomes').html("");
+  
     initalize_google_map();
   });
   
@@ -145,8 +150,7 @@ function initalize_google_map(){
 <div class="btn-group center" >
   <button class="btn map_type_selector active">VEGTYPE</button>
   <button class="btn map_type_selector">GLOBALBIOMES</button>
-  <button class="btn map_type_selector">HYBRID</button>
-  <button class="btn map_type_selector">TERRAIN</button>
+  <button class="btn map_type_selector">NONE</button>
 </div>
 
 
@@ -156,11 +160,8 @@ function initalize_google_map(){
 
 <br />
 <%= render :partial => "biome_data", :locals => { :biome_type => "Native" } %>
-
 <%= render :partial => "biome_data", :locals => { :biome_type => "Aggrading" } %>
-
 <%= render :partial => "biome_data", :locals => { :biome_type => "Agroecosystems" } %>
-
 <%= render :partial => "biome_data", :locals => { :biome_type => "Biofuels" } %>
 
 
