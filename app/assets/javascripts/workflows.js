@@ -1,7 +1,7 @@
 
 
-function initalize_google_map(){
-    var type = $(document).find('.map_type_selector.active').html().toLowerCase();
+function initalize_google_map(lat, lng, zoom){
+  var type = $(document).find('.map_type_selector.active').html().toLowerCase();
   console.log('initalize_google_map: '+ type);
 
   var geocoder;
@@ -10,21 +10,27 @@ function initalize_google_map(){
   var myOptions = {
     zoom: 4,
     center: latlng,
-    mapTypeId: google.maps.MapTypeId.TERRAIN
+    mapTypeId: google.maps.MapTypeId.ROADMAP
   };
+  var overlayOptions = {
+    opacity: 0.5,
+  }
 
   // Google coordinate plane increases in the positive number direction left to right
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
   // setup of globalbiomes map  
   var globalbiomes_bounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-92,-179), // south-west
-    new google.maps.LatLng( 84.8,178.7) // north-east
+    new google.maps.LatLng(-92,-179 ), // south-west
+    new google.maps.LatLng(84.8,178.7) // north-east
   );
-  var globalbiomes = new google.maps.GroundOverlay( 'globalbiomes_overlay_80.png', globalbiomes_bounds );
-
+  var globalbiomes = new google.maps.GroundOverlay( 'globalbiomes_overlay.png', globalbiomes_bounds, overlayOptions);
   // setup of vegtype map  
-  var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay_80.png', new google.maps.LatLngBounds( new google.maps.LatLng(-59,-176.8) , new google.maps.LatLng(84,179)) );
+  var vegtype_bounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-59,-176.8), // south-west
+    new google.maps.LatLng(84,179) // north-east
+  );
+  var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay.png', vegtype_bounds, overlayOptions );
  
   // clear out existing biome matches
   $('div[id*="_biomes"]').hide();
@@ -35,11 +41,11 @@ function initalize_google_map(){
   } else if (type == "globalbiomes" ) {
     globalbiomes.setMap(map);
   } else {
-    // no map
+    // no map overlay
   }
   
   //overlay = [];
-
+  
   google.maps.event.addListener(vegtype, "click", function(event) {
     console.log("google maps addListener triggered");
 
@@ -103,6 +109,7 @@ function initalize_google_map(){
     //}))
 
   });
+  
 }
 
 $(document).ready(function() {
@@ -116,6 +123,11 @@ $(document).ready(function() {
     $('div[id*="_biomes"]').hide();
     $('div[id*="_biomes"]').find('.biomes').html("");
   
+    console.log(map.getZoom());
+    console.log("lat: " + map.getCenter().lat() );
+    console.log("lng: " + map.getCenter().lng() );
+
+    
     initalize_google_map();
   });
   
