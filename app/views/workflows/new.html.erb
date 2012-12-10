@@ -17,6 +17,12 @@
 
 
 <script type="text/javascript">
+$(document).ready(
+
+function initalize_google_map(){
+  type = $(document).find('.map_type_selector.active').html().toLowerCase();
+  console.log('initalize_google_map: '+ type);
+
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(40.44,-95.98);
@@ -30,12 +36,29 @@
   // Google coordinate plane increases in the positive number direction left to right
   map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-  var vegtype_bounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-59,-176.8),
-      new google.maps.LatLng(84,179)
+
+  // setup of globalbiomes map  
+  var globalbiomes_bounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-92,-179.7), // south-west
+    new google.maps.LatLng( 84.8,178) // north-east
   );
-  var vegtype = new google.maps.GroundOverlay( 'http://pecandev.igb.illinois.edu/bety/main_overlay_80.png', vegtype_bounds);
-  vegtype.setMap(map);
+  var globalbiomes = new google.maps.GroundOverlay( 'globalbiomes_overlay_80.png', globalbiomes_bounds );
+
+  // setup of vegtype map  
+  var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay_80.png', new google.maps.LatLngBounds( new google.maps.LatLng(-59,-176.8) , new google.maps.LatLng(84,179)) );
+ 
+
+  $(document).find('.map_type_selector.active').html().toLowerCase();
+  //console.log(vegtype.class);
+  
+  //huk
+  console.log(typeof vegtype);
+  
+  if (type == "vegtype" ){
+    vegtype.setMap(map);
+  } else {
+    globalbiomes.setMap(map);
+  }
 
 
   //overlay = [];
@@ -103,18 +126,29 @@
     //}))
 
   });
+  
+  // jquery
+  $('.map_type_selector').on('click', function () {
+    $(document).find('.map_type_selector').removeClass('active');
+    $(this).addClass('active');
+    initalize_google_map();
+  });
+  
+});
+
 
 </script>
 
 <!-- https://developers.google.com/maps/documentation/javascript/maptypes -->
-<!--
-<div class="btn-group">
-  <button class="btn">ROADMAP</button>
-  <button class="btn">SATELLITE</button>
-  <button class="btn">HYBRID</button>
-  <button class="btn">TERRAIN</button>
+
+<br />
+<div class="btn-group center" >
+  <button class="btn map_type_selector active">VEGTYPE</button>
+  <button class="btn map_type_selector">GLOBALBIOMES</button>
+  <button class="btn map_type_selector">HYBRID</button>
+  <button class="btn map_type_selector">TERRAIN</button>
 </div>
--->
+
 
 <%#= p @ecosystems %>
 
