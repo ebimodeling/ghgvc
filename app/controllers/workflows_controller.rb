@@ -59,10 +59,6 @@ class WorkflowsController < ApplicationController
       # map onto output range
       ( frac * ( lat_out_high - lat_out_low ) + lat_out_low ).to_i.round()
     end
-
-    # map values for valid inputs into netcdf
-#    i = map_lng_netcdf_range(lng)
-#    j = map_lat_netcdf_range(lat)
     
     i = map_lng_netcdf_range(lng)
     j = map_lat_netcdf_range(lat)
@@ -71,37 +67,6 @@ class WorkflowsController < ApplicationController
     
     @netcdf = NumRu::NetCDF.open("netcdf/vegtype.nc")
     @biome_num = @netcdf.var("vegtype")[i,j,0,0][0]
-#    @biome_num = @netcdf.var("vegtype")[127,102,0,0][0]
-#    @biome_num = @netcdf.var("vegtype")[-128,105,0,0][0]
-    puts "Biome Number: #{@biome_num}"
-    # biome options
-    biome_opts = [
-      "tropical peat forest",
-      "northern peatland",
-      "marsh & swamp",
-      "tropical forest",
-      "temperate forest",
-      "boreal forest",
-      "tropical savanna",
-      "temperate scrub/woodland",
-      "tundra",
-      "temperate grassland",
-      "aggrading tropical forest",
-      "aggrading temperate forest",
-      "desert",
-      "aggrading boreal forest",
-      "aggrading tropical non-forest",
-      "aggrading temperate non-forest",
-      "tropical pasture",
-      "temperate pasture",
-      "tropical cropland",
-      "temperate cropland",
-      "wetland rice",
-      "miscanthus",
-      "switchgrass",
-      "US corn",
-      "US soy"
-    ]
 
     # open data/default_ecosystems.json and parse
     # object returned is an array of hashes... Ex:
@@ -109,8 +74,12 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
 
-    # FIXME: @biome_num for a given result in the netcdf file... does NOT match up to the given json object num
-    @biome = @ecosystems[@biome_num]
+#    @biome = @ecosystems[@biome_num]
+    if @biome_num <= 15
+      @biome = @ecosystems[@biome_num]
+    else
+      @biome = ["name"=>"none"].to_json
+    end
     p @biome
     
     # return straight text
@@ -137,6 +106,7 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+    @ecosystem = @ecosystems[0]
 
     respond_to do |format|
       format.html # new.html.erb

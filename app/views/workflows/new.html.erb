@@ -1,6 +1,4 @@
 
-
-
 <div id="geo_refined_input">
   <div id="map_canvas"></div>
   <h3 class="center, inline-block">Sites within a </h3>
@@ -11,7 +9,7 @@
     <option value="80">80</option>
     <option value="100">100</option>
     <option value="200" selected >200</option>
-  </select> 
+  </select>
   <h3 class="center, inline-block"> mi² area</h3>
 </div>
 
@@ -20,6 +18,7 @@
   var address;
   var latlng = new google.maps.LatLng(40.44,-95.98);
   var myOptions = {
+    //draggableCursor: "http://rsbweb.nih.gov/ij/images/crosshair-cursor.gif",
     zoom: 4,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -35,36 +34,44 @@
   var vegtype = new google.maps.GroundOverlay( 'http://pecandev.igb.illinois.edu/bety/main_overlay_80.png', vegtype_bounds);
   vegtype.setMap(map);
 
-  
+
   //overlay = [];
 
-  google.maps.event.addListener(vegtype, "click", function(event) { 
+  google.maps.event.addListener(vegtype, "click", function(event) {
     console.log("google maps addListener triggered");
-    
+
     //if ( overlay.length > 0 ) { overlay[0].setMap(null); overlay.length = 0; }
-    
+
     var radius = $('#radius').val();
     var lat = event.latLng.lat();
     var lon = event.latLng.lng();
 
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
-    
+
+    // clear any existing biome results
+    $('div[id*="_biomes"]').hide();
+    $('div[id*="_biomes"]').find('.biomes').html("");
+
     // Ajax post to get the biome number
     $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
-      console.log(data);
+      console.log(data.name);
+      console.log(data.category);
+      
+      if (data.name != undefined ) {
+        $('#'+ data.category + '_biomes').show();
+        $('#'+ data.category + '_biomes').find('.biomes').text(data.name);
+      }
+      
     });
-    
-    
-    
-    
-    
+
+
     console.log("lon: " + lon + " lat: " + lat );
     //console.log("TopLeftCoord:     " + (lat + latOffset) + ", " + (lon + lonOffset) );
     //console.log("BottomRightCoord: " + (lat - latOffset) + ", " + (lon - lonOffset) );
-    
-    // 5 points are used to create a square 
-    // 4 corners and then a 5th point at the 
+
+    // 5 points are used to create a square
+    // 4 corners and then a 5th point at the
     // exact coords of the first completing the shape
     var paths = [
        new google.maps.LatLng(lat + latOffset, lon + lonOffset), // top right
@@ -85,90 +92,125 @@
     //  clickable: false,
     //  map: map
     //}))
-    
+
   });
 
 </script>
 
+<!-- https://developers.google.com/maps/documentation/javascript/maptypes -->
+<!--
+<div class="btn-group">
+  <button class="btn">ROADMAP</button>
+  <button class="btn">SATELLITE</button>
+  <button class="btn">HYBRID</button>
+  <button class="btn">TERRAIN</button>
+</div>
+-->
+
 <%#= p @ecosystems %>
 
-<div class="container-fluid">  
+<br />
+<div id="native_biomes" class="well well-small">
+  <h5>Native</h5>
+  <div class="biomes"></div>
+</div>
+
+<div id="aggrading_biomes" class="well well-small">
+  <h5>Aggrading</h5>
+  <div class="biomes"></div>
+</div>
+
+<div id="agroecosystems_biomes" class="well well-small">
+  <h5>Agroecosystems</h5>
+  <div class="biomes"></div>
+</div>
+
+<div id="biofuels_biomes" class="well well-small">
+  <h5>Biofuels</h5>
+  <div class="biomes"></div>
+</div>
+
+
+
+<!--############### Old items -->
+<% if false %>
+<div class="container-fluid">
    <div class="accordion" id="geo_refined_pft_accordion">
       <!-- ###### Native ####### -->
-      <div id="dingo" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">  
+      <div id="dingo" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
             Native
-          </a>  
-        </div>  
-        <div id="collapseOne" class="accordion-body collapse" style="height: 0px; ">  
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse" style="height: 0px;">
           <div class="accordion-inner">
             <% for e in 0...@ecosystems.length %>
               <% if @ecosystems[e]["category"].to_s == "native" %>
                 <%= p @ecosystems[e]["name"] %> <br />
               <% end %>
             <% end %>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
-      
+
       <!-- ###### Aggrading ####### -->
-      <div class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">  
-           Aggrading  
-          </a>  
-        </div>  
-        <div id="collapseTwo" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+           Aggrading
+          </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+          <div class="accordion-inner">
             <% for e in 0...@ecosystems.length %>
               <% if @ecosystems[e]["category"].to_s == "aggrading" %>
                 <%= p @ecosystems[e]["name"] %> <br />
               <% end %>
-            <% end %> 
-          </div>  
-        </div>  
+            <% end %>
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
-      
+
       <!-- ###### Agroecosystems ####### -->
-      <div class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">  
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
             Agroecosystems
-          </a>  
-        </div>  
-        <div id="collapseThree" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapseThree" class="accordion-body collapse">
+          <div class="accordion-inner">
             <% for e in 0...@ecosystems.length %>
               <% if @ecosystems[e]["category"].to_s == "agroecosystem" %>
                 <%= p @ecosystems[e]["name"] %> <br />
               <% end %>
-            <% end %> 
-          </div>  
-        </div>  
+            <% end %>
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
-      
+
       <!-- ###### Biofuels ####### -->
-      <div class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">  
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
             Biofuels
-          </a>  
-        </div>  
-        <div id="collapseThree" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapseThree" class="accordion-body collapse">
+          <div class="accordion-inner">
             <% for e in 0...@ecosystems.length %>
               <% if @ecosystems[e]["category"].to_s == "biofuels" %>
                 <%= p @ecosystems[e]["name"] %> <br />
               <% end %>
-            <% end %> 
-          </div>  
-        </div>  
+            <% end %>
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
-      
+
   </div> <!-- <div class="container-fluid">  -->
 </div> <!-- <div class="accordion" id="accordion2"> -->
-
+<% end %>
 
 <%= p @biome.to_s %>
 
