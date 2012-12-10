@@ -1,0 +1,292 @@
+<div id="<%= biome_type.downcase %>_biomes" class="well well-small">
+  <h4>
+    <%= biome_type %>
+  </h4>
+  <hr />
+  <h5 class="biomes"></h5>
+  <div class="container-fluid">
+	  <div class="accordion" id="geo_refined_pft_accordion">
+    
+      <!-- ###### Initial Storage of Organic Matter ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>One">  
+            Initial Storage of Organic Matter
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>One" class="accordion-body collapse" style="height: 0px; ">  
+          <div class="accordion-inner">
+            <table class="table">
+              <tr>
+                <td> Aboveground biomass: live (Mg/ha) </td>
+                <td> <%= @ecosystem["OM_ag"] %> </td>
+              </tr>
+              <tr>
+                <td> Root biomass (Mg/ha) </td>
+                <td> <%= @ecosystem["OM_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Dead wood (dead trees, course woody debris) (Mg/ha) </td>
+                <td> <%= @ecosystem["OM_wood"] %> </td>
+              </tr>
+              <tr>
+                <td> Litter (Mg/ha)  </td>
+                <td> <%= @ecosystem["OM_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Peat (Mg/ha)  </td>
+                <td> <%= @ecosystem["OM_ag"] %> </td>
+              </tr>
+              <tr>
+                <td> Potential Soil Organic Matter loss (Mg/ha)  </td>
+                <td> <%= @ecosystem["OM_SOM"] %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Initial Storage of Organic Matter ####### -->
+      
+      <!-- ###### Land-Clearing Fire Characteristics  ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>Two">  
+           Land-Clearing Fire Characteristics  
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>Two" class="accordion-body collapse">  
+          <div class="accordion-inner">
+            <table class="table">
+              <tr>
+                <td> Fraction of combustible biomass (aboveground, wood, litter) burned </td>
+                <td> <%= @ecosystem["fc_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Fraction of root biomass burned </td>
+                <td> <%= @ecosystem["fc_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Fraction of peat burned </td>
+                <td> <%= @ecosystem["fc_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Fraction of SOM burned  </td>
+                <td> <%= @ecosystem["fc_SOM"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CO2 for each unit of biomass burned (kmol/ Mg dry matter) </td>
+                <td> <%= @ecosystem["Ec_CO2"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CH4 for each unit of biomass burned (kmol/ Mg dry matter) </td>
+                <td> <%= @ecosystem["Ec_CH4"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of N2O for each unit of biomass burned (kmol/ Mg dry matter) </td>
+                <td> <%= @ecosystem["Ec_N2O"] %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### / Land-Clearing Fire Characteristics  ####### -->
+            
+      <!-- ###### Organic Matter Decomposition Following Clearing ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>Three">  
+            Organic Matter Decomposition Following Clearing
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>Three" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <tr>
+                <td> Decay constant (k) for combustible biomass </td>
+                <td> <%= @ecosystem["k_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) for roots </td>
+                <td> <%= @ecosystem["k_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) for peat </td>
+                <td> <%= @ecosystem["k_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) for SOM  </td>
+                <td> <%= @ecosystem["k_SOM"] %> </td>
+              </tr>
+              <tr>
+                <td> % termite mediated decomposition </td>
+                <td> <%= @ecosystem["termite"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CO2 for each unit of peat biomass decomposed </td>
+                <td> <%= @ecosystem["Ed_CO2_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CO2 for each unit of litter biomass decomposed		 </td>
+                <td> <%= @ecosystem["Ed_CO2_litter"] %> </td>
+              </tr>
+	            <tr>
+                <td> Proportional release of CH4 for each unit of combustible biomass decomposed	 </td>
+                <td> <%= @ecosystem["Ed_CH4_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CH4 for each unit of root biomass decomposed	 </td>
+                <td> <%= @ecosystem["Ed_CH4_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CH4 for each unit of peat biomass decomposed		 </td>
+                <td> <%= @ecosystem["Ed_CH4_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of CH4 for each unit of litter biomass decomposed	 </td>
+                <td> <%= @ecosystem["Ed_CH4_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of N2O for each unit of combustible biomass decomposed		 </td>
+                <td> <%= @ecosystem["Ed_N2O_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of N2O for each unit of root biomass decomposed		 </td>
+                <td> <%= @ecosystem["Ed_N2O_root"] %> </td>
+              </tr>
+		          <tr>
+                <td> Proportional release of N2O for each unit of peat biomass decomposed	 </td>
+                <td> <%= @ecosystem["Ed_N2O_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Proportional release of N2O for each unit of litter biomass decomposed	 </td>
+                <td> <%= @ecosystem["Ed_N2O_litter"] %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Organic Matter Decomposition Following Clearing ####### -->
+
+      <!-- ###### Ongoing (Annual) Greenhouse Gas Exchange ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>Four">  
+            Ongoing (Annual) Greenhouse Gas Exchange
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>Four" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["F_CO2"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["F_CH4"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["F_N2O"] %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Ongoing (Annual) Greenhouse Gas Exchange ####### -->
+      
+      <!-- ###### Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>Five">  
+            Age-Dependent Changes in Annual Greenhouse Gas Exchange
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>Five" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <tr>
+                <td> Age of transition (time at which biomass accumulation rate declines) (years)	 </td>
+                <td> <%= @ecosystem["age_transition"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["new_F_CO2"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["new_F_CH4"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["new_F_N2O"] %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
+
+      <!-- ###### Natural Fire-Recovery Cycles ####### -->
+      <div class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse<%= biome_type %>Six">  
+            Natural Fire-Recovery Cycles
+          </a>  
+        </div>  
+        <div id="collapse<%= biome_type %>Six" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <tr>
+                <td> Rate of disturbance events (#/year) </td>
+                <td> <%= @ecosystem["rd"] %> </td>
+              </tr>
+              <tr>
+                <td> Time required to recover pre-disturbance biomass stocks (years)	 </td>
+                <td> <%= @ecosystem["tR"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CO2 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["FR_CO2"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere CH4 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["FR_CH4"] %> </td>
+              </tr>
+              <tr>
+                <td> Average annual net ecosystem-atmosphere N2O exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td>
+                <td> <%= @ecosystem["FR_N2O"] %> </td>
+              </tr>
+              <tr>
+                <td> Fraction of combustible biomass (aboveground, wood, litter) burned (when disturbance is fire)	</td>
+                <td> <%= @ecosystem["dfc_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td>Fraction of root biomass burned (when disturbance is fire)	</td>
+                <td> <%= @ecosystem["dfc_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Fraction of peat biomass burned (when disturbance is fire) </td>
+                <td> <%= @ecosystem["dfc_peat"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) of combustible biomass (aboveground, wood, litter) following disturbance </td>
+                <td> <%= @ecosystem["dk_ag_wood_litter"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) of combustible root biomass following disturbance </td>
+                <td> <%= @ecosystem["dk_root"] %> </td>
+              </tr>
+              <tr>
+                <td> Decay constant (k) of peat following disturbance </td>
+                <td> <%= @ecosystem["dk_peat"] %> </td>
+              </tr>
+            </table>
+            
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Natural Fire-Recovery Cycles ####### -->
+	  </div>
+  </div>
+</div>

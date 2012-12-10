@@ -1,6 +1,7 @@
 
 <div id="geo_refined_input">
   <div id="map_canvas"></div>
+  <% if false %>
   <h3 class="center, inline-block">Sites within a </h3>
   <select id="radius" class="center, inline-block">
     <option value="20">20</option>
@@ -11,7 +12,9 @@
     <option value="200" selected >200</option>
   </select>
   <h3 class="center, inline-block"> mi² area</h3>
+  <% end %>
 </div>
+
 
 <script type="text/javascript">
   var geocoder;
@@ -52,6 +55,12 @@
     // clear any existing biome results
     $('div[id*="_biomes"]').hide();
     $('div[id*="_biomes"]').find('.biomes').html("");
+
+    // FIXME: collapse all open biomes
+    //$.each( $('.accordion-body'), function() {
+      //$("#" + i).append(document.createTextNode(" - " + val));
+      //console.log( this.hasClass('collapsed') );
+    //});
 
     // Ajax post to get the biome number
     $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
@@ -109,26 +118,16 @@
 
 <%#= p @ecosystems %>
 
+
+
 <br />
-<div id="native_biomes" class="well well-small">
-  <h5>Native</h5>
-  <div class="biomes"></div>
-</div>
+<%= render :partial => "biome_data", :locals => { :biome_type => "Native" } %>
 
-<div id="aggrading_biomes" class="well well-small">
-  <h5>Aggrading</h5>
-  <div class="biomes"></div>
-</div>
+<%= render :partial => "biome_data", :locals => { :biome_type => "Aggrading" } %>
 
-<div id="agroecosystems_biomes" class="well well-small">
-  <h5>Agroecosystems</h5>
-  <div class="biomes"></div>
-</div>
+<%= render :partial => "biome_data", :locals => { :biome_type => "Agroecosystems" } %>
 
-<div id="biofuels_biomes" class="well well-small">
-  <h5>Biofuels</h5>
-  <div class="biomes"></div>
-</div>
+<%= render :partial => "biome_data", :locals => { :biome_type => "Biofuels" } %>
 
 
 
