@@ -13,7 +13,7 @@ function initalize_google_map(lat, lng, zoom){
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
   var overlayOptions = {
-    opacity: 0.5,
+    opacity: 0.6,
   }
 
   // Google coordinate plane increases in the positive number direction left to right
