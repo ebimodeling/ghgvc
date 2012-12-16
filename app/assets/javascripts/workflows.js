@@ -34,7 +34,7 @@ function initalize_google_map(lat, lng, zoom){
   var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay.png', vegtype_bounds, overlayOptions );
  
   // clear out existing biome matches
-  $('div[id*="_biomes"]').hide();
+  //$('div[id*="_biomes"]').hide();
   $('div[id*="_biomes"]').find('.biomes').html("");
   
   if (type == "vegtype" ){
@@ -49,8 +49,8 @@ function initalize_google_map(lat, lng, zoom){
   
   // Bounds for North America
    var strictBounds = new google.maps.LatLngBounds(
-     new google.maps.LatLng(-60, -70), // bottom-left
-     new google.maps.LatLng(60, 70)   // top-right
+     new google.maps.LatLng(-70, -170), // bottom-left
+     new google.maps.LatLng(70, 170)   // top-right
    );
 
    // Listen for the dragend event
@@ -92,7 +92,7 @@ function initalize_google_map(lat, lng, zoom){
     var lonOffset = radius/(53.0);
 
     // clear out existing biome matches
-    $('div[id*="_biomes"]').hide();
+    //$('div[id*="_biomes"]').hide();
     $('div[id*="_biomes"]').find('.biomes').html("");
 
     // FIXME: collapse all open biomes

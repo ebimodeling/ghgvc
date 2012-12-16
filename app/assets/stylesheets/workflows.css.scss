@@ -11,18 +11,19 @@
 }
 
 div[id*='_biomes'] {
-  display: none;
-  width: 720px;
+  width: 200px;
+  height: 100px;
   margin: auto;
   margin-top: 10px;
+  hr {
+    margin: 10px 0px;
+  }
 }
 
 #geo_refined_input {
   text-align: center;
   margin: auto;
 }
-
-
 
 #geo_refined_pft_accordion {
   width: 700px;
