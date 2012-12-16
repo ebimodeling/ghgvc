@@ -92,23 +92,19 @@ function initalize_google_map(lat, lng, zoom){
     var lonOffset = radius/(53.0);
 
     // clear out existing biome matches
-    //$('div[id*="_biomes"]').hide();
-    $('div[id*="_biomes"]').find('.biomes').html("");
-
-    // FIXME: collapse all open biomes
-    //$.each( $('.accordion-body'), function() {
-      //$("#" + i).append(document.createTextNode(" - " + val));
-      //console.log( this.hasClass('collapsed') );
-    //});
+    $('div[id*="_biomes"]').find('.biome_list').html("");
 
     // Ajax post to get the biome number
-    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
-      console.log(data.name);
-      console.log(data.category);
+    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
+      console.log(data["native"]);
+      console.log(data["biofuels"]);
+      // find a 
+      if (data["native"] != undefined ) {
+        $('#native_biomes').find('.biome_list').append('<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>');
+      }
       
-      if (data.name != undefined ) {
-        $('#'+ data.category + '_biomes').show();
-        $('#'+ data.category + '_biomes').find('.biomes').text(data.name);
+      if (data["biofuels"] != undefined ) {
+        $('#biofuels_biomes').find('.biome_list').append('<label class="checkbox"><input type="checkbox">' + data["biofuels"].name + '</input></label>');
       }
       
     });

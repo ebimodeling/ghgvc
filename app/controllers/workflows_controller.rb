@@ -29,58 +29,59 @@ class WorkflowsController < ApplicationController
     # $.post("get_biome", { lng: 106, lat: 127 });
   # returns JSON object of the biome
   def get_biome
-    lng = params[:lng].to_i
-    lat = params[:lat].to_i
-    #puts "js inputs >>  lng: #{lng} / lat: #{lat}"
+    @lng = params[:lng].to_i
+    @lat = params[:lat].to_i
     
-    def map_lng_netcdf_range(input)
-      lng_in_low = -179.75
-      lng_in_high = 179.75
-      lng_out_low = 0
-      lng_out_high = 720
-
+    def remap_range(input, in_low, in_high, out_low, out_high)
       # map onto [0,1] using input range
-      frac = ( input - lng_in_low ) / ( lng_in_high - lng_in_low )
+      frac = ( input - in_low ) / ( in_high - in_low )
       # map onto output range
-      ( frac * ( lng_out_high - lng_out_low ) + lng_out_low ).to_i.round()
+      ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
     
-    def map_lat_netcdf_range(input)
-      # these following high/low values seem wrong, but are infact correct
-      # the coordinate value closest to the j = 0 value for the nextcdf file is where the lattitude = 89.75
-      # thus the min and max values are swapped
-      lat_in_low = 89.75
-      lat_in_high = -89.75
-      lat_out_low = 0
-      lat_out_high = 360
-
-      # map onto [0,1] using input range
-      frac = ( input - lat_in_low ) / ( lat_in_high - lat_in_low )
-      # map onto output range
-      ( frac * ( lat_out_high - lat_out_low ) + lat_out_low ).to_i.round()
+    ## Soybean
+    # This map has an ij coordinate range of (0,0) to (80, 50)
+    # top left LatLng being (49.75 ,-105.25)
+    # bottom right LatLng being (25.75 ,-65.25)
+    # Therefore it sits between:
+    # Lat 25.75 and 49.75
+    # Lon -105.25 and -65.25
+    if ( 49.75 >= @lat && @lat >= 25.75 && -65.25 >= @lng && @lng >= -105.25 )
+      @soybean_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
+      @soybean_j = remap_range( @lat, 25.75, 49.75, 0, 50 ) # i == 0 where lat is at its lowest value
+      @soybean = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_latent_10yr_avg.nc")
+      @soybean_num = @soybean.var("latent")[@soybean_i,@soybean_j,0,0][0]
+      @soybean.close()
     end
     
-    i = map_lng_netcdf_range(lng)
-    j = map_lat_netcdf_range(lat)
-    p "i: #{i} ... lng"
-    p "j: #{j} ... lat"
+    @vegtype_i = remap_range( @lng.to_i , -179.25, 179.25, 0, 720 )
+    @vegtype_j = remap_range( @lat.to_i , 89.75, -89.75, 0, 360 ) # i == 0 where lat is at its lowest value
     
-    @netcdf = NumRu::NetCDF.open("netcdf/vegtype.nc")
-    @biome_num = @netcdf.var("vegtype")[i,j,0,0][0]
-
+    ## Vegtype
+    # This map has an ij coordinate range of (0,0) to (720, 360)
+    # top left LatLng being (89.75, -179.25)
+    # top left LatLng being (-89.75, 179.25)
+    # Therefore it sits between:
+    # Lat -89.75 and 89.75
+    # Lon -179.25 and 179.25
+    @vegtype = NumRu::NetCDF.open("netcdf/vegtype.nc")
+    @biome_num = @vegtype.var("vegtype")[@vegtype_i,@vegtype_j,0,0][0]
+    @vegtype.close()
+ 
     # open data/default_ecosystems.json and parse
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
 
-#    @biome = @ecosystems[@biome_num]
+    @biome_data = {}
     if @biome_num <= 15
-      @biome = @ecosystems[@biome_num]
-    else
-      @biome = ["name"=>"none"].to_json
+      @biome_data["native"] = @ecosystems[@biome_num]
     end
-    p @biome
+    
+    if @soybean_num != nil && @soybean_num < 89
+      @biome_data["biofuels"] = {"name"=>"soybean"}
+    end
     
     # return straight text
 #    if @biome_num <= 15
@@ -92,7 +93,7 @@ class WorkflowsController < ApplicationController
 #    end
 
     respond_to do |format|
-      format.json { render json: @biome }
+      format.json { render json: @biome_data }
     end
 
   end
