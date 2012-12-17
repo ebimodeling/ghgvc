@@ -10,16 +10,29 @@
   margin: auto;
 }
 
+#add_additional_biome_site {
+  margin: 10px auto;
+}
+
+.btn-inactive {
+  
+}
+
+hr {
+  margin: 10px 0px;
+}
+
+.remove_biome_site {
+  margin-left: 5px;
+}
+
 div[id*='_biomes'] {
-  width: 200px;
-  min-height: 100px;
+  width: 210px;
+  height: 100px;
   margin: auto;
-  margin-top: 10px;
+  padding-left: 5px;
   vertical-align: top;
   overflow: hidden;
-  hr {
-    margin: 10px 0px;
-  }
   select {
     width: 200px;
   }

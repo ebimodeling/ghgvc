@@ -38,7 +38,22 @@ class WorkflowsController < ApplicationController
       # map onto output range
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
-    
+
+    ## Corn
+    # This map has an ij coordinate range of (0,0) to (80, 50)
+    # top left LatLng being (49.75 ,-105.25)
+    # bottom right LatLng being (25.75 ,-65.25)
+    # Therefore it sits between:
+    # Lat 25.75 and 49.75
+    # Lon -105.25 and -65.25
+    if ( 49.75 >= @lat && @lat >= 25.75 && -65.25 >= @lng && @lng >= -105.25 )
+      @corn_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
+      @corn_j = remap_range( @lat, 25.75, 49.75, 0, 50 ) # i == 0 where lat is at its lowest value
+      @corn = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_latent_10yr_avg.nc")
+      @corn_num = @corn.var("latent")[@corn_i,@corn_j,0,0][0]
+      @corn.close()
+    end
+
     ## Soybean
     # This map has an ij coordinate range of (0,0) to (80, 50)
     # top left LatLng being (49.75 ,-105.25)
@@ -54,9 +69,7 @@ class WorkflowsController < ApplicationController
       @soybean.close()
     end
     
-    @vegtype_i = remap_range( @lng.to_i , -179.25, 179.25, 0, 720 )
-    @vegtype_j = remap_range( @lat.to_i , 89.75, -89.75, 0, 360 ) # i == 0 where lat is at its lowest value
-    
+
     ## Vegtype
     # This map has an ij coordinate range of (0,0) to (720, 360)
     # top left LatLng being (89.75, -179.25)
@@ -64,6 +77,8 @@ class WorkflowsController < ApplicationController
     # Therefore it sits between:
     # Lat -89.75 and 89.75
     # Lon -179.25 and 179.25
+    @vegtype_i = remap_range( @lng.to_i , -179.25, 179.25, 0, 720 )
+    @vegtype_j = remap_range( @lat.to_i , 89.75, -89.75, 0, 360 ) # i == 0 where lat is at its lowest value
     @vegtype = NumRu::NetCDF.open("netcdf/vegtype.nc")
     @biome_num = @vegtype.var("vegtype")[@vegtype_i,@vegtype_j,0,0][0]
     @vegtype.close()

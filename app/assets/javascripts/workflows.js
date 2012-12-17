@@ -144,6 +144,39 @@ function initalize_google_map(lat, lng, zoom){
 $(document).ready(function() {
   initalize_google_map();
 
+  $('#add_additional_biome_site').on('click', function(){
+    // All other biome lists
+    
+    $('#biome_input_container').find('div.well').css("height","100px").find('div[id*="_biomes"]').css("height","50px");
+    $('#biome_input_container').find("div.well").css("background-color","darkGray").css("color","gray").addClass("inactive_site").find('input').attr("disabled", "false");
+      // deactivate the "checked" checkboxes
+      // hide  "unchecked"
+
+    // Add in new biome site
+    $('#biome_input_container').prepend(
+      '<div class="well well-small">' +
+      '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: -45.8, 90.88</h4></div>' + 
+      '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
+      '    <i class="icon-search icon-remove"></i> Remove Site' +
+      '  </div>' +
+      
+      '  <br />' + '<hr/>' +
+      '  <div id="native_biomes" class="inline-table">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div id="aggrading_biomes" class="inline-table">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div id="agroecosystems_biomes" class="inline-table">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div id="biofuels_biomes" class="inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '</div>'
+    );
+
+    $('div.well').first().delegate(".remove_biome_site", "click", function() {
+      $(this).toggleClass("chosen");
+      $(this).parent().remove();
+    });
+  
+  });
+  // Add inital biome list using above code:
+  $('#add_additional_biome_site').trigger('click');
+
   $('.map_type_selector').on('click', function () {
     $(document).find('.map_type_selector').removeClass('active');
     $(this).addClass('active');
@@ -155,7 +188,6 @@ $(document).ready(function() {
     console.log(map.getZoom());
     console.log("lat: " + map.getCenter().lat() );
     console.log("lng: " + map.getCenter().lng() );
-
     
     initalize_google_map();
   });
