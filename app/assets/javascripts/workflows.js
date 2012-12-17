@@ -92,7 +92,7 @@ function initalize_google_map(lat, lng, zoom){
     var lonOffset = radius/(53.0);
 
     // clear out existing biome matches
-    $('div[id*="_biomes"]').find('.biome_list').html("");
+    $('#biome_input_container').find('div.well:not(.inactive_site)').find('div[class*="_biomes"]').find('.biome_list').html("");
 
     // Ajax post to get the biome number
     $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
@@ -100,11 +100,15 @@ function initalize_google_map(lat, lng, zoom){
       console.log(data["biofuels"]);
       // find a 
       if (data["native"] != undefined ) {
-        $('#native_biomes').find('.biome_list').append('<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>');
+        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
+          '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
+        );
       }
       
       if (data["biofuels"] != undefined ) {
-        $('#biofuels_biomes').find('.biome_list').append('<label class="checkbox"><input type="checkbox">' + data["biofuels"].name + '</input></label>');
+        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
+          '<label class="checkbox"><input type="checkbox">' + data["biofuels"].name + '</input></label>'
+        );
       }
       
     });
@@ -147,8 +151,9 @@ $(document).ready(function() {
   $('#add_additional_biome_site').on('click', function(){
     // All other biome lists
     
-    $('#biome_input_container').find('div.well').css("height","100px").find('div[id*="_biomes"]').css("height","50px");
-    $('#biome_input_container').find("div.well").css("background-color","darkGray").css("color","gray").addClass("inactive_site").find('input').attr("disabled", "false");
+    $('#biome_input_container').find('div.well').addClass('inactive_site');
+//    $('#biome_input_container').find('div.well').css("height","100px").find('div[id*="_biomes"]').css("height","50px");
+//    $('#biome_input_container').find("div.well").css("background-color","darkGrey").css("color","gray").addClass("inactive_site").find('input').attr("disabled", "false");
       // deactivate the "checked" checkboxes
       // hide  "unchecked"
 
@@ -161,10 +166,10 @@ $(document).ready(function() {
       '  </div>' +
       
       '  <br />' + '<hr/>' +
-      '  <div id="native_biomes" class="inline-table">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div id="aggrading_biomes" class="inline-table">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div id="agroecosystems_biomes" class="inline-table">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div id="biofuels_biomes" class="inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="native_biomes inline-table">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="aggrading_biomes inline-table">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="agroecosystems_biomes inline-table">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="biofuels_biomes inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '</div>'
     );
 
@@ -176,6 +181,17 @@ $(document).ready(function() {
   });
   // Add inital biome list using above code:
   $('#add_additional_biome_site').trigger('click');
+  
+  
+  // handles reactivating a site once another has been selected
+  $('#biome_input_container').on("click", ".inactive_site" , function(){
+    $('#biome_input_container').find('div.well').addClass('inactive_site');
+    $(this).removeClass('inactive_site');
+  
+  });
+  
+  
+  
 
   $('.map_type_selector').on('click', function () {
     $(document).find('.map_type_selector').removeClass('active');

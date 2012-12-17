@@ -14,9 +14,16 @@
   margin: 10px auto;
 }
 
-.btn-inactive {
-  
+.inactive_site {
+  background-color: darkGray;
+  color: grey;
+  height: auto;
+  div[class*='_biomes']{
+    height: auto;
+  }
 }
+
+
 
 hr {
   margin: 10px 0px;
@@ -26,7 +33,7 @@ hr {
   margin-left: 5px;
 }
 
-div[id*='_biomes'] {
+div[class*='_biomes'] {
   width: 210px;
   height: 100px;
   margin: auto;
