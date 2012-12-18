@@ -1,4 +1,19 @@
+id_seed = 0;
+function generate_id() { return id_seed++ };
 
+function remove_google_maps_pin(biome_site_id){
+  if ( markersArray[biome_site_id] != undefined ) { markersArray[biome_site_id].setMap(null) };
+};
+
+function place_google_maps_pin( lat, lng, biome_site_id ){
+  // remove any markers tied to a biome_site_id
+  remove_google_maps_pin(biome_site_id);
+  // regenrate that marker
+  var marker = new google.maps.Marker({ position: new google.maps.LatLng( lat , lng ) });
+  // push the marker into the storage array
+  markersArray[biome_site_id] = marker;
+  return marker
+};
 
 function initalize_google_map(lat, lng, zoom){
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
@@ -74,11 +89,12 @@ function initalize_google_map(lat, lng, zoom){
      map.setCenter(new google.maps.LatLng(y, x));
    });
 
-   // Limit the zoom level
-   google.maps.event.addListener(map, 'zoom_changed', function() {
-     if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
-   });
+  // Limit the zoom level
+  google.maps.event.addListener(map, 'zoom_changed', function() {
+   if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+  });
   
+  markersArray = [];
   google.maps.event.addListener(vegtype, "click", function(event) {
     console.log("google maps addListener triggered");
 
@@ -90,19 +106,20 @@ function initalize_google_map(lat, lng, zoom){
 
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
-    
-    
-
-
 
     // clear out existing biome matches
     $('#biome_input_container').find('div.well:not(.inactive_site)').find('div[class*="_biomes"]').find('.biome_list').html("");
-
+    
     // Ajax post to get the biome number
-    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
-
-
-
+    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
+      
+      var active_biome_site = $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
+      
+      console.log( "active site id: " + active_biome_site);
+      
+      marker = place_google_maps_pin( lat, lon, active_biome_site );
+      marker.setMap(map); // To add the marker to the map, call setMap();
+      
       console.log(data["native"]);
       console.log(data["biofuels"]);
       
@@ -172,17 +189,24 @@ function open_previous_biome_site(){
   $('#biome_input_container').find('div.well').first().removeClass('inactive_site');
 };
 
+function hide_inactive_biome_checkboxes(){
+  $('#biome_input_container').find('div.well').find('label.checkbox').each(function(){
+    if ( $(this).find('input').is(':checked') == false ){
+      $(this).hide();
+    }
+  });
+};
+
 $(document).ready(function() {
   initalize_google_map();
 
   $('#add_additional_biome_site').on('click', function(){
-    // All other biome lists
-    
+    // Mark all biomes as INACTIVE    
     $('#biome_input_container').find('div.well').addClass('inactive_site');
 
-    // Add in new biome site
+    // Add in new biome site, which will be ACTIVE 
     $('#biome_input_container').prepend(
-      '<div class="well well-small collapsed">' +
+      '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
       '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
       '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
       '    <i class="icon-search icon-remove"></i> Remove Site' +
@@ -193,10 +217,13 @@ $(document).ready(function() {
       '  <div class="biofuels_biomes inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '</div>'
     ).delegate(".remove_biome_site", "click", function() {
-      //$(this).toggleClass("chosen");
+      remove_google_maps_pin( $(this).parent().attr('id').split('-').pop() );
       $(this).parent().remove();
       open_previous_biome_site();
     });
+    
+    hide_inactive_biome_checkboxes();
+     
   
   });
   // Add inital biome list using above code:
@@ -206,7 +233,13 @@ $(document).ready(function() {
   // handles reactivating a site when selected
   $('#biome_input_container').on("click", ".inactive_site" , function(){
     $('#biome_input_container').find('div.well').addClass('inactive_site');
+    
+    hide_inactive_biome_checkboxes();
+    
+    $('label.checkbox').find('input').attr("disabled", "false");
+    //$('label.checkbox').find('input').removeAttr("disabled");
     $(this).removeClass('inactive_site');
+    $(this).find('input').show();
   });
   
   
