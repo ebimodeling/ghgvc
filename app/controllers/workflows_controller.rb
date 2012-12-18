@@ -39,22 +39,22 @@ class WorkflowsController < ApplicationController
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
 
-    ## Corn
-    # This map has an ij coordinate range of (0,0) to (80, 50)
-    # top left LatLng being (49.75 ,-105.25)
-    # bottom right LatLng being (25.75 ,-65.25)
+    ## Brazil Sugarcane
+    # This map has an ij coordinate range of (0,0) to (59, 44)
+    # top left LatLng being (-60.25 ,-4.75)
+    # bottom right LatLng being (-30.75 ,-26.75)
     # Therefore it sits between:
-    # Lat 25.75 and 49.75
-    # Lon -105.25 and -65.25
-    if ( 49.75 >= @lat && @lat >= 25.75 && -65.25 >= @lng && @lng >= -105.25 )
-      @corn_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
-      @corn_j = remap_range( @lat, 25.75, 49.75, 0, 50 ) # i == 0 where lat is at its lowest value
-      @corn = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_latent_10yr_avg.nc")
-      @corn_num = @corn.var("latent")[@corn_i,@corn_j,0,0][0]
-      @corn.close()
+    # Lat -4.75 and -26.75
+    # Lon -30.75 and -60.25
+    if ( -4.75 >= @lat && @lat >= -26.75 && -30.75 >= @lng && @lng >= -60.25 )
+      @braz_sugarcane_i = remap_range( @lng, -30.75, -60.25, 0, 59 )
+      @braz_sugarcane_j = remap_range( @lat, -4.75, -26.75, 0, 44 ) # i == 0 where lat is at its lowest value
+      @braz_sugarcane = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
+      @braz_sugarcane_num = @braz_sugarcane.var("latent")[@braz_sugarcane_i,@braz_sugarcane_j,0,0][0]
+      @braz_sugarcane.close()
     end
 
-    ## Soybean
+    ## US Soybean
     # This map has an ij coordinate range of (0,0) to (80, 50)
     # top left LatLng being (49.75 ,-105.25)
     # bottom right LatLng being (25.75 ,-65.25)
@@ -94,8 +94,14 @@ class WorkflowsController < ApplicationController
       @biome_data["native"] = @ecosystems[@biome_num]
     end
     
+    puts "############ This soybean number is too high ##############"
+    puts @soybean_num
     if @soybean_num != nil && @soybean_num < 89
-      @biome_data["biofuels"] = {"name"=>"soybean"}
+      @biome_data["biofuels"] = {"name"=>"corn,mxg,soybean,spring wheat,switchgrass"}
+    end
+    
+    if @braz_sugarcane_num != nil && @braz_sugarcane_num < 110
+      @biome_data["biofuels"] = {"name"=>"soybean,sugarcane"}
     end
     
     # return straight text

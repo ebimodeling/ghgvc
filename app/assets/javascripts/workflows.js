@@ -102,7 +102,7 @@ function initalize_google_map(lat, lng, zoom){
     $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
 
 
-       
+
       console.log(data["native"]);
       console.log(data["biofuels"]);
       
@@ -115,9 +115,20 @@ function initalize_google_map(lat, lng, zoom){
         );
       }
       
-      if (data["biofuels"] != undefined ) {
+      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 5 ) { // treat as South East US
         $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-          '<label class="checkbox"><input type="checkbox">' + data["biofuels"].name + '</input></label>'
+          '<label class="checkbox"><input type="checkbox">' + "corn" + '</input></label>' +
+          '<label class="checkbox"><input type="checkbox">' + "mxg" + '</input></label>' +
+          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
+          '<label class="checkbox"><input type="checkbox">' + "spring wheat" + '</input></label>' +
+          '<label class="checkbox"><input type="checkbox">' + "switchgrass" + '</input></label>'
+        );
+      }
+      
+      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 2 ) { // treat as Brazil
+        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
+          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
+          '<label class="checkbox"><input type="checkbox">' + "sugarcane" + '</input></label>'
         );
       }
       
@@ -155,6 +166,12 @@ function initalize_google_map(lat, lng, zoom){
   
 }
 
+
+function open_previous_biome_site(){
+  console.log('opening previous site');
+  $('#biome_input_container').find('div.well').first().removeClass('inactive_site');
+};
+
 $(document).ready(function() {
   initalize_google_map();
 
@@ -162,42 +179,34 @@ $(document).ready(function() {
     // All other biome lists
     
     $('#biome_input_container').find('div.well').addClass('inactive_site');
-//    $('#biome_input_container').find('div.well').css("height","100px").find('div[id*="_biomes"]').css("height","50px");
-//    $('#biome_input_container').find("div.well").css("background-color","darkGrey").css("color","gray").addClass("inactive_site").find('input').attr("disabled", "false");
-      // deactivate the "checked" checkboxes
-      // hide  "unchecked"
 
     // Add in new biome site
     $('#biome_input_container').prepend(
-      '<div class="well well-small">' +
+      '<div class="well well-small collapsed">' +
       '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
       '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
       '    <i class="icon-search icon-remove"></i> Remove Site' +
-      '  </div>' +
-      
-      '  <br />' + '<hr/>' +
+      '  </div>' + '  <br />' + '<hr/>' +
       '  <div class="native_biomes inline-table">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '  <div class="aggrading_biomes inline-table">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '  <div class="agroecosystems_biomes inline-table">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '  <div class="biofuels_biomes inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '</div>'
-    );
-
-    $('div.well').first().delegate(".remove_biome_site", "click", function() {
-      $(this).toggleClass("chosen");
+    ).delegate(".remove_biome_site", "click", function() {
+      //$(this).toggleClass("chosen");
       $(this).parent().remove();
+      open_previous_biome_site();
     });
   
   });
   // Add inital biome list using above code:
   $('#add_additional_biome_site').trigger('click');
+
   
-  
-  // handles reactivating a site once another has been selected
+  // handles reactivating a site when selected
   $('#biome_input_container').on("click", ".inactive_site" , function(){
     $('#biome_input_container').find('div.well').addClass('inactive_site');
     $(this).removeClass('inactive_site');
-  
   });
   
   

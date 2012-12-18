@@ -18,12 +18,15 @@
   background-color: darkGray;
   color: grey;
   height: auto;
+  cursor: pointer;
   div[class*='_biomes']{
     height: auto;
   }
 }
 
-
+.collapsed {
+  height: 0%;
+}
 
 hr {
   margin: 0 0 10px 0;
