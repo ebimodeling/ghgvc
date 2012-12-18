@@ -7,7 +7,7 @@ function initalize_google_map(lat, lng, zoom){
   var minZoomLevel = 2;
   var geocoder;
   var address;
-  var latlng = new google.maps.LatLng(31,-26);
+  var latlng = new google.maps.LatLng(31,-15);
   var myOptions = {
     zoom: minZoomLevel,
     center: latlng,
@@ -53,7 +53,7 @@ function initalize_google_map(lat, lng, zoom){
      new google.maps.LatLng(70, 170)   // top-right
    );
 
-   // Listen for the dragend event
+   // Listen for the map click events
    google.maps.event.addListener(map, 'dragend', function() {
      if (strictBounds.contains(map.getCenter())) return;
 
@@ -90,15 +90,25 @@ function initalize_google_map(lat, lng, zoom){
 
     var latOffset = radius/(69.1);
     var lonOffset = radius/(53.0);
+    
+    
+
+
 
     // clear out existing biome matches
     $('#biome_input_container').find('div.well:not(.inactive_site)').find('div[class*="_biomes"]').find('.biome_list').html("");
 
     // Ajax post to get the biome number
-    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
+    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {
+
+
+       
       console.log(data["native"]);
       console.log(data["biofuels"]);
-      // find a 
+      
+      // Tag the site w the given lat and lng
+      $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lon.toFixed(2) + " )");
+      
       if (data["native"] != undefined ) {
         $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
           '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
@@ -160,7 +170,7 @@ $(document).ready(function() {
     // Add in new biome site
     $('#biome_input_container').prepend(
       '<div class="well well-small">' +
-      '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: -45.8, 90.88</h4></div>' + 
+      '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
       '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
       '    <i class="icon-search icon-remove"></i> Remove Site' +
       '  </div>' +
