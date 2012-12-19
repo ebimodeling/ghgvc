@@ -115,7 +115,7 @@ function initalize_google_map(lat, lng, zoom){
       
       var active_biome_site = $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
       
-      console.log( "active site id: " + active_biome_site);
+      console.log( "active site id: " + active_biome_site );
       
       marker = place_google_maps_pin( lat, lon, active_biome_site );
       marker.setMap(map); // To add the marker to the map, call setMap();
@@ -132,7 +132,7 @@ function initalize_google_map(lat, lng, zoom){
         );
       }
       
-      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 5 ) { // treat as South East US
+      if (data["biofuels"] != undefined && data["biofuels"].name.split(",").length == 5 ) { // treat as South East US
         $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
           '<label class="checkbox"><input type="checkbox">' + "corn" + '</input></label>' +
           '<label class="checkbox"><input type="checkbox">' + "mxg" + '</input></label>' +
@@ -142,12 +142,12 @@ function initalize_google_map(lat, lng, zoom){
         );
       }
       
-      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 2 ) { // treat as Brazil
-        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
-          '<label class="checkbox"><input type="checkbox">' + "sugarcane" + '</input></label>'
-        );
-      }
+//      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 2 ) { // treat as Brazil
+//        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
+//          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
+//          '<label class="checkbox"><input type="checkbox">' + "sugarcane" + '</input></label>'
+//        );
+//      }
       
     });
 
@@ -207,14 +207,14 @@ $(document).ready(function() {
     // Add in new biome site, which will be ACTIVE 
     $('#biome_input_container').prepend(
       '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
-      '  <div class="biome_site_header inline-block"><h4>Site Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
+      '  <div class="biome_site_header inline-block"><h4>Location Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
       '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
       '    <i class="icon-search icon-remove"></i> Remove Site' +
       '  </div>' + '  <br />' + '<hr/>' +
-      '  <div class="native_biomes inline-table">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="aggrading_biomes inline-table">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="agroecosystems_biomes inline-table">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="biofuels_biomes inline-table">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="agroecosystems_biomes inline-block">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="biofuels_biomes inline-block">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '</div>'
     ).delegate(".remove_biome_site", "click", function() {
       remove_google_maps_pin( $(this).parent().attr('id').split('-').pop() );

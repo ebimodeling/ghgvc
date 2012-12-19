@@ -24,7 +24,7 @@ class WorkflowsController < ApplicationController
   end
 
   # accepts a longitude, latitude:
-    # http://localhost:3000/get_biome?lng=106&lat=127
+    # http://localhost:3000/get_biome?lng=-89.25&lat=41.75
     # OR
     # $.post("get_biome", { lng: 106, lat: 127 });
   # returns JSON object of the biome
@@ -37,6 +37,55 @@ class WorkflowsController < ApplicationController
       frac = ( input - in_low ) / ( in_high - in_low )
       # map onto output range
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
+    end
+
+    ## US SpringWheat
+    # This map has an ij coordinate range of (0,0) to (80, 50)
+    # top left LatLng being (49.75 ,-105.25)
+    # bottom right LatLng being (24.75 ,-65.25)
+    # Therefore it sits between:
+    # Lat 24.75 and 49.75
+    # Lon -105.25 and -65.25
+    # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
+    if ( 49.75 >= @lat && @lat >= 24.75 && -65.25 >= @lng && @lng >= -105.25 )
+      @us_springwheat_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
+      @us_springwheat_j = remap_range( @lat, 49.75, 24.75, 0, 50 ) # i == 0 where lat is at its lowest value
+      @us_springwheat = NumRu::NetCDF.open("netcdf/GCS/Crops/US/SpringWheat/fractioncover/fswh_2.7_us.0.5deg.nc")
+      @us_springwheat_num = @us_springwheat.var("fswh")[@us_springwheat_i,@us_springwheat_j,0,0][0]
+#      @us_springwheat_num = @us_springwheat.var("fswh")[12,7,0,0][0] #=>> 0.21387700736522675
+      @us_springwheat.close()
+    end
+    
+    ## US Soybean
+    # This map has an ij coordinate range of (0,0) to (80, 50)
+    # top left LatLng being (49.75 ,-105.25)
+    # bottom right LatLng being (24.75 ,-65.25)
+    # Therefore it sits between:
+    # Lat 24.75 and 49.75
+    # Lon -105.25 and -65.25
+    if ( 49.75 >= @lat && @lat >= 24.75 && -65.25 >= @lng && @lng >= -105.25 )
+      @us_soybean_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
+      @us_soybean_j = remap_range( @lat, 49.75, 24.75, 0, 50 ) # i == 0 where lat is at its lowest value
+      @us_soybean = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/fractioncover/fsoy_2.7_us.0.5deg.nc")
+      @us_soybean_num = @us_soybean.var("fsoy")[@us_soybean_i,@us_soybean_j,0,0][0]
+#      @us_soybean_num = @us_soybean.var("fsoy")[22,13,0,0][0] #=>> 0.40256670117378235
+      @us_soybean.close()
+    end
+    
+    ## US Corn
+    # This map has an ij coordinate range of (0,0) to (80, 50)
+    # top left LatLng being (49.75 ,-105.25)
+    # bottom right LatLng being (25.25 ,-65.25)
+    # Therefore it sits between:
+    # Lat 24.75 and 49.75
+    # Lon -105.25 and -65.25
+    # http://localhost:3000/get_biome?lng=-83.25&lat=44.25 # => 0.18501955270767212
+    if ( 49.75 >= @lat && @lat >= 24.75 && -65.25 >= @lng && @lng >= -105.25 )
+      @us_corn_i = remap_range( @lng, -105.25, -65.25, 0, 80 ) 
+      @us_corn_j = remap_range( @lat, 49.75, 25.25, 0, 50 ) # j == 0 where lat is at its lowest value
+      @us_corn = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/fractioncover/fcorn_2.7_us.0.5deg.nc")
+      @us_corn_num = @us_corn.var("fcorn")[@us_corn_i,@us_corn_j,0,0][0]
+      @us_corn.close()
     end
 
     ## Brazil Sugarcane
@@ -53,22 +102,6 @@ class WorkflowsController < ApplicationController
       @braz_sugarcane_num = @braz_sugarcane.var("latent")[@braz_sugarcane_i,@braz_sugarcane_j,0,0][0]
       @braz_sugarcane.close()
     end
-
-    ## US Soybean
-    # This map has an ij coordinate range of (0,0) to (80, 50)
-    # top left LatLng being (49.75 ,-105.25)
-    # bottom right LatLng being (25.75 ,-65.25)
-    # Therefore it sits between:
-    # Lat 25.75 and 49.75
-    # Lon -105.25 and -65.25
-    if ( 49.75 >= @lat && @lat >= 25.75 && -65.25 >= @lng && @lng >= -105.25 )
-      @soybean_i = remap_range( @lng, -105.25, -65.25, 0, 80 )
-      @soybean_j = remap_range( @lat, 25.75, 49.75, 0, 50 ) # i == 0 where lat is at its lowest value
-      @soybean = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_latent_10yr_avg.nc")
-      @soybean_num = @soybean.var("latent")[@soybean_i,@soybean_j,0,0][0]
-      @soybean.close()
-    end
-    
 
     ## Vegtype
     # This map has an ij coordinate range of (0,0) to (720, 360)
@@ -93,17 +126,36 @@ class WorkflowsController < ApplicationController
     if @biome_num <= 15
       @biome_data["native"] = @ecosystems[@biome_num]
     end
-    
-    puts "############ This soybean number is too high ##############"
-    puts @soybean_num
-    if @soybean_num != nil && @soybean_num < 89
-      @biome_data["biofuels"] = {"name"=>"corn,mxg,soybean,spring wheat,switchgrass"}
+
+    @biofuel_names = []
+    @agroecosystem_names = []
+    ############ Here we set the threshold levels ############
+    if @us_springwheat_num != nil && @us_springwheat_num > 0.01
+      @agroecosystem_names << "spring wheat"
     end
+
+    if @us_soybean_num != nil && @us_soybean_num < 0.01
+      @biofuel_names << "soybean"
+    end
+    # should include soybean in the JSON:
+    # http://localhost:3000/get_biome.json?lng=-95.25&lat=44.25
+    # should NOT include soybean in the JSON:
+    # http://localhost:3000/get_biome.json?lng=-71.25&lat=33.75
+    
+    if @us_corn_num != nil && @us_corn_num > 0.01
+      @biofuel_names << "corn"
+    end
+    # should include corn in the JSON:
+    # http://localhost:3000/get_biome.json?lng=-95.25&lat=44.25
+    # should NOT include corn in the JSON:
+    # http://localhost:3000/get_biome.json?lng=-71.25&lat=33.75
     
     if @braz_sugarcane_num != nil && @braz_sugarcane_num < 110
-      @biome_data["biofuels"] = {"name"=>"soybean,sugarcane"}
+      @biofuel_names << "brazil sugarcane"
     end
     
+    @biome_data["biofuels"] = { "name"=> @biofuel_names.join(",") }
+    @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
     # return straight text
 #    if @biome_num <= 15
 #      @biome = biome_opts[@biome_num] 
