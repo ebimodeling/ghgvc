@@ -121,7 +121,7 @@ function initalize_google_map(lat, lng, zoom){
       marker.setMap(map); // To add the marker to the map, call setMap();
       
       console.log(data["native"]);
-      console.log(data["biofuels"]);
+      console.log(data["agroecosystems"]);
       
       // Tag the site w the given lat and lng
       $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lon.toFixed(2) + " )");
@@ -130,24 +130,23 @@ function initalize_google_map(lat, lng, zoom){
         $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
           '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
         );
-      }
+      };
       
-      if (data["biofuels"] != undefined && data["biofuels"].name.split(",").length == 5 ) { // treat as South East US
-        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-          '<label class="checkbox"><input type="checkbox">' + "corn" + '</input></label>' +
-          '<label class="checkbox"><input type="checkbox">' + "mxg" + '</input></label>' +
-          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
-          '<label class="checkbox"><input type="checkbox">' + "spring wheat" + '</input></label>' +
-          '<label class="checkbox"><input type="checkbox">' + "switchgrass" + '</input></label>'
-        );
-      }
+      if (data["biofuels"].name.length > 0 ) {
+        $.each( data["biofuels"].name.split(',') , function(k,v){      
+          $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
+            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+          );
+        });
+      };
       
-//      if (data["biofuels"] != undefined &&  data["biofuels"].name.split(",").length == 2 ) { // treat as Brazil
-//        $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-//          '<label class="checkbox"><input type="checkbox">' + "soybean" + '</input></label>' +
-//          '<label class="checkbox"><input type="checkbox">' + "sugarcane" + '</input></label>'
-//        );
-//      }
+      if (data["agroecosystems"].name.length > 0 ) {
+        $.each( data["agroecosystems"].name.split(',') , function(k,v){      
+          $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
+            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+          );
+        });
+      };
       
     });
 

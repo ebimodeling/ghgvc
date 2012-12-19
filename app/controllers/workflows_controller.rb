@@ -130,17 +130,19 @@ class WorkflowsController < ApplicationController
     @biofuel_names = []
     @agroecosystem_names = []
     ############ Here we set the threshold levels ############
-    if @us_springwheat_num != nil && @us_springwheat_num > 0.01
+    if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
       @agroecosystem_names << "spring wheat"
     end
+    # should include spring wheat in the JSON:
+    # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
 
     if @us_soybean_num != nil && @us_soybean_num < 0.01
       @biofuel_names << "soybean"
     end
     # should include soybean in the JSON:
-    # http://localhost:3000/get_biome.json?lng=-95.25&lat=44.25
+
     # should NOT include soybean in the JSON:
-    # http://localhost:3000/get_biome.json?lng=-71.25&lat=33.75
+
     
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biofuel_names << "corn"
@@ -154,16 +156,9 @@ class WorkflowsController < ApplicationController
       @biofuel_names << "brazil sugarcane"
     end
     
-    @biome_data["biofuels"] = { "name"=> @biofuel_names.join(",") }
+#    @biome_data["biofuels"] = { "name"=> @biofuel_names.join(",") }
+    @biome_data["biofuels"]       = { "name"=> @biofuel_names.join(",") }
     @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
-    # return straight text
-#    if @biome_num <= 15
-#      @biome = biome_opts[@biome_num] 
-#      p @biome
-#      render :text => @biome
-#    else
-#      return :text => "none"
-#    end
 
     respond_to do |format|
       format.json { render json: @biome_data }
