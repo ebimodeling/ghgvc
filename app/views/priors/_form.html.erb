@@ -1,0 +1,249 @@
+<%= form_for(@prior) do |f| %>
+  <% if @prior.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@prior.errors.count, "error") %> prohibited this prior from being saved:</h2>
+
+      <ul>
+      <% @prior.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :citation_id %><br />
+    <%= f.number_field :citation_id %>
+  </div>
+  <div class="field">
+    <%= f.label :variable_id %><br />
+    <%= f.text_field :variable_id %>
+  </div>
+  <div class="field">
+    <%= f.label :phylogeny %><br />
+    <%= f.text_field :phylogeny %>
+  </div>
+  <div class="field">
+    <%= f.label :distn %><br />
+    <%= f.text_field :distn %>
+  </div>
+  <div class="field">
+    <%= f.label :parama %><br />
+    <%= f.text_field :parama %>
+  </div>
+  <div class="field">
+    <%= f.label :paramb %><br />
+    <%= f.text_field :paramb %>
+  </div>
+  <div class="field">
+    <%= f.label :paramc %><br />
+    <%= f.text_field :paramc %>
+  </div>
+  <div class="field">
+    <%= f.label :n %><br />
+    <%= f.number_field :n %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </div>
+    <h4>Significant Figures</h4>
+<!--  ##################### -->
+  <div class='field'>
+    <%= f.label 'Aboveground biomass: live (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_ag %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Root biomass (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Dead wood (dead trees, course woody debris) (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_wood %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Litter (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Peat (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_ag %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Potential Soil Organic Matter loss (Mg/ha)' %><br /> 
+    <%= f.text_field :OM_SOM %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of combustible biomass (aboveground, wood, litter) burned' %><br /> 
+    <%= f.text_field :fc_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of root biomass burned' %><br /> 
+    <%= f.text_field :fc_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of peat burned' %><br /> 
+    <%= f.text_field :fc_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of SOM burned' %><br /> 
+    <%= f.text_field :fc_SOM %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CO2 for each unit of biomass burned (kmol/ Mg dry matter)' %><br /> 
+    <%= f.text_field :Ec_CO2 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CH4 for each unit of biomass burned (kmol/ Mg dry matter)' %><br /> 
+    <%= f.text_field :Ec_CH4 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of N2O for each unit of biomass burned (kmol/ Mg dry matter)' %><br /> 
+    <%= f.text_field :Ec_N2O %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) for combustible biomass' %><br /> 
+    <%= f.text_field :k_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) for roots' %><br /> 
+    <%= f.text_field :k_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) for peat' %><br /> 
+    <%= f.text_field :k_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) for SOM' %><br /> 
+    <%= f.text_field :k_SOM %> 
+  </div>
+  <div class='field'>
+    <%= f.label '% termite mediated decomposition' %><br /> 
+    <%= f.text_field :termite %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CO2 for each unit of peat biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CO2_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CO2 for each unit of litter biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CO2_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CH4 for each unit of combustible biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CH4_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CH4 for each unit of root biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CH4_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CH4 for each unit of peat biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CH4_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of CH4 for each unit of litter biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_CH4_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of N2O for each unit of combustible biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_N2O_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of N2O for each unit of root biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_N2O_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of N2O for each unit of peat biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_N2O_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Proportional release of N2O for each unit of litter biomass decomposed' %><br /> 
+    <%= f.text_field :Ed_N2O_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :F_CO2 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :F_CH4 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :F_N2O %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Age of transition (time at which biomass accumulation rate declines) (years)' %><br /> 
+    <%= f.text_field :age_transition %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :new_F_CO2 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :new_F_CH4 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :new_F_N2O %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Rate of disturbance events (#/year)' %><br /> 
+    <%= f.text_field :rd %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Time required to recover pre-disturbance biomass stocks (years)' %><br /> 
+    <%= f.text_field :tR %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CO2 exchange during recovery (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :FR_CO2 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere CH4 exchange during recovery (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :FR_CH4 %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Average annual net ecosystem-atmosphere N2O exchange during recovery (kmol/ha/yr) + indicates uptake by ecosystem, - indicates release to atmosphere.' %><br /> 
+    <%= f.text_field :FR_N2O %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of combustible biomass (aboveground, wood, litter) burned (when disturbance is fire)' %><br /> 
+    <%= f.text_field :dfc_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of root biomass burned (when disturbance is fire)' %><br /> 
+    <%= f.text_field :dfc_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Fraction of peat biomass burned (when disturbance is fire)' %><br /> 
+    <%= f.text_field :dfc_peat %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) of combustible biomass (aboveground, wood, litter) following disturbance' %><br /> 
+    <%= f.text_field :dk_ag_wood_litter %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) of combustible root biomass following disturbance' %><br /> 
+    <%= f.text_field :dk_root %> 
+  </div>
+  <div class='field'>
+    <%= f.label 'Decay constant (k) of peat following disturbance' %><br /> 
+    <%= f.text_field :dk_peat %> 
+  </div>
+  
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

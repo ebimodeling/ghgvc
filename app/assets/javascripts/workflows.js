@@ -122,21 +122,31 @@ function initalize_google_map(lat, lng, zoom){
       
       console.log(data["native"]);
       console.log(data["agroecosystems"]);
+      console.log(data["biomes"]);
+      console.log(data["biofuels"]);
       
       // Tag the site w the given lat and lng
       $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lon.toFixed(2) + " )");
       
-      if (data["native"] != undefined ) {
-        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-          '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
-        );
+//      if (data["biomes"] != undefined ) {
+//        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
+//          '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
+//        ).parent().css("height", "auto");
+//      };
+      
+      if (data["native"].name.length > 0 ) {
+        $.each( data["native"].name.split(',') , function(k,v){      
+          $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
+            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+          ).parent().css("height", "auto");
+        });
       };
       
       if (data["biofuels"].name.length > 0 ) {
         $.each( data["biofuels"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
             '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
-          );
+          ).parent().css("height", "auto");
         });
       };
       
@@ -144,7 +154,7 @@ function initalize_google_map(lat, lng, zoom){
         $.each( data["agroecosystems"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
             '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
-          );
+          ).parent().css("height", "auto");
         });
       };
       
@@ -196,6 +206,14 @@ function hide_inactive_biome_checkboxes(){
   });
 };
 
+function show_inactive_biome_checkboxes(){
+  $('#biome_input_container').find('div.well').find('label.checkbox').each(function(){
+    if ( $(this).find('input') ){
+      $(this).show();
+    }
+  });
+};
+
 $(document).ready(function() {
   initalize_google_map();
 
@@ -239,6 +257,8 @@ $(document).ready(function() {
     //$('label.checkbox').find('input').removeAttr("disabled");
     $(this).removeClass('inactive_site');
     $(this).find('input').show();
+    $(this).find('label').show();
+    
   });
   
   
