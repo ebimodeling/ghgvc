@@ -25,6 +25,7 @@ function initalize_google_map(lat, lng, zoom){
   var latlng = new google.maps.LatLng(31,-15);
   var myOptions = {
     zoom: minZoomLevel,
+    streetViewControl: false,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
@@ -226,7 +227,7 @@ $(document).ready(function() {
       '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
       '  <div class="biome_site_header inline-block"><h4>Location Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
       '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
-      '    <i class="icon-search icon-remove"></i> Remove Site' +
+      '    <i class="icon-search icon-remove"></i> Remove Location' +
       '  </div>' + '  <br />' + '<hr/>' +
       '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +

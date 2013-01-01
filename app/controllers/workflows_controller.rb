@@ -336,7 +336,7 @@ class WorkflowsController < ApplicationController
     @aggrading_names = []
     
     
-    ############ Here we set the threshold levels ############
+############ Here we set the threshold levels ############
 
     if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
       @agroecosystem_names << "spring wheat"
@@ -350,70 +350,67 @@ class WorkflowsController < ApplicationController
 
     
 ###    NATIVE
-#"0 tropical peat forest"
+#tropical peat forest
+#tropical forest
+#northern peatland
+#marsh & swamp
+#temperate forest
+#boreal forest
+#temperate grassland
+#temperate scrub/woodland
+#tropical savanna
+#desert
+#tundra
+
     if @global_biome_peat_num != nil && @global_biome_peat_num > 0
       @native_names << "tropical peat forest"
     end
-#"1 tropical forest"
-    if @global_biome_peat_num != nil && @global_biome_peat_num > 0
-      @native_names << "tropical peat forest"
-    end
-#"2 northern peatland"
-#"3 marsh & swamp"
     if @global_biome_marsh_num != nil && @global_biome_marsh_num > 0
       @native_names << "marsh & swamp"
     end
-#"4 temperate forest"
     if @global_biome_temperate_forest_num != nil && @global_biome_temperate_forest_num > 0
       @native_names << "temperate forest"
     end
-#"6 boreal forest"
     if @global_biome_boreal_num != nil && @global_biome_boreal_num > 0
       @native_names << "boreal forest"
     end
-#"10 temperate grassland"
-#"12 temperate scrub/woodland"
     if @global_biome_temperate_scrub_num != nil && @global_biome_temperate_scrub_num > 0
       @native_names << "temperate scrub"
     end
-#"13 tropical savanna"
     if @global_biome_savanna_num != nil && @global_biome_savanna_num > 0
       @native_names << "savanna"
     end
-#"14 desert"
     if @global_biome_desert_num != nil && @global_biome_desert_num > 0
       @native_names << "desert"
     end
-#"15 tundra"
     if @global_biome_tundra_num != nil && @global_biome_tundra_num > 0
       @native_names << "tundra"
     end
 
 
 
-#AGROECOSYSTEMS
-#"16 tropical pasture"
-#"17 temperate pasture"
+###   AGROECOSYSTEMS
+#tropical pasture
+#temperate pasture
+#tropical cropland
+#temperate cropland
+#wetland rice
+
     if @global_pasture_num != nil &&  @global_pasture_num > 0
       @agroecosystem_names << "tropical pasture"
       @agroecosystem_names << "temperate pasture"
     end
-#"18 tropical cropland"
-#"19 temperate cropland"
     if @global_cropland_num != nil && @global_cropland_num > 0
       @agroecosystem_names << "tropical cropland"
       @agroecosystem_names << "temperate cropland"
     end
-#"20 wetland rice"
 
 
-
-
-#BIOFUELS
-#"9 switchgrass"
-#"21 miscanthus"
-#"23 US corn"
-#"24 US soy"
+###   BIOFUELS
+#switchgrass
+#miscanthus
+#US corn
+#US soy
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biofuel_names << "corn"
       @agroecosystem_names << "corn"
@@ -432,10 +429,20 @@ class WorkflowsController < ApplicationController
       @biofuel_names << "brazil sugarcane"
     end
     
-    @biome_data["biomes"]         = { "name"=> @biofuel_names.join(",") }
+
+###   AGGRADING
+#aggrading temperate non-forest
+#aggrading tropical non-forest
+#aggrading boreal forest
+#aggrading tropical forest
+#aggrading temperate forest
+    
+    
+    
+    #@biome_data["biomes"]         = { "name"=> @biofuel_names.join(",") }
     @biome_data["biofuels"]       = { "name"=> @biofuel_names.join(",") }
     @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
-    @biome_data["native"]         = { "name"=> @agroecosystem_names.join(",") }
+    #@biome_data["native"]         = { "name"=> @native_names.join(",") }
     @biome_data["aggrading"]      = { "name"=> @aggrading_names.join(",") }
     
 
