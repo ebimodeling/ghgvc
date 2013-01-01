@@ -41,8 +41,24 @@ class WorkflowsController < ApplicationController
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
 
-    ## Global biomes:
-#    @global_biome_tundra = NumRu::NetCDF.open("netcdf/GCS/biomes/Unassigned_Ecoregion.nc")
+    #### Brazil: ####
+    
+    ## Brazil Sugarcane
+    # This map has an ij coordinate range of (0,0) to (59, 44)
+    # top left LatLng being (-60.25 ,-4.75)
+    # bottom right LatLng being (-30.75 ,-26.75)
+    # Therefore it sits between:
+    # Lat -4.75 and -26.75
+    # Lon -30.75 and -60.25
+    if ( -4.75 >= @request_lat && @request_lat >= -26.75 && -30.75 >= @request_lng && @request_lng >= -60.25 )
+      @braz_sugarcane_i = remap_range( @request_lng, -30.75, -60.25, 0, 59 )
+      @braz_sugarcane_j = remap_range( @request_lat, -4.75, -26.75, 0, 44 ) # j == 0 where lat is at its lowest value
+      @braz_sugarcane = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
+      @braz_sugarcane_num = @braz_sugarcane.var("latent")[@braz_sugarcane_i,@braz_sugarcane_j,0,0][0]
+      @braz_sugarcane.close()
+    end
+
+    #### Global biomes: ####
 
     ## Global biomes: tundra
     # http://localhost:3000/get_biome.json?lng=-150.9497&lat=69.61112 # => 17077
@@ -289,21 +305,6 @@ class WorkflowsController < ApplicationController
       @us_corn = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/fractioncover/fcorn_2.7_us.0.5deg.nc")
       @us_corn_num = @us_corn.var("fcorn")[@us_corn_i,@us_corn_j,0,0][0]
       @us_corn.close()
-    end
-
-    ## Brazil Sugarcane
-    # This map has an ij coordinate range of (0,0) to (59, 44)
-    # top left LatLng being (-60.25 ,-4.75)
-    # bottom right LatLng being (-30.75 ,-26.75)
-    # Therefore it sits between:
-    # Lat -4.75 and -26.75
-    # Lon -30.75 and -60.25
-    if ( -4.75 >= @request_lat && @request_lat >= -26.75 && -30.75 >= @request_lng && @request_lng >= -60.25 )
-      @braz_sugarcane_i = remap_range( @request_lng, -30.75, -60.25, 0, 59 )
-      @braz_sugarcane_j = remap_range( @request_lat, -4.75, -26.75, 0, 44 ) # j == 0 where lat is at its lowest value
-      @braz_sugarcane = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
-      @braz_sugarcane_num = @braz_sugarcane.var("latent")[@braz_sugarcane_i,@braz_sugarcane_j,0,0][0]
-      @braz_sugarcane.close()
     end
 
     ## Vegtype
