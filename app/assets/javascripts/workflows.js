@@ -26,6 +26,8 @@ function initalize_google_map(lat, lng, zoom){
   var myOptions = {
     zoom: minZoomLevel,
     streetViewControl: false,
+    mapTypeControl: false,
+    panControl: false,
     center: latlng,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
