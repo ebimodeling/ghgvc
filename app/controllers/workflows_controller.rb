@@ -345,24 +345,20 @@ class WorkflowsController < ApplicationController
     # should include spring wheat in the JSON:
     # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
 
-    if @us_soybean_num != nil && @us_soybean_num < 0.01
-      @biofuel_names << "soybean"
-    end
+
 
     
 ###    NATIVE
-#tropical peat forest
-#tropical forest
-#northern peatland
-#marsh & swamp
-#temperate forest
-#boreal forest
-#temperate grassland
-#temperate scrub/woodland
-#tropical savanna
-#desert
-#tundra
 
+
+#northern peatland
+
+
+
+
+    if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0
+      @native_names << "temperate grassland"
+    end
     if @global_biome_peat_num != nil && @global_biome_peat_num > 0
       @native_names << "tropical peat forest"
     end
@@ -415,6 +411,9 @@ class WorkflowsController < ApplicationController
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biofuel_names << "corn"
       @agroecosystem_names << "corn"
+    end
+    if @us_soybean_num != nil && @us_soybean_num > 0.01
+      @biofuel_names << "soybean"
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0 
       @biofuel_names << "sugarcane"
