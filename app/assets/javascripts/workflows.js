@@ -5,13 +5,33 @@ function remove_google_maps_pin(biome_site_id){
   if ( markersArray[biome_site_id] != undefined ) { markersArray[biome_site_id].setMap(null) };
 };
 
+function activate_biome_location ( obj ){
+    $('#biome_input_container').find('div.well').addClass('inactive_site');
+    
+    hide_inactive_biome_checkboxes();
+    
+    $('label.checkbox').find('input').attr("disabled", "false");
+    //$('label.checkbox').find('input').removeAttr("disabled");
+    obj.removeClass('inactive_site');
+    obj.find('input').show();
+    obj.find('label').show();
+    obj.prependTo("#biome_input_container")
+};
+
 function place_google_maps_pin( lat, lng, biome_site_id ){
   // remove any markers tied to a biome_site_id
   remove_google_maps_pin(biome_site_id);
-  // regenrate that marker
+
+  // generate a new marker
   var marker = new google.maps.Marker({ position: new google.maps.LatLng( lat , lng ) });
   // push the marker into the storage array
   markersArray[biome_site_id] = marker;
+  
+  // Add listener to activate a biome location on clicking the corresponding map marker
+  google.maps.event.addListener( markersArray[biome_site_id], 'click', function() {
+    activate_biome_location( $('#biome_instance-' + biome_site_id) );
+  });
+  
   return marker
 };
 
@@ -131,6 +151,8 @@ function initalize_google_map(lat, lng, zoom){
       // Tag the site w the given lat and lng
       $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lon.toFixed(2) + " )");
       
+      
+      
 //      if (data["biomes"] != undefined ) {
 //        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
 //          '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
@@ -217,6 +239,8 @@ function show_inactive_biome_checkboxes(){
   });
 };
 
+
+
 $(document).ready(function() {
   initalize_google_map();
 
@@ -252,16 +276,7 @@ $(document).ready(function() {
   
   // handles reactivating a site when selected
   $('#biome_input_container').on("click", ".inactive_site" , function(){
-    $('#biome_input_container').find('div.well').addClass('inactive_site');
-    
-    hide_inactive_biome_checkboxes();
-    
-    $('label.checkbox').find('input').attr("disabled", "false");
-    //$('label.checkbox').find('input').removeAttr("disabled");
-    $(this).removeClass('inactive_site');
-    $(this).find('input').show();
-    $(this).find('label').show();
-    
+    activate_biome_location( $(this) );
   });
   
   
