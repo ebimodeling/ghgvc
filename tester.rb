@@ -10,8 +10,11 @@ require 'json'
 #puts e
 
 #end
+a=0.5
 
+asdf = ( a.abs > 1) ? ["boreal forest"]:nil
 
+puts asdf
 
 for e in 0...@ecosystems.length
 #  if @ecosystems[e]["category"].to_s == "agroecosystems"
@@ -28,3 +31,4 @@ end
 #      puts eval(n)
 #    end
 #end
+

@@ -328,13 +328,48 @@ class WorkflowsController < ApplicationController
 
     @biome_data = {}
     if @biome_num <= 15
-      @biome_data["native"] = @ecosystems[@biome_num]
+      ## Logic for vegtype ecosystems
+      case @biome_num
+        when 1
+          @biome_data["native"] = ["tropical peat forest", "tropical forest"]
+        when 2
+          @biome_data["native"] = ["tropical forest", "tropical savanna"]
+        when 3, 4, 5
+          @biome_data["native"] = ["temperate forest"]
+        when 6, 7
+          @biome_data["native"] = ["northern peatland", "boreal forest"]
+        when 8
+          @biome_data["native"] = ( @request_lat >= 50 ) ? ["boreal forest"]:["temperate forest"]
+        when 9
+          if @request_lat.abs >= 50
+            @biome_data["native"] = ["boreal forest"]
+          elsif @request_lat.abs > 23.26 && @request_lat.abs <= 50
+            @biome_data["native"] = ["temperate grassland", "temperate scrub/woodland", "temperate forest"]          
+          elsif @request_lat.abs <= 223.26
+            @biome_data["native"] = ["tropical savanna"]        
+          end
+        when 10
+          @biome_data["native"] = ["temperate grassland"]
+        when 11
+          @biome_data["native"] = ( @request_lat <= 5 ) ? ["temperate scrub/woodland"]:nil
+        when 12
+          @biome_data["native"] = ["desert"]
+        when 13, 15
+          @biome_data["native"] = ["tundra"]
+        when 14
+          @biome_data["native"] = ["desert [No Vegitation]"]
+      end
     end
 
     @biofuel_names = []
     @agroecosystem_names = []
     @native_names = []
     @aggrading_names = []
+    
+    
+
+
+
     
     
 ############ Here we set the threshold levels ############
@@ -349,13 +384,6 @@ class WorkflowsController < ApplicationController
 
     
 ###    NATIVE
-
-
-#northern peatland
-
-
-
-
     if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0
       @native_names << "temperate grassland"
     end
@@ -442,7 +470,7 @@ class WorkflowsController < ApplicationController
     #@biome_data["biomes"]         = { "name"=> @biofuel_names.join(",") }
     @biome_data["biofuels"]       = { "name"=> @biofuel_names.join(",") }
     @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
-    #@biome_data["native"]         = { "name"=> @native_names.join(",") }
+#    @biome_data["native"]         = { "name"=> @native_names.join(",") }
     @biome_data["aggrading"]      = { "name"=> @aggrading_names.join(",") }
     
 

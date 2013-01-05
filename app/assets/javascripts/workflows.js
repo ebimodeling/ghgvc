@@ -68,6 +68,9 @@ function initalize_google_map(lat, lng, zoom){
   var vegtype_bounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(-59,-176.8), // south-west
     new google.maps.LatLng(84,179) // north-east
+//        new google.maps.LatLng(-50,-124.8), // south-west
+//        new google.maps.LatLng(80,115) // north-east  
+
   );
   var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay.png', vegtype_bounds, overlayOptions );
  
@@ -85,7 +88,7 @@ function initalize_google_map(lat, lng, zoom){
   
   //overlay = [];
   
-  // Bounds for North America
+  // Bounds for A single map
    var strictBounds = new google.maps.LatLngBounds(
      new google.maps.LatLng(-70, -170), // bottom-left
      new google.maps.LatLng(70, 170)   // top-right
@@ -159,8 +162,8 @@ function initalize_google_map(lat, lng, zoom){
 //        ).parent().css("height", "auto");
 //      };
       
-      if (data["native"].name.length > 0 ) {
-        $.each( data["native"].name.split(',') , function(k,v){      
+      if (data["native"].length > 0 ) {
+        $.each( data["native"] , function(k,v){      
           $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
             '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
           ).parent().css("height", "auto");
