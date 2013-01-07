@@ -373,42 +373,33 @@ class WorkflowsController < ApplicationController
     
     
 ############ Here we set the threshold levels ############
-
-    if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
-      @agroecosystem_names << "spring wheat"
-    end
-    # should include spring wheat in the JSON:
-    # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
-
-
-
-    
+   
 ###    NATIVE
-    if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0
+    if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0.01
       @native_names << "temperate grassland"
     end
-    if @global_biome_peat_num != nil && @global_biome_peat_num > 0
+    if @global_biome_peat_num != nil && @global_biome_peat_num > 0.01
       @native_names << "tropical peat forest"
     end
-    if @global_biome_marsh_num != nil && @global_biome_marsh_num > 0
+    if @global_biome_marsh_num != nil && @global_biome_marsh_num > 0.01
       @native_names << "marsh & swamp"
     end
-    if @global_biome_temperate_forest_num != nil && @global_biome_temperate_forest_num > 0
+    if @global_biome_temperate_forest_num != nil && @global_biome_temperate_forest_num > 0.01
       @native_names << "temperate forest"
     end
-    if @global_biome_boreal_num != nil && @global_biome_boreal_num > 0
+    if @global_biome_boreal_num != nil && @global_biome_boreal_num > 0.01
       @native_names << "boreal forest"
     end
-    if @global_biome_temperate_scrub_num != nil && @global_biome_temperate_scrub_num > 0
+    if @global_biome_temperate_scrub_num != nil && @global_biome_temperate_scrub_num > 0.01
       @native_names << "temperate scrub"
     end
-    if @global_biome_savanna_num != nil && @global_biome_savanna_num > 0
+    if @global_biome_savanna_num != nil && @global_biome_savanna_num > 0.01
       @native_names << "savanna"
     end
-    if @global_biome_desert_num != nil && @global_biome_desert_num > 0
+    if @global_biome_desert_num != nil && @global_biome_desert_num > 0.01
       @native_names << "desert"
     end
-    if @global_biome_tundra_num != nil && @global_biome_tundra_num > 0
+    if @global_biome_tundra_num != nil && @global_biome_tundra_num > 0.01
       @native_names << "tundra"
     end
 
@@ -421,13 +412,24 @@ class WorkflowsController < ApplicationController
 #temperate cropland
 #wetland rice
 
-    if @global_pasture_num != nil &&  @global_pasture_num > 0
-      @agroecosystem_names << "tropical pasture"
-      @agroecosystem_names << "temperate pasture"
+    if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
+      @agroecosystem_names << "spring wheat"
     end
-    if @global_cropland_num != nil && @global_cropland_num > 0
-      @agroecosystem_names << "tropical cropland"
-      @agroecosystem_names << "temperate cropland"
+      # should include spring wheat in the JSON:
+      # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
+    if @global_pasture_num != nil &&  @global_pasture_num > 0.01
+      if @request_lat.abs < 23.26
+        @agroecosystem_names << "tropical pasture"
+      else
+        @agroecosystem_names << "temperate pasture"
+      end
+    end
+    if @global_cropland_num != nil && @global_cropland_num > 0.01
+      if @request_lat.abs < 23.26
+        @agroecosystem_names << "tropical cropland"
+      else
+        @agroecosystem_names << "temperate cropland"
+      end
     end
 
 
@@ -442,8 +444,9 @@ class WorkflowsController < ApplicationController
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biofuel_names << "soybean"
+      @agroecosystem_names << "soybean"
     end
-    if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0 
+    if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01
       @biofuel_names << "sugarcane"
       @agroecosystem_names << "sugarcane"
     end
