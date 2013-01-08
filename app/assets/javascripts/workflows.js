@@ -63,7 +63,7 @@ function initalize_google_map(lat, lng, zoom){
     new google.maps.LatLng(-92,-179 ), // south-west
     new google.maps.LatLng(84.8,178.7) // north-east
   );
-  var globalbiomes = new google.maps.GroundOverlay( 'globalbiomes_overlay.png', globalbiomes_bounds, overlayOptions);
+  var globalbiomes = new google.maps.GroundOverlay( '../globalbiomes_overlay.png', globalbiomes_bounds, overlayOptions);
   // setup of vegtype map  
   var vegtype_bounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(-59,-176.8), // south-west
@@ -72,7 +72,7 @@ function initalize_google_map(lat, lng, zoom){
 //        new google.maps.LatLng(80,115) // north-east  
 
   );
-  var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay.png', vegtype_bounds, overlayOptions );
+  var vegtype = new google.maps.GroundOverlay( '../vegtype_overlay.png', vegtype_bounds, overlayOptions );
  
   // clear out existing biome matches
   //$('div[id*="_biomes"]').hide();
@@ -137,7 +137,7 @@ function initalize_google_map(lat, lng, zoom){
     $('#biome_input_container').find('div.well:not(.inactive_site)').find('div[class*="_biomes"]').find('.biome_list').html("");
     
     // Ajax post to get the biome number
-    $.get("get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
+    $.get("/get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
       
       var active_biome_site = $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
       
@@ -165,7 +165,8 @@ function initalize_google_map(lat, lng, zoom){
       if (data["native"].length > 0 ) {
         $.each( data["native"] , function(k,v){      
           $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
           ).parent().css("height", "auto");
         });
       };
@@ -173,7 +174,8 @@ function initalize_google_map(lat, lng, zoom){
       if (data["biofuels"].name.length > 0 ) {
         $.each( data["biofuels"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
           ).parent().css("height", "auto");
         });
       };
@@ -181,7 +183,8 @@ function initalize_google_map(lat, lng, zoom){
       if (data["agroecosystems"].name.length > 0 ) {
         $.each( data["agroecosystems"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
-            '<label class="checkbox"><input type="checkbox">' + v + '</input></label>' 
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
           ).parent().css("height", "auto");
         });
       };
@@ -281,9 +284,11 @@ $(document).ready(function() {
   $('#biome_input_container').on("click", ".inactive_site" , function(){
     activate_biome_location( $(this) );
   });
-  
-  
-  
+
+  $(".biome_list").tooltip({
+    'selector': 'i',
+    'placement': 'right'
+  });
 
   $('.map_type_selector').on('click', function () {
     $(document).find('.map_type_selector').removeClass('active');

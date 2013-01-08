@@ -51,8 +51,12 @@ div[class*='_biomes'] {
   select {
     width: 200px;
   }
-  biome_list {
-    float: left;
+  .biome_list {
+/*    float: left;*/
+    i {
+      margin-left: 10px;
+      cursor: pointer;
+    }
   }
 }
 

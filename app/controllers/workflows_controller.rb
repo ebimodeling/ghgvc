@@ -493,6 +493,7 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
+    
 
     respond_to do |format|
       format.html # new.html.erb
