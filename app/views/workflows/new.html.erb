@@ -37,6 +37,23 @@
 <br />
 
 
+<% if true %>
+<a data-toggle="lightbox" href="#biome_popup">Open Lightbox</a>
+<div id="biome_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
+    <div class='lightbox-header'>
+        <button type="button" class="close" data-dismiss="lightbox">&times;</button>
+    </div>
+    <div class='lightbox-content'>
+      <%= render :partial => "biome_data", :locals => { :biome_type => "Native" } %>
+      <%#= render :partial => "biome_data", :locals => { :biome_type => "Aggrading" } %>
+      <%#= render :partial => "biome_data", :locals => { :biome_type => "Agroecosystems" } %>
+      <%#= render :partial => "biome_data", :locals => { :biome_type => "Biofuels" } %>
+    </div>
+</div>
+<% end %>
+
+
+
 <!--This is where all the biome adding happens, however its handled in jQuery-->
 <div id="biome_input_container"></div>
 
@@ -45,10 +62,7 @@
   <i class="icon-search icon-leaf"></i>
 </div>
 
-<%#= render :partial => "biome_data", :locals => { :biome_type => "Native" } %>
-<%#= render :partial => "biome_data", :locals => { :biome_type => "Aggrading" } %>
-<%#= render :partial => "biome_data", :locals => { :biome_type => "Agroecosystems" } %>
-<%#= render :partial => "biome_data", :locals => { :biome_type => "Biofuels" } %>
+
 
 
 
