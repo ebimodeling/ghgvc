@@ -1,0 +1,49 @@
+<%= form_for(@variable) do |f| %>
+  <% if @variable.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@variable.errors.count, "error") %> prohibited this variable from being saved:</h2>
+
+      <ul>
+      <% @variable.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description %>
+  </div>
+  <div class="field">
+    <%= f.label :units %><br />
+    <%= f.text_field :units %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :max %><br />
+    <%= f.text_field :max %>
+  </div>
+  <div class="field">
+    <%= f.label :min %><br />
+    <%= f.text_field :min %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

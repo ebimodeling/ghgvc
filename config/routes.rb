@@ -1,5 +1,8 @@
 Ghgvc::Application.routes.draw do
 
+  resources :variables
+
+
   resources :citations
 
 
