@@ -57,7 +57,7 @@ div[id|='biome_instance'] {
 
   div[class*='_biomes'] {
     vertical-align: top;
-    width: 220px;
+    width: 210px;
   
   }
 }
@@ -80,11 +80,13 @@ div[class*='_biomes'] {
     width: 200px;
   }
   .biome_list {
+    label {
+      margin-right: 10px;
+    }
     a {
       width: 20px;
     }
     i {
-      margin-left: 10px;
       cursor: pointer;
     }
   }
