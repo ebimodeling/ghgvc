@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.9'
+gem 'rails', '3.2.11'
 gem 'bootstrap-sass', '2.1'
 gem 'mysql2', '0.3.11'
 gem 'json'
