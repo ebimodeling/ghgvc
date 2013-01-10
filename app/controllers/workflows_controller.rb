@@ -493,7 +493,15 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
-    
+
+# This is where I'll open the Priors from the DB    
+#    @priors = Prior.all
+# A prior will have a number of variables
+# One of those variables can belong to a given citation
+
+# A PFT would be akin to an ecosystem 
+#render :partial => "my_partial", :locals => {:player => Player.new}
+
 
     respond_to do |format|
       format.html # new.html.erb

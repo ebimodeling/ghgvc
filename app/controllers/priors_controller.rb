@@ -25,6 +25,11 @@ class PriorsController < ApplicationController
   # GET /priors/new.json
   def new
     @prior = Prior.new
+    @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+    @ecosystem = @ecosystems[0]
+#    p @ecosystem
+    
+    p @ecosystem["OM_root"]
 
     respond_to do |format|
       format.html # new.html.erb

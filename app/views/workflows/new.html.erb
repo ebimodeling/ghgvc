@@ -26,8 +26,9 @@
 
 
 
-
-<%#= p @ecosystems %>
+<div id="ecosystem_json_store">
+<%= p @ecosystems.to_json %>
+</div>
 
 <div id="add_additional_biome_site" class="btn btn-large btn-primary">
   <i class="icon-search icon-plus-sign"></i>
@@ -38,7 +39,6 @@
 
 
 <% if true %>
-<a data-toggle="lightbox" href="#biome_popup">Open Lightbox</a>
 <div id="biome_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
     <div class='lightbox-header'>
         <button type="button" class="close" data-dismiss="lightbox">&times;</button>

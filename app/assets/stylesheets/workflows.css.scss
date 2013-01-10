@@ -10,6 +10,11 @@
   margin: auto;
 }
 
+#ecosystem_json_store {
+  display: none;
+}
+
+
 .biome_site_header {
   width: 300px;
 }
@@ -75,6 +80,9 @@ div[class*='_biomes'] {
     width: 200px;
   }
   .biome_list {
+    a {
+      width: 20px;
+    }
     i {
       margin-left: 10px;
       cursor: pointer;

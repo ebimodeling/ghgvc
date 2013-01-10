@@ -165,8 +165,10 @@ function initalize_google_map(lat, lng, zoom){
       if (data["native"].length > 0 ) {
         $.each( data["native"] , function(k,v){      
           $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
+            '<div class="biome_match">' +
+              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+            '</div>'
           ).parent().css("height", "auto");
         });
       };
@@ -174,8 +176,10 @@ function initalize_google_map(lat, lng, zoom){
       if (data["biofuels"].name.length > 0 ) {
         $.each( data["biofuels"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
+            '<div class="biome_match">' +
+              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+            '</div>'
           ).parent().css("height", "auto");
         });
       };
@@ -183,8 +187,10 @@ function initalize_google_map(lat, lng, zoom){
       if (data["agroecosystems"].name.length > 0 ) {
         $.each( data["agroecosystems"].name.split(',') , function(k,v){      
           $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-            '</input><i class="icon-search icon-list-alt inline-block" rel="tooltip" title="edit"></i></label><br />'
+            '<div class="biome_match">' +
+              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
+              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+            '</div>'
           ).parent().css("height", "auto");
         });
       };
@@ -223,6 +229,15 @@ function initalize_google_map(lat, lng, zoom){
   
 }
 
+function populate_biome_popup( biome_name ){
+  $("#biome_popup").find(".lightbox-content").each(function(){
+    $(this).find(".popup_heading").text( biome_name )
+    ecosystems = $.parseJSON( $("#ecosystem_json_store").text() )
+    console.log(biome_name);
+    // here I'd like to be able to do ecosystems["temperate forest"]
+    
+  })
+}
 
 function open_previous_biome_site(){
   console.log('opening previous site');
@@ -249,6 +264,11 @@ function show_inactive_biome_checkboxes(){
 
 $(document).ready(function() {
   initalize_google_map();
+  
+  $("#biome_input_container").delegate('.edit_icon', "click" , function() {
+    biome = $("i.edit_icon").eq(0).closest(".biome_match").find("label.checkbox").text();
+    populate_biome_popup( biome );
+  });
 
   $('#add_additional_biome_site').on('click', function(){
     // Mark all biomes as INACTIVE    

@@ -18,10 +18,15 @@ puts asdf
 
 for e in 0...@ecosystems.length
 #  if @ecosystems[e]["category"].to_s == "agroecosystems"
-    puts "#{@ecosystems[e]["name"]}"
+#    puts "#{@ecosystems[e]["name"]}"
+#      p @ecosystems[e]["name"].include?("marsh & swamp")
 #    p @ecosystems[e]["category"]
 #  end
 end 
+
+#p @ecosystems.class
+p @ecosystems.select {|k| k["name"] == "marsh & swamp"}
+#level_2_employees = infoHash["employee"].select {|k| k["level"] == 2}
 
 #@global_biome_savanna_num, @global_biome_peat_num, @global_biome_temperate_scrub_num = 2,3,5
 
