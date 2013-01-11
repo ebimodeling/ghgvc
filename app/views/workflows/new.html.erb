@@ -27,7 +27,7 @@
 
 
 <div id="ecosystem_json_store">
-<%= p @ecosystems.to_json %>
+<%= p @name_indexed_ecosystems.to_json %>
 </div>
 
 <div id="add_additional_biome_site" class="btn btn-large btn-primary">
@@ -39,15 +39,12 @@
 
 
 <% if true %>
-<div id="biome_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
+<div id="ecosystem_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
     <div class='lightbox-header'>
         <button type="button" class="close" data-dismiss="lightbox">&times;</button>
     </div>
     <div class='lightbox-content'>
-      <%= render :partial => "biome_data", :locals => { :biome_type => "Native" } %>
-      <%#= render :partial => "biome_data", :locals => { :biome_type => "Aggrading" } %>
-      <%#= render :partial => "biome_data", :locals => { :biome_type => "Agroecosystems" } %>
-      <%#= render :partial => "biome_data", :locals => { :biome_type => "Biofuels" } %>
+      <%= render :partial => "ecosystem_data_popup" %>
     </div>
 </div>
 <% end %>

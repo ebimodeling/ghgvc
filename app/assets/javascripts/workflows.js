@@ -167,7 +167,7 @@ function initalize_google_map(lat, lng, zoom){
           $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
             '<div class="biome_match">' +
               '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
             '</div>'
           ).parent().css("height", "auto");
         });
@@ -178,7 +178,7 @@ function initalize_google_map(lat, lng, zoom){
           $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
             '<div class="biome_match">' +
               '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
             '</div>'
           ).parent().css("height", "auto");
         });
@@ -189,7 +189,7 @@ function initalize_google_map(lat, lng, zoom){
           $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
             '<div class="biome_match">' +
               '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + v + 
-              '</input></label><a data-toggle="lightbox" href="#biome_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
             '</div>'
           ).parent().css("height", "auto");
         });
@@ -230,10 +230,11 @@ function initalize_google_map(lat, lng, zoom){
 }
 
 function populate_biome_popup( biome_name ){
-  $("#biome_popup").find(".lightbox-content").each(function(){
+  $("#ecosystem_popup").find(".lightbox-content").each(function(){
     $(this).find(".popup_heading").text( biome_name )
     ecosystems = $.parseJSON( $("#ecosystem_json_store").text() )
     console.log(biome_name);
+    console.log(ecosystems[biome_name]);
     // here I'd like to be able to do ecosystems["temperate forest"]
     
   })
@@ -264,6 +265,13 @@ function show_inactive_biome_checkboxes(){
 
 $(document).ready(function() {
   initalize_google_map();
+  
+  $("#popup_save_ecosystem_modifications").on('click', function(){
+    // get all fields / values
+    console.log( $('#ecosystem_edit').find('.popup_value_field') );
+    // convert them to JSON and write out into
+//    $('#ecosystem_json_store').text()
+  })
   
   $("#biome_input_container").delegate('.edit_icon', "click" , function() {
     biome = $("i.edit_icon").eq(0).closest(".biome_match").find("label.checkbox").text();

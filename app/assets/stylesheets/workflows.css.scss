@@ -14,12 +14,16 @@
   display: none;
 }
 
+#popup_save_ecosystem_modifications {
+  margin-top: 10px;
+}
+
 
 .biome_site_header {
   width: 300px;
 }
 
-#biome_popup {
+#ecosystem_popup {
   text-align: left;
 }
 
@@ -62,8 +66,8 @@ div[id|='biome_instance'] {
   }
 }
 
-#biome_popup {
-  div[id*='_biomes'] {
+#ecosystem_popup {
+  #ecosystem_edit {
     width: 900px;
   }
 }
@@ -99,12 +103,19 @@ div[class*='_biomes'] {
 
 
 #geo_refined_pft_accordion {
-  width: 700px;
+  width: 860px;
   margin: auto;
+  .popup_cite_dropdown {
+    width: 440px;
+  }
+  .popup_value_field {
+    width: 100px;
+  }
   a {
     color: #000;
     font-weight: bold;
     padding: 18px;
+    background-color: $green1;
     &:visited {
       color: #666;
     }

@@ -492,6 +492,7 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/name_indexed_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
 
 # This is where I'll open the Priors from the DB    

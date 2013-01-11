@@ -42,7 +42,8 @@ def convert_single_level_hash_to_xml( name, b )
 end
 
 # step through each entry of the name-indexed input hash
-#ex = '{"cars":{"domestic":"ford","foreign":"bugatti"},"motorcycles":{"domestic":"buell","foreign":"suzuki"}}'
+# and feed in a key like "cars" and the input hash {"domestic"=>"ford","foreign"=>"bugatti"}
+# ex = '{"cars"=>{"domestic"=>"ford","foreign"=>"bugatti"},"motorcycles"=>{"domestic"=>"buell","foreign"=>"suzuki"}}'
 @name_indexed_ecosystems.each do |key, value|
   file_string = ""
   file_string << convert_single_level_hash_to_xml( key, value )  
