@@ -41,14 +41,15 @@ def convert_single_level_hash_to_xml( name, b )
   xml_string << "</pft>\n"
 end
 
-# step through each entry of the name-indexed input hash
-# and feed in a key like "cars" and the input hash {"domestic"=>"ford","foreign"=>"bugatti"}
-# ex = '{"cars"=>{"domestic"=>"ford","foreign"=>"bugatti"},"motorcycles"=>{"domestic"=>"buell","foreign"=>"suzuki"}}'
-@name_indexed_ecosystems.each do |key, value|
-  file_string = ""
-  file_string << convert_single_level_hash_to_xml( key, value )  
-  File.open("config.xml", 'a') { |file| file.write( file_string ) }
-end
+## Fires off the XML converting process
+## Step through each entry of the name-indexed input hash
+## and feed in a key like "cars" and the input hash {"domestic"=>"ford","foreign"=>"bugatti"}
+## ex = '{"cars"=>{"domestic"=>"ford","foreign"=>"bugatti"},"motorcycles"=>{"domestic"=>"buell","foreign"=>"suzuki"}}'
+#@name_indexed_ecosystems.each do |key, value|
+#  file_string = ""
+#  file_string << convert_single_level_hash_to_xml( key, value )  
+#  File.open("config.xml", 'a') { |file| file.write( file_string ) }
+#end
 
 
 
@@ -130,7 +131,7 @@ puts asdf
 
 for e in 0...@ecosystems.length
 #  if @ecosystems[e]["category"].to_s == "agroecosystems"
-#    puts "#{@ecosystems[e]["name"]}"
+    puts "#{e} #{@ecosystems[e]["name"]}"
 #      p @ecosystems[e]["name"].include?("marsh & swamp")
 #    p @ecosystems[e]["category"]
 #  end

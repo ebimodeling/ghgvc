@@ -56,6 +56,9 @@ class WorkflowsController < ApplicationController
       @braz_sugarcane = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
       @braz_sugarcane_num = @braz_sugarcane.var("latent")[@braz_sugarcane_i,@braz_sugarcane_j,0,0][0]
       @braz_sugarcane.close()
+      
+      # Hacks for testing out saatchi dataset
+      @braz_saatchi_carbon = 10
     end
 
     #### Global biomes: ####
@@ -325,46 +328,61 @@ class WorkflowsController < ApplicationController
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/name_indexed_ecosystems.json" , "r" ).read )
 
-    @biome_data = {}
+
+
+
+    @biome_data = { "native_eco" => {},"agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
     if @biome_num <= 15
       ## Logic for vegtype ecosystems
       case @biome_num
         when 1
-          @biome_data["native"] = ["tropical peat forest", "tropical forest"]
+          @biome_data["native_eco"]["tropical_peat_forest"] = @name_indexed_ecosystems["tropical peat forest"]
+          @biome_data["native_eco"]["tropical_forest"] = @name_indexed_ecosystems["tropical forest"]
         when 2
-          @biome_data["native"] = ["tropical forest", "tropical savanna"]
+          @biome_data["native_eco"]["tropical_forest"] = @name_indexed_ecosystems["tropical forest"]
+          @biome_data["native_eco"]["tropical_savanna"] = @name_indexed_ecosystems["tropical savanna"]
         when 3, 4, 5
-          @biome_data["native"] = ["temperate forest"]
+          @biome_data["native_eco"]["temperate_forest"] = @name_indexed_ecosystems["temperate forest"]
         when 6, 7
-          @biome_data["native"] = ["northern peatland", "boreal forest"]
+          @biome_data["native_eco"]["northern_peatland"] = @name_indexed_ecosystems["northern peatland"]
+          @biome_data["native_eco"]["boreal_forest"] = @name_indexed_ecosystems["boreal forest"]
         when 8
-          @biome_data["native"] = ( @request_lat >= 50 ) ? ["boreal forest"]:["temperate forest"]
+          if @request_lat >= 50
+            @biome_data["native_eco"]["boreal_forest"] = @name_indexed_ecosystems["boreal forest"]
+          else 
+            @biome_data["native_eco"]["temperate_forest"] = @name_indexed_ecosystems["temperate forest"]
+          end
         when 9
           if @request_lat.abs >= 50
-            @biome_data["native"] = ["boreal forest"]
+            @biome_data["native_eco"]["boreal_forest"] = @name_indexed_ecosystems["boreal forest"]
           elsif @request_lat.abs > 23.26 && @request_lat.abs <= 50
-            @biome_data["native"] = ["temperate grassland", "temperate scrub/woodland", "temperate forest"]          
-          elsif @request_lat.abs <= 223.26
-            @biome_data["native"] = ["tropical savanna"]        
+            @biome_data["native_eco"]["temperate_grassland"] = @name_indexed_ecosystems["temperate grassland"]
+            @biome_data["native_eco"]["temperate_scrub/woodland"] = @name_indexed_ecosystems["temperate scrub/woodland"]
+            @biome_data["native_eco"]["temperate_forest"] = @name_indexed_ecosystems["temperate forest"]
+          elsif @request_lat.abs <= 23.26
+            @biome_data["native_eco"]["tropical_savanna"] = @name_indexed_ecosystems["tropical savanna"]
           end
         when 10
-          @biome_data["native"] = ["temperate grassland"]
+          @biome_data["native_eco"]["temperate_grassland"] = @name_indexed_ecosystems["temperate grassland"]
         when 11
-          @biome_data["native"] = ( @request_lat <= 5 ) ? ["temperate scrub/woodland"]:nil
-        when 12
-          @biome_data["native"] = ["desert"]
+          if @request_lat <= 5
+            @biome_data["native_eco"]["temperate_scrub/woodland"] = @name_indexed_ecosystems["temperate scrub/woodland"]
+          end
+        when 12, 14
+          @biome_data["native_eco"]["desert"] = @name_indexed_ecosystems["desert"]
         when 13, 15
-          @biome_data["native"] = ["tundra"]
-        when 14
-          @biome_data["native"] = ["desert [No Vegitation]"]
+          @biome_data["native_eco"]["tundra"] = @name_indexed_ecosystems["tundra"]
+#        when 14
+#          @biome_data["native_eco"] = ["desert [No Vegitation]"]
       end
     end
 
-    @biofuel_names = []
-    @agroecosystem_names = []
-    @native_names = []
-    @aggrading_names = []
+#    @biofuel_names = []
+#    @agroecosystem_names = []
+#    @native_names = []
+#    @aggrading_names = []
     
     
 
@@ -375,33 +393,33 @@ class WorkflowsController < ApplicationController
 ############ Here we set the threshold levels ############
    
 ###    NATIVE
-    if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0.01
-      @native_names << "temperate grassland"
-    end
-    if @global_biome_peat_num != nil && @global_biome_peat_num > 0.01
-      @native_names << "tropical peat forest"
-    end
-    if @global_biome_marsh_num != nil && @global_biome_marsh_num > 0.01
-      @native_names << "marsh & swamp"
-    end
-    if @global_biome_temperate_forest_num != nil && @global_biome_temperate_forest_num > 0.01
-      @native_names << "temperate forest"
-    end
-    if @global_biome_boreal_num != nil && @global_biome_boreal_num > 0.01
-      @native_names << "boreal forest"
-    end
-    if @global_biome_temperate_scrub_num != nil && @global_biome_temperate_scrub_num > 0.01
-      @native_names << "temperate scrub"
-    end
-    if @global_biome_savanna_num != nil && @global_biome_savanna_num > 0.01
-      @native_names << "savanna"
-    end
-    if @global_biome_desert_num != nil && @global_biome_desert_num > 0.01
-      @native_names << "desert"
-    end
-    if @global_biome_tundra_num != nil && @global_biome_tundra_num > 0.01
-      @native_names << "tundra"
-    end
+#    if @global_biome_temperate_grassland_num != nil && @global_biome_temperate_grassland_num > 0.01
+#      @native_names << "temperate grassland"
+#    end
+#    if @global_biome_peat_num != nil && @global_biome_peat_num > 0.01
+#      @native_names << "tropical peat forest"
+#    end
+#    if @global_biome_marsh_num != nil && @global_biome_marsh_num > 0.01
+#      @native_names << "marsh & swamp"
+#    end
+#    if @global_biome_temperate_forest_num != nil && @global_biome_temperate_forest_num > 0.01
+#      @native_names << "temperate forest"
+#    end
+#    if @global_biome_boreal_num != nil && @global_biome_boreal_num > 0.01
+#      @native_names << "boreal forest"
+#    end
+#    if @global_biome_temperate_scrub_num != nil && @global_biome_temperate_scrub_num > 0.01
+#      @native_names << "temperate scrub"
+#    end
+#    if @global_biome_savanna_num != nil && @global_biome_savanna_num > 0.01
+#      @native_names << "savanna"
+#    end
+#    if @global_biome_desert_num != nil && @global_biome_desert_num > 0.01
+#      @native_names << "desert"
+#    end
+#    if @global_biome_tundra_num != nil && @global_biome_tundra_num > 0.01
+#      @native_names << "tundra"
+#    end
 
 
 
@@ -413,24 +431,55 @@ class WorkflowsController < ApplicationController
 #wetland rice
 
     if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
-      @agroecosystem_names << "spring wheat"
+      @biome_data["agroecosystem_eco"]["springwheat"] = @name_indexed_ecosystems["switchgrass"]
     end
       # should include spring wheat in the JSON:
       # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
     if @global_pasture_num != nil &&  @global_pasture_num > 0.01
       if @request_lat.abs < 23.26
-        @agroecosystem_names << "tropical pasture"
+#        @agroecosystem_eco_names << "tropical pasture"
+        @biome_data["agroecosystem_eco"]["tropical_pasture"] = @name_indexed_ecosystems["tropical pasture"]
       else
-        @agroecosystem_names << "temperate pasture"
+#        @agroecosystem_eco_names << "temperate pasture"
+        @biome_data["agroecosystem_eco"]["temperate_pasture"] = @name_indexed_ecosystems["temperate pasture"]
       end
     end
     if @global_cropland_num != nil && @global_cropland_num > 0.01
       if @request_lat.abs < 23.26
-        @agroecosystem_names << "tropical cropland"
+#        @agroecosystem_eco_names << "tropical cropland"
+        @biome_data["agroecosystem_eco"]["tropical_cropland"] = @name_indexed_ecosystems["tropical cropland"]
       else
-        @agroecosystem_names << "temperate cropland"
+#        @agroecosystem_eco_names << "temperate cropland"
+        @biome_data["agroecosystem_eco"]["temperate_cropland"] = @name_indexed_ecosystems["temperate cropland"]
       end
     end
+
+
+#0 tropical peat forest
+#1 tropical forest
+#2 northern peatland
+#3 marsh & swamp
+#4 temperate forest
+#5 aggrading temperate non-forest
+#6 boreal forest
+#7 aggrading tropical non-forest
+#8 aggrading boreal forest
+#9 switchgrass
+#10 temperate grassland
+#11 aggrading tropical forest
+#12 temperate scrub/woodland
+#13 tropical savanna
+#14 desert
+#15 tundra
+#16 tropical pasture
+#17 temperate pasture
+#18 tropical cropland
+#19 temperate cropland
+#20 wetland rice
+#21 miscanthus
+#22 aggrading temperate forest
+#23 US corn
+#24 US soy
 
 
 ###   BIOFUELS
@@ -439,25 +488,37 @@ class WorkflowsController < ApplicationController
 #US corn
 #US soy
     if @us_corn_num != nil && @us_corn_num > 0.01
-      @biofuel_names << "corn"
-      @agroecosystem_names << "corn"
+#      @biofuel_names << "corn"
+      @biome_data["biofuel_eco"]["US corn"] = @name_indexed_ecosystems["US corn"]
+#      @agroecosystem_eco_names << "corn"
+      @biome_data["agroecosystem_eco"]["US corn"] = @name_indexed_ecosystems["US corn"]
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
-      @biofuel_names << "soybean"
-      @agroecosystem_names << "soybean"
+#      @biofuel_names << "soybean"
+      @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
+#      @agroecosystem_eco_names << "soybean"
+      @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01
-      @biofuel_names << "sugarcane"
-      @agroecosystem_names << "sugarcane"
+#      @biofuel_names << "sugarcane"
+      @biome_data["biofuel_eco"]["sugarcane"] = @name_indexed_ecosystems["sugarcane"]
+#      @agroecosystem_eco_names << "sugarcane"
+      @biome_data["agroecosystem_eco"]["sugarcane"] = @name_indexed_ecosystems["sugarcane"]
     end
     
+    if @braz_saatchi_carbon
+#      @native_names << '{{"Anderson-Teixeira and DeLucia (2011)"=>"400","Saatchi and others (2011)"=>"800"},"OM_root"=>"108"}'
+    end
     # should include corn in the JSON:
     # http://localhost:3000/get_biome.json?lng=-95.25&lat=44.25
     # should NOT include corn in the JSON:
     # http://localhost:3000/get_biome.json?lng=-71.25&lat=33.75
     
-    if @braz_sugarcane_num != nil && @braz_sugarcane_num < 110
-      @biofuel_names << "brazil sugarcane"
+    if @braz_sugarcane_num != nil && @braz_sugarcane_num < 0.01
+#      @biofuel_names << "brazil sugarcane"
+      @biome_data["biofuel"]["BRAZ sugarcane"] = @name_indexed_ecosystems["sugarcane"]
+#      @agroecosystem_eco_names << "brazil sugarcane"
+      @biome_data["agroecosystem_eco"]["BRAZ sugarcane"] = @name_indexed_ecosystems["sugarcane"]
     end
     
 
@@ -471,10 +532,10 @@ class WorkflowsController < ApplicationController
     
     
     #@biome_data["biomes"]         = { "name"=> @biofuel_names.join(",") }
-    @biome_data["biofuels"]       = { "name"=> @biofuel_names.join(",") }
-    @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
+#    @biome_data["biofuels"]       = { "name"=> @biofuel_names.join(",") }
+#    @biome_data["agroecosystems"] = { "name"=> @agroecosystem_names.join(",") }
 #    @biome_data["native"]         = { "name"=> @native_names.join(",") }
-    @biome_data["aggrading"]      = { "name"=> @aggrading_names.join(",") }
+#    @biome_data["aggrading"]      = { "name"=> @aggrading_names.join(",") }
     
 
     respond_to do |format|
