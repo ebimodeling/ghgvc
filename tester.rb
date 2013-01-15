@@ -6,7 +6,7 @@ require 'cobravsmongoose'
 @ecosystems = JSON.parse( File.open( "data/default_ecosystems.json" , "r" ).read )
 @name_indexed_ecosystems = JSON.parse( File.open( "data/name_indexed_ecosystems.json" , "r" ).read )
 
-ex_hash = @name_indexed_ecosystems
+p @name_indexed_ecosystems["BR Sugarcane"]
 
 
 
