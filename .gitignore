@@ -16,7 +16,7 @@ doc/
 .DS_Store
 .idea
 
-config/database.yml
+/config/database.yml
 
 netcdf/Saatchi.zip
 netcdf/GlobalEcofloristicZones_ncFiles.zip

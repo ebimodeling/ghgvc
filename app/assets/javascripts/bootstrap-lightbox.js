@@ -254,7 +254,8 @@
 			that.$element.css({
 				"position": "fixed",
 				"left": ( $(window).width()  / 2 ) - ( that.w / 2 ),
-				"top":  ( $(window).height() / 2 ) - ( that.h / 2 ) - resizedOffs
+//				"top":  ( $(window).height() / 2 ) - ( that.h / 2 ) - resizedOffs
+// Commented out for our uses ^
 			});
 			that.enforceFocus();
 		},
@@ -284,7 +285,7 @@
 			that.$element.css({
 				"position": "fixed",
 				"left": ( $(window).width()  / 2 ) - ( that.w / 2 ),
-				"top":  ( $(window).height() / 2 ) - ( that.h / 2 )
+//				"top":  ( $(window).height() / 2 ) - ( that.h / 2 )
 			});
 		}
 	}

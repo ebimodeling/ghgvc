@@ -14,6 +14,10 @@
   display: none;
 }
 
+#current_ecosystem_store {
+  display: none;
+}
+
 #popup_save_ecosystem_modifications {
   margin-top: 10px;
 }
@@ -39,6 +43,10 @@
   div[class*='_biomes']{
     height: auto;
   }
+}
+
+.table {
+  margin-bottom: 0;
 }
 
 .collapsed {
@@ -85,7 +93,7 @@ div[class*='_biomes'] {
   }
   .biome_list {
     label {
-      margin-right: 10px;
+      margin-right: 5px;
     }
     a {
       width: 20px;
@@ -106,7 +114,7 @@ div[class*='_biomes'] {
   width: 860px;
   margin: auto;
   .popup_cite_dropdown {
-    width: 440px;
+    width: 340px;
   }
   .popup_value_field {
     width: 100px;

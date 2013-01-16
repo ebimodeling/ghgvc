@@ -1,11 +1,11 @@
-id_seed = 0;
-function generate_id() { return id_seed++ };
+var id_seed = 0;
+function generate_id() { return id_seed++; };
 
-function remove_google_maps_pin(biome_site_id){
+function remove_google_maps_pin( biome_site_id ) {
   if ( markersArray[biome_site_id] != undefined ) { markersArray[biome_site_id].setMap(null) };
 };
 
-function activate_biome_location ( obj ){
+function activate_biome_location( obj ){
     $('#biome_input_container').find('div.well').addClass('inactive_site');
     
     hide_inactive_biome_checkboxes();
@@ -18,7 +18,10 @@ function activate_biome_location ( obj ){
     obj.prependTo("#biome_input_container")
 };
 
-function place_google_maps_pin( lat, lng, biome_site_id ){
+
+// Called everytime a user clicks on google maps
+// Handles whether to keep a given marker at a lat/lng or remove it
+function place_google_maps_pin( lat, lng, biome_site_id ) {
   // remove any markers tied to a biome_site_id
   remove_google_maps_pin(biome_site_id);
 
@@ -34,6 +37,66 @@ function place_google_maps_pin( lat, lng, biome_site_id ){
   
   return marker
 };
+
+function populate_html_from_latlng( lat, lng ){
+
+  $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
+    // find the first div#biome_instance without .inactive_site ... and grab the id number
+    var active_biome_site = $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
+
+//    console.log( data );
+//    console.log(data["native_eco"]);
+//    console.log(data["agroecosystem_eco"]);
+//    console.log(data["aggrading_eco"]);
+//    console.log(data["biofuel_eco"]);
+    
+    $('#biome_instance-'+active_biome_site).prepend(
+      '<div class="json_store" style="display:none">' + JSON.stringify(data) + '</div>' // stringify will work with IE8 +
+    )
+    
+    marker = place_google_maps_pin( lat, lng, active_biome_site );
+    marker.setMap(map); // To add the marker to the map, call setMap();
+
+    // Tag the site w the given lat and lng
+    $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lng.toFixed(2) + " )");
+    
+    if ( data.native_eco != null ) {
+      $.each( data.native_eco, function(k,v){
+        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
+          '<div class="biome_match">' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + 
+            '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+          '</div>'
+        ).parent().css("height", "auto");
+      });
+    };
+    
+    if ( data.biofuel_eco != null ) {
+      $.each( data.biofuel_eco, function(k,v){
+        $('div.well:not(.inactive_site)').find('.biofuel_biomes').find('.biome_list').append(
+          '<div class="biome_match">' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + 
+            '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+          '</div>'
+        ).parent().css("height", "auto");
+      });
+    };
+    
+    if ( data.agroecosystem != null ) {
+      $.each( data.agroecosystem_eco, function(k,v){ 
+        $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
+          '<div class="biome_match">' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + 
+            '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
+          '</div>'
+        ).parent().css("height", "auto");
+      });
+    };
+   
+
+  });
+};
+
 
 function initalize_google_map(lat, lng, zoom){
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
@@ -117,7 +180,7 @@ function initalize_google_map(lat, lng, zoom){
 
   // Limit the zoom level
   google.maps.event.addListener(map, 'zoom_changed', function() {
-   if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+    if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
   });
   
   markersArray = [];
@@ -128,134 +191,100 @@ function initalize_google_map(lat, lng, zoom){
 
     var radius = $('#radius').val();
     var lat = event.latLng.lat();
-    var lon = event.latLng.lng();
-
-    var latOffset = radius/(69.1);
-    var lonOffset = radius/(53.0);
+    var lng = event.latLng.lng();
 
     // clear out existing biome matches
     $('#biome_input_container').find('div.well:not(.inactive_site)').find('div[class*="_biomes"]').find('.biome_list').html("");
     
-    // Ajax post to get the biome number
-    $.get("/get_biome", { lng: Math.round(lon), lat: Math.round(lat) }, function(data) {     
-      
-      var active_biome_site = $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
-      
-//      console.log( "active site id: " + active_biome_site );
-      
-      marker = place_google_maps_pin( lat, lon, active_biome_site );
-      marker.setMap(map); // To add the marker to the map, call setMap();
-      
-//      console.log(data["native"]);
-//      console.log(data["agroecosystem"]);
-//      console.log(data["aggrading"]);
-//      console.log(data["biofuel"]);
-      
-      // Tag the site w the given lat and lng
-      $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lon.toFixed(2) + " )");
-      
-      
-      
-//      if (data["biomes"] != undefined ) {
-//        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-//          '<label class="checkbox"><input type="checkbox">' + data["native"].name + '</input></label>'
-//        ).parent().css("height", "auto");
-//      };
-      
-      if ( data.native_eco != null ) {
-        $.each( data.native_eco, function(k,v){
-          $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-            '<div class="biome_match">' +
-              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k + 
-              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
-            '</div>'
-          ).parent().css("height", "auto");
+    // Gets JSON data with all ecosystems within a given location
+//    http://localhost:3000/get_biome.json?lng=&lat=
+
+    populate_html_from_latlng( lat, lng );
+    
+//    $.get("/get_biome", { lng: -4.978971, lat: 39.16113 }, function(data) {  // for offline testing
+  });
+};
+
+// This function swaps out the abbreviated data source names
+// for the full names: "s000" = "Anderson-Teixeira and DeLucia (2011)" 
+// Expecting input formatted as:
+// {"s000":234,"s001":9992}
+function populate_fullname_in_data_source( csep_value ) {
+
+  $.each( csep_value, function( sources_key, sources_value) {
+    switch ( sources_key ) { 
+      case "s000": 
+        csep_value["Anderson-Teixeira and DeLucia (2011)"] = sources_value;
+        delete csep_value.s000
+        break;
+      case "s001": 
+        csep_value["Saatchi and others (2011)"] = sources_value;
+        delete csep_value.s001
+        break; 
+    }
+  });
+  return csep_value;
+};
+
+function populate_biome_popup( site_id, biome_type, biome_name ) {
+  $("#ecosystem_popup").find(".lightbox-content").each(function() {
+    $(this).find(".popup_heading").text( biome_name.replace("_", " ") )
+
+    // get the ecosystems from that biome_instance
+    var ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() )    
+    
+    // then spool through entries to populate the CSEPs
+
+   
+    // with all data sources ( EX: "s001" )
+    var current_ecosystem = ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+
+    // For the current_ecosystem ( EX: "miscanthus" )
+    $.each( current_ecosystem, function( csep_key, csep_value ){
+      // Find the row corresponding to a CSEP value ( EX: "OM_ag")
+      $.each( $('#ecosystem_edit').find('tr#' + csep_key), function(){
+        var csep_row = $(this)
+        
+        // Since we've got place holders for the source names such as "s000"
+        // Instead of the desired "Anderson-Teixeira and DeLucia (2011)"
+        csep_value = populate_fullname_in_data_source(csep_value)
+
+        // Add in a custom dropdown option for users to add their own inputs
+        csep_value['custom'] = 'custom'
+
+        // Finally the value of each CSEP is a hash
+        // which contains multiple data sources
+        // loop through those sources and place them within the dropdown
+        $.each( csep_value, function( sources_key, sources_value) {
+          csep_row.find('.popup_cite_dropdown').append( $("<option></option>").attr("value", sources_value).text(sources_key) );
         });
-      };
-      
-      if ( data.biofuel_eco != null ) {
-        $.each( data.biofuel_eco, function(k,v){
-          $('div.well:not(.inactive_site)').find('.biofuels_biomes').find('.biome_list').append(
-            '<div class="biome_match">' +
-              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k + 
-              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
-            '</div>'
-          ).parent().css("height", "auto");
-        });
-      };
-      
-      if ( data.agroecosystem != null ) {
-        $.each( data.agroecosystem_eco, function(k,v){ 
-          $('div.well:not(.inactive_site)').find('.agroecosystems_biomes').find('.biome_list').append(
-            '<div class="biome_match">' +
-              '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k + 
-              '</input></label><a data-toggle="lightbox" href="#ecosystem_popup"><i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i></a>' + 
-            '</div>'
-          ).parent().css("height", "auto");
-        });
-      };
-      
+        
+        // Set the associated field to the default value
+        $(this).find('.popup_value_field').val(csep_value["Anderson-Teixeira and DeLucia (2011)"])
+      });
+    
     });
 
+      
 
-    console.log("lon: " + lon + " lat: " + lat );
-    //console.log("TopLeftCoord:     " + (lat + latOffset) + ", " + (lon + lonOffset) );
-    //console.log("BottomRightCoord: " + (lat - latOffset) + ", " + (lon - lonOffset) );
-
-    // 5 points are used to create a square
-    // 4 corners and then a 5th point at the
-    // exact coords of the first completing the shape
-    var paths = [
-       new google.maps.LatLng(lat + latOffset, lon + lonOffset), // top right
-       new google.maps.LatLng(lat - latOffset, lon + lonOffset), // bottom right
-       new google.maps.LatLng(lat - latOffset, lon - lonOffset), // bottom left
-       new google.maps.LatLng(lat + latOffset, lon - lonOffset), // top left
-       new google.maps.LatLng(lat + latOffset, lon + lonOffset)  // top right
-    ];
-
-    // Sends out the square object to google maps to be drawn
-    //overlay.push( new google.maps.Polygon({
-    //  paths: paths,
-    //  strokeColor: "#ff0000",
-    //  strokeWeight: 0,
-    //  strokeOpacity: 1,
-    //  fillColor: "#ff0000",
-    //  fillOpacity: 0.2,
-    //  clickable: false,
-    //  map: map
-    //}))
-
-  });
-  
-}
-
-function populate_biome_popup( biome_name ){
-  $("#ecosystem_popup").find(".lightbox-content").each(function(){
-    $(this).find(".popup_heading").text( biome_name )
-    ecosystems = $.parseJSON( $("#ecosystem_json_store").text() )
-    console.log(biome_name);
-    console.log(ecosystems[biome_name]);
-    // here I'd like to be able to do ecosystems["temperate forest"]
-    
   })
 }
 
 function open_previous_biome_site(){
-  console.log('opening previous site');
   $('#biome_input_container').find('div.well').first().removeClass('inactive_site');
 };
 
 function hide_inactive_biome_checkboxes(){
-  $('#biome_input_container').find('div.well').find('label.checkbox').each(function(){
-    if ( $(this).find('input').is(':checked') == false ){
+  $('#biome_input_container').find('div.well').find('label.checkbox').each( function() {
+    if ( $(this).find('input').is(':checked') == false ) {
       $(this).hide();
     }
   });
 };
 
 function show_inactive_biome_checkboxes(){
-  $('#biome_input_container').find('div.well').find('label.checkbox').each(function(){
-    if ( $(this).find('input') ){
+  $('#biome_input_container').find('div.well').find('label.checkbox').each( function() {
+    if ( $(this).find('input') ) {
       $(this).show();
     }
   });
@@ -266,7 +295,18 @@ function show_inactive_biome_checkboxes(){
 $(document).ready(function() {
   initalize_google_map();
   
-  $("#popup_save_ecosystem_modifications").on('click', function(){
+  $('.popup_cite_dropdown').change( function() {
+    // Assign the selected value in the drop down, to the subling input box
+    $(this).parentsUntil('tbody').find('.popup_value_field').val( $(this).val() )
+  });
+  $('.popup_value_field').on('click', function() {
+    // Assign the selected value in the drop down, to the subling input box
+    $(this).parentsUntil('tbody').find('.popup_cite_dropdown').val("custom")
+  });
+  
+  
+  
+  $("#popup_save_ecosystem_modifications").on('click', function() {
     // get all fields / values
     console.log( $('#ecosystem_edit').find('.popup_value_field') );
     // convert them to JSON and write out into
@@ -274,11 +314,13 @@ $(document).ready(function() {
   })
   
   $("#biome_input_container").delegate('.edit_icon', "click" , function() {
-    biome = $("i.edit_icon").eq(0).closest(".biome_match").find("label.checkbox").text();
-    populate_biome_popup( biome );
+    var site_id = $(this).closest('[id]|="biome_instance"').attr("id").split("-")[1]
+    var biome_name = $(this).closest(".biome_match").find("label.checkbox").text();
+    var biome_type = $(this).closest("[class*='_biomes']").attr("class").split(" ")[0].split("_")[0]
+    populate_biome_popup( site_id, biome_type, biome_name );
   });
 
-  $('#add_additional_biome_site').on('click', function(){
+  $('#add_additional_biome_site').on('click', function() {
     // Mark all biomes as INACTIVE    
     $('#biome_input_container').find('div.well').addClass('inactive_site');
 
@@ -291,8 +333,8 @@ $(document).ready(function() {
       '  </div>' + '  <br />' + '<hr/>' +
       '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="agroecosystems_biomes inline-block">' + '    <b>Agroecosystems:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="biofuels_biomes inline-block">' + '    <b>Biofuels:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="agroecosystem_biomes inline-block">' + '    <b>Agroecosystem:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+      '  <div class="biofuel_biomes inline-block">' + '    <b>Biofuel:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
       '</div>'
     ).delegate(".remove_biome_site", "click", function() {
       remove_google_maps_pin( $(this).parent().attr('id').split('-').pop() );

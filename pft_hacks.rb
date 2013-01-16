@@ -10,13 +10,23 @@ asdf = @ecosystems[0]
 #})
 
 
+#  <td> <%= select_tag("OM_ag", options_for_select( [] , '1'), :class => 'popup_cite_dropdown' ) %> </td>
+#  <td> <%= text_field :ecosystem, "OM_ag", :value => @ecosystem["OM_ag"].to_f, :class => 'popup_value_field' %> </td>
 
-asdf.each {|key, value| puts "
-  <div class='field'>
-    <%= f.label :#{key} %><br />
-    <%= f.number_field :#{key}, :value => @ecosystem[\'#{key}\'] %>
-  </div>
-" }
+
+#asdf.each {|key, value| puts "
+#  <div class='field'>
+#    <%= f.label :#{key} %><br />
+#    <%= f.number_field :#{key}, :value => @ecosystem[\'#{key}\'] %>
+#  </div>
+#" }
+
+#asdf.each {|key, value| puts "
+#  <td> <%= select_tag(\"#{key}\", options_for_select([], \"1\"), :class => \"popup_cite_dropdown\" ) %> </td>
+#  <td> <%= text_field :ecosystem,\"#{key}\", :value => @ecosystem[\"#{key}\"].to_f, :class => \"popup_cite_dropdown\" %> </td>
+#" }
+
+asdf.each {|key, value| puts key }
 
 #for e in 0...@ecosystems[0].length
 ##  if @ecosystems[e]["category"].to_s == "agroecosystems"
