@@ -25,11 +25,19 @@ require 'cobravsmongoose'
 #b.each do |key, value|
 #  puts key #= {}
   value.each do |eco_sys_key, eco_sys_value|
-    puts "#{eco_sys_key} .. and #{eco_sys_value}"
+    value[eco_sys_key] = {"s001" => eco_sys_value}
   end
 end
 
+@name_indexed_ecosystems.each do |key, value|
+#b.each do |key, value|
+#  puts key #= {}
+  value.each do |eco_sys_key, eco_sys_value|
+    p eco_sys_value
+  end
+end
 
+File.open("data/final_ecosystems.json", 'w') { |file| file.write( @name_indexed_ecosystems.to_json ) }
 
 
 #puts "############"
