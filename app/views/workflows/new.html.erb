@@ -8,18 +8,6 @@
 
 <div id="geo_refined_input">
   <div id="map_canvas"></div>
-  <% if false %>
-  <h3 class="center, inline-block">Sites within a </h3>
-  <select id="radius" class="center, inline-block">
-    <option value="20">20</option>
-    <option value="40">40</option>
-    <option value="60">60</option>
-    <option value="80">80</option>
-    <option value="100">100</option>
-    <option value="200" selected >200</option>
-  </select>
-  <h3 class="center, inline-block"> mi² area</h3>
-  <% end %>
 </div>
 
 <!-- https://developers.google.com/maps/documentation/javascript/maptypes -->
@@ -41,7 +29,7 @@
 <% if true %>
 <div id="ecosystem_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
     <div class='lightbox-header'>
-        <button type="button" class="close" data-dismiss="lightbox">&times;</button>
+        <button id="hidden_close_button" type="button" class="close" data-dismiss="lightbox">&times;</button>
     </div>
     <div class='lightbox-content'>
       <%= render :partial => "ecosystem_data_popup" %>

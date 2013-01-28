@@ -10,7 +10,7 @@
   margin: auto;
 }
 
-#ecosystem_json_store {
+.json_store, .json_final {
   display: none;
 }
 
@@ -18,8 +18,8 @@
   display: none;
 }
 
-#popup_save_ecosystem_modifications {
-  margin-top: 10px;
+#popup_save_ecosystem_modifications, #popup_discard_ecosystem_modifications {
+  margin: 20px 0px 0px 150px;
 }
 
 
@@ -59,6 +59,7 @@ hr {
 
 .remove_biome_site {
   margin-left: 5px;
+  z-index: 10;
 }
 
 div[id|='biome_instance'] {
@@ -75,8 +76,24 @@ div[id|='biome_instance'] {
 }
 
 #ecosystem_popup {
+  #hidden_close_button {
+    display:none;
+  }
   #ecosystem_edit {
     width: 900px;
+    /* allows the tables to scroll */
+    thead {
+      display:block;
+      height: 30px;
+      
+    }
+    /* allows the tables to scroll */
+    tbody {
+      height: 200px; 
+      overflow:auto; 
+      display:block;
+    }
+    
   }
 }
 

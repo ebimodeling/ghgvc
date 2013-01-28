@@ -440,7 +440,7 @@ class WorkflowsController < ApplicationController
 
 
 
-    @biome_data = { "native_eco" => {},"agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
+    @biome_data = { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
     if @biome_num <= 15
       ## Logic for vegtype ecosystems
       case @biome_num
