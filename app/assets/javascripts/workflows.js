@@ -380,6 +380,8 @@ $(document).ready(function() {
     
     $.each( ecosystem , function(k,v){
       // find associated CSEP value and store whats in the .popup_value_field
+      
+      // if the CSEP has a custom value
       ecosystem[k] = $("#ecosystem_" + k).val();      
     });
 
