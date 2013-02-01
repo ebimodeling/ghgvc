@@ -48,54 +48,51 @@ function populate_html_from_latlng( lat, lng ) {
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
     var active_biome_site = get_active_site_number();
 
-  $('#biome_instance-' + active_biome_site ).prepend( // used for inputs into popups
+  $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
     '<div class="json_store">' + 
       JSON.stringify(data) + // stringify will work with IE8
     '</div>'
   );
 
-//    console.log( data );
-//    console.log(data["native_eco"]);
-//    console.log(data["agroecosystem_eco"]);
-//    console.log(data["aggrading_eco"]);
-//    console.log(data["biofuel_eco"]);
-
-    // In the future I might need to _.clone the object ( http://underscorejs.org/docs/underscore.html#section-78 )
-    // but for right now I can write the original object ( with ALL CSEP values ) to the DOM
-    // and then the second object ( with only the default values )
     var data_defaults = data;
-    
+
     // write default values to all CSEPs
     if ( data_defaults.native_eco != null ) {
       $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = csep_v.s000;
+          data_defaults.native_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
         });
       });
     };
     if ( data_defaults.agroecosystem_eco != null ) {
       $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = csep_v.s000;
+          data_defaults.agroecosystem_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
         });
       })
     };
     if ( data_defaults.aggrading_eco != null ) {
       $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.aggrading_eco[k][csep_k] = csep_v.s000;
+          data_defaults.aggrading_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
         });
       });
     };  
     if ( data_defaults.biofuel_eco != null ) {
      $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.biofuel_eco[k][csep_k] = csep_v.s000;
+          data_defaults.biofuel_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
         });
       });
     };
-    
-    $('#biome_instance-' + active_biome_site ).append( // used for inputs into the ghgvcR code
+
+
+
+    $('#biome_instance-' + active_biome_site ).append( // used to store the values the user has selected
+      '<div class="json_saved">' + 
+        JSON.stringify(data_defaults) + // stringify will work with IE8
+      '</div>'
+    ).append( // used for inputs into the ghgvcR code
       '<div class="json_final">' + 
         JSON.stringify(data_defaults) +
       '</div>'
@@ -157,7 +154,6 @@ function populate_html_from_latlng( lat, lng ) {
 
 function initalize_google_map(lat, lng, zoom) {
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
-  console.log('initalize_google_map: '+ type);
 
   var minZoomLevel = 2;
   var geocoder;
@@ -278,12 +274,12 @@ function populate_fullname_in_data_source( csep_value ) {
   return csep_value;
 };
 
-function populate_biome_popup( site_id, biome_type, biome_name ) {
+function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
     $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace("_", " ") );
 
     // get the ecosystems from that biome_instance
-    var ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
+    var ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
 
     // with all data sources ( EX: "s001" )
     var current_ecosystem = ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
@@ -301,31 +297,56 @@ function populate_biome_popup( site_id, biome_type, biome_name ) {
         // Instead of the desired "Anderson-Teixeira and DeLucia (2011)"
         csep_value = populate_fullname_in_data_source(csep_value);
 
-        // Add in a custom dropdown option for users to add their own inputs
-        // But if the CSEP already has one ... use that as the default
+        // if a custom field doesn't exist ... add it in
         if ( csep_value['custom'] == null ) {
           csep_value['custom'] = 'custom';
-        } else {
-          
-        }
+        };
 
         // Finally the value of each CSEP is a hash
         // which contains multiple data sources
         // loop through those sources and place them within the dropdown
-        $.each( csep_value, function( sources_key, sources_value) {
+        $.each( csep_value, function( sources_key, sources_value ) {
+          // populate in the saved values, or default values from json_saved
+          // place in the other options from json_store
           csep_row.find('.popup_cite_dropdown').append( $("<option></option>").attr("value", sources_value).text(sources_key) );
         });
         
-        // Set the associated field to the default value
-        $(this).find('.popup_value_field').val(csep_value["Anderson-Teixeira and DeLucia (2011)"]);
       });
+    });
     
+    // At this point all values are populated in
+    // Next we need to display the values the user has selected ( the values that are present in the .json_saved )
+    // ... which could be default values, or those that the user has saved )
+    
+    var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
+    var user_saved_current_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+    
+    console.log("shoving this in: ");
+    console.log(user_saved_current_ecosystem);
+    
+    $.each( user_saved_current_ecosystem, function( csep_key, csep_value ) {
+      // Find the row corresponding to a CSEP value ( EX: "OM_ag")
+      $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
+        var csep_row = $(this);
+
+        // Each CSEP will have a value saved in the users json_saved
+        // So we iterate through the json_saved
+        // And set the dropdown for that CSEP to the value in json_saved
+        
+        // Create a array with the single K and V from the CSEP within .json_saved
+        // then select the "key" or Array[0] to feed into the selected value below
+
+        $.each(csep_value, function (index, value) {
+          saved_csep_values = [index, value];
+        });
+        csep_row.find( csep_key + '-source').val( saved_csep_values[0] ); // the 0 index will contain the source 
+        csep_row.find('#ecosystem_' + csep_key ).val( saved_csep_values[1] ); // the 0 index will contain the source         
+        
+      });
     });
 
-      
-
-  })
-}
+  });
+};
 
 function open_previous_biome_site() {
   $('#biome_input_container').find('div.well').first().removeClass('inactive_site');
@@ -353,7 +374,7 @@ $(document).ready(function() {
     // Assign the selected value in the drop down, to the subling input box
     $(this).parentsUntil('tbody').find('.popup_value_field').val( $(this).val() );
   });
-  $('.popup_value_field').on('click', function() {
+  $('.popup_value_field').on('focus', function() {
     // Assign the selected value in the drop down, to the subling input box
     $(this).parentsUntil('tbody').find('.popup_cite_dropdown').val("custom");
   });
@@ -365,28 +386,33 @@ $(document).ready(function() {
     var ecosystem_type_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[0] + "_eco";
     var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(" ","_");    
     var active_site_num = get_active_site_number();
-    var all_ecosystems_at_site = $.parseJSON( $('#biome_instance-' + active_site_num ).find('.json_final').text() );
+    var all_ecosystems_at_site = $.parseJSON( $('#biome_instance-' + active_site_num ).find('.json_saved').text() );
 
     var ecosystem = all_ecosystems_at_site[ecosystem_type_being_saved][ecosystem_being_saved]
-    
-    // check the state of the drop downs ... if custom .. write that into the .json_store
-    
-    
+
     // while in the popup
     // discard custom values... if the ecosystem is saved with one of the default values
     
     // then when populating the edit_popup ... if a ['custom'] exists .. use it as the default
+
     
-    
-    $.each( ecosystem , function(k,v){
+    $.each( ecosystem , function( csep_k, csep_v ){
       // find associated CSEP value and store whats in the .popup_value_field
+      var save_csep_source = $("#" + csep_k + "-source option:selected").text();
+      var save_csep_value = $("#ecosystem_" + csep_k).val();
       
-      // if the CSEP has a custom value
-      ecosystem[k] = $("#ecosystem_" + k).val();      
+      ecosystem[csep_k] = {};
+      ecosystem[csep_k][save_csep_source] = save_csep_value;
+//      console.log("Wrote out: " + csep_k + " as: " + save_csep_source +":"+save_csep_value);
     });
 
+    // At this point the ecosystem object will contain *ONLY* a single key/value pair ( source / value pair )
+    console.log("This is what was saved:");
+    console.log(ecosystem);
+
+
     // Finally write out the saved JSON
-    $('#biome_instance-' + active_site_num ).find('.json_final').text( JSON.stringify( all_ecosystems_at_site ) );
+    $('#biome_instance-' + active_site_num ).find('.json_saved').text( JSON.stringify( all_ecosystems_at_site ) );
     
     // This will hit the hidden close button and invoke the close operation in bootstrap-lightbox
     $("#hidden_close_button").trigger("click");
@@ -401,7 +427,7 @@ $(document).ready(function() {
     var site_id = $(this).closest('[id]|="biome_instance"').attr("id").split("-")[1]
     var biome_name = $(this).closest(".biome_match").find("label.checkbox").text();
     var biome_type = $(this).closest("[class*='_biomes']").attr("class").split(" ")[0].split("_")[0]
-    populate_biome_popup( site_id, biome_type, biome_name );
+    populate_ecosystem_shadowbox( site_id, biome_type, biome_name );
   });
 
   $('#add_additional_biome_site').on('click', function() {
