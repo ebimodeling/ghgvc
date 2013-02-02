@@ -48,11 +48,11 @@ function populate_html_from_latlng( lat, lng ) {
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
     var active_biome_site = get_active_site_number();
 
-  $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
-    '<div class="json_store">' + 
-      JSON.stringify(data) + // stringify will work with IE8
-    '</div>'
-  );
+    $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
+      '<div class="json_store">' + 
+        JSON.stringify(data) + // stringify will work with IE8
+      '</div>'
+    );
 
     var data_defaults = data;
 
@@ -367,8 +367,49 @@ function collapse_all_ecosystem_wells() {
 };
 
 
+function get_names_of_selected_ecosystems( location ) {
+  var ecosystems_at_this_location = location.find('label.checkbox');
+  
+  var selected_ecosystem_names = [];
+  
+  // Iterate through the checkboxes associated with the ecosystem names
+  // And if they're checked ... add them to the selected_ecosystem_names
+  $.each( ecosystems_at_this_location, function() {
+    if ( $(this).find('input').is(':checked') ) {
+      selected_ecosystem_names.push( $(this).text() ); 
+    }; 
+  });
+  return selected_ecosystem_names;    
+};
+
 $(document).ready(function() {
   initalize_google_map();
+  
+  $('#run_ghgvc_calculator').on('click' ,function() {
+    // deactivate or put the page on hold
+    // run the stuff to init the calculator
+
+    ghgvcR_input = {};
+
+    var all_locations = $('[id|="biome_instance"]');
+
+    var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
+    
+    $.each( all_locations, function() {
+      var biome_group =  $(this).attr('id');
+      ghgvcR_input[biome_group] = get_names_of_selected_ecosystems( $(this) );
+    });
+
+    // At this point we've got the names of selected ecosystems at each location
+    console.log( ghgvcR_input );
+
+    // ghgvcR_input is a top level hash with arrays as values EX:
+    // {"biome_instance-0":["temperate forest","soybean"], "biome_instance-1":["tundra","US corn"] }
+    // ... now we iterate through the array pulling in the full ecosystem details
+
+
+  });
+  
 
   $('.popup_cite_dropdown').change( function() {
     // Assign the selected value in the drop down, to the subling input box
