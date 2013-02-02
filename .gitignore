@@ -17,3 +17,6 @@ doc/
 .idea
 
 /config/database.yml
+netcdf/Saatchi.zip
+netcdf/GlobalEcofloristicZones_ncFiles.zip
+

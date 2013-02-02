@@ -1,0 +1,65 @@
+<%= form_for(@citation) do |f| %>
+  <% if @citation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@citation.errors.count, "error") %> prohibited this citation from being saved:</h2>
+
+      <ul>
+      <% @citation.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :author %><br />
+    <%= f.text_field :author %>
+  </div>
+  <div class="field">
+    <%= f.label :year %><br />
+    <%= f.number_field :year %>
+  </div>
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :journal %><br />
+    <%= f.text_field :journal %>
+  </div>
+  <div class="field">
+    <%= f.label :vol %><br />
+    <%= f.number_field :vol %>
+  </div>
+  <div class="field">
+    <%= f.label :pg %><br />
+    <%= f.text_field :pg %>
+  </div>
+  <div class="field">
+    <%= f.label :url %><br />
+    <%= f.text_field :url %>
+  </div>
+  <div class="field">
+    <%= f.label :pdf %><br />
+    <%= f.text_field :pdf %>
+  </div>
+  <div class="field">
+    <%= f.label :doi %><br />
+    <%= f.text_field :doi %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

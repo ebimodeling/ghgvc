@@ -1,0 +1,341 @@
+<%= form_for(@prior) do |f| %>
+  <% if @prior.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@prior.errors.count, "error") %> prohibited this prior from being saved:</h2>
+
+      <ul>
+      <% @prior.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :citation_id %><br />
+    <%= f.number_field :citation_id %>
+  </div>
+  <div class="field">
+    <%= f.label :variable_id %><br />
+    <%= f.text_field :variable_id %>
+  </div>
+  <div class="field">
+    <%= f.label :phylogeny %><br />
+    <%= f.text_field :phylogeny %>
+  </div>
+  <div class="field">
+    <%= f.label :distn %><br />
+    <%= f.text_field :distn %>
+  </div>
+  <div class="field">
+    <%= f.label :parama %><br />
+    <%= f.text_field :parama %>
+  </div>
+  <div class="field">
+    <%= f.label :paramb %><br />
+    <%= f.text_field :paramb %>
+  </div>
+  <div class="field">
+    <%= f.label :paramc %><br />
+    <%= f.text_field :paramc %>
+  </div>
+  <div class="field">
+    <%= f.label :n %><br />
+    <%= f.number_field :n %>
+  </div>
+  <div class="field">
+    <%= f.label :notes %><br />
+    <%= f.text_area :notes %>
+  </div>
+  <div class="field">
+    <%= f.label :created_at %><br />
+    <%= f.datetime_select :created_at %>
+  </div>
+  <div class="field">
+    <%= f.label :updated_at %><br />
+    <%= f.datetime_select :updated_at %>
+  </div>
+    <h4>Significant Figures</h4>
+<!--  ##################### -->
+
+  <%= p @ecosystem %>
+  <%# @ecosystem.each do |e| %>
+    <%#= p e
+  <%# end %>
+  
+  <div class='field'>
+    <%= f.label :name %><br />
+    <%= f.text_field :name, :value => @ecosystem['name'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :category %><br />
+    <%= f.text_field :category, :value => @ecosystem['category'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :T_A %><br />
+    <%= f.number_field :T_A, :value => @ecosystem['T_A'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :T_E %><br />
+    <%= f.number_field :T_E, :value => @ecosystem['T_E'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :r %><br />
+    <%= f.number_field :r, :value => @ecosystem['r'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_ag %><br />
+    <%= f.number_field :OM_ag, :value => @ecosystem['OM_ag'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_root %><br />
+    <%= f.number_field :OM_root, :value => @ecosystem['OM_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_wood %><br />
+    <%= f.number_field :OM_wood, :value => @ecosystem['OM_wood'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_litter %><br />
+    <%= f.number_field :OM_litter, :value => @ecosystem['OM_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_peat %><br />
+    <%= f.number_field :OM_peat, :value => @ecosystem['OM_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :OM_SOM %><br />
+    <%= f.number_field :OM_SOM, :value => @ecosystem['OM_SOM'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :fc_ag_wood_litter %><br />
+    <%= f.number_field :fc_ag_wood_litter, :value => @ecosystem['fc_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :fc_root %><br />
+    <%= f.number_field :fc_root, :value => @ecosystem['fc_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :fc_peat %><br />
+    <%= f.number_field :fc_peat, :value => @ecosystem['fc_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :fc_SOM %><br />
+    <%= f.number_field :fc_SOM, :value => @ecosystem['fc_SOM'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ec_CO2 %><br />
+    <%= f.number_field :Ec_CO2, :value => @ecosystem['Ec_CO2'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ec_CH4 %><br />
+    <%= f.number_field :Ec_CH4, :value => @ecosystem['Ec_CH4'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ec_N2O %><br />
+    <%= f.number_field :Ec_N2O, :value => @ecosystem['Ec_N2O'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :k_ag_wood_litter %><br />
+    <%= f.number_field :k_ag_wood_litter, :value => @ecosystem['k_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :k_root %><br />
+    <%= f.number_field :k_root, :value => @ecosystem['k_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :k_peat %><br />
+    <%= f.number_field :k_peat, :value => @ecosystem['k_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :k_SOM %><br />
+    <%= f.number_field :k_SOM, :value => @ecosystem['k_SOM'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :termite %><br />
+    <%= f.number_field :termite, :value => @ecosystem['termite'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CO2_ag_wood_litter %><br />
+    <%= f.number_field :Ed_CO2_ag_wood_litter, :value => @ecosystem['Ed_CO2_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CO2_root %><br />
+    <%= f.number_field :Ed_CO2_root, :value => @ecosystem['Ed_CO2_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CO2_peat %><br />
+    <%= f.number_field :Ed_CO2_peat, :value => @ecosystem['Ed_CO2_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CO2_litter %><br />
+    <%= f.number_field :Ed_CO2_litter, :value => @ecosystem['Ed_CO2_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CH4_ag_wood_litter %><br />
+    <%= f.number_field :Ed_CH4_ag_wood_litter, :value => @ecosystem['Ed_CH4_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CH4_root %><br />
+    <%= f.number_field :Ed_CH4_root, :value => @ecosystem['Ed_CH4_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CH4_peat %><br />
+    <%= f.number_field :Ed_CH4_peat, :value => @ecosystem['Ed_CH4_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_CH4_litter %><br />
+    <%= f.number_field :Ed_CH4_litter, :value => @ecosystem['Ed_CH4_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_N2O_ag_wood_litter %><br />
+    <%= f.number_field :Ed_N2O_ag_wood_litter, :value => @ecosystem['Ed_N2O_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_N2O_root %><br />
+    <%= f.number_field :Ed_N2O_root, :value => @ecosystem['Ed_N2O_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_N2O_peat %><br />
+    <%= f.number_field :Ed_N2O_peat, :value => @ecosystem['Ed_N2O_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :Ed_N2O_litter %><br />
+    <%= f.number_field :Ed_N2O_litter, :value => @ecosystem['Ed_N2O_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :F_CO2 %><br />
+    <%= f.number_field :F_CO2, :value => @ecosystem['F_CO2'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :F_CH4 %><br />
+    <%= f.number_field :F_CH4, :value => @ecosystem['F_CH4'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :F_N2O %><br />
+    <%= f.number_field :F_N2O, :value => @ecosystem['F_N2O'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :rd %><br />
+    <%= f.number_field :rd, :value => @ecosystem['rd'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :tR %><br />
+    <%= f.number_field :tR, :value => @ecosystem['tR'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :FR_CO2 %><br />
+    <%= f.number_field :FR_CO2, :value => @ecosystem['FR_CO2'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :FR_CH4 %><br />
+    <%= f.number_field :FR_CH4, :value => @ecosystem['FR_CH4'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :FR_N2O %><br />
+    <%= f.number_field :FR_N2O, :value => @ecosystem['FR_N2O'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dfc_ag_wood_litter %><br />
+    <%= f.number_field :dfc_ag_wood_litter, :value => @ecosystem['dfc_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dfc_root %><br />
+    <%= f.number_field :dfc_root, :value => @ecosystem['dfc_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dfc_peat %><br />
+    <%= f.number_field :dfc_peat, :value => @ecosystem['dfc_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dk_ag_wood_litter %><br />
+    <%= f.number_field :dk_ag_wood_litter, :value => @ecosystem['dk_ag_wood_litter'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dk_root %><br />
+    <%= f.number_field :dk_root, :value => @ecosystem['dk_root'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :dk_peat %><br />
+    <%= f.number_field :dk_peat, :value => @ecosystem['dk_peat'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :age_transition %><br />
+    <%= f.number_field :age_transition, :value => @ecosystem['age_transition'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :new_F_CO2 %><br />
+    <%= f.number_field :new_F_CO2, :value => @ecosystem['new_F_CO2'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :new_F_CH4 %><br />
+    <%= f.number_field :new_F_CH4, :value => @ecosystem['new_F_CH4'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :new_F_N2O %><br />
+    <%= f.number_field :new_F_N2O, :value => @ecosystem['new_F_N2O'] %>
+  </div>
+
+  <div class='field'>
+    <%= f.label :F_anth %><br />
+    <%= f.number_field :F_anth, :value => @ecosystem['F_anth'] %>
+  </div>
+
+  
+  
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

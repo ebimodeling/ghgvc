@@ -1,5 +1,14 @@
 Ghgvc::Application.routes.draw do
 
+  resources :variables
+
+
+  resources :citations
+
+
+  resources :priors
+
+
   match 'calculator/' => 'workflows#new'
    
   resources :workflows

@@ -1,0 +1,45 @@
+<h1>Listing citations</h1>
+
+<table>
+  <tr>
+    <th>Author</th>
+    <th>Year</th>
+    <th>Title</th>
+    <th>Journal</th>
+    <th>Vol</th>
+    <th>Pg</th>
+    <th>Url</th>
+    <th>Pdf</th>
+    <th>Doi</th>
+    <th>User</th>
+    <th>Created at</th>
+    <th>Updated at</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @citations.each do |citation| %>
+  <tr>
+    <td><%= citation.author %></td>
+    <td><%= citation.year %></td>
+    <td><%= citation.title %></td>
+    <td><%= citation.journal %></td>
+    <td><%= citation.vol %></td>
+    <td><%= citation.pg %></td>
+    <td><%= citation.url %></td>
+    <td><%= citation.pdf %></td>
+    <td><%= citation.doi %></td>
+    <td><%= citation.user_id %></td>
+    <td><%= citation.created_at %></td>
+    <td><%= citation.updated_at %></td>
+    <td><%= link_to 'Show', citation %></td>
+    <td><%= link_to 'Edit', edit_citation_path(citation) %></td>
+    <td><%= link_to 'Destroy', citation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Citation', new_citation_path %>
