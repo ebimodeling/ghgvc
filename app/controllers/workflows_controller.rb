@@ -461,7 +461,7 @@ class WorkflowsController < ApplicationController
     
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/final_ecosystems.json" , "r" ).read )
 
-
+############ Here we set the additional logic threshold levels ############
 
     @biome_data = { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
     if @biome_num <= 15
@@ -510,14 +510,14 @@ class WorkflowsController < ApplicationController
     end
     
     
-############ Here we set the additional logic threshold levels ############
+
 
 ###   AGROECOSYSTEMS: tropical pasture, temperate pasture, tropical cropland, temperate cropland, wetland rice
-
     if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
       @biome_data["agroecosystem_eco"]["springwheat"] = @name_indexed_ecosystems["switchgrass"]
     end
-      # should include spring wheat in the JSON:
+      # Testing:
+      # should include springwheat in the JSON:
       # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75
     if @global_pasture_num != nil && @global_pasture_num > 0.01 && @global_pasture_num < 1.0
       if @request_lat.abs < 23.26
@@ -534,35 +534,7 @@ class WorkflowsController < ApplicationController
       end
     end
 
-
-#0 tropical peat forest
-#1 tropical forest
-#2 northern peatland
-#3 marsh & swamp
-#4 temperate forest
-#5 aggrading temperate non-forest
-#6 boreal forest
-#7 aggrading tropical non-forest
-#8 aggrading boreal forest
-#9 switchgrass
-#10 temperate grassland
-#11 aggrading tropical forest
-#12 temperate scrub/woodland
-#13 tropical savanna
-#14 desert
-#15 tundra
-#16 tropical pasture
-#17 temperate pasture
-#18 tropical cropland
-#19 temperate cropland
-#20 wetland rice
-#21 miscanthus
-#22 aggrading temperate forest
-#23 US corn
-#24 US soy
-
-
-###   BIOFUELS: switchgrass, miscanthus, US corn ,US soy
+###   BIOFUELS: switchgrass, miscanthus, US corn, US soy
 
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US corn"] = @name_indexed_ecosystems["US corn"]
@@ -585,8 +557,6 @@ class WorkflowsController < ApplicationController
     # should NOT include corn in the JSON:
     # http://localhost:3000/get_biome.json?lng=-71.25&lat=33.75
     
-
-
     
 # TODO: Aggreding not yet added
 ###   AGGRADING: aggrading temperate non-forest, aggrading tropical non-forest, aggrading boreal forest, aggrading tropical forest, aggrading temperate forest
