@@ -537,16 +537,16 @@ class WorkflowsController < ApplicationController
 ###   BIOFUELS: switchgrass, miscanthus, US corn, US soy
 
     if @us_corn_num != nil && @us_corn_num > 0.01
-      @biome_data["biofuel_eco"]["US corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US corn"] = @name_indexed_ecosystems["US corn"]
+      @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
+      @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
-      @biome_data["biofuel_eco"]["BR sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
-      @biome_data["agroecosystem_eco"]["BR sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
+      @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
     end
     
     if @braz_saatchi_carbon

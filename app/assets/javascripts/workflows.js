@@ -321,7 +321,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
     var user_saved_current_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
     
-    console.log("shoving this in: ");
+    console.log("filling popup with: ");
     console.log(user_saved_current_ecosystem);
     
     $.each( user_saved_current_ecosystem, function( csep_key, csep_value ) {
@@ -367,7 +367,7 @@ function collapse_all_ecosystem_wells() {
 };
 
 
-function get_names_of_selected_ecosystems( location ) {
+function get_selected_ecosystems_name_and_type( location ) {
   var ecosystems_at_this_location = location.find('label.checkbox');
   
   var selected_ecosystem_names = [];
@@ -376,7 +376,9 @@ function get_names_of_selected_ecosystems( location ) {
   // And if they're checked ... add them to the selected_ecosystem_names
   $.each( ecosystems_at_this_location, function() {
     if ( $(this).find('input').is(':checked') ) {
-      selected_ecosystem_names.push( $(this).text() ); 
+      var ecosystem_type = $(this).closest("[class*='_biomes']").attr("class").split(" ")[0].split("_")[0];
+      var ecosystem_name = $(this).text();
+      selected_ecosystem_names.push( [ ecosystem_type, ecosystem_name ] );
     }; 
   });
   return selected_ecosystem_names;    
@@ -392,21 +394,38 @@ $(document).ready(function() {
     ghgvcR_input = {};
 
     var all_locations = $('[id|="biome_instance"]');
-
     var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
     
     $.each( all_locations, function() {
-      var biome_group =  $(this).attr('id');
-      ghgvcR_input[biome_group] = get_names_of_selected_ecosystems( $(this) );
+    
+      // go through each location
+      var biome_group =  $(this);
+      var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
+      var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
+      console.log("current_biomes_json");
+      console.log(current_biomes_json);
+      
+      $.each( ecosystem_to_include, function(i,v){
+        // and each ecosystem
+
+        var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(" ","_")];
+        console.log( input_ecosystem_json );
+        var biome_group_string = biome_group.attr('id');
+        var biome_type_string = v[0] + "_eco";
+        var biome_name_string = v[1].replace(" ","_");
+        
+        // if keys dont exist ... add them
+        if (!( biome_group_string in ghgvcR_input ))  ghgvcR_input[biome_group_string] = {};
+        if (!( biome_type_string in ghgvcR_input[biome_group_string] ))  ghgvcR_input[biome_group_string][biome_type_string] = {};
+        
+        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
+        
+      });
     });
 
     // At this point we've got the names of selected ecosystems at each location
-    console.log( ghgvcR_input );
-
-    // ghgvcR_input is a top level hash with arrays as values EX:
-    // {"biome_instance-0":["temperate forest","soybean"], "biome_instance-1":["tundra","US corn"] }
-    // ... now we iterate through the array pulling in the full ecosystem details
-
+    console.log("ghgvcR_input");    
+    console.log( ghgvcR_input );    
 
   });
   
