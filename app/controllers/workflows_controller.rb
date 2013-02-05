@@ -459,7 +459,7 @@ class WorkflowsController < ApplicationController
     @biome_num = @vegtype.var("vegtype")[@vegtype_i,@vegtype_j,0,0][0]
     @vegtype.close()
     
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/final_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
 
 ############ Here we set the additional logic threshold levels ############
 
@@ -575,8 +575,8 @@ class WorkflowsController < ApplicationController
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
-    @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/name_indexed_ecosystems.json" , "r" ).read )
+    @ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/default_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
 
 # This is where I'll open the Priors from the DB    

@@ -425,7 +425,9 @@ $(document).ready(function() {
 
     // At this point we've got the names of selected ecosystems at each location
     console.log("ghgvcR_input");    
-    console.log( ghgvcR_input );    
+    console.log( ghgvcR_input );
+    
+    // use the JSON >> XML conversion code here
 
   });
   
@@ -510,9 +512,6 @@ $(document).ready(function() {
       $(this).parent().remove();
       open_previous_biome_site();
     });
-    
-
-     
   
   });
   // Add inital biome list using above code:
