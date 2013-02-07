@@ -4,6 +4,18 @@
   width: 100px;
 }
 
+[id*="_charts"] {
+
+  clear:all;
+
+}
+
+#run_ghgvc_calculator {
+  position:relative;
+  right: 0px;
+
+}
+
 #map_canvas { 
   width: 960px;
   height: 400px;

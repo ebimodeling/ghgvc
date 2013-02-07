@@ -1,47 +1,27 @@
 require 'rubygems'
-require 'active_support/core_ext/array/conversions'
 require 'json'
-require 'cobravsmongoose'
 
-
-
-@ecosystems = JSON.parse( File.open( "data/final_ecosystems.json" , "r" ).read )
-
-
-
-
-
-
-hash1 = JSON.parse('{"category":"native","T_A":"100","T_E":"50","r":"0","OM_ag":"444","OM_root":"108"}')
-hash2 = JSON.parse('{"category":"native","T_A":"100","T_E":"50","r":"0","OM_ag":{"Anderson-Teixeira K and DeLucia EH (2011)":"400","Saatchi S, Harris NL, Brown S, Lefsky M, Mitchard ET (2011)":"800"},"OM_root":"108"}')
-
-
-# for a given CSEP 
-#accepts in the CSEP name
-#returns array with all possible options for that CSEP
-
-# swap out values
-s000 = "Anderson-Teixeira K and DeLucia EH (2011)"
-s001 = "Saatchi S, Harris NL, Brown S, Lefsky M, Mitchard ET (2011)"
-# convert hash to array
-arr2 = hash2.to_a
-# append custom option
-arr2 << ["custom","custom"]
-
-
-
-#hash2.each do |key, value|
-#  puts value.class  
-##  if value.class.to_s == "Hash"
-#  if value.is_a? Hash
-#    puts "############"
-#    p value
-#  end
-#end
+results_json = "{
+  \"ecosystem_0_data\":[
+    {\"name\":\"Tropical Forest\",\"S_CO2\":715.481930448906,\"S_CH4\":18.5897095138668,\"S_N2O\":11.2808552885403,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},
+    {\"name\":\"Misty Mountain Top\",\"S_CO2\":183.54445481929,\"S_CH4\":140.39500394662,\"S_N2O\":446.523494486041,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}
+    ],
+    \"ecosystem_1_data\":[
+    {\"name\":\"Temperate Forest\",\"S_CO2\":715.481930448906,\"S_CH4\":18.5897095138668,\"S_N2O\":11.2808552885403,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},
+    {\"name\":\"Misty Mountain Hop\",\"S_CO2\":183.54445481929,\"S_CH4\":140.39500394662,\"S_N2O\":446.523494486041,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}
+    ]
+}"
 
 
 
 
 
+
+p "########"
+a = JSON.parse(results_json);
+
+p a["ecosystem_0_data"]
+
+#p a
 
 
