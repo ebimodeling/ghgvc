@@ -196,6 +196,15 @@ changeView = function(id) {
 	$("#" + id).show();
 }
 
+function create_new_divs_for_highchart_location(num) {
+  $("#highcharts_container").append(
+    '<br />' +
+    '<div id="storage_chart_' + num + '" class="inline-table"></div>' +
+    '<div id="flux_chart_' + num + '" class="inline-table"></div>' +
+    '<div id="dist_chart_' + num + '" class="inline-table"></div>'
+  );
+}
+
 $(document).ready(function() {
 	
 	$(window).resize(function(event) {
@@ -220,7 +229,11 @@ $(document).ready(function() {
 
   asdf = $.parseJSON("[{\"name\":\"aggrading tropical non-forest\",\"S_CO2\":4.56891931874291,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-223.961767496771,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.6163375257073,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"aggrading boreal forest\",\"S_CO2\":4.56309041699992,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-262.729609260597,\"F_CH4\":-4.53044980599371,\"F_N2O\":13.8697519920716,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"switchgrass\",\"S_CO2\":51.50879518436,\"S_CH4\":0,\"S_N2O\":0,\"F_CO2\":24.81059436629,\"F_CH4\":-2.51698342701926,\"F_N2O\":24.3963309937809,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"temperate grassland\",\"S_CO2\":163.269213543001,\"S_CH4\":0.374980551700073,\"S_N2O\":0.40898449700934,\"F_CO2\":-58.9763006004584,\"F_CH4\":-2.97456206709505,\"F_N2O\":6.48278293459747,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"aggrading tropical forest\",\"S_CO2\":4.56309041699992,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-463.068959358755,\"F_CH4\":-4.53053004775435,\"F_N2O\":29.7798338969974,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"temperate scrub/woodland\",\"S_CO2\":271.104915549568,\"S_CH4\":2.34182957152679,\"S_N2O\":2.55419110417906,\"F_CO2\":-247.868281691267,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.74989211681713,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"tropical savanna\",\"S_CO2\":269.449724925106,\"S_CH4\":1.62796892414889,\"S_N2O\":1.66918180225197,\"F_CO2\":-145.537158913679,\"F_CH4\":-3.7983189667624,\"F_N2O\":15.7649670336409,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"desert\",\"S_CO2\":112.345727330007,\"S_CH4\":0.31560727990541,\"S_N2O\":0.344227144686273,\"F_CO2\":-18.7575807337944,\"F_CH4\":-3.7982437401118,\"F_N2O\":2.88488687328781,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"tundra\",\"S_CO2\":418.77056256146,\"S_CH4\":3.83171499448908,\"S_N2O\":4.17918215384597,\"F_CO2\":-45.6761753997656,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.48278293459747,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}]");
 
-	create_results_table = function(results_array) {
+	create_results_table = function(results_array, location_number) {
+		
+		create_new_divs_for_highchart_location(location_number);
+		
+		console.log(location_number);
 		
 		$('#results_table thead tr').html('<th>&nbsp;</th>');
 
@@ -244,6 +257,8 @@ $(document).ready(function() {
 		var co2_dist = [];
 		var ch4_dist = [];
 		var n2o_dist = [];
+		
+		console.log(results_array);
 	
 		for (i = 0; i < results_array.length; i++) {
 			var result = results_array[i];
@@ -273,7 +288,7 @@ $(document).ready(function() {
 
 		new Highcharts.Chart({
 			chart: {
-				renderTo: 'storage_chart',
+				renderTo: String ('storage_chart_' + location_number ),
 				type: 'bar',
 			},
 			title: {
@@ -305,7 +320,7 @@ $(document).ready(function() {
 
 		new Highcharts.Chart({
 			chart: {
-				renderTo: 'flux_chart',
+				renderTo: String ('flux_chart_' + location_number ),
 				type: 'bar',
 			},
 			title: {
@@ -336,7 +351,7 @@ $(document).ready(function() {
 
 		new Highcharts.Chart({
 			chart: {
-				renderTo: 'dist_chart',
+				renderTo: String ('dist_chart_' + location_number ),
 				type: 'bar',
 			},
 			title: {
@@ -364,7 +379,7 @@ $(document).ready(function() {
 				data: n2o_dist
 			}]
 		}).setSize(310, 250);
-		
+	
 		return 0;
 	}
 
@@ -591,7 +606,8 @@ $(document).ready(function() {
 	changeView("comparison");
 	$(".mainView").css("max-height", ($(window).height() - 138) + "px");
 	
-  create_results_table(asdf);
+  create_results_table(asdf,0);
+  create_results_table(asdf,1);
   
 	
 });
