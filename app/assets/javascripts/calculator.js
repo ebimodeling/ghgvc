@@ -198,7 +198,7 @@ changeView = function(id) {
 
 function create_new_divs_for_highchart_location(num) {
   $("#highcharts_container").append(
-    '<br />' +
+    '<br />' + '<h2>Location:' + num + '</h2>' + '<hr />' +
     '<div id="storage_chart_' + num + '" class="inline-table"></div>' +
     '<div id="flux_chart_' + num + '" class="inline-table"></div>' +
     '<div id="dist_chart_' + num + '" class="inline-table"></div>'
