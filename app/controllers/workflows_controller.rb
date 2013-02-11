@@ -50,118 +50,112 @@ class WorkflowsController < ApplicationController
 
     #### Saatchi: ####
 
-### TODO: Enable Saatchi at a future date
-#    ## asia_agb_1km
-#    # http://localhost:3000/get_biome.json?lng=113.8042&lat=1.918004 # => 90.7488
-#    @saatchi_asia_bgb = NumRu::NetCDF.open("netcdf/saatchi_asia_bgb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_asia_bgb.var("lat")
-#    @dims["lon"] = @saatchi_asia_bgb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_asia_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_asia_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_asia_bgb.var_names[-1]
-#      @saatchi_asia_bgb_num = @saatchi_asia_bgb.var( @file_var_name )[ @saatchi_asia_bgb_i, @saatchi_asia_bgb_j, 0, 0 ][0]
-##      puts "################### america_bgb_1km ####################"
-##      puts @saatchi_asia_bgb_num
-#      @saatchi_asia_bgb.close()
-#    end  
+    ## asia_agb_1km
+    # http://localhost:3000/get_biome.json?lng=113.8042&lat=1.918004 # => 90.7488
+    @saatchi_asia_bgb = NumRu::NetCDF.open("netcdf/saatchi_asia_bgb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_asia_bgb.var("lat")
+    @dims["lon"] = @saatchi_asia_bgb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_asia_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_asia_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_asia_bgb.var_names[-1]
+      @saatchi_asia_bgb_num = @saatchi_asia_bgb.var( @file_var_name )[ @saatchi_asia_bgb_i, @saatchi_asia_bgb_j, 0, 0 ][0]
+#      puts "################### america_bgb_1km ####################"
+#      puts @saatchi_asia_bgb_num
+      @saatchi_asia_bgb.close()
+    end  
 
 
-### TODO: Enable Saatchi at a future date    
-#    ## asia_agb_1km
-#    # http://localhost:3000/get_biome.json?lng=113.8042&lat=1.918004 # => 353.926
-#    @saatchi_asia_agb = NumRu::NetCDF.open("netcdf/saatchi_asia_agb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_asia_agb.var("lat")
-#    @dims["lon"] = @saatchi_asia_agb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_asia_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_asia_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_asia_agb.var_names[-1]
-#      @saatchi_asia_agb_num = @saatchi_asia_agb.var( @file_var_name )[ @saatchi_asia_agb_i, @saatchi_asia_agb_j, 0, 0 ][0]
-##      puts "################### america_bgb_1km ####################"
-##      puts @saatchi_asia_agb_num
-#      @saatchi_asia_agb.close()
-#    end  
+    ## asia_agb_1km
+    # http://localhost:3000/get_biome.json?lng=113.8042&lat=1.918004 # => 353.926
+    @saatchi_asia_agb = NumRu::NetCDF.open("netcdf/saatchi_asia_agb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_asia_agb.var("lat")
+    @dims["lon"] = @saatchi_asia_agb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_asia_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_asia_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_asia_agb.var_names[-1]
+      @saatchi_asia_agb_num = @saatchi_asia_agb.var( @file_var_name )[ @saatchi_asia_agb_i, @saatchi_asia_agb_j, 0, 0 ][0]
+#      puts "################### america_bgb_1km ####################"
+#      puts @saatchi_asia_agb_num
+      @saatchi_asia_agb.close()
+    end  
 
 
-### TODO: Enable Saatchi at a future date    
-#    ## america_agb_1km
-#    # http://localhost:3000/get_biome.json?lng=-54.91339&lat=1.91196 # => 83.0064
-#    @saatchi_america_bgb = NumRu::NetCDF.open("netcdf/saatchi_america_bgb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_america_bgb.var("lat")
-#    @dims["lon"] = @saatchi_america_bgb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_america_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_america_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_america_bgb.var_names[-1]
-#      @saatchi_america_bgb_num = @saatchi_america_bgb.var( @file_var_name )[ @saatchi_america_bgb_i, @saatchi_america_bgb_j, 0, 0 ][0]
-##      puts "################### america_bgb_1km ####################"
-##      puts @saatchi_america_bgb_num
-#      @saatchi_america_bgb.close()
-#    end  
+    ## america_agb_1km
+    # http://localhost:3000/get_biome.json?lng=-54.91339&lat=1.91196 # => 83.0064
+    @saatchi_america_bgb = NumRu::NetCDF.open("netcdf/saatchi_america_bgb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_america_bgb.var("lat")
+    @dims["lon"] = @saatchi_america_bgb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_america_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_america_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_america_bgb.var_names[-1]
+      @saatchi_america_bgb_num = @saatchi_america_bgb.var( @file_var_name )[ @saatchi_america_bgb_i, @saatchi_america_bgb_j, 0, 0 ][0]
+#      puts "################### america_bgb_1km ####################"
+#      puts @saatchi_america_bgb_num
+      @saatchi_america_bgb.close()
+    end  
 
 
-### TODO: Enable Saatchi at a future date    
-#    ## america_agb_1km
-#    # http://localhost:3000/get_biome.json?lng=-53.78006&lat=1.345293 # => 251.726
-#    @saatchi_america_agb = NumRu::NetCDF.open("netcdf/saatchi_america_agb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_america_agb.var("lat")
-#    @dims["lon"] = @saatchi_america_agb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_america_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_america_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_america_agb.var_names[-1]
-#      @saatchi_america_agb_num = @saatchi_america_agb.var( @file_var_name )[ @saatchi_america_agb_i, @saatchi_america_agb_j, 0, 0 ][0]
-##      puts "################### america_agb_1km ####################"
-##      puts @saatchi_america_agb_num
-#      @saatchi_america_agb.close()
-#    end  
+    ## america_agb_1km
+    # http://localhost:3000/get_biome.json?lng=-53.78006&lat=1.345293 # => 251.726
+    @saatchi_america_agb = NumRu::NetCDF.open("netcdf/saatchi_america_agb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_america_agb.var("lat")
+    @dims["lon"] = @saatchi_america_agb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_america_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_america_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_america_agb.var_names[-1]
+      @saatchi_america_agb_num = @saatchi_america_agb.var( @file_var_name )[ @saatchi_america_agb_i, @saatchi_america_agb_j, 0, 0 ][0]
+#      puts "################### america_agb_1km ####################"
+#      puts @saatchi_america_agb_num
+      @saatchi_america_agb.close()
+    end  
 
 
-### TODO: Enable Saatchi at a future date    
-#    ## africa_bgb_1km
-#    # http://localhost:3000/get_biome.json?lng=-7.470817&lat=5.702878 # => 60.4312
-#    @saatchi_africa_bgb = NumRu::NetCDF.open("netcdf/saatchi_africa_bgb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_africa_bgb.var("lat")
-#    @dims["lon"] = @saatchi_africa_bgb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_africa_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_africa_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_africa_bgb.var_names[-1]
-#      @saatchi_africa_bgb_num = @saatchi_africa_bgb.var( @file_var_name )[ @saatchi_africa_bgb_i, @saatchi_africa_bgb_j, 0, 0 ][0]
-##      puts "################### africa_bgb_1km ####################"
-##      puts @saatchi_africa_bgb_num
-#      @saatchi_africa_bgb.close()
-#    end   
+    ## africa_bgb_1km
+    # http://localhost:3000/get_biome.json?lng=-7.470817&lat=5.702878 # => 60.4312
+    @saatchi_africa_bgb = NumRu::NetCDF.open("netcdf/saatchi_africa_bgb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_africa_bgb.var("lat")
+    @dims["lon"] = @saatchi_africa_bgb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_africa_bgb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_africa_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_africa_bgb.var_names[-1]
+      @saatchi_africa_bgb_num = @saatchi_africa_bgb.var( @file_var_name )[ @saatchi_africa_bgb_i, @saatchi_africa_bgb_j, 0, 0 ][0]
+#      puts "################### africa_bgb_1km ####################"
+#      puts @saatchi_africa_bgb_num
+      @saatchi_africa_bgb.close()
+    end   
 
 
-### TODO: Enable Saatchi at a future date
-#    ## africa_agb_1km
-#    # http://localhost:3000/get_biome.json?lng=-8.47915&lat=6.061211 # => 343.329
-#    @saatchi_africa_agb = NumRu::NetCDF.open("netcdf/saatchi_africa_agb_1km.nc")
-#    @dims.clear # ensure hash is empty
-#    @dims["lat"] = @saatchi_africa_agb.var("lat")
-#    @dims["lon"] = @saatchi_africa_agb.var("lon")
-#    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-#      @saatchi_africa_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
-#      # high and low values are counter-intuitive ... but are infact correct
-#      @saatchi_africa_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-#      @file_var_name = @saatchi_africa_agb.var_names[-1]
-#      @saatchi_africa_agb_num = @saatchi_africa_agb.var( @file_var_name )[ @saatchi_africa_agb_i, @saatchi_africa_agb_j, 0, 0 ][0]
-##      puts "################### africa_agb_1km ####################"
-##      puts @saatchi_africa_agb_num
-#      @saatchi_africa_agb.close()
-#    end   
+    ## africa_agb_1km
+    # http://localhost:3000/get_biome.json?lng=-8.47915&lat=6.061211 # => 343.329
+    @saatchi_africa_agb = NumRu::NetCDF.open("netcdf/saatchi_africa_agb_1km.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @saatchi_africa_agb.var("lat")
+    @dims["lon"] = @saatchi_africa_agb.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @saatchi_africa_agb_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @saatchi_africa_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @saatchi_africa_agb.var_names[-1]
+      @saatchi_africa_agb_num = @saatchi_africa_agb.var( @file_var_name )[ @saatchi_africa_agb_i, @saatchi_africa_agb_j, 0, 0 ][0]
+#      puts "################### africa_agb_1km ####################"
+#      puts @saatchi_africa_agb_num
+      @saatchi_africa_agb.close()
+    end   
 
 
 
@@ -181,8 +175,8 @@ class WorkflowsController < ApplicationController
       @braz_sugarcane_num = @braz_sugarcane.var( @file_var_name )[ @braz_sugarcane_i, @braz_sugarcane_j, 0, 0 ][0]
 #      Testing:
 #      http://localhost:3000/get_biome.json?lng=-45.25&lat=-14.75 # => 81.625
-      puts "################### brz sugarcane ####################"
-      puts @braz_sugarcane_num
+#      puts "################### brz sugarcane ####################"
+#      puts @braz_sugarcane_num
       @braz_sugarcane.close()
     end  
     
@@ -459,7 +453,7 @@ class WorkflowsController < ApplicationController
     @biome_num = @vegtype.var("vegtype")[@vegtype_i,@vegtype_j,0,0][0]
     @vegtype.close()
     
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/final_ecosystems.json" , "r" ).read )
 
 ############ Here we set the additional logic threshold levels ############
 
@@ -509,7 +503,29 @@ class WorkflowsController < ApplicationController
       end
     end
     
-    
+    ## Saatchi Logic
+    if @saatchi_asia_bgb_num != 0 # 0 - 126.577
+      puts @saatchi_asia_bgb_num
+    end
+    if @saatchi_asia_agb_num != 0 # 0 - 514.385
+      puts @saatchi_asia_agb_num
+    end
+    if @saatchi_america_bgb_num != 0 # 0 - 112.375
+      puts @saatchi_america_bgb_num
+    end
+    if @saatchi_america_agb_num != 0 # 0 - 450 
+      puts @saatchi_america_agb_num
+    end
+    if @saatchi_africa_bgb_num != 0 # 0 - 88.418
+      puts @saatchi_africa_bgb_num
+    end
+    if @saatchi_africa_agb_num != 0 # 0 - 343.728
+      puts @saatchi_africa_agb_num
+    end
+
+    # Will we have a saatchi match without a vegtype?
+    # Which ecosystems does the saatchi data get places into? ... is it just every ecosystem that comes up?
+
 
 
 ###   AGROECOSYSTEMS: tropical pasture, temperate pasture, tropical cropland, temperate cropland, wetland rice
@@ -545,13 +561,14 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
+      p @name_indexed_ecosystems["BR Sugarcane"]
       @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
       @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
     end
     
-    if @braz_saatchi_carbon
-#      @native_names << '{{"Anderson-Teixeira and DeLucia (2011)"=>"400","Saatchi and others (2011)"=>"800"},"OM_root"=>"108"}'
-    end
+#    if @braz_saatchi_carbon
+##      @native_names << '{{"Anderson-Teixeira and DeLucia (2011)"=>"400","Saatchi and others (2011)"=>"800"},"OM_root"=>"108"}'
+#    end
     # should include corn in the JSON:
     # http://localhost:3000/get_biome.json?lng=-95.25&lat=44.25
     # should NOT include corn in the JSON:
@@ -560,6 +577,8 @@ class WorkflowsController < ApplicationController
     
 # TODO: Aggreding not yet added
 ###   AGGRADING: aggrading temperate non-forest, aggrading tropical non-forest, aggrading boreal forest, aggrading tropical forest, aggrading temperate forest
+
+
 
     respond_to do |format|
       format.json { render json: @biome_data }
@@ -575,8 +594,8 @@ class WorkflowsController < ApplicationController
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
-    @ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/default_ecosystems.json" , "r" ).read )
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
+    @ecosystems = JSON.parse( File.open( "#{Rails.root}/data/default_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/name_indexed_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
 
 # This is where I'll open the Priors from the DB    
