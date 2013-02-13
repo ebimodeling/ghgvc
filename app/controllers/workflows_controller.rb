@@ -1,4 +1,5 @@
 require "numru/netcdf"
+require "cobravsmongoose"
 
 class WorkflowsController < ApplicationController
   # GET /workflows
@@ -25,9 +26,52 @@ class WorkflowsController < ApplicationController
   
   def create_config_input
     @ecosystems = params[:ecosystems]
-    puts @ecosystems
     
-    # run the R code here
+    def convert_single_level_hash_to_xml( name, b )
+      # each ecosystem is labled within an opening <pft> and closing </pft> tag
+      xml_string = "<pft>"
+      xml_string << "\n\t<name>#{name}</name>\n"
+      b.each do |key, value|
+        # if its not a string make it one
+        if b[key].class.to_s != "String"
+          b[key] = b[key].to_s
+        end
+        
+        # rework data to badgerfish convention
+        # http://badgerfish.ning.com/
+        b[key] = { "$" => b[key] }
+        hash = { "#{key}" => b[key] }
+        p hash
+        
+        # parse into XML string
+        xml = CobraVsMongoose.hash_to_xml(hash)
+        xml_string << "\t" << xml << "\n"
+      end
+      xml_string << "</pft>\n"
+    end
+    
+    # Clean the file for testing purposes
+    File.open("config.xml", 'w') { |file| file.write("") }
+    
+    @ecosystems.each do |key, value|
+      puts "key #{key}"
+      puts "value #{value}"
+      
+      file_string = ""
+      file_string << convert_single_level_hash_to_xml( key, value )  
+      File.open("config.xml", 'a') { |file| file.write( file_string ) }
+    end
+
+    # write out the XML
+#    File.open("config.xml", 'w') { |file| file.write( @ecosystems ) }
+    
+    
+    # Ruby script running a shell command to run a R script
+
+    
+    
+    
+    
     
     respond_to do |format|
       format.json { render json: @workflow }
