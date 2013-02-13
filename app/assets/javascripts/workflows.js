@@ -427,6 +427,14 @@ $(document).ready(function() {
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
     
+    //narf
+    $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
+    
+    
+    
+    });
+    
+    
     // use the JSON >> XML conversion code here
 
   });

@@ -25,7 +25,13 @@ class WorkflowsController < ApplicationController
   
   def create_config_input
     @ecosystems = params[:ecosystems]
-  
+    puts @ecosystems
+    
+    # run the R code here
+    
+    respond_to do |format|
+      format.json { render json: @workflow }
+    end
   
   end
 

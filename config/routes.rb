@@ -24,6 +24,8 @@ Ghgvc::Application.routes.draw do
   match 'research/' => 'static_pages#research'
   
   match 'get_biome/' => 'workflows#get_biome'
+  match 'create_config_input/' => 'workflows#create_config_input'
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
