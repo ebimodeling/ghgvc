@@ -29,52 +29,94 @@ class WorkflowsController < ApplicationController
     
     def convert_single_level_hash_to_xml( name, b )
       # each ecosystem is labled within an opening <pft> and closing </pft> tag
-      xml_string = "<pft>"
-      xml_string << "\n\t<name>#{name}</name>\n"
+      xml_string = "\t<pft>"
+      xml_string << "\n\t\t<name>#{name}</name>\n"
       b.each do |key, value|
-        # if its not a string make it one
-        if b[key].class.to_s != "String"
-          b[key] = b[key].to_s
-        end
+        
+        # Value comes in as a hash with its source attached
+        # we need to isolate the single value
+        isolated_value = value.to_a[0][1]
         
         # rework data to badgerfish convention
         # http://badgerfish.ning.com/
-        b[key] = { "$" => b[key] }
+        b[key] = { "$" => isolated_value }
         hash = { "#{key}" => b[key] }
-        p hash
         
         # parse into XML string
         xml = CobraVsMongoose.hash_to_xml(hash)
-        xml_string << "\t" << xml << "\n"
+        xml_string << "\t\t" << xml << "\n"
       end
-      xml_string << "</pft>\n"
-    end
-    
-    # Clean the file for testing purposes
-    File.open("config.xml", 'w') { |file| file.write("") }
-    
-    @ecosystems.each do |key, value|
-      puts "key #{key}"
-      puts "value #{value}"
-      
-      file_string = ""
-      file_string << convert_single_level_hash_to_xml( key, value )  
-      File.open("config.xml", 'a') { |file| file.write( file_string ) }
+      xml_string << "\t</pft>\n"
     end
 
-    # write out the XML
-#    File.open("config.xml", 'w') { |file| file.write( @ecosystems ) }
+
+
+    # Clean the file for testing purposes
+    File.open("/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml", 'w') { |file| file.write("") }
+    # Write in opening header
+    opening_header = "<ghgvc>\n\t<options>\n\t\t<storage>TRUE</storage>\n\t\t<flux>TRUE</flux>\n\t\t<disturbance>FALSE</disturbance>\n\t\t"
+    opening_header << "<co2>TRUE</co2>\n\t\t<ch4>TRUE</ch4>\n\t\t<n2o>TRUE</n2o>\n\t\t<T_A>100</T_A>\n\t\t<T_E>50</T_E>\n\t\t<r>0</r>\n\t</options>\n"
+    
+    File.open("/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml", 'a') { |file| file.write(opening_header) }
+    
+    @ecosystems.each do |key, value|
+      site_name = "site_#{key.split('-')[1]}_data"
+      puts "key #{key}"
+      puts "value #{value}"
+      puts site_name
+      # We should build the beginning and end biome_instance-0/site_0_data tags first
+      
+      # start the xml tag for the site
+      file_string = ""
+      file_string << "<#{site_name}>\n"
+      
+      # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
+      if value['native_eco'] != nil
+        value['native_eco'].each do | native_k, native_v |
+          file_string << convert_single_level_hash_to_xml( native_k, native_v )
+        end
+      end      
+      if value['agroecosystem_eco'] != nil
+        value['agroecosystem_eco'].each do | agroecosystem_k, agroecosystem_v |
+          file_string << convert_single_level_hash_to_xml( agroecosystem_k, agroecosystem_v )
+        end
+      end
+      if value['aggrading_eco'] != nil
+        value['aggrading_eco'].each do | aggrading_k, aggrading_v |
+          file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
+        end
+      end
+      if value['biofuel_eco'] != nil
+        value['biofuel_eco'].each do | biofuel_k, biofuel_v |
+          file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
+        end      
+      end
+      file_string << "</#{site_name}>\n"
+
+      File.open("/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml", 'a') { |file| file.write( file_string ) }
+    end
+    
+    # and the closing ghgvc tag
+    File.open("/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml", 'a') { |file| file.write( "</ghgvc>" ) }
+
     
     
     # Ruby script running a shell command to run a R script
+    rcmd = "cd /home/thrive/rails_projects/ghgvcR/ && ./src/ghgvc_script.R"
+    puts "The shell command we're running: \n\t#{rcmd}"
+    # this will wait for the script to finish
+    r = `#{rcmd}`
+    
+    
+    
+    puts "###########################"
+    puts r
 
-    
-    
-    
-    
+    # then poll to see if script is finished 
+    @ghgvcR_output = File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json")
     
     respond_to do |format|
-      format.json { render json: @workflow }
+      format.json { render json: @ghgvcR_output }
     end
   
   end

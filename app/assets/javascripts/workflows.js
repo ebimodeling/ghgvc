@@ -429,8 +429,18 @@ $(document).ready(function() {
     
     //narf
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
-    
-    
+      console.log("###### output from ghgvcR code: ######");
+      console.log(data);
+      
+      // run highcharts scripts here
+      $.each(data, function(k,v){
+        console.log("key: "+k+" .. and value:");
+        console.log(v); 
+        var location_num = k.split('_')[1]
+        create_results_table(v ,location_num );
+      });
+      
+      
     
     });
     
