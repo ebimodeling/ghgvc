@@ -384,15 +384,22 @@ function get_selected_ecosystems_name_and_type( location ) {
   return selected_ecosystem_names;    
 };
 
+function toggle_input_state_for_highcharts() {
+  $('#biome_input_container').toggle();
+  $('#run_ghgvc_calculator').toggle();
+  $('#add_additional_biome_site').toggle();
+};
+
 $(document).ready(function() {
   initalize_google_map();
   
   $('#run_ghgvc_calculator').on('click' ,function() {
-    // deactivate or put the page on hold
-    // run the stuff to init the calculator
+    // deactivate page with lightbox overlay
+    $('#toggle_ghgvcR_processing_popup').trigger("click");
 
     ghgvcR_input = {};
 
+    // run the stuff to init the calculator
     var all_locations = $('[id|="biome_instance"]');
     var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
     
@@ -427,6 +434,9 @@ $(document).ready(function() {
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
     
+    // Hide all the input portions
+    toggle_input_state_for_highcharts();
+    
     //narf
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
       console.log("###### output from ghgvcR code: ######");
@@ -440,8 +450,9 @@ $(document).ready(function() {
         create_results_table(v ,location_num );
       });
       
+      // reactivate page with lightbox overlay
+      $('#toggle_ghgvcR_processing_popup').trigger("click");
       
-    
     });
     
     

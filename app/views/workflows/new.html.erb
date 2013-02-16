@@ -35,12 +35,22 @@
       <%= render :partial => "ecosystem_data_popup" %>
     </div>
 </div>
+
+<div id="ghgvcR_processing_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
+    <div class='lightbox-header'></div>
+    <div class='lightbox-content'>
+      <h2>...Model Processing...</h2>
+      <%= image_tag "processing.gif" %>
+    </div>
+</div>
 <% end %>
 
 
 
 <!--This is where all the biome adding happens, however its handled in jQuery-->
 <div id="biome_input_container"></div>
+
+<a id="toggle_ghgvcR_processing_popup" data-toggle="lightbox" href="#ghgvcR_processing_popup"></a>
 
 <div id="run_ghgvc_calculator" class="btn btn-large btn-success">
   Run GHGVC
