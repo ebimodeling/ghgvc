@@ -250,8 +250,6 @@ class WorkflowsController < ApplicationController
     end   
 
 
-
-
     #### Brazil: ####
     
     ## Brazil Sugarcane
@@ -430,21 +428,26 @@ class WorkflowsController < ApplicationController
     end
 
 
+
     ## Global biomes: Desert
-    # This map has an ij coordinate range of (0,0) to (766, 250)
-    # top left LatLng being (50.9873 ,-121.142)
-    # bottom right LatLng being (-35.2665 ,143.854)
-    # Therefore it sits between:
-    # Lat -35.2665 and 50.9873
-    # Lon -121.142 and 143.854
-    # http://localhost:3000/get_biome.json?lng=-8.758202&lat=24.31446 # => 10698
-    if ( 50.9873 >= @request_lat && @request_lat >= -35.2665 && 143.854 >= @request_lng && @request_lng >= -121.142 )
-      @global_biome_desert_i = remap_range( @request_lng, -121.142, 143.854, 0, 766 )
-      @global_biome_desert_j = remap_range( @request_lat, 50.9873, -35.2665, 0, 250 ) # high and low values are counter-intuitive
-      @global_biome_desert = NumRu::NetCDF.open("netcdf/GCS/biomes/Desert.nc")
-      @global_biome_desert_num = @global_biome_desert.var("dsrt")[@global_biome_desert_i,@global_biome_desert_j,0,0][0]
+    @global_biome_desert = NumRu::NetCDF.open("netcdf/GCS/biomes/Desert.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @global_biome_desert.var("lat")
+    @dims["lon"] = @global_biome_desert.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @global_biome_desert_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @global_biome_desert_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @global_biome_desert.var_names[-1]
+      @global_biome_desert_num = @global_biome_desert.var( @file_var_name )[ @global_biome_desert_i, @global_biome_desert_j, 0, 0 ][0]
+#      Testing:
+#      http://localhost:3000/get_biome.json?lng=17.41822&lat=25.00726 # => 10698
+#      puts "################### global biome marsh ####################"
+#      puts @global_biome_desert_num
       @global_biome_desert.close()
     end
+
+
 
 
     ## Global pasture
@@ -467,21 +470,27 @@ class WorkflowsController < ApplicationController
     end
 
 
+
     ## Global cropland
-    # This map has an ij coordinate range of (0,0) to (4320, 2160)
-    # top left LatLng being (89.9583 ,-179.9583)
-    # bottom right LatLng being (-89.9583 ,179.9583)
-    # Therefore it sits between:
-    # Lat -89.9583 and 89.9583
-    # Lon -179.9583 and 179.9583
-    # http://localhost:3000/get_biome.json?lng=-113.375&lat=51.70834 # => 1.0
-    if ( 89.9583 >= @request_lat && @request_lat >= -89.9583 && 179.9583 >= @request_lng && @request_lng >= -179.9583 )
-      @global_cropland_i = remap_range( @request_lng, -179.9583, 179.9583, 0, 4320 )
-      @global_cropland_j = remap_range( @request_lat, 89.9583, -89.9583, 0, 2160 ) # high and low values are counter-intuitive
-      @global_cropland = NumRu::NetCDF.open("netcdf/GCS/Cropland2000_5min.nc")
-      @global_cropland_num = @global_cropland.var("farea")[@global_cropland_i,@global_cropland_j,0,0][0]
+    @global_cropland = NumRu::NetCDF.open("netcdf/GCS/Cropland2000_5min.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @global_cropland.var("latitude")
+    @dims["lon"] = @global_cropland.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @global_cropland_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @global_cropland_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @global_cropland.var_names[-1]
+#      @global_cropland_num = @global_cropland.var( @file_var_name )[ 382, 127, 0, 0 ][0]
+      @global_cropland_num = @global_cropland.var( @file_var_name )[ @global_cropland_i, @global_cropland_j, 0, 0 ][0]
+#      Testing:
+#      http://localhost:3000/get_biome.json?lng=-113.375&lat=51.70834
+#      puts "################### global biome marsh ####################"
+#      puts @global_cropland_num
       @global_cropland.close()
     end
+
+
 
     ## US SpringWheat
     # This map has an ij coordinate range of (0,0) to (80, 50)
@@ -499,7 +508,11 @@ class WorkflowsController < ApplicationController
 #      @us_springwheat_num = @us_springwheat.var("fswh")[12,7,0,0][0] #=>> 0.21387700736522675
       @us_springwheat.close()
     end
-    
+#    http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
+#    puts "################### US springwheat ####################"
+#    puts @us_springwheat_num
+
+
     ## US Soybean
     # This map has an ij coordinate range of (0,0) to (80, 50)
     # top left LatLng being (49.75 ,-105.25)
@@ -515,7 +528,12 @@ class WorkflowsController < ApplicationController
 #      @us_soybean_num = @us_soybean.var("fsoy")[22,13,0,0][0] #=>> 0.40256670117378235
       @us_soybean.close()
     end
-    
+#   http://localhost:3000/get_biome.json?lng=-88.25&lat=40.75 # => 0.409562
+#   puts "################### US soybean ####################"
+#   puts @us_soybean_num
+
+
+
     ## US Corn
     # This map has an ij coordinate range of (0,0) to (80, 50)
     # top left LatLng being (49.75 ,-105.25)
@@ -523,7 +541,7 @@ class WorkflowsController < ApplicationController
     # Therefore it sits between:
     # Lat 24.75 and 49.75
     # Lon -105.25 and -65.25
-    # http://localhost:3000/get_biome?lng=-83.25&lat=44.25 # => 0.18501955270767212
+    # http://localhost:3000/get_biome.json?lng=-91.25&lat=42.25 # => 0.404886
     if ( 49.75 >= @request_lat && @request_lat >= 24.75 && -65.25 >= @request_lng && @request_lng >= -105.25 )
       @us_corn_i = remap_range( @request_lng, -105.25, -65.25, 0, 80 ) 
       @us_corn_j = remap_range( @request_lat, 49.75, 25.25, 0, 50 ) # j == 0 where lat is at its lowest value
@@ -531,6 +549,7 @@ class WorkflowsController < ApplicationController
       @us_corn_num = @us_corn.var("fcorn")[@us_corn_i,@us_corn_j,0,0][0]
       @us_corn.close()
     end
+
 
     ## Vegtype
     # This map has an ij coordinate range of (0,0) to (720, 360)
@@ -543,7 +562,12 @@ class WorkflowsController < ApplicationController
     @vegtype_j = remap_range( @request_lat.to_i , 89.75, -89.75, 0, 360 ) # j == 0 where lat is at its lowest value
     @vegtype = NumRu::NetCDF.open("netcdf/vegtype.nc")
     @biome_num = @vegtype.var("vegtype")[@vegtype_i,@vegtype_j,0,0][0]
+#    http://localhost:3000/get_biome.json?lng=24.25&lat=24.25 # => 14
+#    puts "################### vegtype ####################"
+#    puts @biome_num
+    
     @vegtype.close()
+    
     
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/final_ecosystems.json" , "r" ).read )
 
