@@ -390,6 +390,10 @@ function toggle_input_state_for_highcharts() {
   $('#add_additional_biome_site').toggle();
 };
 
+function update_location_count(){
+  $('#total_location_count').text( $('div[id|="biome_instance"]').length );
+};
+
 $(document).ready(function() {
   initalize_google_map();
   
@@ -524,25 +528,38 @@ $(document).ready(function() {
   $('#add_additional_biome_site').on('click', function() {
     collapse_all_ecosystem_wells();
 
-    // Add in new biome site, which will be ACTIVE 
-    $('#biome_input_container').prepend(
-      '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
-      '  <div class="biome_site_header inline-block"><h4>Location Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
-      '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
-      '    <i class="icon-search icon-remove"></i> Remove Location' +
-      '  </div>' + '  <br />' + '<hr/>' +
-      '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="agroecosystem_biomes inline-block">' + '    <b>Agroecosystem:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '  <div class="biofuel_biomes inline-block">' + '    <b>Biofuel:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-      '</div>'
-    ).delegate(".remove_biome_site", "click", function() {
-      remove_google_maps_pin( $(this).parent().attr('id').split('-').pop() );
-      $(this).parent().remove();
-      open_previous_biome_site();
-    });
-  
+    if ( $('div[id|="biome_instance"]').length <= 9 && $('#add_additional_biome_site').hasClass("disabled") == false ) {
+      // Add in new biome site, which will be ACTIVE 
+      $('#biome_input_container').prepend(
+        '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
+        '  <div class="biome_site_header inline-block"><h4>Location Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
+        '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
+        '    <i class="icon-search icon-remove"></i> Remove Location' +
+        '  </div>' + '  <br />' + '<hr/>' +
+        '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        '  <div class="agroecosystem_biomes inline-block">' + '    <b>Agroecosystem:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        '  <div class="biofuel_biomes inline-block">' + '    <b>Biofuel:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        '</div>'
+      ).delegate(".remove_biome_site", "click", function() {
+        remove_google_maps_pin( $(this).parent().attr('id').split('-').pop() );
+        $(this).parent().remove();
+        open_previous_biome_site();
+        if ( $('div[id|="biome_instance"]').length < 10 ){
+          $('#add_additional_biome_site').removeClass("disabled");
+        };
+        update_location_count();
+      });
+      
+      if ( $('div[id|="biome_instance"]').length == 10 ) {
+        $('#add_additional_biome_site').addClass("disabled");
+      };
+    };
+
+    update_location_count();
+
   });
+
   // Add inital biome list using above code:
   $('#add_additional_biome_site').trigger('click');
 
