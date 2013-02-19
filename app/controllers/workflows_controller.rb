@@ -619,24 +619,41 @@ class WorkflowsController < ApplicationController
       end
     end
     
-    ## Saatchi Logic
-    if @saatchi_asia_bgb_num != 0 # 0 - 126.577
-      puts @saatchi_asia_bgb_num
+    #### Saatchi Logic
+    ##
+    if @saatchi_asia_bgb_num != 0 && @saatchi_asia_bgb_num != nil # 0 - 126.577
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_root"]["s001"] = @saatchi_asia_bgb_num
+      end
     end
-    if @saatchi_asia_agb_num != 0 # 0 - 514.385
-      puts @saatchi_asia_agb_num
+    if @saatchi_asia_agb_num != 0 && @saatchi_asia_agb_num != nil # 0 - 514.385
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_ag"]["s001"] = @saatchi_asia_agb_num
+      end
     end
-    if @saatchi_america_bgb_num != 0 # 0 - 112.375
-      puts @saatchi_america_bgb_num
+    
+    ## Saatchi South America
+    if @saatchi_america_bgb_num != 0 && @saatchi_america_bgb_num != nil # 0 - 112.375
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_root"]["s001"] = @saatchi_america_bgb_num
+      end
     end
-    if @saatchi_america_agb_num != 0 # 0 - 450 
-      puts @saatchi_america_agb_num
+    if @saatchi_america_agb_num != 0 && @saatchi_america_agb_num != nil # 0 - 450
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_ag"]["s001"] = @saatchi_america_agb_num
+      end
     end
-    if @saatchi_africa_bgb_num != 0 # 0 - 88.418
-      puts @saatchi_africa_bgb_num
+    
+    ## Saatchi Africa
+    if @saatchi_africa_bgb_num != 0 && @saatchi_africa_bgb_num != nil # 0 - 88.418
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_root"]["s001"] = @saatchi_africa_bgb_num
+      end
     end
-    if @saatchi_africa_agb_num != 0 # 0 - 343.728
-      puts @saatchi_africa_agb_num
+    if @saatchi_africa_agb_num != 0 && @saatchi_africa_agb_num != nil # 0 - 343.728
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_ag"]["s001"] = @saatchi_africa_agb_num
+      end
     end
 
     # Will we have a saatchi match without a vegtype?
@@ -693,7 +710,8 @@ class WorkflowsController < ApplicationController
     
 # TODO: Aggreding not yet added
 ###   AGGRADING: aggrading temperate non-forest, aggrading tropical non-forest, aggrading boreal forest, aggrading tropical forest, aggrading temperate forest
-
+    p "######### BIOME:"
+    p @biome_data
 
 
     respond_to do |format|

@@ -47,6 +47,8 @@ function populate_html_from_latlng( lat, lng ) {
 
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
     var active_biome_site = get_active_site_number();
+    console.log("THIS:");
+    console.log(data.native_eco);
 
     $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
       '<div class="json_store">' + 
@@ -55,33 +57,36 @@ function populate_html_from_latlng( lat, lng ) {
     );
 
     var data_defaults = data;
+    
+    //narf
+    // Here I need to do something about populating saatchi data into the default values
 
     // write default values to all CSEPs
     if ( data_defaults.native_eco != null ) {
       $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
+          data_defaults.native_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
         });
       });
     };
     if ( data_defaults.agroecosystem_eco != null ) {
       $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
+          data_defaults.agroecosystem_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
         });
       })
     };
     if ( data_defaults.aggrading_eco != null ) {
       $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.aggrading_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
+          data_defaults.aggrading_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
         });
       });
     };  
     if ( data_defaults.biofuel_eco != null ) {
      $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.biofuel_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000 };
+          data_defaults.biofuel_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
         });
       });
     };
@@ -293,24 +298,29 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
         
+        console.log("CSEP PRE VALUES:");
+        console.log(csep_value);
+        
         // Since we've got place holders for the source names such as "s000"
         // Instead of the desired "Anderson-Teixeira and DeLucia (2011)"
         csep_value = populate_fullname_in_data_source(csep_value);
+
+        console.log("CSEP POST VALUES:");
+        console.log(csep_value);
+        
 
         // if a custom field doesn't exist ... add it in
         if ( csep_value['custom'] == null ) {
           csep_value['custom'] = 'custom';
         };
 
-        // Finally the value of each CSEP is a hash
+        // Each CSEP is a hash
         // which contains multiple data sources
         // loop through those sources and place them within the dropdown
         $.each( csep_value, function( sources_key, sources_value ) {
           // populate in the saved values, or default values from json_saved
-          // place in the other options from json_store
           csep_row.find('.popup_cite_dropdown').append( $("<option></option>").attr("value", sources_value).text(sources_key) );
         });
-        
       });
     });
     
