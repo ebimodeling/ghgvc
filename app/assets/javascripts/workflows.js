@@ -477,7 +477,7 @@ $(document).ready(function() {
         console.log(v); 
         var location_num = k.split('_')[1]
         //  narf
-        create_results_table( parseFloat(v) ,location_num );
+        create_results_table( v ,location_num );
       });
       
       // reactivate page with lightbox overlay

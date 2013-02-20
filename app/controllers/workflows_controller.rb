@@ -35,30 +35,24 @@ class WorkflowsController < ApplicationController
       # each ecosystem is labled within an opening <pft> and closing </pft> tag
       xml_string = "\t<pft>"
       xml_string << "\n\t\t<name>#{name}</name>\n"
+
+      puts "#### csep_list class ####"
+      p csep_list.class.superclass
+
       
-      puts "#### CSEP LIST ####"
-      p csep_list
+      ## Checking sanity
+#      csep_list.class.superclass.to_s == "Hash" else raise "ERROR: Expecting csep_list to be a ActiveSupport::HashWithIndifferentAccess"
+
+      puts "#### OM_ag ####"
+      p csep_list["OM_ag"]
+      p csep_list["OM_ag"].class
+           
+#      csep_list["OM_ag"].class != "Hash" else raise "ERROR: Expecting csep_list[\"OM_ag\"] to NOT be a Hash"
       
-      csep_list.each do |key, value|
-        
+      
+      csep_list.each do |key, value|        
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
-        puts "############"
-        puts value.class
-        puts value
-        ## narf
-        
-#        begin 
-#          value.is_a? Array
-#        rescue
-#          puts "ERROR: Expecting value to be of class Array"
-#        end
-        
-#        next if value.class != "Array"
-        
-        
-#        if value.is_a? Array
-#        isolated_value = value.to_a[0][1]
         
         # rework data to badgerfish convention
         # http://badgerfish.ning.com/
