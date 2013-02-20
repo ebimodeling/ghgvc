@@ -91,12 +91,7 @@ function populate_html_from_latlng( lat, lng ) {
       });
     });
     
-    console.log("data");
-    console.log(data.native_eco);
-    console.log(data.agroecosystem_eco);
-    console.log(data.aggrading_eco);
-    console.log(data.biofuels);
-    
+
 
     // At this point json_store contains all the possible data source,value pairs at this location
     $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
@@ -106,36 +101,36 @@ function populate_html_from_latlng( lat, lng ) {
     );
 
     var data_defaults = data;
-    
+    console.log("Then this is what I need to defaultize: ");
+    console.log(data_defaults);
     //narf
-    // Here I need to do something about populating saatchi data into the default values
 
     // write default values to all CSEPs
     if ( data_defaults.native_eco != null ) {
       $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
+          data_defaults.native_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
         });
       });
     };
     if ( data_defaults.agroecosystem_eco != null ) {
       $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
+          data_defaults.agroecosystem_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
         });
       })
     };
     if ( data_defaults.aggrading_eco != null ) {
       $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.aggrading_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
+          data_defaults.aggrading_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
         });
       });
     };  
     if ( data_defaults.biofuel_eco != null ) {
      $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.biofuel_eco[k][csep_k] = { "Anderson-Teixeira and DeLucia (2011)" : csep_v.s000};
+          data_defaults.biofuel_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
         });
       });
     };
@@ -312,31 +307,20 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace("_", " ") );
 
     // get the ecosystems from that biome_instance
-    var ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
-    var default_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
-// narf
-    // with all data sources ( EX: "s001" )
-    var current_ecosystem = ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+    var location_default_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
+    var current_default_ecosystem = location_default_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+
+    console.log("pushing this into popup:");
+    console.log(current_default_ecosystem);
 
     // Clear out all existing drop-down values
     $('.popup_cite_dropdown').empty();
    
     // For the current_ecosystem ( EX: "miscanthus" )
-    $.each( current_ecosystem, function( csep_key, csep_value ) {
+    $.each( current_default_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-        
-        console.log("CSEP PRE VALUES:");
-        console.log(csep_value);
-        
-        // Since we've got place holders for the source names such as "s000"
-        // Instead of the desired "Anderson-Teixeira and DeLucia (2011)"
-        csep_value = populate_data_sources_fullname_for_csep(csep_value);
-
-        console.log("CSEP POST VALUES:");
-        console.log(csep_value);
-        
 
         // if a custom field doesn't exist ... add it in
         if ( csep_value['custom'] == null ) {
@@ -356,33 +340,49 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     // At this point all values are populated in
     // Next we need to select the values the user has saved (  values in .json_saved )
     // ... which could be default values, or those that the user has saved )
-    
     var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
-    var user_saved_current_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+    var user_current_saved_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
     
-    console.log("filling popup with: ");
-    console.log(user_saved_current_ecosystem);
+    console.log("preselecting these:");
+    console.log(user_current_saved_ecosystem);
     
-    $.each( user_saved_current_ecosystem, function( csep_key, csep_value ) {
+    $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-
+//narf
         // Each CSEP will have a value saved in the users json_saved
         // So we iterate through the json_saved
         // And set the dropdown for that CSEP to the value in json_saved
-        
+
+//        console.log("Thing we're arraying");
+//        console.log(csep_key);
+
         // Create a array with the single K and V from the CSEP within .json_saved
         // then select the "key" or Array[0] to feed into the selected value below
-
         $.each(csep_value, function (index, value) {
           saved_csep_values = [index, value];
-        });
-        csep_row.find( csep_key + '-source').val( saved_csep_values[0] ); // the 0 index will contain the source 
-        csep_row.find('#ecosystem_' + csep_key ).val( saved_csep_values[1] ); // the 0 index will contain the source         
-        
+          // narf
+          // these suck so we need a more reliable selector
+//          csep_row.find( csep_key + '-source').val( saved_csep_values[0] ); // the 0 index will contain the source 
+//          csep_row.find('#ecosystem_' + csep_key ).val( saved_csep_values[1] ); // the 0 index will contain the source 
+          console.log("picking out:");
+          console.log(csep_key);
+          console.log(index);
+          
+          $('#' + csep_key + '-source option').each(function() {
+            if($(this).text() == String(index)) {
+              $(this).attr('selected', 'selected');            
+            };
+          });
+          
+          
+          
+        });       
       });
     });
+    
+    
 
   });
 };
@@ -532,6 +532,7 @@ $(document).ready(function() {
     
     $.each( ecosystem , function( csep_k, csep_v ){
       // find associated CSEP value and store whats in the .popup_value_field
+      
       var save_csep_source = $("#" + csep_k + "-source option:selected").text();
       var save_csep_value = $("#ecosystem_" + csep_k).val();
       
@@ -544,6 +545,11 @@ $(document).ready(function() {
     console.log("This is what was saved:");
     console.log(ecosystem);
 
+
+    console.log("In this big guy:");
+    console.log(all_ecosystems_at_site);
+
+    
 
     // Finally write out the saved JSON
     $('#biome_instance-' + active_site_num ).find('.json_saved').text( JSON.stringify( all_ecosystems_at_site ) );
