@@ -43,13 +43,62 @@ function get_active_site_number() {
   return $('div[id|="biome_instance"]:not(inactive_site)').attr('id').split('-').pop()
 };
 
-function populate_html_from_latlng( lat, lng ) {
+// This function swaps out the abbreviated data source names
+// for the full names: "s000" = "Anderson-Teixeira and DeLucia (2011)" 
+// Expecting input formatted as:
+// {"s000":234,"s001":9992}
+function populate_data_sources_fullname_for_csep( csep_value ) {
+//  console.log("asdfasdf");
+//  console.log(csep_value);
+  $.each( csep_value, function( sources_key, sources_value) {
+    switch ( sources_key ) { 
+      case "s000": 
+        csep_value["Anderson-Teixeira and DeLucia (2011)"] = sources_value;
+        delete csep_value.s000
+        break;
+      case "s001": 
+        csep_value["Saatchi and others (2011)"] = sources_value;
+        delete csep_value.s001
+        break; 
+    }
+  });
+  return csep_value;
+};
 
+function populate_html_from_latlng( lat, lng ) {
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
     var active_biome_site = get_active_site_number();
-    console.log("THIS:");
+    
+    // expand all values to their full source names
+    data.native_eco = $.each( data.native_eco, function(k,v) {
+      $.each( v, function(eco_k, eco_v) {
+        data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+      });
+    });
+    data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
+      $.each( v, function(eco_k, eco_v) {
+        data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+      });
+    });
+    data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
+      $.each( v, function(eco_k, eco_v) {
+        data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+      });
+    });
+    data.biofuel_eco = $.each( data.biofuel_eco, function(k,v) {
+      $.each( v, function(eco_k, eco_v) {
+        data["biofuel_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+      });
+    });
+    
+    console.log("data");
     console.log(data.native_eco);
+    console.log(data.agroecosystem_eco);
+    console.log(data.aggrading_eco);
+    console.log(data.biofuels);
+    
 
+    // At this point json_store contains all the possible data source,value pairs at this location
     $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
       '<div class="json_store">' + 
         JSON.stringify(data) + // stringify will work with IE8
@@ -258,34 +307,14 @@ function initalize_google_map(lat, lng, zoom) {
   });
 };
 
-// This function swaps out the abbreviated data source names
-// for the full names: "s000" = "Anderson-Teixeira and DeLucia (2011)" 
-// Expecting input formatted as:
-// {"s000":234,"s001":9992}
-function populate_fullname_in_data_source( csep_value ) {
-
-  $.each( csep_value, function( sources_key, sources_value) {
-    switch ( sources_key ) { 
-      case "s000": 
-        csep_value["Anderson-Teixeira and DeLucia (2011)"] = sources_value;
-        delete csep_value.s000
-        break;
-      case "s001": 
-        csep_value["Saatchi and others (2011)"] = sources_value;
-        delete csep_value.s001
-        break; 
-    }
-  });
-  return csep_value;
-};
-
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
     $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace("_", " ") );
 
     // get the ecosystems from that biome_instance
     var ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
-
+    var default_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
+// narf
     // with all data sources ( EX: "s001" )
     var current_ecosystem = ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
 
@@ -303,7 +332,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
         
         // Since we've got place holders for the source names such as "s000"
         // Instead of the desired "Anderson-Teixeira and DeLucia (2011)"
-        csep_value = populate_fullname_in_data_source(csep_value);
+        csep_value = populate_data_sources_fullname_for_csep(csep_value);
 
         console.log("CSEP POST VALUES:");
         console.log(csep_value);
@@ -325,7 +354,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     });
     
     // At this point all values are populated in
-    // Next we need to display the values the user has selected ( the values that are present in the .json_saved )
+    // Next we need to select the values the user has saved (  values in .json_saved )
     // ... which could be default values, or those that the user has saved )
     
     var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
