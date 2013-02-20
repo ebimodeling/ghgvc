@@ -101,9 +101,6 @@ function populate_html_from_latlng( lat, lng ) {
     );
 
     var data_defaults = data;
-    console.log("Then this is what I need to defaultize: ");
-    console.log(data_defaults);
-    //narf
 
     // write default values to all CSEPs
     if ( data_defaults.native_eco != null ) {
@@ -350,33 +347,20 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-//narf
+
         // Each CSEP will have a value saved in the users json_saved
         // So we iterate through the json_saved
         // And set the dropdown for that CSEP to the value in json_saved
-
-//        console.log("Thing we're arraying");
-//        console.log(csep_key);
-
-        // Create a array with the single K and V from the CSEP within .json_saved
-        // then select the "key" or Array[0] to feed into the selected value below
         $.each(csep_value, function (index, value) {
-          saved_csep_values = [index, value];
-          // narf
-          // these suck so we need a more reliable selector
-//          csep_row.find( csep_key + '-source').val( saved_csep_values[0] ); // the 0 index will contain the source 
-//          csep_row.find('#ecosystem_' + csep_key ).val( saved_csep_values[1] ); // the 0 index will contain the source 
-          console.log("picking out:");
-          console.log(csep_key);
-          console.log(index);
-          
+          // Check the text of each drop down option
           $('#' + csep_key + '-source option').each(function() {
+            // if it matches the saved one... make it the active selection
             if($(this).text() == String(index)) {
               $(this).attr('selected', 'selected');            
             };
           });
           
-          
+        // At this point all the the saved options should be displaying as whats selected in the popup          
           
         });       
       });
@@ -477,6 +461,8 @@ $(document).ready(function() {
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
     
+    // delete "category"
+    
     // Hide all the input portions
     toggle_input_state_for_highcharts();
     
@@ -490,7 +476,8 @@ $(document).ready(function() {
         console.log("key: "+k+" .. and value:");
         console.log(v); 
         var location_num = k.split('_')[1]
-        create_results_table(v ,location_num );
+        //  narf
+        create_results_table( parseFloat(v) ,location_num );
       });
       
       // reactivate page with lightbox overlay

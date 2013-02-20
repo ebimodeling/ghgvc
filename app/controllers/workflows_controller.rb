@@ -27,20 +27,43 @@ class WorkflowsController < ApplicationController
   def create_config_input
     @ecosystems = params[:ecosystems]
     
-    def convert_single_level_hash_to_xml( name, b )
+    
+    # Example call
+    # convert_single_level_hash_to_xml ("Desert", {"OM_ag"=>{"Anderson-Teixeira and DeLucia (2011)"=>"444.0"}, "OM_root"=>{"Anderson-Teixeira and DeLucia (2011)"=>"108.0"}} )
+    
+    def convert_single_level_hash_to_xml( name, csep_list )
       # each ecosystem is labled within an opening <pft> and closing </pft> tag
       xml_string = "\t<pft>"
       xml_string << "\n\t\t<name>#{name}</name>\n"
-      b.each do |key, value|
+      
+      puts "#### CSEP LIST ####"
+      p csep_list
+      
+      csep_list.each do |key, value|
         
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
-        isolated_value = value.to_a[0][1]
+        puts "############"
+        puts value.class
+        puts value
+        ## narf
+        
+#        begin 
+#          value.is_a? Array
+#        rescue
+#          puts "ERROR: Expecting value to be of class Array"
+#        end
+        
+#        next if value.class != "Array"
+        
+        
+#        if value.is_a? Array
+#        isolated_value = value.to_a[0][1]
         
         # rework data to badgerfish convention
         # http://badgerfish.ning.com/
-        b[key] = { "$" => isolated_value }
-        hash = { "#{key}" => b[key] }
+        csep_list[key] = { "$" => value }
+        hash = { "#{key}" => csep_list[key] }
         
         # parse into XML string
         xml = CobraVsMongoose.hash_to_xml(hash)
@@ -72,8 +95,12 @@ class WorkflowsController < ApplicationController
       
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
-        value['native_eco'].each do | native_k, native_v |
-          file_string << convert_single_level_hash_to_xml( native_k, native_v )
+        # native_eco is a hash containing individual ecosystems
+        value['native_eco'].each do | ecosystem_k, ecosystem_v |
+        
+          file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
+          
+          
         end
       end      
       if value['agroecosystem_eco'] != nil
