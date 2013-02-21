@@ -106,28 +106,28 @@ function populate_html_from_latlng( lat, lng ) {
     if ( data_defaults.native_eco != null ) {
       $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
+          data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
         });
       });
     };
     if ( data_defaults.agroecosystem_eco != null ) {
       $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
+          data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
         });
       })
     };
     if ( data_defaults.aggrading_eco != null ) {
       $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.aggrading_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
+          data_defaults.aggrading_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
         });
       });
     };  
     if ( data_defaults.biofuel_eco != null ) {
      $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
         $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.biofuel_eco[k][csep_k] = csep_v["Anderson-Teixeira and DeLucia (2011)"];
+          data_defaults.biofuel_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
         });
       });
     };
@@ -465,8 +465,11 @@ $(document).ready(function() {
     });
 
     // At this point we've got the names of selected ecosystems at each location
+    // Each CSEP contains a single Float value
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
+    
+    // narf
     
     // delete "category"
     
@@ -483,7 +486,8 @@ $(document).ready(function() {
         console.log("key: "+k+" .. and value:");
         console.log(v); 
         var location_num = k.split('_')[1]
-        //  narf
+        
+        //  parseFloat(v) might be needed here:
         create_results_table( v ,location_num );
       });
       
@@ -526,13 +530,13 @@ $(document).ready(function() {
     
     $.each( ecosystem , function( csep_k, csep_v ){
       // find associated CSEP value and store whats in the .popup_value_field
-      
       var save_csep_source = $("#" + csep_k + "-source option:selected").text();
       var save_csep_value = $("#ecosystem_" + csep_k).val();
-      
+      // narf
       ecosystem[csep_k] = {};
       ecosystem[csep_k][save_csep_source] = save_csep_value;
-//      console.log("Wrote out: " + csep_k + " as: " + save_csep_source +":"+save_csep_value);
+      console.log("Wrote out: " + csep_k + " as: " + save_csep_source +":"+save_csep_value);
+      
     });
 
     // At this point the ecosystem object will contain *ONLY* a single key/value pair ( source / value pair )

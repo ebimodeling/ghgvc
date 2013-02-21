@@ -37,18 +37,22 @@ class WorkflowsController < ApplicationController
       xml_string << "\n\t\t<name>#{name}</name>\n"
 
       ## Checking sanity
-      raise "ERROR: Expecting csep_list to be a ActiveSupport::HashWithIndifferentAccess" unless csep_list.class.superclass.to_s == "Hash"     
-      raise "ERROR: Expecting csep_list[\"OM_ag\"] to NOT be a Hash" unless csep_list["OM_ag"].is_a? String
       
-      
+#      raise "ERROR: Expecting csep_list[\"OM_ag\"] to be a string:\n\t... evlauted as #{csep_list["OM_ag"].is_a}" unless csep_list["OM_ag"].is_a? String
+#      
       
       csep_list.each do |key, value|        
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
+        raise "ERROR: Expecting superclass to be Hash \n\t... evaluted as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
+
+        isolated_value = value.to_a[0][1]
+        raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"     
+
         
         # rework data to badgerfish convention
         # http://badgerfish.ning.com/
-        csep_list[key] = { "$" => value }
+        csep_list[key] = { "$" => isolated_value }
         hash = { "#{key}" => csep_list[key] }
         
         # parse into XML string
