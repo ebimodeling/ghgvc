@@ -36,18 +36,10 @@ class WorkflowsController < ApplicationController
       xml_string = "\t<pft>"
       xml_string << "\n\t\t<name>#{name}</name>\n"
 
-      puts "#### csep_list class ####"
-      p csep_list.class.superclass
-
-      
       ## Checking sanity
-#      csep_list.class.superclass.to_s == "Hash" else raise "ERROR: Expecting csep_list to be a ActiveSupport::HashWithIndifferentAccess"
-
-      puts "#### OM_ag ####"
-      p csep_list["OM_ag"]
-      p csep_list["OM_ag"].class
-           
-#      csep_list["OM_ag"].class != "Hash" else raise "ERROR: Expecting csep_list[\"OM_ag\"] to NOT be a Hash"
+      raise "ERROR: Expecting csep_list to be a ActiveSupport::HashWithIndifferentAccess" unless csep_list.class.superclass.to_s == "Hash"     
+      raise "ERROR: Expecting csep_list[\"OM_ag\"] to NOT be a Hash" unless csep_list["OM_ag"].is_a? String
+      
       
       
       csep_list.each do |key, value|        
