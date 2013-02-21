@@ -421,6 +421,13 @@ $(document).ready(function() {
   initalize_google_map();
   
   $('#run_ghgvc_calculator').on('click' ,function() {
+  
+    // Check to see that we've got at least one "checked" input
+    if ( $('[id|="biome_instance"]').find('label.checkbox').find('input').is(':checked') == false ) {
+      alert("Please check one or more ecosystems");  
+      return;
+    };
+    
     // deactivate page with lightbox overlay
     $('#toggle_ghgvcR_processing_popup').trigger("click");
 
