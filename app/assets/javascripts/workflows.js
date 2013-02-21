@@ -67,6 +67,11 @@ function populate_data_sources_fullname_for_csep( csep_value ) {
 
 function populate_html_from_latlng( lat, lng ) {
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
+
+    // Ensure we clear out existing stores, before making more
+    $('[id|="biome_instance"]:not(.inactive_site)').find(".json_store").remove().find("json_saved").remove();
+    
+  
     var active_biome_site = get_active_site_number();
     
     // expand all values to their full source names
@@ -92,6 +97,8 @@ function populate_html_from_latlng( lat, lng ) {
     });
     
 
+    $('#biome_instance-' + active_biome_site).find(".json_store").remove();
+    $('#biome_instance-' + active_biome_site).find(".json_saved").remove();
 
     // At this point json_store contains all the possible data source,value pairs at this location
     $('#biome_instance-' + active_biome_site ).prepend( // used for default values in popups
@@ -138,10 +145,6 @@ function populate_html_from_latlng( lat, lng ) {
       '<div class="json_saved">' + 
         JSON.stringify(data_defaults) + // stringify will work with IE8
       '</div>'
-    ).append( // used for inputs into the ghgvcR code
-      '<div class="json_final">' + 
-        JSON.stringify(data_defaults) +
-      '</div>'
     );
 
     
@@ -155,7 +158,7 @@ function populate_html_from_latlng( lat, lng ) {
       $.each( data.native_eco, function(k,v) {
         $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
           '<div class="biome_match">' +
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + '</input></label>' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace(/_/g," ") + '</input></label>' +
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
@@ -169,7 +172,7 @@ function populate_html_from_latlng( lat, lng ) {
       $.each( data.biofuel_eco, function(k,v) {
         $('div.well:not(.inactive_site)').find('.biofuel_biomes').find('.biome_list').append(
           '<div class="biome_match">' +
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + '</input></label>' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace(/_/g," ") + '</input></label>' +
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
@@ -183,7 +186,7 @@ function populate_html_from_latlng( lat, lng ) {
       $.each( data.agroecosystem_eco, function(k,v) { 
         $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
           '<div class="biome_match">' +
-            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace("_"," ") + '</input></label>' +
+            '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace(/_/g," ") + '</input></label>' +
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
@@ -301,11 +304,11 @@ function initalize_google_map(lat, lng, zoom) {
 
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
-    $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace("_", " ") );
+    $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace(/_/g," ") );
 
     // get the ecosystems from that biome_instance
     var location_default_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
-    var current_default_ecosystem = location_default_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+    var current_default_ecosystem = location_default_ecosystems[biome_type + "_eco"][biome_name.replace(/ /g,"_")];
 
     console.log("pushing this into popup:");
     console.log(current_default_ecosystem);
@@ -338,7 +341,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     // Next we need to select the values the user has saved (  values in .json_saved )
     // ... which could be default values, or those that the user has saved )
     var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
-    var user_current_saved_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(" ", "_")];
+    var user_current_saved_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(/ /g,"_")];
     
     console.log("preselecting these:");
     console.log(user_current_saved_ecosystem);
@@ -359,6 +362,8 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
               $(this).attr('selected', 'selected');            
             };
           });
+          
+          $('#ecosystem_' + csep_key).attr("value", value);
           
         // At this point all the the saved options should be displaying as whats selected in the popup          
           
@@ -411,6 +416,7 @@ function toggle_input_state_for_highcharts() {
   $('#biome_input_container').toggle();
   $('#run_ghgvc_calculator').toggle();
   $('#add_additional_biome_site').toggle();
+  $('#location_counter_container').toggle();
 };
 
 function update_location_count(){
@@ -449,11 +455,11 @@ $(document).ready(function() {
       $.each( ecosystem_to_include, function(i,v){
         // and each ecosystem
 
-        var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(" ","_")];
+        var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
         console.log( input_ecosystem_json );
         var biome_group_string = biome_group.attr('id');
         var biome_type_string = v[0] + "_eco";
-        var biome_name_string = v[1].replace(" ","_");
+        var biome_name_string = v[1].replace(/ /g,"_")
         
         // if keys dont exist ... add them
         if (!( biome_group_string in ghgvcR_input ))  ghgvcR_input[biome_group_string] = {};
@@ -487,7 +493,7 @@ $(document).ready(function() {
         console.log(v); 
         var location_num = k.split('_')[1]
         
-        //  parseFloat(v) might be needed here:
+        // TODO: parseFloat(v) might be needed here:
         create_results_table( v ,location_num );
       });
       
@@ -516,9 +522,14 @@ $(document).ready(function() {
     // get all fields / values
 //    console.log( $('#ecosystem_edit').find('.popup_value_field') );
     var ecosystem_type_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[0] + "_eco";
-    var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(" ","_");    
+    var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(/ /g,"_");    
     var active_site_num = get_active_site_number();
     var all_ecosystems_at_site = $.parseJSON( $('#biome_instance-' + active_site_num ).find('.json_saved').text() );
+    console.log("########");
+    console.log(all_ecosystems_at_site);
+    console.log(ecosystem_type_being_saved);
+    console.log(ecosystem_being_saved);
+
 
     var ecosystem = all_ecosystems_at_site[ecosystem_type_being_saved][ecosystem_being_saved]
 
@@ -527,6 +538,8 @@ $(document).ready(function() {
     
     // then when populating the edit_popup ... if a ['custom'] exists .. use it as the default
 
+    console.log("Gets there");
+    console.log(ecosystem);
     
     $.each( ecosystem , function( csep_k, csep_v ){
       // find associated CSEP value and store whats in the .popup_value_field
@@ -540,8 +553,10 @@ $(document).ready(function() {
     });
 
     // At this point the ecosystem object will contain *ONLY* a single key/value pair ( source / value pair )
+    // It should cointain a Hash object for each CSEP
     console.log("This is what was saved:");
     console.log(ecosystem);
+
 
 
     console.log("In this big guy:");

@@ -35,18 +35,15 @@ class WorkflowsController < ApplicationController
       # each ecosystem is labled within an opening <pft> and closing </pft> tag
       xml_string = "\t<pft>"
       xml_string << "\n\t\t<name>#{name}</name>\n"
-
-      ## Checking sanity
-      
-#      raise "ERROR: Expecting csep_list[\"OM_ag\"] to be a string:\n\t... evlauted as #{csep_list["OM_ag"].is_a}" unless csep_list["OM_ag"].is_a? String
-#      
-      
+  
       csep_list.each do |key, value|        
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
-        raise "ERROR: Expecting superclass to be Hash \n\t... evaluted as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
-
+        
         isolated_value = value.to_a[0][1]
+
+        ## Checking sanity        
+        raise "ERROR: Expecting superclass to be Hash \n\t... evaluted as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
         raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"     
 
         
@@ -85,12 +82,8 @@ class WorkflowsController < ApplicationController
       
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
-        # native_eco is a hash containing individual ecosystems
         value['native_eco'].each do | ecosystem_k, ecosystem_v |
-        
           file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
-          
-          
         end
       end      
       if value['agroecosystem_eco'] != nil
@@ -124,13 +117,22 @@ class WorkflowsController < ApplicationController
     # this will wait for the script to finish
     r = `#{rcmd}`
     
-    
-    
-    puts "###########################"
-    puts r
 
     # then poll to see if script is finished 
-    @ghgvcR_output = File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json")
+    @ghgvcR_output = JSON.parse(File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"))
+    # in a few instances we get back values of "NA" .. replace those with zero    
+    @ghgvcR_output.each do | site_k, site_v |
+      puts "###########################"
+      puts site_v.class
+      site_v.each do |i| # site_v is an array
+        i.each do |k,v|
+          if v == "NA"
+            i[k] = 0
+          end
+        end
+      end
+    end
+
     
     respond_to do |format|
       format.json { render json: @ghgvcR_output }
