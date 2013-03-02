@@ -302,6 +302,14 @@ function initalize_google_map(lat, lng, zoom) {
   });
 };
 
+function show_csep_groups_for_ecosystem( ecosystem ) {
+  //geo_refined_pft_accordion
+  
+  // currently named collapseOne
+
+}
+
+
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
     $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace(/_/g," ") );
@@ -312,6 +320,11 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
 
     console.log("pushing this into popup:");
     console.log(current_default_ecosystem);
+
+//narf
+    // show and hide given ecosystem groups here using current_default_ecosystem
+    show_csep_groups_for_ecosystem(current_default_ecosystem);
+    
 
     // Clear out all existing drop-down values
     $('.popup_cite_dropdown').empty();
