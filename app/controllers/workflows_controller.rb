@@ -157,6 +157,25 @@ class WorkflowsController < ApplicationController
       # map onto output range
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
+    
+    #### SOC: ####
+    
+    # http://localhost:3000/get_biome.json?lng=-84.625&lat=52.95833 # => 674.298
+    @soc = NumRu::NetCDF.open("netcdf/SoilCarbonDataS.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @soc.var("y")
+    @dims["lon"] = @soc.var("x")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @soc_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @soc_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @soc.var_names[-1]
+      @soc_num = @soc.var( @file_var_name )[ @soc_i, @soc_j, 0, 0 ][0]
+#      puts "#######################################"
+#      puts @soc_num
+      @soc.close()
+    end  
+
 
 
     #### Saatchi: ####
@@ -173,7 +192,7 @@ class WorkflowsController < ApplicationController
       @saatchi_asia_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_asia_bgb.var_names[-1]
       @saatchi_asia_bgb_num = @saatchi_asia_bgb.var( @file_var_name )[ @saatchi_asia_bgb_i, @saatchi_asia_bgb_j, 0, 0 ][0]
-#      puts "################### america_bgb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_asia_bgb_num
       @saatchi_asia_bgb.close()
     end  
@@ -191,7 +210,7 @@ class WorkflowsController < ApplicationController
       @saatchi_asia_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_asia_agb.var_names[-1]
       @saatchi_asia_agb_num = @saatchi_asia_agb.var( @file_var_name )[ @saatchi_asia_agb_i, @saatchi_asia_agb_j, 0, 0 ][0]
-#      puts "################### america_bgb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_asia_agb_num
       @saatchi_asia_agb.close()
     end  
@@ -209,7 +228,7 @@ class WorkflowsController < ApplicationController
       @saatchi_america_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_america_bgb.var_names[-1]
       @saatchi_america_bgb_num = @saatchi_america_bgb.var( @file_var_name )[ @saatchi_america_bgb_i, @saatchi_america_bgb_j, 0, 0 ][0]
-#      puts "################### america_bgb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_america_bgb_num
       @saatchi_america_bgb.close()
     end  
@@ -227,7 +246,7 @@ class WorkflowsController < ApplicationController
       @saatchi_america_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_america_agb.var_names[-1]
       @saatchi_america_agb_num = @saatchi_america_agb.var( @file_var_name )[ @saatchi_america_agb_i, @saatchi_america_agb_j, 0, 0 ][0]
-#      puts "################### america_agb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_america_agb_num
       @saatchi_america_agb.close()
     end  
@@ -245,7 +264,7 @@ class WorkflowsController < ApplicationController
       @saatchi_africa_bgb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_africa_bgb.var_names[-1]
       @saatchi_africa_bgb_num = @saatchi_africa_bgb.var( @file_var_name )[ @saatchi_africa_bgb_i, @saatchi_africa_bgb_j, 0, 0 ][0]
-#      puts "################### africa_bgb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_africa_bgb_num
       @saatchi_africa_bgb.close()
     end   
@@ -263,7 +282,7 @@ class WorkflowsController < ApplicationController
       @saatchi_africa_agb_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @saatchi_africa_agb.var_names[-1]
       @saatchi_africa_agb_num = @saatchi_africa_agb.var( @file_var_name )[ @saatchi_africa_agb_i, @saatchi_africa_agb_j, 0, 0 ][0]
-#      puts "################### africa_agb_1km ####################"
+#      puts "#######################################"
 #      puts @saatchi_africa_agb_num
       @saatchi_africa_agb.close()
     end   
@@ -638,6 +657,14 @@ class WorkflowsController < ApplicationController
       end
     end
     
+    #### SOC Logic
+    ##
+    if @soc != 0 && @soc != nil # 0 - 126.577
+      @biome_data["native_eco"].each do |k,v|
+        @biome_data["native_eco"][k]["OM_root"]["s002"] = @soc_num
+      end
+    end
+    
     #### Saatchi Logic
     ##
     if @saatchi_asia_bgb_num != 0 && @saatchi_asia_bgb_num != nil # 0 - 126.577
@@ -729,8 +756,7 @@ class WorkflowsController < ApplicationController
     
 # TODO: Aggreding not yet added
 ###   AGGRADING: aggrading temperate non-forest, aggrading tropical non-forest, aggrading boreal forest, aggrading tropical forest, aggrading temperate forest
-    p "######### BIOME:"
-    p @biome_data
+
 
 
     respond_to do |format|
