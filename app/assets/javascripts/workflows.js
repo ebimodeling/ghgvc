@@ -60,6 +60,10 @@ function populate_data_sources_fullname_for_csep( csep_value ) {
         csep_value["Saatchi and others (2011)"] = sources_value;
         delete csep_value.s001
         break; 
+      case "s002": 
+        csep_value["SOC (2013)"] = sources_value;
+        delete csep_value.s002
+        break; 
     }
   });
   return csep_value;
