@@ -302,11 +302,26 @@ function initalize_google_map(lat, lng, zoom) {
   });
 };
 
-function show_csep_groups_for_ecosystem( ecosystem ) {
-  //geo_refined_pft_accordion
+function show_csep_groups_for_ecosystem( ecosystem_name ) {
   
-  // currently named collapseOne
-
+  // Hide non-default groups 
+  $('#natural_fire').hide();
+  $('#management_related').hide();
+  $('#fossil_fuel').hide();
+    
+  // Add in additional groups if needed
+  switch ( ecosystem_name ) { 
+    case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
+      $('#natural_fire').show();
+      break;
+   case"US corn": case"BR Sugarcane": 
+      $('#management_related').show();
+      $('#fossil_fuel').show();
+      break;
+   case"temperate pasture": case"tropical pasture": case"temperate cropland": case"soybean": case"tropical cropland":
+      $('#management_related').show();
+      break;
+  }
 }
 
 
@@ -321,9 +336,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     console.log("pushing this into popup:");
     console.log(current_default_ecosystem);
 
-//narf
-    // show and hide given ecosystem groups here using current_default_ecosystem
-    show_csep_groups_for_ecosystem(current_default_ecosystem);
+    show_csep_groups_for_ecosystem( biome_name.replace(/_/g," ") );
     
 
     // Clear out all existing drop-down values

@@ -682,7 +682,7 @@ class WorkflowsController < ApplicationController
 
 ###   AGROECOSYSTEMS: tropical pasture, temperate pasture, tropical cropland, temperate cropland, wetland rice
     if @us_springwheat_num != nil #&& @us_springwheat_num > 0.01
-      @biome_data["agroecosystem_eco"]["springwheat"] = @name_indexed_ecosystems["switchgrass"]
+#      @biome_data["agroecosystem_eco"]["springwheat"] = @name_indexed_ecosystems["switchgrass"]
     end
       # Testing:
       # should include springwheat in the JSON:
