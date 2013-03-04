@@ -26,7 +26,11 @@ function place_google_maps_pin( lat, lng, biome_site_id ) {
   remove_google_maps_pin(biome_site_id);
 
   // generate a new marker
-  var marker = new google.maps.Marker({ position: new google.maps.LatLng( lat , lng ) });
+  var marker = new google.maps.Marker({ 
+    position: new google.maps.LatLng( lat , lng ),
+    // Add in a marker with the location number
+    icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=' + biome_site_id + '|FE7569|000000'
+  });
   // push the marker into the storage array
   markersArray[biome_site_id] = marker;
   
@@ -151,6 +155,7 @@ function populate_html_from_latlng( lat, lng ) {
       '</div>'
     );
 
+    // given a marker... assign it a Location number ... and write that number into the marker
     
     marker = place_google_maps_pin( lat, lng, active_biome_site );
     marker.setMap(map); // To add the marker to the map, call setMap();
@@ -301,7 +306,7 @@ function initalize_google_map(lat, lng, zoom) {
     populate_html_from_latlng( lat, lng );
 
     // for offline testing
-    // populate_html_from_latlng( 39.16113, -4.978971 );
+//     populate_html_from_latlng( 39.16113, -4.978971 );
     
   });
 };
@@ -505,14 +510,9 @@ $(document).ready(function() {
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
     
-    // narf
-    
-    // delete "category"
-    
     // Hide all the input portions
     toggle_input_state_for_highcharts();
     
-    //narf
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
       console.log("###### output from ghgvcR code: ######");
       console.log(data);
@@ -575,7 +575,7 @@ $(document).ready(function() {
       // find associated CSEP value and store whats in the .popup_value_field
       var save_csep_source = $("#" + csep_k + "-source option:selected").text();
       var save_csep_value = $("#ecosystem_" + csep_k).val();
-      // narf
+
       ecosystem[csep_k] = {};
       ecosystem[csep_k][save_csep_source] = save_csep_value;
       console.log("Wrote out: " + csep_k + " as: " + save_csep_source +":"+save_csep_value);
@@ -618,9 +618,12 @@ $(document).ready(function() {
 
     if ( $('div[id|="biome_instance"]').length <= 9 && $('#add_additional_biome_site').hasClass("disabled") == false ) {
       // Add in new biome site, which will be ACTIVE 
+      
+      var this_location_number = generate_id();
+      
       $('#biome_input_container').prepend(
-        '<div id="biome_instance-' + generate_id() + '" class="well well-small collapsed">' +
-        '  <div class="biome_site_header inline-block"><h4>Location Lat/Lng: <span class="site_latlng">( -- , -- )</span></h4></div>' + 
+        '<div id="biome_instance-' + this_location_number + '" class="well well-small collapsed">' +
+        '  <div class="biome_site_header inline-block"><h4><span class="site_latlng">( -- , -- )</span>: Location ' + this_location_number + '</h4></div>' + 
         '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' + 
         '    <i class="icon-search icon-remove"></i> Remove Location' +
         '  </div>' + '  <br />' + '<hr/>' +
