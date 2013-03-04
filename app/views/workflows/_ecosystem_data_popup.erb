@@ -7,13 +7,13 @@
   <div class="container-fluid">
 	  <div class="accordion" id="geo_refined_pft_accordion">
       <!-- ###### Initial Storage of Organic Matter ####### -->
-      <div class="accordion-group">  
+      <div id="initial_storage" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_initial_storage">  
             Initial Storage of Organic Matter
           </a>  
         </div>  
-        <div id="collapseOne" class="accordion-body collapse" style="height: 0px;">  
+        <div id="collapse_initial_storage" class="accordion-body collapse" style="height: 0px;">  
           <div class="accordion-inner">
             <table class="table">
               <thead>
@@ -63,13 +63,13 @@
       <!-- ###### /Initial Storage of Organic Matter ####### -->
       
       <!-- ###### Land-Clearing Fire Characteristics  ####### -->
-      <div class="accordion-group">  
+      <div id="land_clearing" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_land_clearing">  
            Land-Clearing Fire Characteristics  
           </a>  
         </div>  
-        <div id="collapseTwo" class="accordion-body collapse">  
+        <div id="collapse_land_clearing" class="accordion-body collapse">  
           <div class="accordion-inner">
             <table class="table">
               <thead>
@@ -121,13 +121,13 @@
       <!-- ###### / Land-Clearing Fire Characteristics  ####### -->
             
       <!-- ###### Organic Matter Decomposition Following Clearing ####### -->
-      <div class="accordion-group">  
+      <div id="organic_matter" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_organic_matter">  
             Organic Matter Decomposition Following Clearing
           </a>  
         </div>  
-        <div id="collapseThree" class="accordion-body collapse">  
+        <div id="collapse_organic_matter" class="accordion-body collapse">  
           <div class="accordion-inner">  
             <table class="table">
               <thead>
@@ -192,7 +192,6 @@
                 <td> <%= select_tag("Ed_CH4_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
                 <td> <%= text_field :ecosystem,"Ed_CH4_root", :value => @ecosystem["Ed_CH4_root"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              
               <tr id="Ed_CH4_peat">
                 <td> Proportional release of CH4 for each unit of peat biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_CH4_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
@@ -230,13 +229,13 @@
       <!-- ###### /Organic Matter Decomposition Following Clearing ####### -->
 
       <!-- ###### Ongoing (Annual) Greenhouse Gas Exchange ####### -->
-      <div class="accordion-group">  
+      <div id="ongoing_annual" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_ongoing_annual">  
             Ongoing (Annual) Greenhouse Gas Exchange
           </a>  
         </div>  
-        <div id="collapseFour" class="accordion-body collapse">  
+        <div id="collapse_ongoing_annual" class="accordion-body collapse">  
           <div class="accordion-inner">  
             <table class="table">
               <thead>
@@ -268,13 +267,13 @@
       <!-- ###### /Ongoing (Annual) Greenhouse Gas Exchange ####### -->
       
       <!-- ###### Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
-      <div class="accordion-group">  
+      <div id="age_dependent" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_age_dependent">  
             Age-Dependent Changes in Annual Greenhouse Gas Exchange
           </a>  
         </div>  
-        <div id="collapseFive" class="accordion-body collapse">  
+        <div id="collapse_age_dependent" class="accordion-body collapse">  
           <div class="accordion-inner">  
             <table class="table">
               <thead>
@@ -311,13 +310,13 @@
       <!-- ###### /Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
 
       <!-- ###### Natural Fire-Recovery Cycles ####### -->
-      <div class="accordion-group">  
+      <div id="natural_fire" class="accordion-group">  
         <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseSix">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_natural_fire">  
             Natural Fire-Recovery Cycles
           </a>  
         </div>  
-        <div id="collapseSix" class="accordion-body collapse">  
+        <div id="collapse_natural_fire" class="accordion-body collapse">  
           <div class="accordion-inner">  
             <table class="table">
               <thead>
@@ -390,6 +389,84 @@
         </div>  
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Natural Fire-Recovery Cycles ####### -->
+      
+      
+      
+
+      <!-- ###### Management-Related GHG Emissions ####### -->
+      <div id="management_related" class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_management_related">  
+            Management-Related GHG Emissions
+          </a>  
+        </div>  
+        <div id="collapse_management_related" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="400px">Attribute</th>
+                  <th width="300px">Source</th>
+                  <th width="100px">Value</th>
+                </tr>
+              </thead>
+              <tr id="F_anth">
+                <td> Age of transition (time at which biomass accumulation rate declines) (years)	 </td>
+                <td> <%= select_tag("F_anth-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"F_anth", :value => @ecosystem["F_anth"].to_f, :class => "popup_value_field" %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Management-Related GHG Emissions ####### -->
+      
+      
+      
+      <!-- ###### Fossil Fuel Displacement ####### -->
+      <div id="fossil_fuel" class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_fossil_fuel">  
+            Fossil Fuel Displacement
+          </a>  
+        </div>  
+        <div id="collapse_fossil_fuel" class="accordion-body collapse">  
+          <div class="accordion-inner">  
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="400px">Attribute</th>
+                  <th width="300px">Source</th>
+                  <th width="100px">Value</th>
+                </tr>
+              </thead>
+              <tr id="bioYield_grain">
+                <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
+                <td> <%= select_tag("bioYield_grain-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"bioYield_grain", :value => @ecosystem["bioYield_grain"].to_f, :class => "popup_value_field" %> </td>
+              </tr>
+              <tr id="bioYield_stove">
+                <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition</td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
+                <td> <%= select_tag("bioYield_stove-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"bioYield_stove", :value => @ecosystem["bioYield_stove"].to_f, :class => "popup_value_field" %> </td>
+              </tr>
+              <tr id="con_en_grain">
+                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
+                <td> <%= select_tag("con_en_grain-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"con_en_grain", :value => @ecosystem["con_en_grain"].to_f, :class => "popup_value_field" %> </td>
+              </tr>
+              <tr id="con_en_stove">
+                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
+                <td> <%= select_tag("con_en_stove-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"con_en_stove", :value => @ecosystem["con_en_stove"].to_f, :class => "popup_value_field" %> </td>
+              </tr>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /Fossil Fuel Displacement ####### -->
+
+
 	  </div>
   </div>
   
