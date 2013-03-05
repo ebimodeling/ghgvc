@@ -272,12 +272,13 @@ $(document).ready(function() {
 			co2_storage.push(result.S_CO2);
 			ch4_storage.push(result.S_CH4);
 			n2o_storage.push(result.S_N2O);
-			co2_flux.push(-result.F_CO2); // TODO: This is only a temp patch for the ghgvcR error
-			ch4_flux.push(result.F_CH4);
-			n2o_flux.push(result.F_N2O);
-			co2_dist.push(result.S_CO2 + result.F_CO2);
-			ch4_dist.push(result.S_CH4 + result.F_CH4);
-			n2o_dist.push(result.S_N2O + result.F_N2O);
+			// TODO: This is only a temp patch for the ghgvcR error
+			co2_flux.push(-result.F_CO2); 
+			ch4_flux.push(-result.F_CH4);
+			n2o_flux.push(-result.F_N2O);
+			co2_dist.push(result.S_CO2 - result.F_CO2);
+			ch4_dist.push(result.S_CH4 - result.F_CH4);
+			n2o_dist.push(result.S_N2O - result.F_N2O);
 		}
 
 		new Highcharts.Chart({

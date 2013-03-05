@@ -661,7 +661,7 @@ class WorkflowsController < ApplicationController
     ##
     if @soc != 0 && @soc != nil # 0 - 126.577
       @biome_data["native_eco"].each do |k,v|
-        @biome_data["native_eco"][k]["OM_SOM"]["s002"] = @soc_num # 0.30 x (soc 0-30 + soc 30-100).
+        @biome_data["native_eco"][k]["OM_SOM"]["s002"] = @soc_num * 1.72 # 0.30 x (soc 0-30 + soc 30-100).
       end
     end
     
