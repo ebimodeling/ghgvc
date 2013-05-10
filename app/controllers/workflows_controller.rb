@@ -624,7 +624,11 @@ class WorkflowsController < ApplicationController
         when 3, 4, 5
           @biome_data["native_eco"]["temperate_forest"] = @name_indexed_ecosystems["temperate forest"]
         when 6, 7
-          @biome_data["native_eco"]["northern_peatland"] = @name_indexed_ecosystems["northern peatland"]
+          # Per Kristas request
+          # Peat forest only where SOC 30-100 cm > 75
+          if @soc_num > 75 
+            @biome_data["native_eco"]["northern_peatland"] = @name_indexed_ecosystems["northern peatland"]
+          end
           @biome_data["native_eco"]["boreal_forest"] = @name_indexed_ecosystems["boreal forest"]
         when 8
           if @request_lat >= 50
