@@ -16,16 +16,18 @@ Ghgvc::Application.routes.draw do
   resources :users
 
   # Static pages
-  match 'home/' => 'static_pages#home'
-  match 'contact/' => 'static_pages#contact'
-  match 'team/' => 'static_pages#team'
-  match 'clients/' => 'static_pages#clients'
-  match 'services/' => 'static_pages#services'
-  match 'research/' => 'static_pages#research'
-  
+#  match 'home/' => 'static_pages#home'
+#  match 'contact/' => 'static_pages#contact'
+#  match 'team/' => 'static_pages#team'
+#  match 'clients/' => 'static_pages#clients'
+#  match 'services/' => 'static_pages#services'
+#  match 'research/' => 'static_pages#research'
+#  
+  # AJAX handlers
   match 'get_biome/' => 'workflows#get_biome'
   match 'create_config_input/' => 'workflows#create_config_input'
   
+  root :to => 'workflows#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -76,7 +78,6 @@ Ghgvc::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'static_pages#home'
 
   # See how all your routes lay out with "rake routes"
 
