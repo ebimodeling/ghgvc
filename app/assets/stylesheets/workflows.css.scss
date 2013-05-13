@@ -25,10 +25,54 @@
 }
 
 #map_canvas { 
-  width: 960px;
+  width: 700px;
   height: 400px;
-  margin: auto;
+/*  margin: auto;*/
 }
+
+#map_legend {
+  width: 230px;
+  height: 400px;
+  margin-left: 5px;
+  position: relative;
+  top: 10px;
+}
+.legend_color_container{
+  text-align: right;
+  vertical-align: top;
+  margin-right: 2px;
+  width: 51px;
+}
+[id*="legend_color"] {
+  height: 15px;
+  width: 15px;
+  text-align: left;
+  margin-right: 2px;
+}
+.legend-text {
+  text-align: left;
+  font-size: 10px;
+  width: 160px;
+  margin-right: 10px;
+}
+
+/*good*/
+
+#legend_color01 { background-color: #3333ff; }/*good*/
+#legend_color02 { background-color: #407ff1; }/*good*/
+#legend_color03 { background-color: #4ef1e3; }/*good*/
+#legend_color04 { background-color: #5dddd5; }/*good*/
+#legend_color05 { background-color: #6c59c5; }/*good*/
+#legend_color06 { background-color: #7a3ab7; }/*good*/
+#legend_color07 { background-color: #89a8a9; }/*good*/
+#legend_color08 { background-color: #99fe99; }/*good*/
+#legend_color09 { background-color: #a6b18b; }/*good*/
+#legend_color10 { background-color: #b53e7d; }/*good*/
+#legend_color11 { background-color: #c3526e; }/*good*/
+#legend_color12 { background-color: #d2d65f; }/*good*/
+#legend_color13 { background-color: #e1f551; }/*good*/
+#legend_color14 { background-color: #ef8842; }/*good*/
+#legend_color15 { background-color: #fe3334; }/*good*/
 
 .json_store, .json_final, .json_saved {
   display: none;
