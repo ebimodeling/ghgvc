@@ -516,15 +516,15 @@ $(document).ready(function() {
 //    var ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
 
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//        ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+////        ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
@@ -547,11 +547,13 @@ $(document).ready(function() {
         
         // TODO: parseFloat(v) might be needed here:
         create_results_table( v ,location_num );
+        
       });
       
       // reactivate page with lightbox overlay
       $('#toggle_ghgvcR_processing_popup').trigger("click");
-      
+      $('#csv_download_button').show();
+
     });
     
     

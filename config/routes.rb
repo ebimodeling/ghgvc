@@ -10,7 +10,8 @@ Ghgvc::Application.routes.draw do
 
 
   match 'calculator/' => 'workflows#new'
-   
+  
+  
   resources :workflows
   resources :pfts
   resources :users
@@ -26,6 +27,7 @@ Ghgvc::Application.routes.draw do
   # AJAX handlers
   match 'get_biome/' => 'workflows#get_biome'
   match 'create_config_input/' => 'workflows#create_config_input'
+  match 'download_csv/' => 'workflows#download_csv'
   
   root :to => 'workflows#new'
 

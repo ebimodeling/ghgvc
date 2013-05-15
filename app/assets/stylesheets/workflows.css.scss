@@ -29,7 +29,11 @@
   height: 400px;
 /*  margin: auto;*/
 }
-
+#csv_download_button {
+  display:none;
+  width: 200px;
+  margin: auto;
+}
 #map_legend {
   width: 230px;
   height: 400px;

@@ -6,6 +6,8 @@
   <%= form_tag do %>
   <div class="container-fluid">
 	  <div class="accordion" id="geo_refined_pft_accordion">
+	  
+      <h6>Biophysical Attributes</h6>
       <!-- ###### Initial Storage of Organic Matter ####### -->
       <div id="initial_storage" class="accordion-group">  
         <div class="accordion-heading">  
@@ -466,6 +468,43 @@
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Fossil Fuel Displacement ####### -->
 
+  	  <h6>Biogeochemical Attributes</h6>
+      <!-- ###### biophysical ####### -->
+      <div id="biogeochemical" class="accordion-group">  
+        <div class="accordion-heading">  
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_biogeochemical">  
+            Biogeochemical
+          </a>  
+        </div>  
+        <div id="collapse_biogeochemical" class="accordion-body collapse" style="height: 0px;">  
+          <div class="accordion-inner">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="400px">Attribute</th>
+                  <th width="300px">Source</th>
+                  <th width="100px">Value</th>
+                </tr>
+              </thead>
+              <!-- All of the below values are not used and are simply place holders for jquery to repopulate -->
+              <tbody>
+                <tr id="OM_ag">
+                  <td> Net Radiation </td>
+                  <td> <%= select_tag("OM_ag-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
+                  <td> <%= text_field :ecosystem, "OM_ag", :value => @ecosystem["OM_ag"].to_f, :class => "popup_value_field" %> </td>
+                </tr>
+                <tr id="OM_root">
+                  <td> Latent Heat Flux </td>
+                  <td> <%= select_tag("OM_root-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
+                  <td> <%= text_field :ecosystem, "OM_root", :value => @ecosystem["OM_root"].to_f, :class => "popup_value_field" %> </td>
+                </tr>
+               
+              </tbody>
+            </table>
+          </div>  
+        </div>  
+      </div> <!-- <div class="accordion-group"> -->
+      <!-- ###### /biogeochemical ####### -->
 
 	  </div>
   </div>
