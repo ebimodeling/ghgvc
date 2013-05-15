@@ -358,8 +358,8 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
         var csep_row = $(this);
 
         // if a custom field doesn't exist ... add it in
-        if ( csep_value['custom'] == null ) {
-          csep_value['custom'] = 'custom';
+        if ( csep_value['User defined'] == null ) {
+          csep_value['User defined'] = 'custom';
         };
 
         // Each CSEP is a hash
@@ -566,7 +566,7 @@ $(document).ready(function() {
   });
   $('.popup_value_field').on('focus', function() {
     // Assign the selected value in the drop down, to the subling input box
-    $(this).parentsUntil('tbody').find('.popup_cite_dropdown').val("custom");
+    $(this).parentsUntil('tbody').find('.popup_cite_dropdown').val("user defined");
   });
   
   
