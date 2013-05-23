@@ -29,11 +29,16 @@
   height: 400px;
 /*  margin: auto;*/
 }
-#csv_download_button {
+#csv_download_button, #new_simulation_button {
   display:none;
   width: 200px;
   margin: auto;
 }
+a.link_no_underline:hover {
+  text-decoration: none;
+}
+
+
 #map_legend {
   width: 230px;
   height: 400px;

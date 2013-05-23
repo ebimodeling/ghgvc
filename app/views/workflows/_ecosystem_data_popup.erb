@@ -442,6 +442,8 @@
                   <th width="100px">Value</th>
                 </tr>
               </thead>
+              <div id="calc_ethanol_yield" class="btn btn-large"><font size="1">Calculate Ethanol Yield and Displaced Gasoline C0<sub>2</sub> Emissions</font></div>
+              <div id="calc_gasoline_displacement" class="btn btn-large" ><font size="1">Calculate Gasoline C0<sub>2</sub> Emissions Displaced</font></div>
               <tr id="ac_yield">
                 <td> Biomass Yield (Mg dry biomass/ ha/ yr) </td> <!-- ac_yield -->
                 <td> <%= select_tag("ac_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
@@ -452,22 +454,17 @@
                 <td> <%= select_tag("con_energy-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
                 <td> <%= text_field :ecosystem,"con_energy", :value => @ecosystem["con_energy"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              
-              <button id="calc_ethanol_yield"><font size="1">Calculate Ethanol Yield and Displaced Gasoline C0<sub>2</sub> Emissions</font></button>
-              
               <tr id="eth_yield">
                 <td> Ethanol Yield (liters ethanol/ ha/ yr) </td><!-- eth_yield -->
                 <td> <%= select_tag("eth_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
                 <td> <%= text_field :ecosystem,"eth_yield", :value => @ecosystem["eth_yield"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              
-              <button id="calc_gasoline_displacement"><font size="1">Calculate Gasoline C0<sub>2</sub> Emissions Displaced:</font></button>
-              
               <tr id="G_C02">
                 <td> Displaced Gasoline CO2 Emissions (kmol C02/ ha/ yr) </td> <!-- G_C02 -->
                 <td> <%= select_tag("G_C02-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
                 <td> <%= text_field :ecosystem,"G_C02", :value => @ecosystem["G_C02"].to_f, :class => "popup_value_field" %> </td>
               </tr>
+
             </table>
           </div>  
         </div>  

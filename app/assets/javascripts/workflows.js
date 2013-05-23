@@ -464,9 +464,27 @@ $(document).ready(function() {
   $('#calc_ethanol_yield').on('click' ,function() { 
     console.log("calc_ethanol_yield");
     
-//    -0.0348
-    
+    $('#eth_yield').find('.popup_value_field').val(
+      $('#ac_yield').find('.popup_value_field').val() * $('#con_energy').find('.popup_value_field').val()
+    );
   });
+  
+  $('#calc_gasoline_displacement').on('click' ,function() { 
+    $('#G_C02').find('.popup_value_field').val(
+      // -0.0348 is used for US Corn, Miscanthus, BZ Sugarcane, US prarie
+      $('#eth_yield').find('.popup_value_field').val() * -0.0348
+    );
+  });
+  
+  
+    
+    
+//    -0.0348
+//US corn:
+//first * second = third 
+//4th = 3rd * -0.0348
+    
+
   
   
   $('#run_ghgvc_calculator').on('click' ,function() {
@@ -514,25 +532,19 @@ $(document).ready(function() {
     });
 
 
-//<sw_radiative_forcing>-0.387200238397716</sw_radiative_forcing>
+//    <sw_radiative_forcing>-0.387200238397716</sw_radiative_forcing>
 //		<latent>0.06180009880958</latent>
 //		<sensible>0.327720400257219</sensible>
 
+    // Uncomment these to try out the biophysical
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
 
-//    var ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
-//    var ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
-//    var ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
-
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
-
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
-
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//        ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
@@ -561,6 +573,8 @@ $(document).ready(function() {
       // reactivate page with lightbox overlay
       $('#toggle_ghgvcR_processing_popup').trigger("click");
       $('#csv_download_button').show();
+      $('#new_simulation_button').show();
+      
 
     });
     
