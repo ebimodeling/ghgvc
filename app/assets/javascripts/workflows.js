@@ -461,6 +461,14 @@ function update_location_count(){
 $(document).ready(function() {
   initalize_google_map();
   
+  $('#calc_ethanol_yield').on('click' ,function() { 
+    console.log("calc_ethanol_yield");
+    
+//    -0.0348
+    
+  });
+  
+  
   $('#run_ghgvc_calculator').on('click' ,function() {
   
     // Check to see that we've got at least one "checked" input
@@ -516,15 +524,15 @@ $(document).ready(function() {
 //    var ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
 
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-////        ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+//        ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location

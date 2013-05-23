@@ -7,7 +7,7 @@
   <div class="container-fluid">
 	  <div class="accordion" id="geo_refined_pft_accordion">
 	  
-      <h6>Biophysical Attributes</h6>
+  	  <h6>Biogeochemical Attributes</h6>
       <!-- ###### Initial Storage of Organic Matter ####### -->
       <div id="initial_storage" class="accordion-group">  
         <div class="accordion-heading">  
@@ -442,25 +442,31 @@
                   <th width="100px">Value</th>
                 </tr>
               </thead>
-              <tr id="bioYield_grain">
-                <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
-                <td> <%= select_tag("bioYield_grain-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"bioYield_grain", :value => @ecosystem["bioYield_grain"].to_f, :class => "popup_value_field" %> </td>
+              <tr id="ac_yield">
+                <td> Biomass Yield (Mg dry biomass/ ha/ yr) </td> <!-- ac_yield -->
+                <td> <%= select_tag("ac_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"ac_yield", :value => @ecosystem["ac_yield"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              <tr id="bioYield_stove">
-                <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition</td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
-                <td> <%= select_tag("bioYield_stove-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"bioYield_stove", :value => @ecosystem["bioYield_stove"].to_f, :class => "popup_value_field" %> </td>
+              <tr id="con_energy">
+                <td> Conversion Efficiency (liters ethanol/ Mg dry biomass) </td><!-- con_energy -->
+                <td> <%= select_tag("con_energy-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"con_energy", :value => @ecosystem["con_energy"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              <tr id="con_en_grain">
-                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
-                <td> <%= select_tag("con_en_grain-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"con_en_grain", :value => @ecosystem["con_en_grain"].to_f, :class => "popup_value_field" %> </td>
+              
+              <button id="calc_ethanol_yield"><font size="1">Calculate Ethanol Yield and Displaced Gasoline C0<sub>2</sub> Emissions</font></button>
+              
+              <tr id="eth_yield">
+                <td> Ethanol Yield (liters ethanol/ ha/ yr) </td><!-- eth_yield -->
+                <td> <%= select_tag("eth_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"eth_yield", :value => @ecosystem["eth_yield"].to_f, :class => "popup_value_field" %> </td>
               </tr>
-              <tr id="con_en_stove">
-                <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
-                <td> <%= select_tag("con_en_stove-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"con_en_stove", :value => @ecosystem["con_en_stove"].to_f, :class => "popup_value_field" %> </td>
+              
+              <button id="calc_gasoline_displacement"><font size="1">Calculate Gasoline C0<sub>2</sub> Emissions Displaced:</font></button>
+              
+              <tr id="G_C02">
+                <td> Displaced Gasoline CO2 Emissions (kmol C02/ ha/ yr) </td> <!-- G_C02 -->
+                <td> <%= select_tag("G_C02-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem,"G_C02", :value => @ecosystem["G_C02"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>  
@@ -468,12 +474,12 @@
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Fossil Fuel Displacement ####### -->
 
-  	  <h6>Biogeochemical Attributes</h6>
+  	  <h6>Biophysical Attributes</h6>
       <!-- ###### biophysical ####### -->
       <div id="biogeochemical" class="accordion-group">  
         <div class="accordion-heading">  
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_biogeochemical">  
-            Biogeochemical
+            Biophysical
           </a>  
         </div>  
         <div id="collapse_biogeochemical" class="accordion-body collapse" style="height: 0px;">  

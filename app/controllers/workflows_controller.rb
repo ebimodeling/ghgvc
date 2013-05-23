@@ -623,7 +623,11 @@ class WorkflowsController < ApplicationController
       ## Logic for vegtype ecosystems
       case @biome_num
         when 1
-          @biome_data["native_eco"]["tropical_peat_forest"] = @name_indexed_ecosystems["tropical peat forest"]
+          # Per Kristas request
+          # Peat forest only where SOC 30-100 cm > 75
+          if @soc_num > 75 
+            @biome_data["native_eco"]["tropical_peat_forest"] = @name_indexed_ecosystems["tropical peat forest"]
+          end
           @biome_data["native_eco"]["tropical_forest"] = @name_indexed_ecosystems["tropical forest"]
         when 2
           @biome_data["native_eco"]["tropical_forest"] = @name_indexed_ecosystems["tropical forest"]
