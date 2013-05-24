@@ -323,7 +323,7 @@ function show_csep_groups_for_ecosystem( ecosystem_name ) {
     case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
       $('#natural_fire').show();
       break;
-   case"US corn": case"BR Sugarcane": 
+   case"US corn": case"BR sugarcane": 
       $('#management_related').show();
       $('#fossil_fuel').show();
       break;
