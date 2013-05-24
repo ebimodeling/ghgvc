@@ -92,7 +92,7 @@ a.link_no_underline:hover {
 }
 
 #popup_save_ecosystem_modifications, #popup_discard_ecosystem_modifications {
-  margin: 20px 0px 0px 150px;
+  margin: 0px 0px 0px 150px;
 }
 
 
@@ -154,6 +154,8 @@ div[id|='biome_instance'] {
   }
   #ecosystem_edit {
     width: 900px;
+    height: 500px;
+    overflow-y: auto;
     /* allows the tables to scroll */
     thead {
       display:block;
