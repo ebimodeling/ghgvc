@@ -652,7 +652,7 @@ class WorkflowsController < ApplicationController
             @biome_data["native_eco"]["boreal_forest"] = @name_indexed_ecosystems["boreal forest"]
           elsif @request_lat.abs > 23.26 && @request_lat.abs <= 50
             @biome_data["native_eco"]["temperate_grassland"] = @name_indexed_ecosystems["temperate grassland"]
-            @biome_data["native_eco"]["temperate_scrub/woodland"] = @name_indexed_ecosystems["temperate scrub/woodland"]
+            @biome_data["native_eco"]["scrub/woodland"] = @name_indexed_ecosystems["scrub/woodland"]
             @biome_data["native_eco"]["temperate_forest"] = @name_indexed_ecosystems["temperate forest"]
           elsif @request_lat.abs <= 23.26
             @biome_data["native_eco"]["tropical_savanna"] = @name_indexed_ecosystems["tropical savanna"]
@@ -661,7 +661,7 @@ class WorkflowsController < ApplicationController
           @biome_data["native_eco"]["temperate_grassland"] = @name_indexed_ecosystems["temperate grassland"]
         when 11
           if @request_lat <= 5
-            @biome_data["native_eco"]["temperate_scrub/woodland"] = @name_indexed_ecosystems["temperate scrub/woodland"]
+            @biome_data["native_eco"]["scrub/woodland"] = @name_indexed_ecosystems["scrub/woodland"]
           end
         when 12, 14
           @biome_data["native_eco"]["desert"] = @name_indexed_ecosystems["desert"]

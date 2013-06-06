@@ -50,18 +50,19 @@ a.link_no_underline:hover {
   text-align: right;
   vertical-align: top;
   margin-right: 2px;
-  width: 51px;
+  width: 16px;
 }
 [id*="legend_color"] {
-  height: 15px;
-  width: 15px;
+  height: 10px;
+  width: 10px;
   text-align: left;
   margin-right: 2px;
 }
 .legend-text {
   text-align: left;
   font-size: 10px;
-  width: 160px;
+  line-height: 110%;
+  width: 200px;
   margin-right: 10px;
 }
 
@@ -127,7 +128,7 @@ a.link_no_underline:hover {
 }
 
 hr {
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
 }
 
 .remove_biome_site {
