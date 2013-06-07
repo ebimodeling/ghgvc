@@ -165,6 +165,25 @@ class WorkflowsController < ApplicationController
       ( frac * ( out_high - out_low ) + out_low ).to_i.round()
     end
     
+
+
+    #### NBCD: ####
+    # http://localhost:3000/get_biome.json?lng=-81.47451&lat=37.69139 # => 806.4
+    @nbcd = NumRu::NetCDF.open("netcdf/nbcd.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @nbcd.var("lat")
+    @dims["lon"] = @nbcd.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @nbcd_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @nbcd_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @nbcd.var_names[-1]
+      @nbcd_num = @nbcd.var( @file_var_name )[ @nbcd_i, @nbcd_j, 0, 0 ][0]
+#      puts "#######################################"      
+#      puts @nbcd_num
+      @nbcd.close()
+    end  
+    
     #### SOC: ####
     
     # http://localhost:3000/get_biome.json?lng=-84.625&lat=52.95833 # => 674.298
@@ -293,7 +312,6 @@ class WorkflowsController < ApplicationController
 #      puts @saatchi_africa_agb_num
       @saatchi_africa_agb.close()
     end   
-
 
     #### Brazil: ####
     
@@ -610,9 +628,8 @@ class WorkflowsController < ApplicationController
 #    http://localhost:3000/get_biome.json?lng=24.25&lat=24.25 # => 14
 #    puts "################### vegtype ####################"
 #    puts @biome_num
-    
     @vegtype.close()
-    
+
     
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/data/final_ecosystems.json" , "r" ).read )
 

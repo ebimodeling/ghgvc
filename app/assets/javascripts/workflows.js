@@ -537,14 +537,14 @@ $(document).ready(function() {
 //		<sensible>0.327720400257219</sensible>
 
     // Uncomment these to try out the biophysical
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
 
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
