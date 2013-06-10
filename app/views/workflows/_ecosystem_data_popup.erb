@@ -489,15 +489,15 @@
                   <th width="100px">Value</th>
                 </tr>
               </thead>
-              <tr id="age_transition">
+              <tr id="net_radiation">
                 <td style="width:400px"> Net Radiation </td>
-                <td> <%= select_tag("OM_ag-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem, "OM_ag", :value => @ecosystem["OM_ag"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= select_tag("net_radiation-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem, "net_radiation", :value => "none", :class => "popup_value_field" %> </td>
               </tr>
-              <tr id="new_F_CO2">
+              <tr id="latent_heat_flux">
                 <td style="width:400px"> Latent Heat Flux </td>
-                <td> <%= select_tag("OM_root-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem, "OM_root", :value => @ecosystem["OM_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= select_tag("latent_heat_flux-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
+                <td> <%= text_field :ecosystem, "latent_heat_flux", :value => "none", :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>  

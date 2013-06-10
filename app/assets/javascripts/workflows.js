@@ -383,9 +383,16 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     
     $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
+
+//      console.log(value);
+      if ( csep_key == "latent_heat_flux"  || csep_key == "net_radiation" ){
+        console.log("DINGOESSSSSSSSS");
+        console.log(csep_value);
+      }
+
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-
+        console.log(csep_row);
         // Each CSEP will have a value saved in the users json_saved
         // So we iterate through the json_saved
         // And set the dropdown for that CSEP to the value in json_saved
