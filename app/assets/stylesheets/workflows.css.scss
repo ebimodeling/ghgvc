@@ -18,12 +18,6 @@
   }
 }
 
-#run_ghgvc_calculator {
-  position:relative;
-  right: 0px;
-  top: -10px;
-}
-
 #map_canvas { 
   width: 700px;
   height: 400px;
@@ -230,8 +224,17 @@ div[class*='_biomes'] {
   }
 }
 
+#run_ghgvc_calculator {
+  vertical-align: middle;
+}
+
+
 #calc_sub_modules {
-  font-size: 10px;
+  vertical-align: middle;
+  display: none;
+  font-size: 12px;
+  line-height: 120%;
+  height: 30px;
   input {
     position: relative;
     top: -4px;
@@ -240,6 +243,6 @@ div[class*='_biomes'] {
 
 #run_button_container{
   width: 300px;
-  padding: 7px 0 0 7px;
+  padding: 7px;
 }
 
