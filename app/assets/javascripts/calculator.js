@@ -31,7 +31,8 @@ var options =
 	n2o: true,
 	T_A: 100,
 	T_E: 50,
-	r: 0
+	r: 0,
+	swRFV: 0
 };
 
 var experiment = new Experiment("untitled", [], options);
@@ -201,7 +202,8 @@ function create_new_divs_for_highchart_location(num) {
     '<br />' + '<h2>Location: ' + num + '</h2>' + '<hr />' +
     '<div id="storage_chart_' + num + '" class="inline-table"></div>' +
     '<div id="flux_chart_' + num + '" class="inline-table"></div>' +
-    '<div id="dist_chart_' + num + '" class="inline-table"></div>'
+    '<div id="dist_chart_' + num + '" class="inline-table"></div>' +
+    '<div id="biophys_chart_' + num + '" class="inline-table"></div>'
   );
 }
 
@@ -241,6 +243,7 @@ $(document).ready(function() {
 		$('#co2_dist_row').html('<td>CO2 Disturbance</td>');
 		$('#ch4_dist_row').html('<td>CH4 Disturbance</td>');
 		$('#n2o_dist_row').html('<td>N2O Disturbance</td>');
+		$('#swRFV_dist_row').html('<td>Biophysical</td>');
 
 		var names = [];
 		var co2_storage = [];
@@ -252,10 +255,10 @@ $(document).ready(function() {
 		var co2_dist = [];
 		var ch4_dist = [];
 		var n2o_dist = [];
-		
+		var swRFV_dist = [];
 	
 		for (i = 0; i < results_array.length; i++) {
-			var result = results_array[i];
+			result = results_array[i];
 
 			$('#results_table thead tr').append('<th>' + result.name + '</th>');
 
@@ -268,6 +271,7 @@ $(document).ready(function() {
 			$('#co2_dist_row').append('<td>' + result.D_CO2 + '</td>');
 			$('#ch4_dist_row').append('<td>' + result.D_CH4 + '</td>');
 			$('#n2o_dist_row').append('<td>' + result.D_N2O + '</td>');
+			$('#swRFV_dist_row').append('<td>' + result.swRFV + '</td>');
 			names.push(result.name);
 			co2_storage.push(result.S_CO2);
 			ch4_storage.push(result.S_CH4);
@@ -279,6 +283,7 @@ $(document).ready(function() {
 			co2_dist.push(result.S_CO2 - result.F_CO2);
 			ch4_dist.push(result.S_CH4 - result.F_CH4);
 			n2o_dist.push(result.S_N2O - result.F_N2O);
+			swRFV_dist.push(0 - 5000);
 		}
 
 		new Highcharts.Chart({
@@ -310,7 +315,7 @@ $(document).ready(function() {
 				name: 'N2O',
 				data: n2o_storage
 			}]
-		}).setSize(310, 250);
+		}).setSize(230, 220);
   	
 
 		new Highcharts.Chart({
@@ -342,7 +347,7 @@ $(document).ready(function() {
 				name: 'N2O',
 				data: n2o_flux
 			}]
-		}).setSize(310, 250);
+		}).setSize(230, 220);
 
 		new Highcharts.Chart({
 			chart: {
@@ -373,8 +378,33 @@ $(document).ready(function() {
 				name: 'N2O',
 				data: n2o_dist
 			}]
-		}).setSize(310, 250);
-	
+		}).setSize(230, 220);
+		
+		new Highcharts.Chart({
+			chart: {
+				renderTo: String ('biophys_chart_' + location_number ),
+				type: 'bar',
+			},
+			title: {
+				text: 'Biophysical'
+			},
+			xAxis: {
+				categories: names
+			},
+			yAxis: {
+				title: {
+					text: 'swRFV'
+				}
+			},
+			credits: {
+				enabled: false
+			},
+			series: [
+			  { name: 'swRFV', data: swRFV_dist }, 
+			]
+		}).setSize(230, 220);		
+		
+		
 		return 0;
 	}
 
