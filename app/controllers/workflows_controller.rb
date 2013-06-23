@@ -208,8 +208,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @uscorn_latent_heat_flux_num
       @uscorn_latent_heat_flux.close()
+      @uscorn_latent_heat_flux_diff = @bare_latent_heat_flux_num - @uscorn_latent_heat_flux_num
     end
-    @uscorn_latent_heat_flux_diff = @bare_latent_heat_flux_num - @uscorn_latent_heat_flux_num
     #### US Miscanthus latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-82.75&lat=38.75 # => 54.0584
     @usmisc_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_latent_10yr_avg.nc")
@@ -225,8 +225,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"
 #      puts @usmisc_latent_heat_flux_num
       @usmisc_latent_heat_flux.close()
+      @usmisc_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usmisc_latent_heat_flux_num
     end
-    @usmisc_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usmisc_latent_heat_flux_num
     #### US Soybean latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-79.25&lat=36.25 # => 55.0473
     @ussoy_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_latent_10yr_avg.nc")
@@ -242,8 +242,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"
 #      puts @ussoy_latent_heat_flux_num
       @ussoy_latent_heat_flux.close()
+      @ussoy_latent_heat_flux_diff = @bare_latent_heat_flux_num - @ussoy_latent_heat_flux_num
     end
-    @ussoy_latent_heat_flux_diff = @bare_latent_heat_flux_num - @ussoy_latent_heat_flux_num
     #### US Switchgrass latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-83.75&lat=34.25 # => 59.6367
     @usswitch_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_latent_10yr_avg.nc")
@@ -259,8 +259,9 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"
 #      puts @usswitch_latent_heat_flux_num
       @usswitch_latent_heat_flux.close()
+      @usswitch_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usswitch_latent_heat_flux_num
     end
-    @usswitch_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usswitch_latent_heat_flux_num
+    
 
 
     #### Bare net radiation: ####
@@ -294,8 +295,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @uscorn_net_radiation_num
       @uscorn_net_radiation.close()
+      @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
     end
-    @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
     #### US Miscanthus net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-86.25&lat=35.75 # => 79.7539
     @usmisc_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_rnet_10yr_avg.nc")
@@ -311,8 +312,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @usmisc_net_radiation_num
       @usmisc_net_radiation.close()
+      @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
     end
-    @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
     #### US Soybean net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-84.25&lat=36.25 # => 76.7026
     @ussoy_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_rnet_10yr_avg.nc")
@@ -328,8 +329,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @ussoy_net_radiation_num
       @ussoy_net_radiation.close()
+      @ussoy_net_radiation_diff = @bare_net_radiation_num - @ussoy_net_radiation_num
     end
-    @ussoy_net_radiation_diff = @bare_net_radiation_num - @ussoy_net_radiation_num
     #### US Switchgrass net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-76.75&lat=37.75 # => 74.2739
     @usswitch_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_rnet_10yr_avg.nc")
@@ -345,22 +346,8 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @usswitch_net_radiation_num
       @usswitch_net_radiation.close()
+      @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
     end
-    @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
-
-    puts "#######################################"      
-    puts @uscorn_latent_heat_flux_diff
-    puts @usmisc_latent_heat_flux_diff
-    puts @ussoy_latent_heat_flux_diff
-    puts @usswitch_latent_heat_flux_diff
-
-    puts @uscorn_net_radiation_diff
-    puts @usmisc_net_radiation_diff
-    puts @ussoy_net_radiation_diff
-    puts @usswitch_net_radiation_diff
-
-#@biome_data["native_eco"]
-
 
     #### NBCD: ####
     # http://localhost:3000/get_biome.json?lng=-81.47451&lat=37.69139 # => 806.4
@@ -748,27 +735,68 @@ class WorkflowsController < ApplicationController
       @global_cropland.close()
     end
 
-
-
-    ## US SpringWheat
-    # This map has an ij coordinate range of (0,0) to (80, 50)
-    # top left LatLng being (49.75 ,-105.25)
-    # bottom right LatLng being (24.75 ,-65.25)
-    # Therefore it sits between:
-    # Lat 24.75 and 49.75
-    # Lon -105.25 and -65.25
-    # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
-    if ( 49.75 >= @request_lat && @request_lat >= 24.75 && -65.25 >= @request_lng && @request_lng >= -105.25 )
-      @us_springwheat_i = remap_range( @request_lng, -105.25, -65.25, 0, 80 )
-      @us_springwheat_j = remap_range( @request_lat, 49.75, 24.75, 0, 50 ) # j == 0 where lat is at its lowest value
-      @us_springwheat = NumRu::NetCDF.open("netcdf/GCS/Crops/US/SpringWheat/fractioncover/fswh_2.7_us.0.5deg.nc")
-      @us_springwheat_num = @us_springwheat.var("fswh")[@us_springwheat_i,@us_springwheat_j,0,0][0]
-#      @us_springwheat_num = @us_springwheat.var("fswh")[12,7,0,0][0] #=>> 0.21387700736522675
-      @us_springwheat.close()
+#narf
+    ## Global PotVeg Latent
+    @global_potVeg_latent = NumRu::NetCDF.open("netcdf/GCS/PotVeg/PotentialVeg/global_veg_latent_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @global_potVeg_latent.var("latitude")
+    @dims["lon"] = @global_potVeg_latent.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @global_potVeg_latent_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @global_potVeg_latent_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @global_potVeg_latent.var_names[-1]
+#      @global_potVeg_latent_num = @global_potVeg_latent.var( @file_var_name )[ 382, 127, 0, 0 ][0]
+      @global_potVeg_latent_num = @global_potVeg_latent.var( @file_var_name )[ @global_potVeg_latent_i, @global_potVeg_latent_j, 0, 0 ][0]
+#      Testing:
+#      http://localhost:3000/get_biome.json?lng=-76.25&lat=-2.75  # =>  149.84
+#      puts "################### Global PotVeg ####################"
+#      puts @global_potVeg_latent_num
+      @global_potVeg_latent.close()
     end
-#    http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
-#    puts "################### US springwheat ####################"
-#    puts @us_springwheat_num
+
+    ## Global PotVeg Rnet
+    @global_potVeg_rnet = NumRu::NetCDF.open("netcdf/GCS/PotVeg/PotentialVeg/global_veg_rnet_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @global_potVeg_rnet.var("latitude")
+    @dims["lon"] = @global_potVeg_rnet.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @global_potVeg_rnet_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @global_potVeg_rnet_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @global_potVeg_rnet.var_names[-1]
+#      @global_potVeg_rnet_num = @global_potVeg_rnet.var( @file_var_name )[ 382, 127, 0, 0 ][0]
+      @global_potVeg_rnet_num = @global_potVeg_rnet.var( @file_var_name )[ @global_potVeg_rnet_i, @global_potVeg_rnet_j, 0, 0 ][0]
+#      Testing:
+#      http://localhost:3000/get_biome.json?lng=-76.25&lat=-2.75  # =>  149.84
+#      puts "################### Global PotVeg ####################"
+#      puts @global_potVeg_rnet_num
+      @global_potVeg_rnet.close()
+    end
+
+
+#netcdf/GCS/PotVeg/PotentialVeg/global_veg_rnet_10yr_avg.nc
+
+#     Disabled per request
+##    ## US SpringWheat
+#    # This map has an ij coordinate range of (0,0) to (80, 50)
+#    # top left LatLng being (49.75 ,-105.25)
+#    # bottom right LatLng being (24.75 ,-65.25)
+#    # Therefore it sits between:
+#    # Lat 24.75 and 49.75
+#    # Lon -105.25 and -65.25
+#    # http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
+#    if ( 49.75 >= @request_lat && @request_lat >= 24.75 && -65.25 >= @request_lng && @request_lng >= -105.25 )
+#      @us_springwheat_i = remap_range( @request_lng, -105.25, -65.25, 0, 80 )
+#      @us_springwheat_j = remap_range( @request_lat, 49.75, 24.75, 0, 50 ) # j == 0 where lat is at its lowest value
+#      @us_springwheat = NumRu::NetCDF.open("netcdf/GCS/Crops/US/SpringWheat/fractioncover/fswh_2.7_us.0.5deg.nc")
+#      @us_springwheat_num = @us_springwheat.var("fswh")[@us_springwheat_i,@us_springwheat_j,0,0][0]
+##      @us_springwheat_num = @us_springwheat.var("fswh")[12,7,0,0][0] #=>> 0.21387700736522675
+#      @us_springwheat.close()
+#    end
+##    http://localhost:3000/get_biome.json?lng=-97.25&lat=44.75 # => 0.0956562
+##    puts "################### US springwheat ####################"
+##    puts @us_springwheat_num
 
 
     ## US Soybean
@@ -807,7 +835,6 @@ class WorkflowsController < ApplicationController
       @us_corn_num = @us_corn.var("fcorn")[@us_corn_i,@us_corn_j,0,0][0]
       @us_corn.close()
     end
-
 
     ## Vegtype
     # This map has an ij coordinate range of (0,0) to (720, 360)
@@ -953,42 +980,65 @@ class WorkflowsController < ApplicationController
         @biome_data["agroecosystem_eco"]["tropical_cropland"] = @name_indexed_ecosystems["tropical cropland"]
       else
         @biome_data["agroecosystem_eco"]["temperate_cropland"] = @name_indexed_ecosystems["temperate cropland"]
+#        @biome_data["agroecosystem_eco"]["temperate_cropland"][""] = {"s001"=> }
       end
     end
 
 ###   BIOFUELS: switchgrass, miscanthus, US corn, US soy
-##narf
 
-    @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
+#    @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
 
+
+#    (ecosystem-bare)/51007200000*1000000000
+#    Values will range from 0-1.
+
+#... rest of the systems need biophysical
+#which they get the PotVeg for
+#netcdf/GCS/PotVeg/PotentialVeg/
+    
+#    go through all 
+
+    puts ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f) / 51007200000*1000000000
+    puts ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
+
+    @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
+        @biome_data[k].each do |biome_k, biome_v|
+            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000 }
+           
+            
+        end
+    
+    end
+    
     puts "#######################################"      
 #    puts @uscorn_latent_heat_flux_diff
-    puts @usmisc_latent_heat_flux_diff
+    puts @usmisc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
 #    puts @ussoy_latent_heat_flux_diff
-    puts @usswitch_latent_heat_flux_diff
+    puts @usswitch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
 
 #    puts @uscorn_net_radiation_diff
-    puts @usmisc_net_radiation_diff
+    puts @usmisc_net_radiation_diff.to_f #/ 51007200000*1000000000 
 #    puts @ussoy_net_radiation_diff
-    puts @usswitch_net_radiation_diff
+    puts @usswitch_net_radiation_diff.to_f #/ 51007200000*1000000000 
 
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["US_corn"]["latent_heat_flux"] = {"s000" => @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["US_corn"]["net_radiation"] = {"s000" =>  @uscorn_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @uscorn_net_radiation_diff, "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US_corn"]["latent_heat_flux"] = {"s000" =>  @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["US_corn"]["net_radiation"] = {"s000" => @uscorn_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @uscorn_net_radiation_diff, "User defined" => "custom" }
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["soybean"]["latent_heat_flux"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["net_radiation"] = {"s000" =>  @ussoy_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @ussoy_net_radiation_diff, "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["soybean"]["latent_heat_flux"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["soybean"]["net_radiation"] = {"s000" => @ussoy_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @ussoy_net_radiation_diff, "User defined" => "custom" }
       
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0

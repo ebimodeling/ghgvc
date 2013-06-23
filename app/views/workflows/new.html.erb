@@ -152,9 +152,16 @@
 
 <a id="toggle_ghgvcR_processing_popup" data-toggle="lightbox" href="#ghgvcR_processing_popup"></a>
 
-<div id="run_ghgvc_calculator" class="btn btn-large btn-success">
-  Run GHGVC
-  <i class="icon-search icon-leaf"></i>
+<div id="run_button_container" class="well">
+    <div id="run_ghgvc_calculator" class="btn btn-large btn-success inline-block">
+      Run GHGVC
+      <i class="icon-search icon-leaf"></i>
+    </div>
+
+    <div id="calc_sub_modules" class="inline-block">
+      <input type="checkbox" id="biogeochemical" name="biogeochemical" value="biogeochemical">Biogeochemical</input> <br />
+      <input type="checkbox" id="biophysical" name="biophysical" value="biophysical">Biophysical</input> 
+    </div>
 </div>
 
 <div id="highcharts_container">

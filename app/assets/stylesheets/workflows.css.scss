@@ -21,7 +21,7 @@
 #run_ghgvc_calculator {
   position:relative;
   right: 0px;
-
+  top: -10px;
 }
 
 #map_canvas { 
@@ -228,5 +228,18 @@ div[class*='_biomes'] {
       border-radius: 4px;
     }
   }
+}
+
+#calc_sub_modules {
+  font-size: 10px;
+  input {
+    position: relative;
+    top: -4px;
+  }
+}
+
+#run_button_container{
+  width: 300px;
+  padding: 7px 0 0 7px;
 }
 

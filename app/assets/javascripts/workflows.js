@@ -385,14 +385,14 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
 
 //      console.log(value);
-      if ( csep_key == "latent_heat_flux"  || csep_key == "net_radiation" ){
-        console.log("DINGOESSSSSSSSS");
-        console.log(csep_value);
-      }
+//      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
+//        console.log("DINGOESSSSSSSSS");
+//        console.log(csep_value);
+//      }
 
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-        console.log(csep_row);
+//        console.log(csep_row);
         // Each CSEP will have a value saved in the users json_saved
         // So we iterate through the json_saved
         // And set the dropdown for that CSEP to the value in json_saved
@@ -466,6 +466,9 @@ function update_location_count(){
 };
 
 $(document).ready(function() {
+  $('input:checkbox[name=biogeochemical]').attr('checked',true);
+  $('input:checkbox[name=biophysical]').attr('checked',true);
+
   initalize_google_map();
   
   $('#calc_ethanol_yield').on('click' ,function() { 
@@ -501,6 +504,10 @@ $(document).ready(function() {
       alert("Please check one or more ecosystems");  
       return;
     };
+    
+    // when we're missing values, the output will be the same regardless of what checkboxes are checked.
+//    $('#biogeochemical').is(':checked')
+//    $('#biophysical').is(':checked')
     
     // deactivate page with lightbox overlay
     $('#toggle_ghgvcR_processing_popup').trigger("click");
@@ -544,14 +551,14 @@ $(document).ready(function() {
 //		<sensible>0.327720400257219</sensible>
 
     // Uncomment these to try out the biophysical
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
 
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
+//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
