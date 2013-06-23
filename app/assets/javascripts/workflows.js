@@ -456,7 +456,7 @@ function get_selected_ecosystems_name_and_type( location ) {
 
 function toggle_input_state_for_highcharts() {
   $('#biome_input_container').toggle();
-  $('#run_ghgvc_calculator').toggle();
+  $('#run_button_container').toggle();
   $('#add_additional_biome_site').toggle();
   $('#location_counter_container').toggle();
 };
@@ -541,6 +541,9 @@ $(document).ready(function() {
         if (!( biome_type_string in ghgvcR_input[biome_group_string] ))  ghgvcR_input[biome_group_string][biome_type_string] = {};
         
         ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
+        
+        // Current R code requires sensible value, even though we dont use sensible
+        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
         
       });
     });
