@@ -312,7 +312,7 @@ class WorkflowsController < ApplicationController
 #      puts "#######################################"      
 #      puts @usmisc_net_radiation_num
       @usmisc_net_radiation.close()
-      @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
+      @usmisc_net_radiation_diff = @bare_net_radiation_num - @usmisc_net_radiation_num
     end
     #### US Soybean net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-84.25&lat=36.25 # => 76.7026
@@ -735,7 +735,6 @@ class WorkflowsController < ApplicationController
       @global_cropland.close()
     end
 
-#narf
     ## Global PotVeg Latent
     @global_potVeg_latent = NumRu::NetCDF.open("netcdf/GCS/PotVeg/PotentialVeg/global_veg_latent_10yr_avg.nc")
     @dims.clear # ensure hash is empty
@@ -998,47 +997,44 @@ class WorkflowsController < ApplicationController
     
 #    go through all 
 
-    puts ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f) / 51007200000*1000000000
-    puts ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
+#    puts ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f) / 51007200000*1000000000
+#    puts ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
 
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
             @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
             @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000 }
-           
-            
         end
-    
     end
     
     puts "#######################################"      
-#    puts @uscorn_latent_heat_flux_diff
-    puts @usmisc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
-#    puts @ussoy_latent_heat_flux_diff
-    puts @usswitch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
+#    puts @uscorn_latent_heat_flux_diff / 51007200000*1000000000
+#    puts @usmisc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
+#    puts @ussoy_latent_heat_flux_diff/ 51007200000*1000000000
+#    puts @usswitch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
 
-#    puts @uscorn_net_radiation_diff
-    puts @usmisc_net_radiation_diff.to_f #/ 51007200000*1000000000 
-#    puts @ussoy_net_radiation_diff
-    puts @usswitch_net_radiation_diff.to_f #/ 51007200000*1000000000 
+#    puts @uscorn_net_radiation_diff/ 51007200000*1000000000
+#    puts @usmisc_net_radiation_diff.to_f #/ 51007200000*1000000000 
+#    puts @ussoy_net_radiation_diff/ 51007200000*1000000000
+#    puts @usswitch_net_radiation_diff.to_f #/ 51007200000*1000000000 
 
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @uscorn_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @uscorn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @uscorn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @uscorn_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @uscorn_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @uscorn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @uscorn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
-    if @us_soybean_num != nil && @us_soybean_num > 0.01
+    if @us_soybean_num != nil && @us_soybean_num > 0.01 #narf
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @ussoy_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @ussoy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff, "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @ussoy_net_radiation_diff, "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @ussoy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
