@@ -393,14 +393,14 @@ $(document).ready(function() {
 			},
 			yAxis: {
 				title: {
-					text: 'swRFV'
+					text: 'Biophysical(swRFV)'
 				}
 			},
 			credits: {
 				enabled: false
 			},
 			series: [
-			  { name: 'swRFV', data: swRFV_dist }, 
+			  { name: 'Biophysical(swRFV)', data: swRFV_dist }, 
 			]
 		}).setSize(230, 220);		
 		
