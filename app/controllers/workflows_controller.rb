@@ -1,5 +1,6 @@
 require "numru/netcdf"
 require "cobravsmongoose"
+require "json"
 
 class WorkflowsController < ApplicationController
   # GET /workflows
@@ -142,9 +143,27 @@ class WorkflowsController < ApplicationController
   
   
   def download_csv
-    send_file("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.csv",
+    @json_output = JSON.parse(File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"))
+    header = "biome S_CO2	S_CH4	site_1_data.S_N2O	site_1_data.F_CO2	site_1_data.F_CH4	site_1_data.F_N2O	site_1_data.D_CO2	site_1_data.D_CH4	site_1_data.D_N2O	site_1_data.swRFV".split(" ")
+
+    @output_csv = File.open("#{Rails.root}/public/output.csv","w")
+    @output_csv << header.join(",") << "\n"
+
+    @json_output.each do |k, v|
+      line = []
+      
+      # for some reason we need to select out the first element
+      v[0].each do | csep_k, csep_v |
+        line << csep_v
+      end
+
+      @output_csv << line.join(",") << "\n"  
+    end
+    @output_csv.close()
+  
+    send_file("#{Rails.root}/public/output.csv",
               :filename => "output.csv",
-              :type => "application/csv")
+              :type => "text/csv")
   end
 
   # accepts a longitude, latitude:
@@ -1027,7 +1046,7 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @uscorn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @uscorn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
-    if @us_soybean_num != nil && @us_soybean_num > 0.01 #narf
+    if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
       @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @ussoy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
