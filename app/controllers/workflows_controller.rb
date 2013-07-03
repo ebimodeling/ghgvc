@@ -196,176 +196,256 @@ class WorkflowsController < ApplicationController
 #    IE the vegitated ... and what is there in the ground
     
     
-    #### Bare latent heat flux: ####
+    
+    #### BR Bare sugarcane rnet: ####
     # http://localhost:3000/get_biome.json?lng=-88.75&lat=37.75 # => 46.0195
-    @bare_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Bare/us_bare_latent_10yr_avg.nc")
+    @br_bare_sugc_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Bare/brazil_bare_sugc_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @bare_latent_heat_flux.var("latitude")
-    @dims["lon"] = @bare_latent_heat_flux.var("longitude")
+    @dims["lat"] = @br_bare_sugc_net_radiation.var("latitude")
+    @dims["lon"] = @br_bare_sugc_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @bare_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @br_bare_sugc_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @bare_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @bare_latent_heat_flux.var_names[-1]
-      @bare_latent_heat_flux_num = @bare_latent_heat_flux.var( @file_var_name )[ @bare_latent_heat_flux_i, @bare_latent_heat_flux_j, 0, 0 ][0]
+      @br_bare_sugc_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @br_bare_sugc_net_radiation.var_names[-1]
+      @br_bare_sugc_net_radiation_num = @br_bare_sugc_net_radiation.var( @file_var_name )[ @br_bare_sugc_net_radiation_i, @br_bare_sugc_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @bare_latent_heat_flux_num
-      @bare_latent_heat_flux.close()
+#      puts @br_bare_sugc_net_radiation_num
+      @br_bare_sugc_net_radiation.close()
+    end
+    #### BR sugarcane rnet: ####
+    # http://localhost:3000/get_biome.json?lng=-88.75&lat=37.75 # => 46.0195
+    @br_sugc_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_rnet_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @br_sugc_net_radiation.var("latitude")
+    @dims["lon"] = @br_sugc_net_radiation.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @br_sugc_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @br_sugc_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @br_sugc_net_radiation.var_names[-1]
+      @br_sugc_net_radiation_num = @br_sugc_net_radiation.var( @file_var_name )[ @br_sugc_net_radiation_i, @br_sugc_net_radiation_j, 0, 0 ][0]
+#      puts "#######################################"      
+#      puts @br_sugc_net_radiation_num
+      @br_sugc_net_radiation.close()
+      @br_sugc_net_radiation_diff = @br_sugc_net_radiation_num - @br_bare_sugc_net_radiation_num 
+    end
+
+    
+    #### BR Bare sugarcane latent heat flux: ####
+    # http://localhost:3000/get_biome.json?lng=-88.75&lat=37.75 # => 46.0195
+    @br_bare_sugc_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Bare/brazil_bare_sugc_latent_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @br_bare_sugc_latent_heat_flux.var("latitude")
+    @dims["lon"] = @br_bare_sugc_latent_heat_flux.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @br_bare_sugc_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @br_bare_sugc_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @br_bare_sugc_latent_heat_flux.var_names[-1]
+      @br_bare_sugc_latent_heat_flux_num = @br_bare_sugc_latent_heat_flux.var( @file_var_name )[ @br_bare_sugc_latent_heat_flux_i, @br_bare_sugc_latent_heat_flux_j, 0, 0 ][0]
+#      puts "#######################################"      
+#      puts @br_bare_sugc_latent_heat_flux_num
+      @br_bare_sugc_latent_heat_flux.close()
+    end
+    #### BR sugarcane latent heat flux: ####
+    # http://localhost:3000/get_biome.json?lng=-88.75&lat=37.75 # => 46.0195
+    @br_sugc_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @br_sugc_latent_heat_flux.var("latitude")
+    @dims["lon"] = @br_sugc_latent_heat_flux.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @br_sugc_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @br_sugc_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @br_sugc_latent_heat_flux.var_names[-1]
+      @br_sugc_latent_heat_flux_num = @br_sugc_latent_heat_flux.var( @file_var_name )[ @br_sugc_latent_heat_flux_i, @br_sugc_latent_heat_flux_j, 0, 0 ][0]
+#      puts "#######################################"      
+#      puts @br_sugc_latent_heat_flux_num
+      @br_sugc_latent_heat_flux.close()
+      @br_sugc_latent_heat_flux_diff = @br_sugc_latent_heat_flux_num - @br_bare_sugc_latent_heat_flux_num
+    end
+
+
+    
+    #narf
+#    bare net radiation - crop rnet
+#    bare latent heat flux - crop heat flux
+    
+#    @br_sugc_net_radiation_diff
+    
+    
+    
+    #### US Bare latent heat flux: ####
+    # http://localhost:3000/get_biome.json?lng=-88.75&lat=37.75 # => 46.0195
+    @us_bare_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Bare/us_bare_latent_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @us_bare_latent_heat_flux.var("latitude")
+    @dims["lon"] = @us_bare_latent_heat_flux.var("longitude")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @us_bare_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @us_bare_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_bare_latent_heat_flux.var_names[-1]
+      @us_bare_latent_heat_flux_num = @us_bare_latent_heat_flux.var( @file_var_name )[ @us_bare_latent_heat_flux_i, @us_bare_latent_heat_flux_j, 0, 0 ][0]
+#      puts "#######################################"      
+#      puts @us_bare_latent_heat_flux_num
+      @us_bare_latent_heat_flux.close()
     end
     #### US Corn latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-82.75&lat=35.25 # => 45.6976
-    @uscorn_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_latent_10yr_avg.nc")
+    @us_corn_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_latent_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @uscorn_latent_heat_flux.var("latitude")
-    @dims["lon"] = @uscorn_latent_heat_flux.var("longitude")
+    @dims["lat"] = @us_corn_latent_heat_flux.var("latitude")
+    @dims["lon"] = @us_corn_latent_heat_flux.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @uscorn_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_corn_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @uscorn_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @uscorn_latent_heat_flux.var_names[-1]
-      @uscorn_latent_heat_flux_num = @uscorn_latent_heat_flux.var( @file_var_name )[ @uscorn_latent_heat_flux_i, @uscorn_latent_heat_flux_j, 0, 0 ][0]
+      @us_corn_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_corn_latent_heat_flux.var_names[-1]
+      @us_corn_latent_heat_flux_num = @us_corn_latent_heat_flux.var( @file_var_name )[ @us_corn_latent_heat_flux_i, @us_corn_latent_heat_flux_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @uscorn_latent_heat_flux_num
-      @uscorn_latent_heat_flux.close()
-      @uscorn_latent_heat_flux_diff = @bare_latent_heat_flux_num - @uscorn_latent_heat_flux_num
+#      puts @us_corn_latent_heat_flux_num
+      @us_corn_latent_heat_flux.close()
+      @us_corn_latent_heat_flux_diff = @us_bare_latent_heat_flux_num - @us_corn_latent_heat_flux_num
     end
     #### US Miscanthus latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-82.75&lat=38.75 # => 54.0584
-    @usmisc_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_latent_10yr_avg.nc")
+    @us_misc_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_latent_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @usmisc_latent_heat_flux.var("latitude")
-    @dims["lon"] = @usmisc_latent_heat_flux.var("longitude")
+    @dims["lat"] = @us_misc_latent_heat_flux.var("latitude")
+    @dims["lon"] = @us_misc_latent_heat_flux.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @usmisc_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_misc_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @usmisc_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @usmisc_latent_heat_flux.var_names[-1]
-      @usmisc_latent_heat_flux_num = @usmisc_latent_heat_flux.var( @file_var_name )[ @usmisc_latent_heat_flux_i, @usmisc_latent_heat_flux_j, 0, 0 ][0]
+      @us_misc_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_misc_latent_heat_flux.var_names[-1]
+      @us_misc_latent_heat_flux_num = @us_misc_latent_heat_flux.var( @file_var_name )[ @us_misc_latent_heat_flux_i, @us_misc_latent_heat_flux_j, 0, 0 ][0]
 #      puts "#######################################"
-#      puts @usmisc_latent_heat_flux_num
-      @usmisc_latent_heat_flux.close()
-      @usmisc_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usmisc_latent_heat_flux_num
+#      puts @us_misc_latent_heat_flux_num
+      @us_misc_latent_heat_flux.close()
+      @us_misc_latent_heat_flux_diff = @us_bare_latent_heat_flux_num - @us_misc_latent_heat_flux_num
     end
     #### US Soybean latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-79.25&lat=36.25 # => 55.0473
-    @ussoy_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_latent_10yr_avg.nc")
+    @us_soy_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_latent_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @ussoy_latent_heat_flux.var("latitude")
-    @dims["lon"] = @ussoy_latent_heat_flux.var("longitude")
+    @dims["lat"] = @us_soy_latent_heat_flux.var("latitude")
+    @dims["lon"] = @us_soy_latent_heat_flux.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @ussoy_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_soy_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @ussoy_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @ussoy_latent_heat_flux.var_names[-1]
-      @ussoy_latent_heat_flux_num = @ussoy_latent_heat_flux.var( @file_var_name )[ @ussoy_latent_heat_flux_i, @ussoy_latent_heat_flux_j, 0, 0 ][0]
+      @us_soy_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_soy_latent_heat_flux.var_names[-1]
+      @us_soy_latent_heat_flux_num = @us_soy_latent_heat_flux.var( @file_var_name )[ @us_soy_latent_heat_flux_i, @us_soy_latent_heat_flux_j, 0, 0 ][0]
 #      puts "#######################################"
-#      puts @ussoy_latent_heat_flux_num
-      @ussoy_latent_heat_flux.close()
-      @ussoy_latent_heat_flux_diff = @bare_latent_heat_flux_num - @ussoy_latent_heat_flux_num
+#      puts @us_soy_latent_heat_flux_num
+      @us_soy_latent_heat_flux.close()
+      @us_soy_latent_heat_flux_diff = @us_bare_latent_heat_flux_num - @us_soy_latent_heat_flux_num
     end
     #### US Switchgrass latent heat flux: ####
     # http://localhost:3000/get_biome.json?lng=-83.75&lat=34.25 # => 59.6367
-    @usswitch_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_latent_10yr_avg.nc")
+    @us_switch_latent_heat_flux = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_latent_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @usswitch_latent_heat_flux.var("latitude")
-    @dims["lon"] = @usswitch_latent_heat_flux.var("longitude")
+    @dims["lat"] = @us_switch_latent_heat_flux.var("latitude")
+    @dims["lon"] = @us_switch_latent_heat_flux.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @usswitch_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_switch_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @usswitch_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @usswitch_latent_heat_flux.var_names[-1]
-      @usswitch_latent_heat_flux_num = @usswitch_latent_heat_flux.var( @file_var_name )[ @usswitch_latent_heat_flux_i, @usswitch_latent_heat_flux_j, 0, 0 ][0]
+      @us_switch_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_switch_latent_heat_flux.var_names[-1]
+      @us_switch_latent_heat_flux_num = @us_switch_latent_heat_flux.var( @file_var_name )[ @us_switch_latent_heat_flux_i, @us_switch_latent_heat_flux_j, 0, 0 ][0]
 #      puts "#######################################"
-#      puts @usswitch_latent_heat_flux_num
-      @usswitch_latent_heat_flux.close()
-      @usswitch_latent_heat_flux_diff = @bare_latent_heat_flux_num - @usswitch_latent_heat_flux_num
+#      puts @us_switch_latent_heat_flux_num
+      @us_switch_latent_heat_flux.close()
+      @us_switch_latent_heat_flux_diff = @us_bare_latent_heat_flux_num - @us_switch_latent_heat_flux_num
     end
     
 
 
     #### Bare net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-84.25&lat=38.75 # => 72.8878
-    @bare_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Bare/us_bare_rnet_10yr_avg.nc")
+    @us_bare_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Bare/us_bare_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @bare_net_radiation.var("latitude")
-    @dims["lon"] = @bare_net_radiation.var("longitude")
+    @dims["lat"] = @us_bare_net_radiation.var("latitude")
+    @dims["lon"] = @us_bare_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @bare_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_bare_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @bare_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @bare_net_radiation.var_names[-1]
-      @bare_net_radiation_num = @bare_net_radiation.var( @file_var_name )[ @bare_net_radiation_i, @bare_net_radiation_j, 0, 0 ][0]
+      @us_bare_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_bare_net_radiation.var_names[-1]
+      @us_bare_net_radiation_num = @us_bare_net_radiation.var( @file_var_name )[ @us_bare_net_radiation_i, @us_bare_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @bare_net_radiation_num
-      @bare_net_radiation.close()
+#      puts @us_bare_net_radiation_num
+      @us_bare_net_radiation.close()
     end
     #### US Corn net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-84.25&lat=39.25 # => 69.3745
-    @uscorn_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_rnet_10yr_avg.nc")
+    @us_corn_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Corn/us_corn_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @uscorn_net_radiation.var("latitude")
-    @dims["lon"] = @uscorn_net_radiation.var("longitude")
+    @dims["lat"] = @us_corn_net_radiation.var("latitude")
+    @dims["lon"] = @us_corn_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @uscorn_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_corn_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @uscorn_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @uscorn_net_radiation.var_names[-1]
-      @uscorn_net_radiation_num = @uscorn_net_radiation.var( @file_var_name )[ @uscorn_net_radiation_i, @uscorn_net_radiation_j, 0, 0 ][0]
+      @us_corn_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_corn_net_radiation.var_names[-1]
+      @us_corn_net_radiation_num = @us_corn_net_radiation.var( @file_var_name )[ @us_corn_net_radiation_i, @us_corn_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @uscorn_net_radiation_num
-      @uscorn_net_radiation.close()
-      @uscorn_net_radiation_diff = @bare_net_radiation_num - @uscorn_net_radiation_num
+#      puts @us_corn_net_radiation_num
+      @us_corn_net_radiation.close()
+      @us_corn_net_radiation_diff = @us_bare_net_radiation_num - @us_corn_net_radiation_num
     end
     #### US Miscanthus net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-86.25&lat=35.75 # => 79.7539
-    @usmisc_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_rnet_10yr_avg.nc")
+    @us_misc_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/MXG/us_mxg_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @usmisc_net_radiation.var("latitude")
-    @dims["lon"] = @usmisc_net_radiation.var("longitude")
+    @dims["lat"] = @us_misc_net_radiation.var("latitude")
+    @dims["lon"] = @us_misc_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @usmisc_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_misc_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @usmisc_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @usmisc_net_radiation.var_names[-1]
-      @usmisc_net_radiation_num = @usmisc_net_radiation.var( @file_var_name )[ @usmisc_net_radiation_i, @usmisc_net_radiation_j, 0, 0 ][0]
+      @us_misc_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_misc_net_radiation.var_names[-1]
+      @us_misc_net_radiation_num = @us_misc_net_radiation.var( @file_var_name )[ @us_misc_net_radiation_i, @us_misc_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @usmisc_net_radiation_num
-      @usmisc_net_radiation.close()
-      @usmisc_net_radiation_diff = @bare_net_radiation_num - @usmisc_net_radiation_num
+#      puts @us_misc_net_radiation_num
+      @us_misc_net_radiation.close()
+      @us_misc_net_radiation_diff = @us_bare_net_radiation_num - @us_misc_net_radiation_num
     end
     #### US Soybean net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-84.25&lat=36.25 # => 76.7026
-    @ussoy_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_rnet_10yr_avg.nc")
+    @us_soy_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Soybean/us_soyb_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @ussoy_net_radiation.var("latitude")
-    @dims["lon"] = @ussoy_net_radiation.var("longitude")
+    @dims["lat"] = @us_soy_net_radiation.var("latitude")
+    @dims["lon"] = @us_soy_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @ussoy_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_soy_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @ussoy_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @ussoy_net_radiation.var_names[-1]
-      @ussoy_net_radiation_num = @ussoy_net_radiation.var( @file_var_name )[ @ussoy_net_radiation_i, @ussoy_net_radiation_j, 0, 0 ][0]
+      @us_soy_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_soy_net_radiation.var_names[-1]
+      @us_soy_net_radiation_num = @us_soy_net_radiation.var( @file_var_name )[ @us_soy_net_radiation_i, @us_soy_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @ussoy_net_radiation_num
-      @ussoy_net_radiation.close()
-      @ussoy_net_radiation_diff = @bare_net_radiation_num - @ussoy_net_radiation_num
+#      puts @us_soy_net_radiation_num
+      @us_soy_net_radiation.close()
+      @us_soy_net_radiation_diff = @us_bare_net_radiation_num - @us_soy_net_radiation_num
     end
     #### US Switchgrass net radiation: ####
     # http://localhost:3000/get_biome.json?lng=-76.75&lat=37.75 # => 74.2739
-    @usswitch_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_rnet_10yr_avg.nc")
+    @us_switch_net_radiation = NumRu::NetCDF.open("netcdf/GCS/Crops/US/Switch/us_switch_rnet_10yr_avg.nc")
     @dims.clear # ensure hash is empty
-    @dims["lat"] = @usswitch_net_radiation.var("latitude")
-    @dims["lon"] = @usswitch_net_radiation.var("longitude")
+    @dims["lat"] = @us_switch_net_radiation.var("latitude")
+    @dims["lon"] = @us_switch_net_radiation.var("longitude")
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
-      @usswitch_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      @us_switch_net_radiation_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
-      @usswitch_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
-      @file_var_name = @usswitch_net_radiation.var_names[-1]
-      @usswitch_net_radiation_num = @usswitch_net_radiation.var( @file_var_name )[ @usswitch_net_radiation_i, @usswitch_net_radiation_j, 0, 0 ][0]
+      @us_switch_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @us_switch_net_radiation.var_names[-1]
+      @us_switch_net_radiation_num = @us_switch_net_radiation.var( @file_var_name )[ @us_switch_net_radiation_i, @us_switch_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @usswitch_net_radiation_num
-      @usswitch_net_radiation.close()
-      @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
+#      puts @us_switch_net_radiation_num
+      @us_switch_net_radiation.close()
+      @us_switch_net_radiation_diff = @us_bare_net_radiation_num - @us_switch_net_radiation_num
     end
 
     #### NBCD: ####
@@ -1004,7 +1084,7 @@ class WorkflowsController < ApplicationController
 
 ###   BIOFUELS: switchgrass, miscanthus, US corn, US soy
 
-#    @usswitch_net_radiation_diff = @bare_net_radiation_num - @usswitch_net_radiation_num
+#    @us_switch_net_radiation_diff = @us_bare_net_radiation_num - @us_switch_net_radiation_num
 
 
 #    (ecosystem-bare)/51007200000*1000000000
@@ -1016,49 +1096,53 @@ class WorkflowsController < ApplicationController
     
 #    go through all 
 
-#    puts ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f) / 51007200000*1000000000
-#    puts ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
+#    puts ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f) / 51007200000*1000000000
+#    puts ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
 
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
-            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000 }
+            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000 }
         end
     end
     
     puts "#######################################"      
-#    puts @uscorn_latent_heat_flux_diff / 51007200000*1000000000
-#    puts @usmisc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
-#    puts @ussoy_latent_heat_flux_diff/ 51007200000*1000000000
-#    puts @usswitch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
+#    puts @us_corn_latent_heat_flux_diff / 51007200000*1000000000
+#    puts @us_misc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
+#    puts @us_soy_latent_heat_flux_diff/ 51007200000*1000000000
+#    puts @us_switch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
 
-#    puts @uscorn_net_radiation_diff/ 51007200000*1000000000
-#    puts @usmisc_net_radiation_diff.to_f #/ 51007200000*1000000000 
-#    puts @ussoy_net_radiation_diff/ 51007200000*1000000000
-#    puts @usswitch_net_radiation_diff.to_f #/ 51007200000*1000000000 
+#    puts @us_corn_net_radiation_diff/ 51007200000*1000000000
+#    puts @us_misc_net_radiation_diff.to_f #/ 51007200000*1000000000 
+#    puts @us_soy_net_radiation_diff/ 51007200000*1000000000
+#    puts @us_switch_net_radiation_diff.to_f #/ 51007200000*1000000000 
 
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @uscorn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @uscorn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @uscorn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @uscorn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @ussoy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @ussoy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @ussoy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      
+      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
       @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      
       @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
     
 #    if @braz_saatchi_carbon
