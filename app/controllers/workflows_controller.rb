@@ -149,15 +149,17 @@ class WorkflowsController < ApplicationController
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
     @output_csv << header.join(",") << "\n"
 
-    @json_output.each do |k, v|
-      line = []
-      
-      # for some reason we need to select out the first element
-      v[0].each do | csep_k, csep_v |
-        line << csep_v
+    @json_output.each do |biome_k, biome_v|
+      biome_v.each do |i|
+        line = []
+        # Each location can have multiple biomes which are stored as an array
+        i.each do | csep_k, csep_v |
+          line << csep_v
+        end
+        @output_csv << line.join(",") << "\n"
       end
 
-      @output_csv << line.join(",") << "\n"  
+      
     end
     @output_csv.close()
   
