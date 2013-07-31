@@ -144,7 +144,7 @@ class WorkflowsController < ApplicationController
   
   def download_csv
     @json_output = JSON.parse(File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"))
-    header = "biome S_CO2	S_CH4	site_1_data.S_N2O	site_1_data.F_CO2	site_1_data.F_CH4	site_1_data.F_N2O	site_1_data.D_CO2	site_1_data.D_CH4	site_1_data.D_N2O	site_1_data.swRFV".split(" ")
+    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
     @output_csv << header.join(",") << "\n"
