@@ -311,14 +311,20 @@ function initalize_google_map(lat, lng, zoom) {
   });
 };
 
-function show_csep_groups_for_ecosystem( ecosystem_name ) {
-  
+function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
+
   // Hide non-default groups 
   $('#natural_fire').hide();
   $('#management_related').hide();
   $('#fossil_fuel').hide();
+  $('#biophysical').hide();
     
-  // Add in additional groups if needed
+  switch( biome_type ) {
+    case"native":
+    $('#biophysical').hide();
+    break;
+  }
+    
   switch ( ecosystem_name ) { 
     case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
       $('#natural_fire').show();
@@ -329,6 +335,9 @@ function show_csep_groups_for_ecosystem( ecosystem_name ) {
       break;
    case"temperate pasture": case"tropical pasture": case"temperate cropland": case"soybean": case"tropical cropland":
       $('#management_related').show();
+      break;
+   case"temperate grassland": case"temperate pasture": case"tropical pasture": case"temperate cropland": case"soybean": case"tropical cropland": case"scrub/woodland":
+      $('#biophysical').show();
       break;
   }
 }
@@ -344,8 +353,8 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
 
     console.log("pushing this into popup:");
     console.log(current_default_ecosystem);
-
-    show_csep_groups_for_ecosystem( biome_name.replace(/_/g," ") );
+    
+    show_csep_groups_for_ecosystem( biome_type, biome_name.replace(/_/g," ") );
     
 
     // Clear out all existing drop-down values
