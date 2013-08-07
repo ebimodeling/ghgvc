@@ -587,6 +587,23 @@ $(document).ready(function() {
     console.log("ghgvcR_input");    
     console.log( ghgvcR_input );
     
+    //// Workaround for R-Code only running 1 biophysical value
+    // Here we write the input swRadF value into the DOM
+    // So we can compare it to the output swRadF value
+    // Which gives us a scale factor to apply to the latent value
+    
+    /*  
+    
+    Latent should already be in there...
+
+    for each lat/lng
+      for every biome_type_group
+        for each biome
+    write the latent 
+    
+    
+    */
+    
     // Hide all the input portions
     toggle_input_state_for_highcharts();
     

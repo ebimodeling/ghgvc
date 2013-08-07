@@ -1101,24 +1101,28 @@ class WorkflowsController < ApplicationController
 #    puts ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f) / 51007200000*1000000000
 #    puts ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f ) / 51007200000*1000000000
 
+
+    puts "#######################################"
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
             @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
+
+            puts "\n"
+            puts biome_k
+            puts biome_v
+            puts "###"
+            puts "swRadF:"
+            puts ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
+            puts "latent:"
+            puts ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
+            
         end
     end
     
-    puts "#######################################"      
-#    puts @us_corn_latent_heat_flux_diff / 51007200000*1000000000
-#    puts @us_misc_latent_heat_flux_diff.to_f #/ 51007200000*1000000000
-#    puts @us_soy_latent_heat_flux_diff/ 51007200000*1000000000
-#    puts @us_switch_latent_heat_flux_diff.to_f #/ 51007200000*1000000000 
 
-#    puts @us_corn_net_radiation_diff/ 51007200000*1000000000
-#    puts @us_misc_net_radiation_diff.to_f #/ 51007200000*1000000000 
-#    puts @us_soy_net_radiation_diff/ 51007200000*1000000000
-#    puts @us_switch_net_radiation_diff.to_f #/ 51007200000*1000000000 
 
+    # These must be populated bc the R code wont run without XML fields present for these values
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
       @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => 0 , "User defined" => "custom" }

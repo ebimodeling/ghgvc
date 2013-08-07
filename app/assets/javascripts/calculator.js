@@ -243,7 +243,8 @@ $(document).ready(function() {
 		$('#co2_dist_row').html('<td>CO2 Disturbance</td>');
 		$('#ch4_dist_row').html('<td>CH4 Disturbance</td>');
 		$('#n2o_dist_row').html('<td>N2O Disturbance</td>');
-		$('#swRFV_dist_row').html('<td>Biophysical</td>');
+		$('#swRFV_dist_row').html('<td>Biophysical swRFV</td>');
+		$('#swRFV_dist_row').html('<td>Biophysical latent</td>');
 
 		var names = [];
 		var co2_storage = [];
@@ -256,6 +257,7 @@ $(document).ready(function() {
 		var ch4_dist = [];
 		var n2o_dist = [];
 		var swRFV_dist = [];
+		var latent_dist = [];
 	
 		for (i = 0; i < results_array.length; i++) {
 			result = results_array[i];
@@ -272,21 +274,28 @@ $(document).ready(function() {
 			$('#ch4_dist_row').append('<td>' + result.D_CH4 + '</td>');
 			$('#n2o_dist_row').append('<td>' + result.D_N2O + '</td>');
 			$('#swRFV_dist_row').append('<td>' + result.swRFV + '</td>');
+			$('#latent_dist_row').append('<td>' + result.latent + '</td>');
+			
 			names.push(result.name);
 			co2_storage.push(result.S_CO2);
 			ch4_storage.push(result.S_CH4);
 			n2o_storage.push(result.S_N2O);
-			// TODO: This is only a temp patch for the ghgvcR error
+			// TODO: These negative values are only a patch for the ghgvcR error
 			co2_flux.push(-result.F_CO2); 
 			ch4_flux.push(-result.F_CH4);
 			n2o_flux.push(-result.F_N2O);
+			
 			co2_dist.push(result.S_CO2 - result.F_CO2);
 			ch4_dist.push(result.S_CH4 - result.F_CH4);
 			n2o_dist.push(result.S_N2O - result.F_N2O);
 			swRFV_dist.push(result.swRFV);
+			latent_dist.push(300);
+			
+//			console.log();
 		}
 
-		new Highcharts.Chart({
+		new
+		 Highcharts.Chart({
 			chart: {
 				renderTo: String ('storage_chart_' + location_number ),
 				type: 'bar',
@@ -393,16 +402,35 @@ $(document).ready(function() {
 			},
 			yAxis: {
 				title: {
-					text: 'Biophysical(swRFV)'
+					text: 'Biophysical'
 				}
 			},
 			credits: {
 				enabled: false
 			},
 			series: [
-			  { name: 'Biophysical(swRFV)', data: swRFV_dist }, 
+			  { name: 'swRFV', data: swRFV_dist },
+			  { name: 'latent', data: latent_dist }, 
 			]
-		}).setSize(230, 220);		
+		}).setSize(230, 220);
+		
+		// find biome + get both biophysical values
+		
+		
+//	  $('#biome_instance-0').find('.json_saved').val()['native_eco']['latent']
+		
+		
+//Calculation in R code:
+//swRadF_raw * X = swRadF_CO2eq
+
+//solve for X:
+//X=swRadF_CO2eq/swRadF_raw
+
+//should be on the order of 1 x 10^3.
+
+//calculate for latent:
+//latent_raw * X = latent_CO2eq
+		
 		
 		
 		return 0;
