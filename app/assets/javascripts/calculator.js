@@ -289,7 +289,7 @@ $(document).ready(function() {
 			ch4_dist.push(result.S_CH4 - result.F_CH4);
 			n2o_dist.push(result.S_N2O - result.F_N2O);
 			swRFV_dist.push(result.swRFV);
-			latent_dist.push(300);
+			latent_dist.push(result.latent);
 			
 //			console.log();
 		}
