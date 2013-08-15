@@ -277,21 +277,21 @@ $(document).ready(function() {
 			$('#latent_dist_row').append('<td>' + result.latent + '</td>');
 			
 			names.push(result.name);
+			// Initial Storage
 			co2_storage.push(result.S_CO2);
 			ch4_storage.push(result.S_CH4);
 			n2o_storage.push(result.S_N2O);
-			// TODO: These negative values are only a patch for the ghgvcR error
+      // Ongoing Exchange
 			co2_flux.push(result.F_CO2); 
 			ch4_flux.push(result.F_CH4);
 			n2o_flux.push(result.F_N2O);
-			
+			// Total GHGV
 			co2_dist.push(result.S_CO2 - result.F_CO2);
 			ch4_dist.push(result.S_CH4 - result.F_CH4);
 			n2o_dist.push(result.S_N2O - result.F_N2O);
+      // Biophysical
 			swRFV_dist.push(result.swRFV);
 			latent_dist.push(result.latent);
-			
-//			console.log();
 		}
 
 		new
