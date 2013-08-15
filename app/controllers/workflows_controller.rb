@@ -130,20 +130,20 @@ class WorkflowsController < ApplicationController
       end      
       if value['agroecosystem_eco'] != nil
         value['agroecosystem_eco'].each do | agroecosystem_k, agroecosystem_v |
-          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
+#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( agroecosystem_k, agroecosystem_v )
           
         end
       end
       if value['aggrading_eco'] != nil
         value['aggrading_eco'].each do | aggrading_k, aggrading_v |
-          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
+#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
         end
       end
       if value['biofuel_eco'] != nil
         value['biofuel_eco'].each do | biofuel_k, biofuel_v |
-          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
+#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
         end      
       end
