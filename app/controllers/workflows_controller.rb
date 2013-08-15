@@ -1105,17 +1105,17 @@ class WorkflowsController < ApplicationController
     puts "#######################################"
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
-            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
+            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000  }
 
-            puts "\n"
-            puts biome_k
-            puts biome_v
-            puts "###"
-            puts "swRadF:"
-            puts ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
-            puts "latent:"
-            puts ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
+#            puts "\n"
+#            puts biome_k
+#            puts biome_v
+#            puts "###"
+#            puts "swRadF:"
+#            puts ( @global_potVeg_rnet_num.to_f - @us_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
+#            puts "latent:"
+#            puts ( @global_potVeg_latent_num.to_f - @us_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
             
         end
     end

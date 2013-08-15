@@ -321,7 +321,7 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
     
   switch( biome_type ) {
     case"native":
-    $('#biophysical').hide();
+    $('#biophysical').show();
     break;
   }
     
