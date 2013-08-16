@@ -227,7 +227,7 @@ class WorkflowsController < ApplicationController
     end
   
     @json_output = JSON.parse(File.read( "#{ghgvcR_output_path}"  ))
-    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV".split(" ")
+    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV latent".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
     @output_csv << header.join(",") << "\n"
