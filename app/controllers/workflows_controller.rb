@@ -27,9 +27,9 @@ class WorkflowsController < ApplicationController
   
   def create_config_input
     if Rails.env == "development"
-      multisite_config_path = "/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml"
-      ghgvcR_instantiation_path = "/home/thrive/rails_projects/ghgvcR/"
-      ghgvcR_output_path = "/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"  
+        multisite_config_path = "/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml"
+        ghgvcR_instantiation_path = "/home/thrive/rails_projects/ghgvcR/"
+        ghgvcR_output_path = "/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"
     end
     if Rails.env == "production"
         multisite_config_path = "/home/ubuntu/ghgvcR/inst/multisite_config.xml"
@@ -65,8 +65,6 @@ class WorkflowsController < ApplicationController
         end       
 
       end
-#      puts "############## narf ##########444444444"
-#      puts biophys_values 
       
       return biophys_values
     end
@@ -162,7 +160,7 @@ class WorkflowsController < ApplicationController
     r = `#{rcmd}`
 
     # then poll to see if script is finished 
-    @ghgvcR_output = JSON.parse(File.read( ghgvcR_output_path ))
+    @ghgvcR_output = JSON.parse(File.read( "#{ghgvcR_output_path}" ))
     
     # Horrible practice assuming that both @biophys_workaround and @ghgvcR_output are same length
     @ghgvcR_output.each do |site_k, site_data|
@@ -221,7 +219,14 @@ class WorkflowsController < ApplicationController
   
   
   def download_csv
-    @json_output = JSON.parse(File.read("/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"))
+    if Rails.env == "development"
+        ghgvcR_output_path = "/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"
+    end
+    if Rails.env == "production"
+        ghgvcR_output_path = "/home/ubuntu/ghgvcR/inst/extdata/output.json"
+    end
+  
+    @json_output = JSON.parse(File.read( "#{ghgvcR_output_path}"  ))
     header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
