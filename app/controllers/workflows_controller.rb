@@ -39,36 +39,7 @@ class WorkflowsController < ApplicationController
   
     @ecosystems = params[:ecosystems]
     @biophys_workaround = []
-    
-    def hax( name, csep_list )
-      biophys_values = {}
-      csep_list.each do |key, value|        
-        
 
-        # Value comes in as a hash with its source attached
-        # we need to isolate the single value
-        isolated_value = value.to_a[0][1]
-
-        ## Checking sanity        
-        raise "ERROR: Expecting superclass to be Hash \n\t... evaluted as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
-        raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"     
-
-        # Kludgy biophysical workaround
-        if key == "latent"
-          biophys_values['latent'] = {}
-          biophys_values['latent']['input'] = isolated_value
-        end
-
-        if key == "sw_radiative_forcing"
-          biophys_values['radiative'] = {}
-          biophys_values['radiative']['input'] = isolated_value
-        end       
-
-      end
-      
-      return biophys_values
-    end
-    
     # Example call
     # convert_single_level_hash_to_xml ("Desert", {"OM_ag"=>{"Anderson-Teixeira and DeLucia (2011)"=>"444.0"}, "OM_root"=>{"Anderson-Teixeira and DeLucia (2011)"=>"108.0"}} )    
     def convert_single_level_hash_to_xml( name, csep_list )
@@ -122,26 +93,22 @@ class WorkflowsController < ApplicationController
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
         value['native_eco'].each do | ecosystem_k, ecosystem_v |
-          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
         end
       end      
       if value['agroecosystem_eco'] != nil
         value['agroecosystem_eco'].each do | agroecosystem_k, agroecosystem_v |
-#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( agroecosystem_k, agroecosystem_v )
           
         end
       end
       if value['aggrading_eco'] != nil
         value['aggrading_eco'].each do | aggrading_k, aggrading_v |
-#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
         end
       end
       if value['biofuel_eco'] != nil
         value['biofuel_eco'].each do | biofuel_k, biofuel_v |
-#          @biophys_workaround[@ecosystem_index] = hax( ecosystem_k, ecosystem_v)
           file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
         end      
       end
@@ -161,20 +128,6 @@ class WorkflowsController < ApplicationController
 
     # then poll to see if script is finished 
     @ghgvcR_output = JSON.parse(File.read( "#{ghgvcR_output_path}" ))
-    
-    # Horrible practice assuming that both @biophys_workaround and @ghgvcR_output are same length
-    @ghgvcR_output.each do |site_k, site_data|
-      sitenum = site_k.split('_')[1].to_i
-      @biophys_workaround[sitenum]['radiative']['output'] = site_data[0]['swRFV']
-      
-      output = @biophys_workaround[sitenum]['radiative']['output'].to_f 
-      input = @biophys_workaround[sitenum]['radiative']['input'].to_f
-
-      scale_factor = output / input
-      output_latent =  scale_factor *  @biophys_workaround[sitenum]['latent']['input'].to_f
-      @ghgvcR_output[site_k][0]['latent'] = output_latent
-
-    end
 
     p @ghgvcR_output
     
@@ -203,7 +156,7 @@ class WorkflowsController < ApplicationController
     @ghgvcR_output.each do | site_k, site_v |
       site_v.each do |i| # site_v is an array
         i.each do |k,v|
-          if v == "NA"
+          if v == "NA" || v == "NaN"
             i[k] = 0
           end
         end
@@ -227,7 +180,7 @@ class WorkflowsController < ApplicationController
     end
   
     @json_output = JSON.parse(File.read( "#{ghgvcR_output_path}"  ))
-    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV latent".split(" ")
+    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV latent CRV".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
     @output_csv << header.join(",") << "\n"
@@ -1196,12 +1149,16 @@ class WorkflowsController < ApplicationController
 
 
 
-#    puts "#######################################"
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
+    
+          if ["temperate_pasture", "temperate_cropland"].include? biome_k == false 
+
             @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
             @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
-
+          else 
+            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => 0  }
 #            puts "\n"
 #            puts biome_k
 #            puts biome_v
@@ -1210,9 +1167,11 @@ class WorkflowsController < ApplicationController
 #            puts ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
 #            puts "latent:"
 #            puts ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
+          end
             
         end
     end
+
     
 
 
