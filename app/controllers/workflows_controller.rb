@@ -1152,13 +1152,16 @@ class WorkflowsController < ApplicationController
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
     
-          if ["temperate_pasture", "temperate_cropland"].include? biome_k == false 
+          if ["temperate_pasture", "temperate_cropland"].include? biome_k == true 
+
+            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
+            @biome_data[k][biome_k]["latent"] = {"s000" => 0  }
+          else
 
             @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
             @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
-          else 
-            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => 0  }
+
+
 #            puts "\n"
 #            puts biome_k
 #            puts biome_v
