@@ -296,13 +296,12 @@ $(document).ready(function() {
 			ch4_flux.push(result.F_CH4);
 			n2o_flux.push(result.F_N2O);
 			// Total GHGV
-			co2_dist.push(result.S_CO2 + result.F_CO2);
-			ch4_dist.push(result.S_CH4 + result.F_CH4);
-			n2o_dist.push(result.S_N2O + result.F_N2O);
+			co2_dist.push(result.D_CO2);
+			ch4_dist.push(result.D_CH4);
+			n2o_dist.push(result.D_N2O);
       // Biophysical
 			swRFV.push(-result.swRFV);
 			latent.push(result.latent);
-			
 			// CRV
 			crv.push(crvNum);
 
