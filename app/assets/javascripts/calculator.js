@@ -265,12 +265,6 @@ $(document).ready(function() {
 		for (i = 0; i < results_array.length; i++) {
 			result = results_array[i];
 
-//			This is the correct equation for CRV:
-//      CRV= (S_CO2+S_CH4+S_N2O) + (F_CO2+F_CH4+F_N2O)-swRFV+latent
-      storageGroup = result.S_CO2 + result.S_CH4 + result.S_N2O
-      fluxGroup = result.F_CO2 + result.F_CH4 + result.F_N2O
-			crvNum = storageGroup + fluxGroup - result.swRFV + result.latent
-
 			$('#results_table thead tr').append('<th>' + result.name + '</th>');
 
 			$('#co2_storage_row').append('<td>' + result.S_CO2 + '</td>');
@@ -284,7 +278,7 @@ $(document).ready(function() {
 			$('#n2o_dist_row').append('<td>' + result.D_N2O + '</td>');
 			$('#swRFV_dist_row').append('<td>' + result.swRFV + '</td>');
 			$('#latent_dist_row').append('<td>' + result.latent + '</td>');
-			$('#crv_dist_row').append('<td>' + crvNum + '</td>');
+			$('#crv_dist_row').append('<td>' + result.crv + '</td>');
 			
 			names.push(result.name);
 			// Initial Storage
@@ -303,7 +297,7 @@ $(document).ready(function() {
 			swRFV.push(-result.swRFV);
 			latent.push(result.latent);
 			// CRV
-			crv.push(crvNum);
+			crv.push(result.crv);
 
 			
 		}

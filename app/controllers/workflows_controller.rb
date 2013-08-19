@@ -186,49 +186,14 @@ class WorkflowsController < ApplicationController
     @output_csv << header.join(",") << "\n"
 
     @json_output.each do |location_k, location_v|
-#      values = JSON.parse(location_v)
-#      puts values['S_CO2']
-#      puts location_v
-#      puts location_v.class
-#puts location_v[0]
-    
-      # write site name into a line before the biomes it contains
-#      puts "###co2_dist###"
-#      puts location_v['S_CO2'].to_f #+ location_v['F_CO2'].to_f
-#      puts "###ch4_dist###"
-#      puts location_v['S_CH4'].to_f + location_v['F_CH4'].to_f
-#      puts "###n2o_dist###"
-#      puts location_v['S_N2O'].to_f + locaiton_v['F_N2O'].to_f
-
-
       @output_csv << location_k << "\n"      
       location_v.each do |i|
         row = []
         # Each location can have multiple biomes which are stored as an array
         i.each do | biome_output_k, biome_output_v |
-
-#            puts "###co2_dist###"
-#            puts location_v['S_CO2'].to_f + location_v['F_CO2'].to_f
-#            puts "###ch4_dist###"
-#            puts location_v['S_CH4'].to_f + location_v['F_CH4'].to_f
-#            puts "###n2o_dist###"
-#            puts location_v['S_N2O'].to_f + locaiton_v['F_N2O'].to_f
-
-
-#          puts "#{biome_output_k} @ #{biome_output_v}"
-          
-          # here we insert the GHGV 
-#          			// Total GHGV
-#			co2_dist.push(result.S_CO2 + result.F_CO2);
-#			ch4_dist.push(result.S_CH4 + result.F_CH4);
-#			n2o_dist.push(result.S_N2O + result.F_N2O);
-
           row << biome_output_v
         end
-        
-        puts "###co2_dist###"
-        p row[1] + row[4]
-        
+                
         @output_csv << row.join(",") << "\n"
       end
     end
