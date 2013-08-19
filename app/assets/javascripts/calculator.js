@@ -258,13 +258,18 @@ $(document).ready(function() {
 		var co2_dist = [];
 		var ch4_dist = [];
 		var n2o_dist = [];
-		var swRFV_dist = [];
-		var latent_dist = [];
-		var crv_final = [];
+		var swRFV = [];
+		var latent = [];
+		var crv = [];
 	
 		for (i = 0; i < results_array.length; i++) {
 			result = results_array[i];
-      fCRVnum = result.S_CO2 - result.F_CO2 - result.swRFV + result.latent
+
+//			This is the correct equation for CRV:
+//      CRV= (S_CO2+S_CH4+S_N2O) + (F_CO2+F_CH4+F_N2O)-swRFV+latent
+      storageGroup = result.S_CO2 + result.S_CH4 + result.S_N2O
+      fluxGroup = result.F_CO2 + result.F_CH4 + result.F_N2O
+			crvNum = storageGroup + fluxGroup - result.swRFV + result.latent
 
 			$('#results_table thead tr').append('<th>' + result.name + '</th>');
 
@@ -279,7 +284,7 @@ $(document).ready(function() {
 			$('#n2o_dist_row').append('<td>' + result.D_N2O + '</td>');
 			$('#swRFV_dist_row').append('<td>' + result.swRFV + '</td>');
 			$('#latent_dist_row').append('<td>' + result.latent + '</td>');
-			$('#crv_dist_row').append('<td>' + fCRVnum + '</td>');
+			$('#crv_dist_row').append('<td>' + crvNum + '</td>');
 			
 			names.push(result.name);
 			// Initial Storage
@@ -295,10 +300,11 @@ $(document).ready(function() {
 			ch4_dist.push(result.S_CH4 + result.F_CH4);
 			n2o_dist.push(result.S_N2O + result.F_N2O);
       // Biophysical
-			swRFV_dist.push(result.swRFV);
-			latent_dist.push(result.latent);
+			swRFV.push(-result.swRFV);
+			latent.push(result.latent);
+			
 			// CRV
-			crv_final.push(fCRVnum);
+			crv.push(crvNum);
 
 			
 		}
@@ -405,8 +411,8 @@ $(document).ready(function() {
 				enabled: false
 			},
 			series: [
-			  { name: 'swRFV', data: swRFV_dist },
-			  { name: 'latent', data: latent_dist }, 
+			  { name: 'swRFV', data: swRFV },
+			  { name: 'latent', data: latent }, 
 			]
 		}).setSize(185, 190);
 		
@@ -431,7 +437,7 @@ $(document).ready(function() {
 				enabled: false
 			},
 			series: [
-			  { name: 'CRV', data: crv_final }
+			  { name: 'CRV', data: crv }
 			]
 		}).setSize(185, 190);
 		
