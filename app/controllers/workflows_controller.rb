@@ -1151,9 +1151,9 @@ class WorkflowsController < ApplicationController
 
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
         @biome_data[k].each do |biome_k, biome_v|
-    
-          if ["temperate_pasture", "temperate_cropland"].include? biome_k == true 
 
+
+          if ["temperate_pasture", "temperate_cropland", "tropical_pasture", "tropical_cropland"].include? biome_k 
             @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
             @biome_data[k][biome_k]["latent"] = {"s000" => 0  }
           else
