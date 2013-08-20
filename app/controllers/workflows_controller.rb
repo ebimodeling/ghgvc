@@ -1175,37 +1175,35 @@ class WorkflowsController < ApplicationController
         end
     end
 
-    
 
-
-    # These must be populated bc the R code wont run without XML fields present for these values
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
       @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR Sugarcane"]
-      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
+    
     
 #    if @braz_saatchi_carbon
 ##      @native_names << '{{"Anderson-Teixeira and DeLucia (2011)"=>"400","Saatchi and others (2011)"=>"800"},"OM_root"=>"108"}'
