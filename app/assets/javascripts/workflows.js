@@ -329,7 +329,7 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
     case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
       $('#natural_fire').show();
       break;
-   case"US corn": case"BR sugarcane": 
+   case"corn": case"sugarcane": 
       $('#management_related').show();
       $('#fossil_fuel').show();
       break;
@@ -504,17 +504,6 @@ $(document).ready(function() {
     );
   });
   
-  
-    
-    
-//    -0.0348
-//US corn:
-//first * second = third 
-//4th = 3rd * -0.0348
-    
-
-  
-  
   $('#run_ghgvc_calculator').on('click' ,function() {
   
     // Check to see that we've got at least one "checked" input
@@ -522,10 +511,6 @@ $(document).ready(function() {
       alert("Please check one or more ecosystems");  
       return;
     };
-    
-    // when we're missing values, the output will be the same regardless of what checkboxes are checked.
-//    $('#biogeochemical').is(':checked')
-//    $('#biophysical').is(':checked')
     
     // deactivate page with lightbox overlay
     $('#toggle_ghgvcR_processing_popup').trigger("click");
