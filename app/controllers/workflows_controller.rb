@@ -180,7 +180,7 @@ class WorkflowsController < ApplicationController
     end
   
     @json_output = JSON.parse(File.read( "#{ghgvcR_output_path}"  ))
-    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	swRFV latent CRV".split(" ")
+    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	Rnet latent CRV".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
     @output_csv << header.join(",") << "\n"
@@ -676,7 +676,7 @@ class WorkflowsController < ApplicationController
       @file_var_name = @braz_sugarcane.var_names[-1]
       @braz_sugarcane_num = @braz_sugarcane.var( @file_var_name )[ @braz_sugarcane_i, @braz_sugarcane_j, 0, 0 ][0]
 #      Testing:
-#      http://localhost:3000/get_biome.json?lng=-45.25&lat=-14.75 # => 81.625
+#      http://localhost:3000/get_biome.json?lng=-60.25&lat=-4.75 # => 92.2459
 #      puts "################### brz sugarcane ####################"
 #      puts @braz_sugarcane_num
       @braz_sugarcane.close()
