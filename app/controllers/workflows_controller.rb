@@ -459,7 +459,10 @@ class WorkflowsController < ApplicationController
       @us_corn_net_radiation_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @us_corn_net_radiation.var_names[-1]
       @us_corn_net_radiation_num = @us_corn_net_radiation.var( @file_var_name )[ @us_corn_net_radiation_i, @us_corn_net_radiation_j, 0, 0 ][0]
-#      puts "#######################################"      
+      puts "#######################################"      
+      puts @global_bare_net_radiation_num 
+      puts @us_corn_net_radiation_num
+      
 #      puts @us_corn_net_radiation_num
       @us_corn_net_radiation.close()
       @us_corn_net_radiation_diff = @global_bare_net_radiation_num - @us_corn_net_radiation_num
@@ -663,6 +666,24 @@ class WorkflowsController < ApplicationController
     end   
 
     #### Brazil: ####
+    #narf
+    ## Brazil Sugarcane
+    @braz_soybean_fractional = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Soybean/brazil_soyb_fractional_10yr_avg.nc")
+    @dims.clear # ensure hash is empty
+    @dims["lat"] = @braz_soybean_fractional.var("lat")
+    @dims["lon"] = @braz_soybean_fractional.var("lon")
+    if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
+      @braz_soybean_fractional_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
+      # high and low values are counter-intuitive ... but are infact correct
+      @braz_soybean_fractional_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
+      @file_var_name = @braz_soybean_fractional.var_names[-1]
+      @braz_soybean_fractional_num = @braz_soybean_fractional.var( @file_var_name )[ @braz_soybean_fractional_i, @braz_soybean_fractional_j, 0, 0 ][0]
+#      Testing:
+#      http://localhost:3000/get_biome.json?lng=-50.22&lat=-11.42 # => 1
+#      puts "################### @braz_soybean_fractional_num ####################"
+#      puts @braz_soybean_fractional_num
+      @braz_soybean_fractional.close()
+    end  
     
     ## Brazil Sugarcane
     @braz_sugarcane = NumRu::NetCDF.open("netcdf/GCS/Crops/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc")
@@ -1184,6 +1205,10 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["corn"] = @name_indexed_ecosystems["corn"]
       @biome_data["agroecosystem_eco"]["corn"]["latent"] = {"s000" =>  @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["agroecosystem_eco"]["corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      puts "#################"
+      puts @us_corn_net_radiation_diff
+
+
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["corn"]
@@ -1203,6 +1228,17 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["agroecosystem_eco"]["sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
+    if @braz_soybean_fractional_num == 1
+      @biome_data["biofuel_eco"]["sugarcane"] = @name_indexed_ecosystems["sugarcane"]
+      @biome_data["biofuel_eco"]["sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["sugarcane"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      
+      @biome_data["agroecosystem_eco"]["sugarcane"] = @name_indexed_ecosystems["sugarcane"]
+      @biome_data["agroecosystem_eco"]["sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+    end
+    
+    
     
     
 #    if @braz_saatchi_carbon
