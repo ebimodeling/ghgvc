@@ -296,7 +296,7 @@ class WorkflowsController < ApplicationController
       @br_sugc_latent_heat_flux_j = remap_range( @request_lat, @dims["lat"].get.max, @dims["lat"].get.min, 0, @dims["lat"].get.shape[0] )
       @file_var_name = @br_sugc_latent_heat_flux.var_names[-1]
       @br_sugc_latent_heat_flux_num = @br_sugc_latent_heat_flux.var( @file_var_name )[ @br_sugc_latent_heat_flux_i, @br_sugc_latent_heat_flux_j, 0, 0 ][0]
-#      puts "#######################################"      
+#      puts "#####################################"      
 #      puts @br_sugc_latent_heat_flux_num
       @br_sugc_latent_heat_flux.close()
       @br_sugc_latent_heat_flux_diff = @br_sugc_latent_heat_flux_num - @br_bare_sugc_latent_heat_flux_num
@@ -1247,8 +1247,7 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
-    # narf    
-    if @braz_fractional_soybean_num == 1
+    if @braz_fractional_soybean_num == 1 && @br_sugc_latent_heat_flux_diff != nil
       @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
       @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
@@ -1257,6 +1256,17 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
     end
+    #narf
+    if @braz_fractional_sugarcane_num == 1 && @br_sugc_latent_heat_flux_diff != nil
+      @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      
+      @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+    end
+    
     
     
 #    if @braz_saatchi_carbon
