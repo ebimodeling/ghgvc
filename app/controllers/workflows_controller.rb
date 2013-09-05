@@ -342,6 +342,9 @@ class WorkflowsController < ApplicationController
     @dims.clear # ensure hash is empty
     @dims["lat"] = @us_corn_latent_heat_flux.var("latitude")
     @dims["lon"] = @us_corn_latent_heat_flux.var("longitude")
+    
+    puts "################# US corn latent ######################"      
+    
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
       @us_corn_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
@@ -359,6 +362,9 @@ class WorkflowsController < ApplicationController
     @dims.clear # ensure hash is empty
     @dims["lat"] = @us_misc_latent_heat_flux.var("latitude")
     @dims["lon"] = @us_misc_latent_heat_flux.var("longitude")
+    
+    puts "################# US misc latent ######################"      
+    
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
       @us_misc_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
@@ -366,7 +372,7 @@ class WorkflowsController < ApplicationController
       @file_var_name = @us_misc_latent_heat_flux.var_names[-1]
       @us_misc_latent_heat_flux_num = @us_misc_latent_heat_flux.var( @file_var_name )[ @us_misc_latent_heat_flux_i, @us_misc_latent_heat_flux_j, 0, 0 ][0]
 #      puts "#######################################"
-#      puts @us_misc_latent_heat_flux_num
+      puts @us_misc_latent_heat_flux_num
       @us_misc_latent_heat_flux.close()
       @us_misc_latent_heat_flux_diff =  @us_misc_latent_heat_flux_num - @global_bare_latent_heat_flux_num
     end
@@ -376,6 +382,9 @@ class WorkflowsController < ApplicationController
     @dims.clear # ensure hash is empty
     @dims["lat"] = @us_soy_latent_heat_flux.var("latitude")
     @dims["lon"] = @us_soy_latent_heat_flux.var("longitude")
+    
+    puts "################# US soybean latent ######################"      
+    
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
       @us_soy_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
@@ -393,6 +402,9 @@ class WorkflowsController < ApplicationController
     @dims.clear # ensure hash is empty
     @dims["lat"] = @us_switch_latent_heat_flux.var("latitude")
     @dims["lon"] = @us_switch_latent_heat_flux.var("longitude")
+    
+    puts "################# US switchgrass latent ######################"      
+    
     if ( @dims["lat"].get.min <= @request_lat && @request_lat <= @dims["lat"].get.max && @dims["lon"].get.min <= @request_lng && @request_lng <= @dims["lon"].get.max )
       @us_switch_latent_heat_flux_i = remap_range( @request_lng, @dims["lon"].get.min, @dims["lon"].get.max, 0, @dims["lon"].get.shape[0] )
       # high and low values are counter-intuitive ... but are infact correct
@@ -456,7 +468,7 @@ class WorkflowsController < ApplicationController
       @file_var_name = @us_corn_net_radiation.var_names[-1]
       @us_corn_net_radiation_num = @us_corn_net_radiation.var( @file_var_name )[ @us_corn_net_radiation_i, @us_corn_net_radiation_j, 0, 0 ][0]
 #      puts "#######################################"      
-#      puts @us_corn_net_radiation_num
+      puts @us_corn_net_radiation_num
       @us_corn_net_radiation.close()
       @us_corn_net_radiation_diff = @us_corn_net_radiation_num - @global_bare_net_radiation_num
     end
@@ -1233,7 +1245,11 @@ class WorkflowsController < ApplicationController
 
     if @us_corn_num != nil && @us_corn_num > 0.01
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
+      puts "############# @us_corn_latent_heat_flux_diff #######"
+      puts @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 
       @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      puts "############# @us_corn_net_radiation_diff #######"
+      puts @us_corn_net_radiation_diff/ 51007200000*1000000000 
       @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]

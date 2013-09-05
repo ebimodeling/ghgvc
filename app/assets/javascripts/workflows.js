@@ -330,9 +330,10 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
     case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
       $('#natural_fire').show();
       break;
-   case"US corn": case"BR sugarcane": 
+   case"US corn": case"BR sugarcane":case"soybean":case"BR soy": 
       $('#management_related').show();
       $('#fossil_fuel').show();
+      $('#biophysical').show();
       break;
    case"temperate pasture": case"tropical pasture": case"temperate cropland": case"soybean": case"tropical cropland":
       $('#management_related').show();
@@ -342,7 +343,6 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
       break;
   }
 }
-
 
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
