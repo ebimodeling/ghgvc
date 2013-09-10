@@ -1217,82 +1217,129 @@ class WorkflowsController < ApplicationController
 
 
     @biome_data.each do |k,v| #= { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
-        @biome_data[k].each do |biome_k, biome_v|
+    
+        ## TODO: remove this as its a hack to disable biophysical for everything but native
+        if k == "native_eco"
+          @biome_data[k].each do |biome_k, biome_v|
+
+            if ["temperate_pasture", "temperate_cropland", "tropical_pasture", "tropical_cropland"].include? biome_k 
+              @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
+              @biome_data[k][biome_k]["latent"] = {"s000" => 0 }
+            else
+
+              @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
+              @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
 
 
-          if ["temperate_pasture", "temperate_cropland", "tropical_pasture", "tropical_cropland"].include? biome_k 
-            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => 0 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => 0  }
-          else
-
-            @biome_data[k][biome_k]["sw_radiative_forcing"] = {"s000" => ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000*1000000000 }
-            @biome_data[k][biome_k]["latent"] = {"s000" => ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000*1000000000  }
-
-
-#            puts "\n"
-#            puts biome_k
-#            puts biome_v
-#            puts "###"
-#            puts "swRadF:"
-#            puts ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
-#            puts "latent:"
-#            puts ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
+  #            puts "\n"
+  #            puts biome_k
+  #            puts biome_v
+  #            puts "###"
+  #            puts "swRadF:"
+  #            puts ( @global_potVeg_rnet_num.to_f - @global_bare_net_radiation_num.to_f)/ 51007200000 * 1000000000
+  #            puts "latent:"
+  #            puts ( @global_potVeg_latent_num.to_f - @global_bare_latent_heat_flux_num.to_f )/ 51007200000 * 1000000000
+            end
+              
           end
-            
-        end
+
+        end ## end of the hack.
     end
 
 
     if @us_corn_num != nil && @us_corn_num > 0.01
+      # TODO: This was disabled till working biohphysical
+#      @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
+#      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
+#      @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
+#      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+
+
       @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      puts "############# @us_corn_latent_heat_flux_diff #######"
-      puts @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 
-      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      puts "############# @us_corn_net_radiation_diff #######"
-      puts @us_corn_net_radiation_diff/ 51007200000*1000000000 
-      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" =>  @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  @us_corn_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
     end
     if @us_soybean_num != nil && @us_soybean_num > 0.01
+      # TODO: This was disabled till working biohphysical
+#      @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
+#      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
+#      @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
+#      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+
       @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
-      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" =>  @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
-      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
     end
 
     if @braz_sugarcane_num != nil && @braz_sugarcane_num > 0.01 && @braz_sugarcane_num < 110.0
+      # TODO: This was disabled till working biohphysical
+#      @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
+#      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
+#      @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
+#      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
       @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
-      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
     end
     if @braz_fractional_soybean_num == 1 && @br_sugc_latent_heat_flux_diff != nil
+      # TODO: This was disabled till working biohphysical
+#      @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+#      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
+#      @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+#      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
       @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
     end
     #narf
     if @braz_fractional_sugarcane_num == 1 && @br_sugc_latent_heat_flux_diff != nil
+      # TODO: This was disabled till working biohphysical
+#      @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+#      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      
+#      @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+#      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+#      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      
       @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      
     end
     
     
