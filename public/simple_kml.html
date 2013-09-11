@@ -13,25 +13,27 @@
     // specified for google maps API v3
     // https://developers.google.com/maps/documentation/javascript/overlays#CustomOverlays
     function initialize() {
-
-      var usa = new google.maps.LatLng(40.44,-95.98);
-      var world = new google.maps.LatLng( 0,0);
+      var chicago = new google.maps.LatLng(41.875696,-87.624207);
       var mapOptions = {
-        zoom: 4,
-        center: usa,
+        zoom: 11,
+        center: chicago,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
+
       var map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
-      var vegtype_bounds = new google.maps.LatLngBounds(
-          new google.maps.LatLng(-59,-176.8),
-          new google.maps.LatLng(84,179)
-      );
-      var vegtype = new google.maps.GroundOverlay( 'vegtype_overlay.png', vegtype_bounds);
-      vegtype.setMap(map);
+      var ctaLayer = new google.maps.KmlLayer({
+        //url: 'http://gmaps-samples.googlecode.com/svn/trunk/ggeoxml/cta.kml'
+        //url: 'cta.kml'
+        url: './cta.kml'
+        //url: 'http://localhost:3000/overlayKML.kmz
+      });
+      ctaLayer.setMap(map);
     }
 
-    
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+        
 
     
     
