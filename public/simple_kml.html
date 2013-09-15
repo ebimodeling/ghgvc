@@ -15,8 +15,8 @@
     function initialize() {
       var chicago = new google.maps.LatLng(41.875696,-87.624207);
       var mapOptions = {
-        zoom: 11,
-        center: chicago,
+        //zoom: 11,
+        //center: chicago,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
@@ -25,7 +25,7 @@
       var ctaLayer = new google.maps.KmlLayer({
         //url: 'http://gmaps-samples.googlecode.com/svn/trunk/ggeoxml/cta.kml'
         //url: 'cta.kml'
-        url: 'http://ec2-23-22-99-12.compute-1.amazonaws.com/overlayKML.kmz'
+        url: 'http://ec2-23-22-99-12.compute-1.amazonaws.com/vegtype_simple.kml'
         //url: 'http://localhost:3000/overlayKML.kmz'
       });
       ctaLayer.setMap(map);
