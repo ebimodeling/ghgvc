@@ -9,7 +9,7 @@
     <drawOrder>1000</drawOrder>
     <name>vegtype_overlay.png</name>
     <Icon>
-      <href>_ags8494d9ed8d13425e9a5d0e820859a008.png</href>
+      <href>http://ec2-23-22-99-12.compute-1.amazonaws.com/vegtype_overlay.png</href>
       <viewBoundScale>1.0</viewBoundScale>
     </Icon>
     <LatLonBox>
