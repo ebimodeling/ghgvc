@@ -394,11 +394,11 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
 
-//      console.log(value);
-//      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
-//        console.log("DINGOESSSSSSSSS");
-//        console.log(csep_value);
-//      }
+      console.log(value);
+      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
+        console.log("DINGOESSSSSSSSS");
+        console.log(csep_value);
+      }
 
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
@@ -533,13 +533,16 @@ $(document).ready(function() {
 
     ghgvcR_input = {};
 
-    // run the stuff to init the calculator
     var all_locations = $('[id|="biome_instance"]');
     var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
     
-    $.each( all_locations, function() {
     
-      // go through each location
+    //////
+    // Here the values given by the user, or the default values for the CSEPs
+    // are written into a json object to be used as input for the R script
+
+    // go through each location
+    $.each( all_locations, function() {
       var biome_group =  $(this);
       var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
@@ -564,23 +567,15 @@ $(document).ready(function() {
         // Current R code requires sensible value, even though we dont use sensible
         ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
         
+        
+        // TODO: Fix the issue with missing data in the public/data/* files
+        if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
+            ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+        }
+        
+        
       });
     });
-
-
-//    <sw_radiative_forcing>-0.387200238397716</sw_radiative_forcing>
-//		<latent>0.06180009880958</latent>
-//		<sensible>0.327720400257219</sensible>
-
-    // Uncomment these to try out the biophysical
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
-
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
-
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
@@ -654,6 +649,7 @@ $(document).ready(function() {
     var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(/ /g,"_");    
     var active_site_num = get_active_site_number();
     var all_ecosystems_at_site = $.parseJSON( $('#biome_instance-' + active_site_num ).find('.json_saved').text() );
+    
     console.log("########");
     console.log(all_ecosystems_at_site);
     console.log(ecosystem_type_being_saved);
