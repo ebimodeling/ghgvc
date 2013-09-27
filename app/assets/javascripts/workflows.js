@@ -478,12 +478,13 @@ function update_location_count(){
 $(document).ready(function() {
   $('input:checkbox[name=biogeochemical]').attr('checked',true);
   $('input:checkbox[name=biophysical]').attr('checked',true);
-  
-  $('#run_button_container').mouseenter(function(){
-      $('#calc_sub_modules').css("display","inline-block");
-  }).mouseleave( function(){
-      $('#calc_sub_modules').css("display","none");
-  });
+
+// TODO: Reenable when biophysical is working
+//  $('#run_button_container').mouseenter(function(){
+//      $('#calc_sub_modules').css("display","inline-block");
+//  }).mouseleave( function(){
+//      $('#calc_sub_modules').css("display","none");
+//  });
   
   
 //  $('#calc_sub_modules').animate({opacity:'toggle'},500)
