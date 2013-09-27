@@ -32,6 +32,13 @@ a.link_no_underline:hover {
   text-decoration: none;
 }
 
+h2.application_title {
+  margin-bottom: 5px;
+}
+
+.map_type_selector {
+  display:none;
+}
 
 #map_legend {
   width: 230px;
