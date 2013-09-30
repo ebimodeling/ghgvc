@@ -6,6 +6,8 @@ gem 'mysql2', '0.3.11'
 gem 'json'
 gem 'ruby-netcdf', '0.6.6.1'
 gem 'cobravsmongoose'
+gem 'narray'
+
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
