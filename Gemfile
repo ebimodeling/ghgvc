@@ -5,7 +5,6 @@ gem 'bootstrap-sass', '2.1'
 gem 'mysql2', '0.3.11'
 gem 'json'
 gem 'narray', '0.6.0.8'
-#gem 'ruby-netcdf', '0.6.6.1'
 gem 'cobravsmongoose'
 
 
@@ -14,7 +13,8 @@ gem 'cobravsmongoose'
 
 group :development do
   gem 'annotate', '2.5.0'
-#  gem 'sqlite3', '1.3.5'
+  gem 'sqlite3', '1.3.5'
+  gem 'ruby-netcdf', '0.6.6.1'
 end
 
 group :development, :test do
