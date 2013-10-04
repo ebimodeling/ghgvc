@@ -70,6 +70,8 @@ GEM
     multi_json (1.6.1)
     mysql2 (0.3.11)
     narray (0.6.0.8)
+    narray_miss (1.2.8)
+      narray
     nokogiri (1.5.6)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -110,6 +112,9 @@ GEM
       activesupport (>= 3.0)
       railties (>= 3.0)
       rspec (~> 2.11.0)
+    ruby-netcdf (0.6.6.1)
+      narray
+      narray_miss
     rubyzip (0.9.9)
     sass (3.2.6)
     sass-rails (3.2.5)
@@ -155,6 +160,7 @@ DEPENDENCIES
   narray (= 0.6.0.8)
   rails (= 3.2.11)
   rspec-rails (= 2.11.0)
+  ruby-netcdf (= 0.6.6.1)
   sass-rails (= 3.2.5)
   sqlite3 (= 1.3.5)
   uglifier (= 1.2.3)
