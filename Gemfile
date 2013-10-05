@@ -3,14 +3,15 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.11'
 gem 'bootstrap-sass', '2.1'
 gem 'mysql2', '0.3.11'
+gem 'sqlite3', '1.3.5'
 gem 'json'
 gem 'narray', '0.6.0.8'
 gem 'cobravsmongoose'
 gem 'jquery-rails', '2.0.2'
 
+
 group :development do
   gem 'annotate', '2.5.0'
-  gem 'sqlite3', '1.3.5'
   gem 'ruby-netcdf', '0.6.6.1'
 end
 
