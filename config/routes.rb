@@ -17,13 +17,10 @@ Ghgvc::Application.routes.draw do
   resources :users
 
   # Static pages
-#  match 'home/' => 'static_pages#home'
-#  match 'contact/' => 'static_pages#contact'
-#  match 'team/' => 'static_pages#team'
-#  match 'clients/' => 'static_pages#clients'
-#  match 'services/' => 'static_pages#services'
-#  match 'research/' => 'static_pages#research'
-#  
+  match 'about/' => 'static_pages#about'
+  match 'guide/' => 'static_pages#guide'
+
+
   # AJAX handlers
   match 'get_biome/' => 'workflows#get_biome'
   match 'create_config_input/' => 'workflows#create_config_input'
