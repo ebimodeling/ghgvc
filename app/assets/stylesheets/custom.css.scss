@@ -76,24 +76,30 @@ p {
 /* header */
 
 #header_container {
-  background-color: #FFFFFF;
+  top: -20px;
+  position: relative;
 }
 
 #logo {
   float: left;
-  margin-right: 10px;
-  font-size: 1.7em;
-  color: white;
+/*  margin-right: 10px;*/
+  font-size: 1.5em;
+  color: darkgrey;
   text-transform: uppercase;
   letter-spacing: -1px;
-  padding-top: 9px;
+  margin-top: 9px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: white;
+    color: lightgreen;
     text-decoration: none;
   }
+  h2 {
+    margin:none;
+    padding:none;
+  }
 }
+
 
 /* footer */
 
