@@ -260,7 +260,6 @@ function initalize_google_map(lat, lng, zoom) {
   });
   map.overlayMapTypes.insertAt(0, maptiler);
 
-
   $('div[id*="_biomes"]').find('.biomes').html("");
     
   // Bounds for A single map
