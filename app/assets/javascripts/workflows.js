@@ -1,5 +1,5 @@
 var id_seed = 0;
-function generate_id() { return id_seed++; };
+function generate_id() { return ++id_seed; };
 
 function remove_google_maps_pin( biome_site_id ) {
   if ( markersArray[biome_site_id] != undefined ) { markersArray[biome_site_id].setMap(null) };
