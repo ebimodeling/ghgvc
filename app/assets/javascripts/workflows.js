@@ -209,93 +209,94 @@ function populate_html_from_latlng( lat, lng ) {
   });
 };
 
-
+// narf
 function initalize_google_map(lat, lng, zoom) {
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
 
-  var minZoomLevel = 2;
+  var mapBounds = new google.maps.LatLngBounds(
+      new google.maps.LatLng(-85.8, -179.999894), // south-west
+      new google.maps.LatLng(90.8, 179.773283) // north-east
+  );
+
+  var mapMinZoom = 2;
+  var mapMaxZoom = 5;
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(31,-15);
-  var myOptions = {
-    zoom: minZoomLevel,
+  var overlayOptions = {
+    opacity: 0.6,
+    zoom: mapMinZoom,
     streetViewControl: false,
     mapTypeControl: false,
     panControl: false,
     center: latlng,
+    zoom: mapMinZoom,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   };
-  var overlayOptions = {
-    opacity: 0.6,
-  }
 
-  // Google coordinate plane increases in the positive number direction left to right
-  map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+  map = new google.maps.Map(document.getElementById("map_canvas"), overlayOptions);
 
-  // setup of globalbiomes map  
-  var globalbiomes_bounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-92,-179 ), // south-west
-    new google.maps.LatLng(84.8,178.7) // north-east
-  );
-  var globalbiomes = new google.maps.GroundOverlay( '../globalbiomes_overlay.png', globalbiomes_bounds, overlayOptions);
-  // setup of vegtype map  
-  var vegtype_bounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-59,-176.8), // south-west
-    new google.maps.LatLng(84,179) // north-east
-//        new google.maps.LatLng(-50,-124.8), // south-west
-//        new google.maps.LatLng(80,115) // north-east  
+  // tile overlay code
+  var maptiler = new google.maps.ImageMapType({
+    getTileUrl: function(coord, zoom) { 
+        var proj = map.getProjection();
+        var z2 = Math.pow(2, zoom);
+        var tileXSize = 256 / z2;
+        var tileYSize = 256 / z2;
+        var tileBounds = new google.maps.LatLngBounds(
+            proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
+            proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
+        );
+        var y = coord.y;
+        if (mapBounds.intersects(tileBounds) && (mapMinZoom <= zoom) && (zoom <= mapMaxZoom)) {
+            return "/map_tiles/" + zoom + "/" + coord.x + "/" + y + ".png";
+        } else {
+            return "http://www.maptiler.org/img/none.png";
+        }
+    },
+    tileSize: new google.maps.Size(256, 256),
+    isPng: true,
+    opacity: 0.6
+  });
+  map.overlayMapTypes.insertAt(0, maptiler);
 
-  );
-  var vegtype = new google.maps.GroundOverlay( '../vegtype_overlay.png', vegtype_bounds, overlayOptions );
- 
-  // clear out existing biome matches
-  //$('div[id*="_biomes"]').hide();
   $('div[id*="_biomes"]').find('.biomes').html("");
-  
-  if (type == "vegtype" ) {
-    vegtype.setMap(map);
-  } else if (type == "globalbiomes" ) {
-    globalbiomes.setMap(map);
-  } else {
-    // no map overlay
-  }
-  
-  //overlay = [];
-  
+    
   // Bounds for A single map
-   var strictBounds = new google.maps.LatLngBounds(
-     new google.maps.LatLng(-70, -170), // bottom-left
-     new google.maps.LatLng(70, 170)   // top-right
-   );
+  var strictBounds = new google.maps.LatLngBounds(
+    new google.maps.LatLng(-70, -170), // bottom-left
+    new google.maps.LatLng(70, 170)   // top-right
+  );
 
-   // Listen for the map click events
-   google.maps.event.addListener(map, 'dragend', function() {
-     if (strictBounds.contains(map.getCenter())) return;
+  // Listen for the map click events
+  google.maps.event.addListener(map, 'dragend', function() {
+    if (strictBounds.contains(map.getCenter())) return;
 
-     // We're out of bounds - Move the map back within the bounds
-     var c = map.getCenter(),
-         x = c.lng(),
-         y = c.lat(),
-         maxX = strictBounds.getNorthEast().lng(),
-         maxY = strictBounds.getNorthEast().lat(),
-         minX = strictBounds.getSouthWest().lng(),
-         minY = strictBounds.getSouthWest().lat();
+    // We're out of bounds - Move the map back within the bounds
+    var c = map.getCenter(),
+       x = c.lng(),
+       y = c.lat(),
+       maxX = strictBounds.getNorthEast().lng(),
+       maxY = strictBounds.getNorthEast().lat(),
+       minX = strictBounds.getSouthWest().lng(),
+       minY = strictBounds.getSouthWest().lat();
 
-     if (x < minX) x = minX;
-     if (x > maxX) x = maxX;
-     if (y < minY) y = minY;
-     if (y > maxY) y = maxY;
+    if (x < minX) x = minX;
+    if (x > maxX) x = maxX;
+    if (y < minY) y = minY;
+    if (y > maxY) y = maxY;
 
-     map.setCenter(new google.maps.LatLng(y, x));
-   });
+    map.setCenter(new google.maps.LatLng(y, x));
+    map.overlayMapTypes.insertAt(0, maptiler);
+  });
 
   // Limit the zoom level
   google.maps.event.addListener(map, 'zoom_changed', function() {
-    if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+    if (map.getZoom() > mapMaxZoom) map.setZoom(mapMaxZoom);
   });
   
   markersArray = [];
-  google.maps.event.addListener(vegtype, "click", function(event) {
+  google.maps.event.addListener(map, "click", function(event) {
 
     var lat = event.latLng.lat();
     var lng = event.latLng.lng();
@@ -329,9 +330,10 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
     case"temperate forest": case"boreal forest": case"tropical peat forest": case"tropical forest":
       $('#natural_fire').show();
       break;
-   case"US corn": case"BR sugarcane": 
+   case"US corn": case"BR sugarcane":case"soybean":case"BR soy": 
       $('#management_related').show();
       $('#fossil_fuel').show();
+      $('#biophysical').show();
       break;
    case"temperate pasture": case"tropical pasture": case"temperate cropland": case"soybean": case"tropical cropland":
       $('#management_related').show();
@@ -341,7 +343,6 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
       break;
   }
 }
-
 
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
   $("#ecosystem_popup").find(".lightbox-content").each(function() {
@@ -393,11 +394,11 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
 
-//      console.log(value);
-//      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
-//        console.log("DINGOESSSSSSSSS");
-//        console.log(csep_value);
-//      }
+      console.log(csep_value);
+      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
+        console.log("DINGOESSSSSSSSS");
+        console.log(csep_value);
+      }
 
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
@@ -477,12 +478,13 @@ function update_location_count(){
 $(document).ready(function() {
   $('input:checkbox[name=biogeochemical]').attr('checked',true);
   $('input:checkbox[name=biophysical]').attr('checked',true);
-  
-  $('#run_button_container').mouseenter(function(){
-      $('#calc_sub_modules').css("display","inline-block");
-  }).mouseleave( function(){
-      $('#calc_sub_modules').css("display","none");
-  });
+
+// TODO: Reenable when biophysical is working
+//  $('#run_button_container').mouseenter(function(){
+//      $('#calc_sub_modules').css("display","inline-block");
+//  }).mouseleave( function(){
+//      $('#calc_sub_modules').css("display","none");
+//  });
   
   
 //  $('#calc_sub_modules').animate({opacity:'toggle'},500)
@@ -532,13 +534,16 @@ $(document).ready(function() {
 
     ghgvcR_input = {};
 
-    // run the stuff to init the calculator
     var all_locations = $('[id|="biome_instance"]');
     var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
     
-    $.each( all_locations, function() {
     
-      // go through each location
+    //////
+    // Here the values given by the user, or the default values for the CSEPs
+    // are written into a json object to be used as input for the R script
+
+    // go through each location
+    $.each( all_locations, function() {
       var biome_group =  $(this);
       var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
@@ -563,23 +568,15 @@ $(document).ready(function() {
         // Current R code requires sensible value, even though we dont use sensible
         ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
         
+        
+        // TODO: Fix the issue with missing data in the public/data/* files
+        if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
+            ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+        }
+        
+        
       });
     });
-
-
-//    <sw_radiative_forcing>-0.387200238397716</sw_radiative_forcing>
-//		<latent>0.06180009880958</latent>
-//		<sensible>0.327720400257219</sensible>
-
-    // Uncomment these to try out the biophysical
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sw_radiative_forcing"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716; 
-
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["latent"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
-
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"] = {};
-//    ghgvcR_input["biome_instance-0"]["native_eco"]["temperate_grassland"]["sensible"]["Anderson-Teixeira and DeLucia (2011)"] = -0.387200238397716;
 
 
     // At this point we've got the names of selected ecosystems at each location
@@ -653,6 +650,7 @@ $(document).ready(function() {
     var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(/ /g,"_");    
     var active_site_num = get_active_site_number();
     var all_ecosystems_at_site = $.parseJSON( $('#biome_instance-' + active_site_num ).find('.json_saved').text() );
+    
     console.log("########");
     console.log(all_ecosystems_at_site);
     console.log(ecosystem_type_being_saved);

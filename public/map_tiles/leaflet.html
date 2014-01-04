@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>final</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.6/leaflet.js"></script>
+  <script>
+    function init() {
+        var bounds = new L.LatLngBounds(
+            new L.LatLng(-86.086414, -179.999894),
+            new L.LatLng(88.696525, 179.773283));
+        var map = L.map('map').fitBounds(bounds);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        var options = {
+            minZoom: 0,
+            maxZoom: 5,
+            opacity: 1.0,
+            tms: false
+        };
+        L.tileLayer('{z}/{x}/{y}.png', options).addTo(map);
+    }
+  </script>
+  <style>
+    body { margin:0; padding:0; }
+    #map { position:absolute; top:0; bottom:0; width:100%; }
+  </style>
+</head>
+<body onload="init()">
+<div id="map"></div>
+</body>
+</html>

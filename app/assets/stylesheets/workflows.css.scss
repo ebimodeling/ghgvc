@@ -18,10 +18,14 @@
   }
 }
 
+.biome_match label{
+  width: 140px;
+}
+
 #map_canvas { 
   width: 700px;
   height: 400px;
-/*  margin: auto;*/
+  float: left;
 }
 #csv_download_button, #new_simulation_button {
   display:none;
@@ -32,13 +36,19 @@ a.link_no_underline:hover {
   text-decoration: none;
 }
 
+h2.application_title {
+  margin-bottom: 5px;
+}
+
+.map_type_selector {
+  display:none;
+}
 
 #map_legend {
   width: 230px;
   height: 400px;
   margin-left: 5px;
   position: relative;
-  top: 10px;
 }
 .legend_color_container{
   text-align: right;

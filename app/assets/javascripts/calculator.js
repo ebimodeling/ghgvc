@@ -342,7 +342,8 @@ $(document).ready(function() {
 				text: 'Ongoing Exchange'
 			},
 			xAxis: {
-				categories: names
+				categories: " ",
+				enabled: false
 			},
 			yAxis: {
 				title: {
@@ -369,7 +370,8 @@ $(document).ready(function() {
 				text: 'Total GHGV'
 			},
 			xAxis: {
-				categories: names
+				categories: " ",
+				enabled: false
 			},
 			yAxis: {
 				title: {
@@ -396,7 +398,8 @@ $(document).ready(function() {
 				text: 'Biophysical'
 			},
 			xAxis: {
-				categories: names
+				categories: " ",
+				enabled: false
 			},
 			yAxis: {
 				title: {
@@ -422,7 +425,8 @@ $(document).ready(function() {
 				text: 'CRV'
 			},
 			xAxis: {
-				categories: names
+				categories: " ",
+				enabled: false
 			},
 			yAxis: {
 				title: {
