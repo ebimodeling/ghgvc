@@ -394,7 +394,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
 
-      console.log(value);
+      console.log(csep_value);
       if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
         console.log("DINGOESSSSSSSSS");
         console.log(csep_value);
