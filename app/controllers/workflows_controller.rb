@@ -1341,7 +1341,23 @@ class WorkflowsController < ApplicationController
       @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
     end
-    
+
+
+
+    if @us_misc_latent_heat_flux_diff != nil
+      
+      @biome_data["biofuel_eco"]["miscanthus"] = @name_indexed_ecosystems["miscanthus"]
+      @biome_data["biofuel_eco"]["miscanthus"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["miscanthus"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      
+      @biome_data["agroecosystem_eco"]["miscanthus"] = @name_indexed_ecosystems["miscanthus"]
+      @biome_data["agroecosystem_eco"]["miscanthus"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["miscanthus"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      
+    end
+
+
+
     
     
 #    if @braz_saatchi_carbon
