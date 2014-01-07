@@ -27,14 +27,14 @@ class WorkflowsController < ApplicationController
   
   def create_config_input
     if Rails.env == "development"
-        multisite_config_path = "/home/thrive/rails_projects/ghgvcR/inst/multisite_config.xml"
+        rscript_rundir = "#{Rails.root}/tmp/run"
         ghgvcR_instantiation_path = "/home/thrive/rails_projects/ghgvcR/"
-        ghgvcR_output_path = "/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"
+        rscript_outdir = "#{Rails.root}/tmp/out"
     end
     if Rails.env == "production"
-        multisite_config_path = "/home/ubuntu/ghgvcR/inst/multisite_config.xml"
+        rscript_rundir = "#{Rails.root}/tmp/run"
         ghgvcR_instantiation_path = "/home/ubuntu/ghgvcR/"
-        ghgvcR_output_path = "/home/ubuntu/ghgvcR/inst/extdata/output.json"
+        rscript_outdir = "#{Rails.root}/tmp/out"
     end
   
     @ecosystems = params[:ecosystems]
@@ -70,12 +70,12 @@ class WorkflowsController < ApplicationController
     end
 
     # Clean the file for testing purposes
-    File.open(multisite_config_path, 'w') { |file| file.write("") }
+    File.open("#{rscript_rundir}/multisite_config.xml", 'w') { |file| file.write("") }
     # Write in opening header
     opening_header = "<ghgvc>\n\t<options>\n\t\t<storage>TRUE</storage>\n\t\t<flux>TRUE</flux>\n\t\t<disturbance>FALSE</disturbance>\n\t\t"
     opening_header << "<co2>TRUE</co2>\n\t\t<ch4>TRUE</ch4>\n\t\t<n2o>TRUE</n2o>\n\t\t<T_A>100</T_A>\n\t\t<T_E>50</T_E>\n\t\t<r>0</r>\n\t</options>\n"
     
-    File.open(multisite_config_path, 'a') { |file| file.write(opening_header) }
+    File.open("#{rscript_rundir}/multisite_config.xml", 'a') { |file| file.write(opening_header) }
     
     @ecosystems.each do |key, value|
       site_name = "site_#{key.split('-')[1]}_data"
@@ -114,20 +114,20 @@ class WorkflowsController < ApplicationController
       end
       file_string << "</#{site_name}>\n"
 
-      File.open(multisite_config_path, 'a') { |file| file.write( file_string ) }
+      File.open("#{rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( file_string ) }
     end
     
     # and the closing ghgvc tag
-    File.open(multisite_config_path, 'a') { |file| file.write( "</ghgvc>" ) }
+    File.open("#{rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( "</ghgvc>" ) }
 
     # Ruby script running a shell command to run a R script
-    rcmd = "cd #{ghgvcR_instantiation_path} && ./src/ghgvc_script.R"
+    rcmd = "cd #{ghgvcR_instantiation_path} && ./src/ghgvc_script.R #{rscript_rundir} #{rscript_outdir}"
     puts "The shell command we're running: \n\t#{rcmd}"
     # this will wait for the script to finish
     r = `#{rcmd}`
 
     # then poll to see if script is finished 
-    @ghgvcR_output = JSON.parse(File.read( "#{ghgvcR_output_path}" ))
+    @ghgvcR_output = JSON.parse(File.read( "#{rscript_outdir}/output.json" ))
 
     p @ghgvcR_output
     
@@ -173,10 +173,10 @@ class WorkflowsController < ApplicationController
   
   def download_csv
     if Rails.env == "development"
-        ghgvcR_output_path = "/home/thrive/rails_projects/ghgvcR/inst/extdata/output.json"
+        ghgvcR_output_path = "#{Rails.root}/tmp/out/output.json"
     end
     if Rails.env == "production"
-        ghgvcR_output_path = "/home/ubuntu/ghgvcR/inst/extdata/output.json"
+        ghgvcR_output_path = "#{Rails.root}/tmp/out/output.json"
     end
   
     @json_output = JSON.parse(File.read( "#{ghgvcR_output_path}"  ))
