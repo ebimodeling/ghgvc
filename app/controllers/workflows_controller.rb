@@ -87,6 +87,10 @@ class WorkflowsController < ApplicationController
       # start the xml tag for the site
       file_string = ""
       file_string << "<#{site_name}>\n"
+
+      # write the site lat and lng values
+      file_string << "\t<lat>#{value['lat']}</lat>\n"
+      file_string << "\t<lng>#{value['lng']}</lng>\n"
       
       @ecosystem_index = key.split('-')[1].to_i
       
