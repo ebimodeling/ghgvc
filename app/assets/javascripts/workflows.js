@@ -549,7 +549,18 @@ $(document).ready(function() {
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
       console.log("current_biomes_json");
       console.log(current_biomes_json);
-      
+
+      var loc = biome_group.find(".biome_site_header .site_latlng").text();
+      var lat_lng_matcher = /\( *([\d\.-]+) *, *([\d\.-]+) *\)/;
+      var result = loc.match(lat_lng_matcher);
+      var lat = result[1];
+      var lng = result[2];
+
+      var biome_group_string = biome_group.attr('id');
+      ghgvcR_input[biome_group_string] = {}
+      ghgvcR_input[biome_group_string]['lat'] = lat
+      ghgvcR_input[biome_group_string]['lng'] = lng
+                                  
       $.each( ecosystem_to_include, function(i,v){
         // and each ecosystem
 
