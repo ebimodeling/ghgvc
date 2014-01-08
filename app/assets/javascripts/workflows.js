@@ -308,7 +308,10 @@ function initalize_google_map(lat, lng, zoom) {
 
     // for offline testing
 //     populate_html_from_latlng( 39.16113, -4.978971 );
-    
+
+    // Once the user has set the location for the active site, display
+    // the button for adding additional sites:
+    $('#add_additional_biome_site').removeClass("off_page");
   });
 };
 
@@ -720,7 +723,19 @@ $(document).ready(function() {
     populate_ecosystem_shadowbox( site_id, biome_type, biome_name );
   });
 
-  $('#add_additional_biome_site').on('click', function() {
+  $('#add_additional_biome_site').on('click', function(event) {
+
+    // If this is an actual user click, check that the currently
+    // active site has at least one ecosystem checked:
+    if ( !event['isTrigger'] &&
+         $('[id|="biome_instance"]:not(.inactive_site)')
+         .find('label.checkbox').find('input').is(':checked') == false )
+    {
+      alert("Please check one or more ecosystems");  
+      return;
+    };
+
+
     collapse_all_ecosystem_wells();
 
     if ( $('div[id|="biome_instance"]').length <= 9 && $('#add_additional_biome_site').hasClass("disabled") == false ) {
@@ -756,6 +771,10 @@ $(document).ready(function() {
 
     update_location_count();
 
+    // Hide the 'Add Additional Site' button until user selects a map
+    // location:
+    $('#add_additional_biome_site').addClass("off_page");
+      
   });
 
   // Add inital biome list using above code:
