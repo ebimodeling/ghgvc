@@ -619,24 +619,46 @@ $(document).ready(function() {
     toggle_input_state_for_highcharts();
     
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
-      console.log("###### output from ghgvcR code: ######");
-      console.log(data);
-      
-      // run highcharts scripts here
-      $.each(data, function(k,v){
-        console.log("key: "+k+" .. and value:");
-        console.log(v); 
-        var location_num = k.split('_')[1]
-        
-        // TODO: parseFloat(v) might be needed here:
-        create_results_table( v ,location_num );
-        
-      });
-      
-      // reactivate page with lightbox overlay
-      $('#toggle_ghgvcR_processing_popup').trigger("click");
-      $('#csv_download_button').show();
-      $('#new_simulation_button').show();
+        console.log("###### output from ghgvcR code: ######");
+        console.log(data);
+
+
+        $.ajax({
+            url:'/get_svg',
+
+            success: function(svg_data)
+                    {
+                        if (svg_data != "Couldn't find svg file") {
+                            //file exists
+                            $("#highcharts_container").html(svg_data);
+
+                        }
+                        else {
+
+                            //file not exists
+                            console.log("couldn't load svg");
+
+                            // fall back to old way of making charts:
+                            
+                            // run highcharts scripts here
+                            $.each(data, function(k, v) {
+                                console.log("key: " + k + " .. and value:");
+                                console.log(v); 
+                                var location_num = k.split('_')[1];
+                                
+                                // TODO: parseFloat(v) might be needed here:
+                                create_results_table( v ,location_num );
+                            });
+                        }
+                    }
+        });
+
+
+           
+        // reactivate page with lightbox overlay
+        $('#toggle_ghgvcR_processing_popup').trigger("click");
+        $('#csv_download_button').show();
+        $('#new_simulation_button').show();
       
 
     });
