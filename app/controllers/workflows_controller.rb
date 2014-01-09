@@ -86,12 +86,8 @@ class WorkflowsController < ApplicationController
       
       # start the xml tag for the site
       file_string = ""
-      file_string << "<#{site_name}>\n"
+      file_string << "<#{site_name} lat='#{value["lat"]}' lng='#{value["lng"]}'>\n"
 
-      # write the site lat and lng values
-      file_string << "\t<lat>#{value['lat']}</lat>\n"
-      file_string << "\t<lng>#{value['lng']}</lng>\n"
-      
       @ecosystem_index = key.split('-')[1].to_i
       
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
@@ -1382,6 +1378,15 @@ class WorkflowsController < ApplicationController
       format.json { render json: @biome_data }
     end
 
+  end
+
+  def get_svg
+    begin
+      send_file("#{Rails.root}/tmp/out/output.svg",
+                :type => "image/svg+xml")
+    rescue
+      render(text: "Couldn't find svg file")
+    end 
   end
 
   # GET /workflows/new
