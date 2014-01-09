@@ -1365,6 +1365,19 @@ class WorkflowsController < ApplicationController
     end
 
 
+    if @us_switch_latent_heat_flux_diff != nil
+      
+      @biome_data["biofuel_eco"]["switchgrass"] = @name_indexed_ecosystems["switchgrass"]
+      @biome_data["biofuel_eco"]["switchgrass"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["biofuel_eco"]["switchgrass"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      
+      @biome_data["agroecosystem_eco"]["switchgrass"] = @name_indexed_ecosystems["switchgrass"]
+      @biome_data["agroecosystem_eco"]["switchgrass"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      @biome_data["agroecosystem_eco"]["switchgrass"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      
+    end
+
+
 
     
     
