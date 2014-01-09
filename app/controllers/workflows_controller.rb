@@ -172,6 +172,14 @@ class WorkflowsController < ApplicationController
   
   
   def download_csv
+    send_file("#{Rails.root}/tmp/out/output.csv",
+              :filename => "output.csv",
+              :type => "text/csv")
+    return
+
+    # We don't need all this below any more.  To-Do: delete this code
+    # and unneeded code it depends upon.
+
     if Rails.env == "development"
         ghgvcR_output_path = "#{Rails.root}/tmp/out/output.json"
     end
