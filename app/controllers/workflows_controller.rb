@@ -1382,8 +1382,7 @@ class WorkflowsController < ApplicationController
 
   def get_svg
     begin
-      send_file("#{Rails.root}/tmp/out/output.svg",
-                :type => "image/svg+xml")
+      send_file("#{Rails.root}/tmp/out/output.svg")
     rescue
       render(text: "Couldn't find svg file")
     end 
