@@ -101,15 +101,15 @@ function git_clone {
 }
 
 function install_rvm {
-#  cd ~
-#  curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION --autolibs=enable --auto-dotfiles
-#  source ~/.rvm/scripts/rvm
-#  rvm reload
-#  sudo groupadd rvm
-#  rvm group add rvm $USER
-#  rvm reload
-#  echo "export rvm_trust_rvmrcs_flag=1" > ~/.rvmrc  #auto-trust .rvmrc flags
-#  echo "export rvmsudo_secure_path=1" >> ~/.rvmrc
+  cd ~
+  curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION --autolibs=enable --auto-dotfiles
+  source ~/.rvm/scripts/rvm
+  rvm reload
+  sudo groupadd rvm
+  rvm group add rvm $USER
+  rvm reload
+  echo "export rvm_trust_rvmrcs_flag=1" > ~/.rvmrc  #auto-trust .rvmrc flags
+  echo "export rvmsudo_secure_path=1" >> ~/.rvmrc
   source ~/.rvmrc
   source ~/.bashrc
   source ~/.bash_profile
