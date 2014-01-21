@@ -258,7 +258,7 @@ function initalize_google_map(lat, lng, zoom) {
     isPng: true,
     opacity: 0.6
   });
-  map.overlayMapTypes.insertAt(0, maptiler);
+  //map.overlayMapTypes.insertAt(0, maptiler);
 
   $('div[id*="_biomes"]').find('.biomes').html("");
     
