@@ -231,7 +231,7 @@ function initalize_google_map(lat, lng, zoom) {
     panControl: false,
     center: latlng,
     zoom: mapMinZoom,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: google.maps.MapTypeId.SATELLITE
   };
 
   map = new google.maps.Map(document.getElementById("map_canvas"), overlayOptions);
