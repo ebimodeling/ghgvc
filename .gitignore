@@ -6,7 +6,9 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
-/tmp
+/tmp/*
+!/tmp/run
+!/tmp/out
 
 # Ignore other unneeded files.
 doc/
