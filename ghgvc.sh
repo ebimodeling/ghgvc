@@ -4,9 +4,8 @@
 # Written by Carl Crott <carlcrott@gmail.com>
 # updated by David LeBauer <dlebauer@gmail.com>
 
-GIT_GHGVC='https://github.com/delinquentme/ghgvc.git'
-GIT_GHGVCR='https://github.com/delinquentme/ghgvcR.git'
-GIT_PECAN='https://github.com/PecanProject/pecan.git'
+GIT_GHGVC='https://github.com/ebimodeling/ghgvc.git'
+GIT_GHGVCR='https://github.com/ebimodeling/ghgvcR.git'
 INSTALL_DIR='/opt/ghgvc'
 RUBY_VERSION='1.9.3-p125'
 RUBY_USE="$RUBY_VERSION@ghgvc"
@@ -97,7 +96,6 @@ function git_clone {
   cd $INSTALL_DIR
   git clone $GIT_GHGVC
   git clone $GIT_GHGVCR
-  git clone $GIT_PECAN
 }
 
 function install_rvm {
@@ -165,7 +163,7 @@ EOF
 function install_nginx {
   sudo service apache2 stop >/dev/null 2>&1
   sudo service nginx stop >/dev/null 2>&1
-  sudo update-rc.d -f apache2 remove stop >/dev/null 2>&1
+  sudo update-rc.d -f apache2 remove >/dev/null 2>&1
 
   cd $INSTALL_DIR/ghgvc
   gem install passenger
@@ -213,11 +211,15 @@ EOF
   echo "Nginx configured"
 }
 
-function install_devtools {
+function install_r_deps {
+  cd $INSTALL_DIR/ghgvc
   # devtools: http://stackoverflow.com/questions/16467725/r-devtools-github-install-fails
   echo "Configure R and devtools for ghgvcR code"
   # install devtools
   echo 'install.packages("devtools", repos="http://cran.rstudio.com/")' | sudo R --vanilla
+  #install R dependencies
+  chmod +x install.dependencies.R
+  ./install.dependencies.R
 }
 
 install_apt_packages
@@ -229,4 +231,4 @@ configure_db
 install_nginx
 configure_nginx
 install_bundle
-install_devtools
+install_r_deps
