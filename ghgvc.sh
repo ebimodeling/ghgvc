@@ -219,7 +219,7 @@ function install_r_deps {
   echo 'install.packages("devtools", repos="http://cran.rstudio.com/")' | sudo R --vanilla
   #install R dependencies
   chmod +x install.dependencies.R
-  ./install.dependencies.R
+  sudo ./install.dependencies.R
 }
 
 install_apt_packages
