@@ -25,6 +25,9 @@ Ghgvc::Application.routes.draw do
   match 'get_biome/' => 'workflows#get_biome'
   match 'create_config_input/' => 'workflows#create_config_input'
   match 'download_csv/' => 'workflows#download_csv'
+
+  # File accessors
+  match 'get_svg/' => 'workflows#get_svg'
   
   root :to => 'workflows#new'
 

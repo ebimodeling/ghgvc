@@ -308,7 +308,10 @@ function initalize_google_map(lat, lng, zoom) {
 
     // for offline testing
 //     populate_html_from_latlng( 39.16113, -4.978971 );
-    
+
+    // Once the user has set the location for the active site, display
+    // the button for adding additional sites:
+    $('#add_additional_biome_site').removeClass("off_page");
   });
 };
 
@@ -549,7 +552,18 @@ $(document).ready(function() {
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
       console.log("current_biomes_json");
       console.log(current_biomes_json);
-      
+
+      var loc = biome_group.find(".biome_site_header .site_latlng").text();
+      var lat_lng_matcher = /\( *([\d\.-]+) *, *([\d\.-]+) *\)/;
+      var result = loc.match(lat_lng_matcher);
+      var lat = result[1];
+      var lng = result[2];
+
+      var biome_group_string = biome_group.attr('id');
+      ghgvcR_input[biome_group_string] = {}
+      ghgvcR_input[biome_group_string]['lat'] = lat
+      ghgvcR_input[biome_group_string]['lng'] = lng
+                                  
       $.each( ecosystem_to_include, function(i,v){
         // and each ecosystem
 
@@ -605,24 +619,46 @@ $(document).ready(function() {
     toggle_input_state_for_highcharts();
     
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
-      console.log("###### output from ghgvcR code: ######");
-      console.log(data);
-      
-      // run highcharts scripts here
-      $.each(data, function(k,v){
-        console.log("key: "+k+" .. and value:");
-        console.log(v); 
-        var location_num = k.split('_')[1]
-        
-        // TODO: parseFloat(v) might be needed here:
-        create_results_table( v ,location_num );
-        
-      });
-      
-      // reactivate page with lightbox overlay
-      $('#toggle_ghgvcR_processing_popup').trigger("click");
-      $('#csv_download_button').show();
-      $('#new_simulation_button').show();
+        console.log("###### output from ghgvcR code: ######");
+        console.log(data);
+
+
+        $.ajax({
+            url:'/get_svg',
+
+            success: function(svg_data)
+                    {
+                        if (svg_data != "Couldn't find svg file") {
+                            //file exists
+                            $("#highcharts_container").html(svg_data);
+
+                        }
+                        else {
+
+                            //file not exists
+                            console.log("couldn't load svg");
+
+                            // fall back to old way of making charts:
+                            
+                            // run highcharts scripts here
+                            $.each(data, function(k, v) {
+                                console.log("key: " + k + " .. and value:");
+                                console.log(v); 
+                                var location_num = k.split('_')[1];
+                                
+                                // TODO: parseFloat(v) might be needed here:
+                                create_results_table( v ,location_num );
+                            });
+                        }
+                    }
+        });
+
+
+           
+        // reactivate page with lightbox overlay
+        $('#toggle_ghgvcR_processing_popup').trigger("click");
+        $('#csv_download_button').show();
+        $('#new_simulation_button').show();
       
 
     });
@@ -709,7 +745,19 @@ $(document).ready(function() {
     populate_ecosystem_shadowbox( site_id, biome_type, biome_name );
   });
 
-  $('#add_additional_biome_site').on('click', function() {
+  $('#add_additional_biome_site').on('click', function(event) {
+
+    // If this is an actual user click, check that the currently
+    // active site has at least one ecosystem checked:
+    if ( !event['isTrigger'] &&
+         $('[id|="biome_instance"]:not(.inactive_site)')
+         .find('label.checkbox').find('input').is(':checked') == false )
+    {
+      alert("Please check one or more ecosystems");  
+      return;
+    };
+
+
     collapse_all_ecosystem_wells();
 
     if ( $('div[id|="biome_instance"]').length <= 9 && $('#add_additional_biome_site').hasClass("disabled") == false ) {
@@ -745,6 +793,10 @@ $(document).ready(function() {
 
     update_location_count();
 
+    // Hide the 'Add Additional Site' button until user selects a map
+    // location:
+    $('#add_additional_biome_site').addClass("off_page");
+      
   });
 
   // Add inital biome list using above code:
