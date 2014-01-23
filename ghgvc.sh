@@ -203,7 +203,7 @@ function install_nginx {
   cd $INSTALL_DIR/ghgvc
   gem install passenger
   PASSENGER_VERSION="$(ls $GEM_HOME/gems | grep 'passenger-' | cut --complement -c 1-10)"
-  rvmsudo passenger-install-nginx-module
+  rvmsudo passenger-install-nginx-module --auto --prefix=/opt/nginx --auto-download --languages ruby
 }
 
 function configure_nginx {
