@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # GHGVC install script for rails application
 # Written by Carl Crott <carlcrott@gmail.com>
