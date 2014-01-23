@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # GHGVC install script for rails application
 # Written by Carl Crott <carlcrott@gmail.com>
@@ -10,25 +10,8 @@ INSTALL_DIR='/opt/ghgvc'
 RUBY_VERSION='1.9.3-p125'
 RUBY_USE="$RUBY_VERSION@ghgvc"
 NGINX_CONFIG='/opt/nginx/conf/nginx.conf'
-NGINX_INIT_URL='http://library.linode.com/assets/660-init-deb.sh'
 NETCDF_URL='http://www.gfd-dennou.org/arch/ruby/products/ruby-netcdf/release/ruby-netcdf-0.6.6.tar.gz'
 USER=$(whoami)
-
-function install_apt_packages {
-#apt
-sudo apt-get update
-sudo apt-get -y install python-software-properties apt-transport-https ca-certificates
-
-#node.js
-sudo apt-add-repository -y ppa:chris-lea/node.js
-
-#R
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-sudo bash -c "echo 'deb http://cran.rstudio.com/bin/linux/ubuntu $(lsb_release -s -c)/' > /etc/apt/sources.list.d/R.list"
-
-#upgrade
-sudo apt-get update
-sudo apt-get -y dist-upgrade
 
 APT_PACKAGES='
 apache2
@@ -83,7 +66,61 @@ udunits-bin
 zlib1g
 zlib1g-dev
 '
-sudo apt-get -y install $APT_PACKAGES
+
+YUM_PACKAGES='
+gcc
+git
+libxml2
+libxml2-devel
+make
+mysql
+mysql-devel
+mysql-server
+netcdf
+netcdf-devel
+pcre
+pcre-devel
+R-core
+R-core-devel
+sqlite-devel
+'
+
+
+function determine_distro {
+  if [[ -f /etc/redhat-release ]]; then
+    DISTRO=el
+  elif grep Ubuntu /etc/issue >/dev/null 2>&1; then
+    DISTRO=ubuntu
+  else
+    echo "Unsupported Linux distribution!"
+    exit 1
+  fi
+}
+
+function install_packages_apt {
+  #apt
+  sudo apt-get update
+  sudo apt-get -y install python-software-properties apt-transport-https ca-certificates
+
+  #node.js
+  sudo apt-add-repository -y ppa:chris-lea/node.js
+
+  #R
+  sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
+  sudo bash -c "echo 'deb http://cran.rstudio.com/bin/linux/ubuntu $(lsb_release -s -c)/' > /etc/apt/sources.list.d/R.list"
+
+  #upgrade
+  sudo apt-get update
+  sudo apt-get -y dist-upgrade
+
+  sudo apt-get -y install $APT_PACKAGES
+}
+
+function install_packages_yum {
+  install_epel
+  sudo yum clean all
+  sudo yum -y update
+  sudo yum -y install $YUM_PACKAGES
 }
 
 function prepare_install_dir {
@@ -112,7 +149,6 @@ function install_rvm {
   source ~/.bashrc
   source ~/.bash_profile
   rvm --default use ruby-$RUBY_VERSION
-  cd $INSTALL_DIR/ghgvc
 }
 
 function install_netcdf {
@@ -120,8 +156,8 @@ function install_netcdf {
   NARRAY_DIR="$(ls $GEM_HOME/gems | grep 'narray-')"
   NARRAY_PATH="$GEM_HOME/gems/$NARRAY_DIR"
   cd $MY_RUBY_HOME/bin
-  wget $NETCDF_URL -O netcdf.tgz
-  tar zxf netcdf.tgz && cd ruby-netcdf-0.6.6/
+  wget $NETCDF_URL -O ruby-netcdf.tgz
+  tar zxf ruby-netcdf.tgz && cd ruby-netcdf-0.6.6/
   ruby -rubygems extconf.rb --with-narray-include=$NARRAY_PATH
   # edit make makefile per https://bbs.archlinux.org/viewtopic.php?id=163623
   sed -i 's|rb/$|rb|' Makefile
@@ -131,8 +167,6 @@ function install_netcdf {
 }
 
 function install_bundle {
-  cd $INSTALL_DIR/ghgvc
-  git checkout name_indexing
   bundle install --without development
   # build out and workaround for specifying production
   RAILS_ENV=production bundle exec rake db:create db:schema:load
@@ -161,9 +195,9 @@ EOF
 }
 
 function install_nginx {
-  sudo service apache2 stop >/dev/null 2>&1
+  disable_apache
   sudo service nginx stop >/dev/null 2>&1
-  sudo update-rc.d -f apache2 remove >/dev/null 2>&1
+  chmod o+x $HOME #so Nginx could use Passenger
 
   cd $INSTALL_DIR/ghgvc
   gem install passenger
@@ -202,11 +236,222 @@ http {
 }
 EOF
 
+  cat <<'EOF' > nginx.init.el
+#!/bin/sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  Nginx is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /etc/nginx/nginx.conf
+# config:      /etc/sysconfig/nginx
+# pidfile:     /var/run/nginx.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+nginx="/opt/nginx/sbin/nginx"
+prog=$(basename $nginx)
+
+NGINX_CONF_FILE="/opt/nginx/conf/nginx.conf"
+
+[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
+
+lockfile=/var/lock/subsys/nginx
+
+start() {
+    [ -x $nginx ] || exit 5
+    [ -f $NGINX_CONF_FILE ] || exit 6
+    echo -n $"Starting $prog: "
+    daemon $nginx -c $NGINX_CONF_FILE
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -TERM
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        if [ "$CONSOLETYPE" != "serial" ]; then
+           echo -en "\\033[16G"
+        fi
+        while rh_status_q
+        do
+            sleep 1
+            echo -n $"."
+        done
+        rm -f $lockfile
+    fi
+    echo
+    return $retval
+}
+
+restart() {
+    configtest || return $?
+    stop
+    start
+}
+
+reload() {
+    configtest || return $?
+    echo -n $"Reloading $prog: "
+    killproc $nginx -HUP
+    sleep 1
+    RETVAL=$?
+    echo
+}
+
+configtest() {
+  $nginx -t -c $NGINX_CONF_FILE
+}
+
+rh_status() {
+    status $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+# Upgrade the binary with no downtime.
+upgrade() {
+    local pidfile="/var/run/${prog}.pid"
+    local oldbin_pidfile="${pidfile}.oldbin"
+
+    configtest || return $?
+    echo -n $"Staring new master $prog: "
+    killproc $nginx -USR2
+    sleep 1
+    retval=$?
+    echo 
+    if [[ -f ${oldbin_pidfile} && -f ${pidfile} ]];  then
+        echo -n $"Graceful shutdown of old $prog: "
+        killproc -p ${oldbin_pidfile} -TERM
+        sleep 1
+        retval=$?
+        echo 
+        return 0
+    else
+        echo $"Something bad happened, manual intervention required, maybe restart?"
+        return 1
+    fi
+}
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart|configtest)
+        $1
+        ;;
+    force-reload|upgrade) 
+        rh_status_q || exit 7
+        upgrade
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    status|status_q)
+        rh_$1
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 7
+        restart
+	    ;;
+    *)
+        echo $"Usage: $0 {start|stop|reload|configtest|status|force-reload|upgrade|restart}"
+        exit 2
+esac
+EOF
+
+  cat <<'EOF' > nginx.init.ubuntu
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          nginx
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the nginx web server
+# Description:       starts nginx using start-stop-daemon
+### END INIT INFO
+
+PATH=/opt/nginx/sbin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/opt/nginx/sbin/nginx
+NAME=nginx
+DESC=nginx
+
+test -x $DAEMON || exit 0
+
+# Include nginx defaults if available
+if [ -f /etc/default/nginx ] ; then
+        . /etc/default/nginx
+fi
+
+set -e
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: "
+        start-stop-daemon --start --quiet --pidfile /opt/nginx/logs/$NAME.pid \
+                --exec $DAEMON -- $DAEMON_OPTS
+        echo "$NAME."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+        start-stop-daemon --stop --quiet --pidfile /opt/nginx/logs/$NAME.pid \
+                --exec $DAEMON
+        echo "$NAME."
+        ;;
+  restart|force-reload)
+        echo -n "Restarting $DESC: "
+        start-stop-daemon --stop --quiet --pidfile \
+                /opt/nginx/logs/$NAME.pid --exec $DAEMON
+        sleep 1
+        start-stop-daemon --start --quiet --pidfile \
+                /opt/nginx/logs/$NAME.pid --exec $DAEMON -- $DAEMON_OPTS
+        echo "$NAME."
+        ;;
+  reload)
+          echo -n "Reloading $DESC configuration: "
+          start-stop-daemon --stop --signal HUP --quiet --pidfile     /opt/nginx/logs/$NAME.pid \
+              --exec $DAEMON
+          echo "$NAME."
+          ;;
+      *)
+            N=/etc/init.d/$NAME
+            echo "Usage: $N {start|stop|restart|reload|force-reload}" >&2
+            exit 1
+            ;;
+    esac
+
+    exit 0
+EOF
+
   sudo mv -f nginx.conf $NGINX_CONFIG
-  wget -O init-deb.sh $NGINX_INIT_URL
-  sudo mv -f init-deb.sh /etc/init.d/nginx
+  NGINX_INIT_SCRIPT="nginx.init.$DISTRO"
+  sudo mv -f $NGINX_INIT_SCRIPT /etc/init.d/nginx
   sudo chmod +x /etc/init.d/nginx
-  sudo /usr/sbin/update-rc.d -f nginx defaults
+  enable_nginx
+  rm -f nginx.init*
   sudo service nginx start
   echo "Nginx configured"
 }
@@ -222,13 +467,84 @@ function install_r_deps {
   sudo ./install.dependencies.R
 }
 
-install_apt_packages
+function install_epel {
+  EL_RELEASE="$(cat /etc/redhat-release | tr -cd '[[:digit:]]' | cut -c 1)"
+  ARCH="$(uname -m)"
+  EPEL_URL="http://download.fedoraproject.org/pub/epel/$EL_RELEASE/$ARCH/epel-release-6-8.noarch.rpm"
+  sudo rpm -Uvh $EPEL_URL
+  case "$EL_RELEASE" in
+    5)
+      EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL'
+    ;;
+    6)
+      EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
+    ;;
+    *)
+      echo "Error: can't determine Enterprise Linux release."
+      exit 1
+    ;;
+  esac
+  sudo rpm --import $EPEL_GPG_FILE
+}
+
+
+function install_packages {
+  case $DISTRO in
+    el)
+      install_packages_yum
+    ;;
+    ubuntu)
+      install_packages_apt
+    ;;
+    *)
+      echo "Unsupported Linux distribution!"
+      exit 1
+    ;;
+  esac
+}
+
+function disable_apache {
+  case $DISTRO in
+    el)
+      sudo service httpd stop >/dev/null 2>&1
+      sudo chkconfig httpd off >/dev/null 2>&1
+    ;;
+    ubuntu)
+      sudo service apache2 stop >/dev/null 2>&1
+      sudo update-rc.d -f apache2 remove >/dev/null 2>&1
+    ;;
+    *)
+      echo "Unsupported Linux distribution!"
+      exit 1
+    ;;
+  esac
+}
+
+function enable_nginx {
+  case $DISTRO in
+    el)
+      sudo chkconfig --add nginx
+      sudo chkconfig nginx on
+    ;;
+    ubuntu)
+      sudo /usr/sbin/update-rc.d -f nginx defaults
+    ;;
+    *)
+      echo "Unsupported Linux distribution!"
+      exit 1
+    ;;
+  esac
+}
+
+
+determine_distro
+install_packages
 prepare_install_dir
 git_clone
 install_rvm
-install_netcdf
 configure_db
+install_bundle
+install_netcdf
 install_nginx
 configure_nginx
-install_bundle
 install_r_deps
