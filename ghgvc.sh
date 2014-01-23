@@ -167,6 +167,7 @@ function install_netcdf {
 }
 
 function install_bundle {
+  cd $INSTALL_DIR/ghgvc
   bundle install --without development
   # build out and workaround for specifying production
   RAILS_ENV=production bundle exec rake db:create db:schema:load
@@ -543,8 +544,8 @@ prepare_install_dir
 git_clone
 install_rvm
 configure_db
-install_bundle
 install_netcdf
+install_bundle
 install_nginx
 configure_nginx
 install_r_deps
