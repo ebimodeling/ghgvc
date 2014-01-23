@@ -28,7 +28,7 @@ class WorkflowsController < ApplicationController
   def create_config_input
     if Rails.env == "development"
         rscript_rundir = "#{Rails.root}/tmp/run"
-        ghgvcR_instantiation_path = "/home/thrive/rails_projects/ghgvcR/"
+        ghgvcR_instantiation_path = "/home/ubuntu/ghgvc/ghgvcR/"
         rscript_outdir = "#{Rails.root}/tmp/out"
     end
     if Rails.env == "production"
@@ -107,11 +107,12 @@ class WorkflowsController < ApplicationController
           file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
         end
       end
-      if value['biofuel_eco'] != nil
-        value['biofuel_eco'].each do | biofuel_k, biofuel_v |
-          file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
-        end      
-      end
+
+      # if value['biofuel_eco'] != nil
+      #   value['biofuel_eco'].each do | biofuel_k, biofuel_v |
+      #     file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
+      #   end      
+      # end
       file_string << "</#{site_name}>\n"
 
       File.open("#{rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( file_string ) }
@@ -1266,9 +1267,9 @@ class WorkflowsController < ApplicationController
 #      @biome_data["agroecosystem_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => @us_corn_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 
 
-      @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
-      @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
+      # @biome_data["biofuel_eco"]["US_corn"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["US_corn"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["US_corn"] = @name_indexed_ecosystems["US corn"]
       @biome_data["agroecosystem_eco"]["US_corn"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
@@ -1284,9 +1285,9 @@ class WorkflowsController < ApplicationController
 #      @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" =>  @us_soy_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 #      @biome_data["agroecosystem_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => @us_soy_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 
-      @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
-      @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
+      # @biome_data["biofuel_eco"]["soybean"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["soybean"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["soybean"] = @name_indexed_ecosystems["US soy"]
       @biome_data["agroecosystem_eco"]["soybean"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
@@ -1302,10 +1303,10 @@ class WorkflowsController < ApplicationController
 #      @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
 #      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 #      @biome_data["agroecosystem_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
-#      
-      @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+# #     
+#       @biome_data["biofuel_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
+#       @biome_data["biofuel_eco"]["BR_sugarcane"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+#       @biome_data["biofuel_eco"]["BR_sugarcane"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_sugarcane"] = @name_indexed_ecosystems["BR sugarcane"]
       @biome_data["agroecosystem_eco"]["BR_sugarcane"]["latent"] = {"s000" => 0 , "User defined" => "custom" }
@@ -1321,9 +1322,9 @@ class WorkflowsController < ApplicationController
 #      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 #      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 #      
-      @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+      # @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" =>  0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
       @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
@@ -1340,9 +1341,9 @@ class WorkflowsController < ApplicationController
 #      @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  @br_sugc_latent_heat_flux_diff/ 51007200000*1000000000 , "User defined" => "custom" }
 #      @biome_data["agroecosystem_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => @br_sugc_net_radiation_diff/ 51007200000*1000000000 , "User defined" => "custom" }
       
-      @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
-      @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
-      @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
+      # @biome_data["biofuel_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
+      # @biome_data["biofuel_eco"]["BR_soy"]["sw_radiative_forcing"] = {"s000" => 0 , "User defined" => "custom" }
       
       @biome_data["agroecosystem_eco"]["BR_soy"] = @name_indexed_ecosystems["BR soy"]
       @biome_data["agroecosystem_eco"]["BR_soy"]["latent"] = {"s000" =>  0 , "User defined" => "custom" }
