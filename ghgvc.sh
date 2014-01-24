@@ -153,6 +153,7 @@ function install_rvm {
 
 function install_netcdf {
   cd $INSTALL_DIR/ghgvc
+  gem install narray
   NARRAY_DIR="$(ls $GEM_HOME/gems | grep 'narray-')"
   NARRAY_PATH="$GEM_HOME/gems/$NARRAY_DIR"
   cd $MY_RUBY_HOME/bin
@@ -471,20 +472,21 @@ function install_r_deps {
 function install_epel {
   EL_RELEASE="$(cat /etc/redhat-release | tr -cd '[[:digit:]]' | cut -c 1)"
   ARCH="$(uname -m)"
-  EPEL_URL="http://download.fedoraproject.org/pub/epel/$EL_RELEASE/$ARCH/epel-release-6-8.noarch.rpm"
-  sudo rpm -Uvh $EPEL_URL
   case "$EL_RELEASE" in
     5)
+      EPEL_URL="http://download.fedoraproject.org/pub/epel/5/$ARCH/epel-release-6-8.noarch.rpm"
       EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL'
     ;;
     6)
       EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
+      EPEL_URL="http://download.fedoraproject.org/pub/epel/5/$ARCH/epel-release-5-4.noarch.rpm"
     ;;
     *)
       echo "Error: can't determine Enterprise Linux release."
       exit 1
     ;;
   esac
+  sudo rpm -Uvh $EPEL_URL
   sudo rpm --import $EPEL_GPG_FILE
 }
 
@@ -507,12 +509,12 @@ function install_packages {
 function disable_apache {
   case $DISTRO in
     el)
-      sudo service httpd stop >/dev/null 2>&1
-      sudo chkconfig httpd off >/dev/null 2>&1
+      sudo service httpd stop >/dev/null 2>&1 || true
+      sudo chkconfig httpd off >/dev/null 2>&1 || true
     ;;
     ubuntu)
-      sudo service apache2 stop >/dev/null 2>&1
-      sudo update-rc.d -f apache2 remove >/dev/null 2>&1
+      sudo service apache2 stop >/dev/null 2>&1 || true
+      sudo update-rc.d -f apache2 remove >/dev/null 2>&1 || true
     ;;
     *)
       echo "Unsupported Linux distribution!"
@@ -524,7 +526,7 @@ function disable_apache {
 function enable_nginx {
   case $DISTRO in
     el)
-      sudo chkconfig --add nginx
+      sudo chkconfig --add nginx || true
       sudo chkconfig nginx on
     ;;
     ubuntu)
