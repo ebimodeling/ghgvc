@@ -474,12 +474,12 @@ function install_epel {
   ARCH="$(uname -m)"
   case "$EL_RELEASE" in
     5)
-      EPEL_URL="http://download.fedoraproject.org/pub/epel/5/$ARCH/epel-release-6-8.noarch.rpm"
+      EPEL_URL="http://download.fedoraproject.org/pub/epel/5/$ARCH/epel-release-5-4.noarch.rpm"
       EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL'
     ;;
     6)
       EPEL_GPG_FILE='/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-6'
-      EPEL_URL="http://download.fedoraproject.org/pub/epel/5/$ARCH/epel-release-5-4.noarch.rpm"
+      EPEL_URL="http://download.fedoraproject.org/pub/epel/6/$ARCH/epel-release-6-8.noarch.rpm"
     ;;
     *)
       echo "Error: can't determine Enterprise Linux release."
