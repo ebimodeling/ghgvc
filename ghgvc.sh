@@ -140,8 +140,8 @@ function install_rvm {
   curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION --autolibs=enable --auto-dotfiles
   source ~/.rvm/scripts/rvm
   rvm reload
-  sudo groupadd rvm
-  rvm group add rvm $USER
+  sudo groupadd rvm || true
+  rvm group add rvm $USER || true
   rvm reload
   echo "export rvm_trust_rvmrcs_flag=1" > ~/.rvmrc  #auto-trust .rvmrc flags
   echo "export rvmsudo_secure_path=1" >> ~/.rvmrc
@@ -486,8 +486,10 @@ function install_epel {
       exit 1
     ;;
   esac
-  sudo rpm -Uvh $EPEL_URL
-  sudo rpm --import $EPEL_GPG_FILE
+  if ! rpm -q epel-release >/dev/null 2>&1; then
+    sudo rpm -Uvh $EPEL_URL
+    sudo rpm --import $EPEL_GPG_FILE
+  fi
 }
 
 
