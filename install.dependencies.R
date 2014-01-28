@@ -7,6 +7,9 @@
 # which accompanies this distribution, and is available at
 # http://opensource.ncsa.illinois.edu/license.html
 #-------------------------------------------------------------------------------
+library(methods)
+update.packages(ask=FALSE, checkBuilt=TRUE, repos="http://cran.rstudio.com/")
+
 list.of.required.packages <- c('rjson', 'XML', 'reshape', 'ncdf4', 'devtools')
 list.of.installed.packages <- installed.packages()[,"Package"]
 list.of.new.packages <- list.of.required.packages[!(list.of.required.packages %in% list.of.installed.packages)]
