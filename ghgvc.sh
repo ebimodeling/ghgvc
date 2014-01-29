@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # GHGVC install script for rails application
-# Written by Carl Crott <carlcrott@gmail.com>
-# updated by David LeBauer <dlebauer@gmail.com>
+
 
 GIT_GHGVC='https://github.com/ebimodeling/ghgvc.git'
 GIT_GHGVCR='https://github.com/ebimodeling/ghgvcR.git'
