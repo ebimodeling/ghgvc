@@ -33,7 +33,7 @@ class WorkflowsController < ApplicationController
     end
     if Rails.env == "production"
         rscript_rundir = "#{Rails.root}/tmp/run"
-        ghgvcR_instantiation_path = "/home/ubuntu/ghgvcR/"
+        ghgvcR_instantiation_path = "/usr/local/ghgvcR/"
         rscript_outdir = "#{Rails.root}/tmp/out"
     end
   
@@ -125,8 +125,8 @@ class WorkflowsController < ApplicationController
     rcmd = "cd #{ghgvcR_instantiation_path} && ./src/ghgvc_script.R #{rscript_rundir} #{rscript_outdir}"
     puts "The shell command we're running: \n\t#{rcmd}"
     # this will wait for the script to finish
-    r = `#{rcmd}`
-
+	r = `#{rcmd} 2>&1`
+    logger.info("\n\nOutput from R script is:\n\n#{r}\n\n")
     # then poll to see if script is finished 
     @ghgvcR_output = JSON.parse(File.read( "#{rscript_outdir}/output.json" ))
 
