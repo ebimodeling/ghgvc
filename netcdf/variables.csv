@@ -1,0 +1,35 @@
+var name,domain,NcFile
+@biome_num,all,vegtype.nc
+@soc_num,all,SoilCarbonDataS.nc
+@global_cropland_num,all,Cropland2000_5min.nc
+@global_pasture_num,all,Pasture2000_5min.nc
+@global_bare_latent_heat_flux_num,all,global_bare_latent_10yr_avg.nc
+@global_bare_net_radiation_num,all,global_bare_rnet_10yr_avg.n
+@nbcd_num,all,"nbcd.nc"""
+ @global_potVeg_latent_num,all,global_veg_latent_10yr_avg.nc
+ @global_potVeg_rnet_num,all,global_veg_rnet_10yr_avg.nc
+,,
+@br_bare_sugc_net_radiation_num,Brazil,brazil/bare/brazil_bare_sugc_rnet_10yr_avg.nc
+@br_sugc_net_radiation_num,Brazil,Brazil/Sugarcane/brazil_sugc_rnet_10yr_avg.nc
+@br_bare_sugc_latent_heat_flux_num,Brazil,brazil/bare/brazil_bare_sugc_latent_10yr_avg.nc
+@br_sugc_latent_heat_flux_num,Brazil,Brzil/Sugarcane/brazil_sugc_latent_10yr_avg.nc
+@braz_fractional_soybean_num,Brazil,/Brazil/Soybean/brazil_soyb_fractional_10yr_avg.nc
+ @braz_fractional_sugarcane_num,Brazil,/Brazil/Sugarcane/brazil_sugc_fractional_10yr_avg.nc
+@braz_sugarcane_num,Brazil,Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc
+@braz_soybean_num,Brazil,/Brazil/Sugarcane/brazil_sugc_latent_10yr_avg.nc
+,,
+@us_corn_latent_heat_flux_num,US,us_corn_latent_10yr_avg.nc
+@us_misc_latent_heat_flux_num,US,us_mxg_latent_10yr_avg.nc
+@us_soy_latent_heat_flux_num,US,us_soyb_latent_10yr_avg.nc
+ @us_switch_latent_heat_flux_num,US,/us_switch_latent_10yr_avg.nc
+@us_corn_net_radiation_num,US,us_corn_rnet_10yr_avg.nc
+@us_misc_net_radiation_num,US,us_mxg_rnet_10yr_avg.nc
+@us_soy_net_radiation_num,US,us_soyb_rnet_10yr_avg.nc
+@us_switch_net_radiation_num,,us_switch_rnet_10yr_avg.nc
+,,
+@saatchi_asia_bgb,asia,saatchi_asia_bgb_1km.nc
+@saatchi_asia_agb,asia,saatchi_asia_agb_1km.nc
+@saatchi_america_bgb,america,saatchi_america_bgb_1km.nc
+@saatchi_america_bgb,america,saatchi_america_agb_1km.nc
+@saatchi_africa_bgb,africa,saatchi_africa_bgb_1km.nc
+@saatchi_africa_bgb,africa,saatchi_africa_agb_1km.nc
