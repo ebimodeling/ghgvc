@@ -102,11 +102,11 @@ class WorkflowsController < ApplicationController
           
         end
       end
-      if value['aggrading_eco'] != nil
-        value['aggrading_eco'].each do | aggrading_k, aggrading_v |
-          file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
-        end
-      end
+      # if value['aggrading_eco'] != nil
+      #   value['aggrading_eco'].each do | aggrading_k, aggrading_v |
+      #     file_string << convert_single_level_hash_to_xml( aggrading_k, aggrading_v )
+      #   end
+      # end
 
       # if value['biofuel_eco'] != nil
       #   value['biofuel_eco'].each do | biofuel_k, biofuel_v |
@@ -1098,8 +1098,9 @@ class WorkflowsController < ApplicationController
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
 
 ############ Here we set the additional logic threshold levels ############
-
-    @biome_data = { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
+    
+    #@biome_data = { "native_eco" => {}, "agroecosystem_eco" => {}, "aggrading_eco" => {}, "biofuel_eco" => {} }
+    @biome_data = { "native_eco" => {}, "agroecosystem_eco" => {} }
     if @biome_num <= 15
       ## Logic for vegtype ecosystems
       case @biome_num

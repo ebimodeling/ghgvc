@@ -88,11 +88,11 @@ function populate_html_from_latlng( lat, lng ) {
         data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
       });
     });
-    data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
-      $.each( v, function(eco_k, eco_v) {
-        data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-      });
-    });
+    // data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
+    //   $.each( v, function(eco_k, eco_v) {
+    //     data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+    //   });
+    // });
     data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
       $.each( v, function(eco_k, eco_v) {
         data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
@@ -132,13 +132,13 @@ function populate_html_from_latlng( lat, lng ) {
         });
       })
     };
-    if ( data_defaults.aggrading_eco != null ) {
-      $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
-        $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.aggrading_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-        });
-      });
-    };  
+    // if ( data_defaults.aggrading_eco != null ) {
+    //   $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
+    //     $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
+    //       data_defaults.aggrading_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
+    //     });
+    //   });
+    // };  
     // if ( data_defaults.biofuel_eco != null ) {
     //  $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
     //     $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
@@ -772,7 +772,8 @@ $(document).ready(function() {
         '    <i class="icon-search icon-remove"></i> Remove Location' +
         '  </div>' + '  <br />' + '<hr/>' +
         '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
-        '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        // '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
+        '  <div class="aggrading_biomes inline-block">' +  '    <div class="biome_list"></div>' + '  </div>' +
         '  <div class="agroecosystem_biomes inline-block">' + '    <b>Agroecosystem:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
         // '  <div class="biofuel_biomes inline-block">' + '    <b>Biofuel:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
         '</div>'

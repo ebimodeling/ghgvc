@@ -1,62 +1,302 @@
-[{"name":"OM_ag","descriptive_name":"Aboveground biomass: live (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"OM_root","descriptive_name":"Root biomass (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"OM_wood","descriptive_name":"Dead wood (dead trees, course woody debris) (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"OM_litter","descriptive_name":"Litter (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"OM_peat","descriptive_name":"Peat (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"OM_SOM","descriptive_name":"Potential Soil Organic Matter loss (Mg/ha)","category":"Organic Matter Storage"},
-{"name":"fc_ag_wood_litter","descriptive_name":"Fraction of combustible biomass (aboveground, wood, litter) burned","category":"Land-Clearing Burn Characteristics"},
-{"name":"fc_root","descriptive_name":"Fraction of root biomass burned","category":"Land-Clearing Burn Characteristics"},
-{"name":"fc_peat","descriptive_name":"Fraction of peat burned","category":"Organic Matter Storage"},
-{"name":"fc_SOM","descriptive_name":"Fraction of SOM burned","category":"Land-Clearing Burn Characteristics"},
-{"name":"Ec_CO2","descriptive_name":"Proportional release of CO2 for each unit of biomass burned (kmol/ Mg dry matter)","category":"Land-Clearing Burn Characteristics"},
-{"name":"Ec_CH4","descriptive_name":"Proportional release of CH4 for each unit of biomass burned (kmol/ Mg dry matter)","category":"Land-Clearing Burn Characteristics"},
-{"name":"Ec_N2O","descriptive_name":"Proportional release of N2O for each unit of biomass burned (kmol/ Mg dry matter)","category":"Land-Clearing Burn Characteristics"},
-{"name":"k_ag_wood_litter","descriptive_name":"Decay constant (k) for combustible biomass","category":"Decomposition Characteristics"},
-{"name":"k_root","descriptive_name":"Decay constant (k) for roots","category":"Decomposition Characteristics"},
-{"name":"k_peat","descriptive_name":"Decay constant (k) for peat","category":"Decomposition Characteristics"},
-{"name":"k_SOM","descriptive_name":"Decay constant (k) for SOM","category":"Decomposition Characteristics"},
-{"name":"termite","descriptive_name":"% termite mediated decomposition","category":"Decomposition Characteristics"},
-{"name":"Ed_CO2_ag_wood_litter","descriptive_name":"Proportional release of CO2 for each unit of combustible biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CO2_root","descriptive_name":"Proportional release of CO2 for each unit of root biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CO2_peat","descriptive_name":"Proportional release of CO2 for each unit of peat biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CO2_litter","descriptive_name":"Proportional release of CO2 for each unit of litter biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CH4_ag_wood_litter","descriptive_name":"Proportional release of CH4 for each unit of combustible biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CH4_root","descriptive_name":"Proportional release of CH4 for each unit of root biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CH4_peat","descriptive_name":"Proportional release of CH4 for each unit of peat biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_CH4_litter","descriptive_name":"Proportional release of CH4 for each unit of litter biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_N2O_ag_wood_litter","descriptive_name":"Proportional release of N2O for each unit of combustible biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_N2O_root","descriptive_name":"Proportional release of N2O for each unit of root biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_N2O_peat","descriptive_name":"Proportional release of N2O for each unit of peat biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"Ed_N2O_litter","descriptive_name":"Proportional release of N2O for each unit of litter biomass decomposed","category":"Decomposition Characteristics"},
-{"name":"F_CO2","descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Annual Flux"},
-{"name":"F_CH4","descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Annual Flux"},
-{"name":"F_N2O","descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Annual Flux"},
-{"name":"age_transition","descriptive_name":"Age of transition (time at which biomass accumulation rate declines) (years)","category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"},
-{"name":"new_F_CO2","descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"},
-{"name":"new_F_CH4","descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"},
-{"name":"new_F_N2O","descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"},
-{"name":"rd","descriptive_name":"Rate of disturbance events (#/year)","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},{"name":"tR","descriptive_name":"Time required to recover pre-disturbance biomass stocks (years)","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"FR_CO2","descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"FR_CH4","descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"FR_N2O","descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dfc_ag_wood_litter","descriptive_name":"Fraction of combustible biomass (aboveground, wood, litter) burned (when disturbance is fire)","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dfc_root","descriptive_name":"Fraction of root biomass burned (when disturbance is fire)","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dfc_peat","descriptive_name":"Fraction of peat biomass burned (when disturbance is fire)","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dk_ag_wood_litter","descriptive_name":"Decay constant (k) of combustible biomass (aboveground, wood, litter) following disturbance","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dk_root","descriptive_name":"Decay constant (k) of combustible root biomass following disturbance","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"dk_peat","descriptive_name":"Decay constant (k) of peat following disturbance","category":"Disturbance-Recovery Dynamics (when including disturbance effects)"},
-{"name":"F_anth","descriptive_name":"Average annual CO2 emissions associated with management (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.","category":"Associated Anthropogenic Emissions (agroecosystems)"}, 
-
-{"name":"bioYield_grain","descriptive_name":"Grain Yield (Mg dry biomass/ha/yr)","category":"Fossil Fuel Displacement"}, 
-{"name":"bioYield_stove","descriptive_name":"Residue(Stover) Yield(Mg dry biomass/ha/yr)","category":"Fossil Fuel Displacement"}, 
-{"name":"con_en_grain","descriptive_name":"Corn Grain Conversion Effciency (liters ethanol / Mg dry biomass)","category":"Fossil Fuel Displacement"}, 
-{"name":"con_en_stove","descriptive_name":"Corn Residue (Stover) Conversion Efficiency (liters ethanol/ Mg dry biomass)","category":"Fossil Fuel Displacement"}, 
-
-{"name":"ac_yield","descriptive_name":"Biomass Yield (Mg dry biomass/ ha/ yr)","category":"Fossil Fuel Displacement"}, 
-{"name":"con_energy","descriptive_name":"Conversion Efficiency (liters ethanol/ Mg dry biomass)","category":"Fossil Fuel Displacement"}, 
-{"name":"eth_yield","descriptive_name":"Ethanol Yield (liters ethanol/ ha/ yr)","category":"Fossil Fuel Displacement"}, 
-{"name":"G_C02","descriptive_name":"Displaced Gasoline CO2 Emissions (kmol C02/ ha/ yr)","category":"Fossil Fuel Displacement"},
-{"name":"max_ghgv","descriptive_name":"none","category":"none"},
-{"name":"eco_copy","descriptive_name":"none","category":"none"},
-{"name":"reg_ghgv","descriptive_name":"none","category":"none"}
+[
+   {
+      "name":"OM_ag",
+      "descriptive_name":"Aboveground biomass: live (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"OM_root",
+      "descriptive_name":"Root biomass (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"OM_wood",
+      "descriptive_name":"Dead wood (dead trees, course woody debris) (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"OM_litter",
+      "descriptive_name":"Litter (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"OM_peat",
+      "descriptive_name":"Peat (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"OM_SOM",
+      "descriptive_name":"Potential Soil Organic Matter loss (Mg/ha)",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"fc_ag_wood_litter",
+      "descriptive_name":"Fraction of combustible biomass (aboveground, wood, litter) burned",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"fc_root",
+      "descriptive_name":"Fraction of root biomass burned",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"fc_peat",
+      "descriptive_name":"Fraction of peat burned",
+      "category":"Organic Matter Storage"
+   },
+   {
+      "name":"fc_SOM",
+      "descriptive_name":"Fraction of SOM burned",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"Ec_CO2",
+      "descriptive_name":"Proportional release of CO2 for each unit of biomass burned (kmol/ Mg dry matter)",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"Ec_CH4",
+      "descriptive_name":"Proportional release of CH4 for each unit of biomass burned (kmol/ Mg dry matter)",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"Ec_N2O",
+      "descriptive_name":"Proportional release of N2O for each unit of biomass burned (kmol/ Mg dry matter)",
+      "category":"Land-Clearing Burn Characteristics"
+   },
+   {
+      "name":"k_ag_wood_litter",
+      "descriptive_name":"Decay constant (k) for combustible biomass",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"k_root",
+      "descriptive_name":"Decay constant (k) for roots",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"k_peat",
+      "descriptive_name":"Decay constant (k) for peat",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"k_SOM",
+      "descriptive_name":"Decay constant (k) for SOM",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"termite",
+      "descriptive_name":"% termite mediated decomposition",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CO2_ag_wood_litter",
+      "descriptive_name":"Proportional release of CO2 for each unit of combustible biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CO2_root",
+      "descriptive_name":"Proportional release of CO2 for each unit of root biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CO2_peat",
+      "descriptive_name":"Proportional release of CO2 for each unit of peat biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CO2_litter",
+      "descriptive_name":"Proportional release of CO2 for each unit of litter biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CH4_ag_wood_litter",
+      "descriptive_name":"Proportional release of CH4 for each unit of combustible biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CH4_root",
+      "descriptive_name":"Proportional release of CH4 for each unit of root biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CH4_peat",
+      "descriptive_name":"Proportional release of CH4 for each unit of peat biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_CH4_litter",
+      "descriptive_name":"Proportional release of CH4 for each unit of litter biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_N2O_ag_wood_litter",
+      "descriptive_name":"Proportional release of N2O for each unit of combustible biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_N2O_root",
+      "descriptive_name":"Proportional release of N2O for each unit of root biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_N2O_peat",
+      "descriptive_name":"Proportional release of N2O for each unit of peat biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"Ed_N2O_litter",
+      "descriptive_name":"Proportional release of N2O for each unit of litter biomass decomposed",
+      "category":"Decomposition Characteristics"
+   },
+   {
+      "name":"F_CO2",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Annual Flux"
+   },
+   {
+      "name":"F_CH4",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Annual Flux"
+   },
+   {
+      "name":"F_N2O",
+      "descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Annual Flux"
+   },
+   {
+      "name":"age_transition",
+      "descriptive_name":"Age of transition (time at which biomass accumulation rate declines) (years)",
+      "category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"
+   },
+   {
+      "name":"new_F_CO2",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"
+   },
+   {
+      "name":"new_F_CH4",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"
+   },
+   {
+      "name":"new_F_N2O",
+      "descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition; + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Transition from Aggrading to 'Mature' Ecosystem (aggrading ecosystems only)"
+   },
+   {
+      "name":"rd",
+      "descriptive_name":"Rate of disturbance events (#/year)",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"tR",
+      "descriptive_name":"Time required to recover pre-disturbance biomass stocks (years)",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"FR_CO2",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CO2 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"FR_CH4",
+      "descriptive_name":"Average annual net ecosystem-atmosphere CH4 exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"FR_N2O",
+      "descriptive_name":"Average annual net ecosystem-atmosphere N2O exchange during recovery (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dfc_ag_wood_litter",
+      "descriptive_name":"Fraction of combustible biomass (aboveground, wood, litter) burned (when disturbance is fire)",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dfc_root",
+      "descriptive_name":"Fraction of root biomass burned (when disturbance is fire)",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dfc_peat",
+      "descriptive_name":"Fraction of peat biomass burned (when disturbance is fire)",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dk_ag_wood_litter",
+      "descriptive_name":"Decay constant (k) of combustible biomass (aboveground, wood, litter) following disturbance",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dk_root",
+      "descriptive_name":"Decay constant (k) of combustible root biomass following disturbance",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"dk_peat",
+      "descriptive_name":"Decay constant (k) of peat following disturbance",
+      "category":"Disturbance-Recovery Dynamics (when including disturbance effects)"
+   },
+   {
+      "name":"F_anth",
+      "descriptive_name":"Average annual CO2 emissions associated with management (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere.",
+      "category":"Associated Anthropogenic Emissions (agroecosystems)"
+   },
+   {
+      "name":"bioYield_grain",
+      "descriptive_name":"Grain Yield (Mg dry biomass/ha/yr)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"bioYield_stove",
+      "descriptive_name":"Residue(Stover) Yield(Mg dry biomass/ha/yr)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"con_en_grain",
+      "descriptive_name":"Corn Grain Conversion Effciency (liters ethanol / Mg dry biomass)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"con_en_stove",
+      "descriptive_name":"Corn Residue (Stover) Conversion Efficiency (liters ethanol/ Mg dry biomass)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"ac_yield",
+      "descriptive_name":"Biomass Yield (Mg dry biomass/ ha/ yr)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"con_energy",
+      "descriptive_name":"Conversion Efficiency (liters ethanol/ Mg dry biomass)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"eth_yield",
+      "descriptive_name":"Ethanol Yield (liters ethanol/ ha/ yr)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"G_C02",
+      "descriptive_name":"Displaced Gasoline CO2 Emissions (kmol C02/ ha/ yr)",
+      "category":"Fossil Fuel Displacement"
+   },
+   {
+      "name":"max_ghgv",
+      "descriptive_name":"none",
+      "category":"none"
+   },
+   {
+      "name":"eco_copy",
+      "descriptive_name":"none",
+      "category":"none"
+   },
+   {
+      "name":"reg_ghgv",
+      "descriptive_name":"none",
+      "category":"none"
+   }
 ]
