@@ -1,3 +1,0 @@
-GHGVC
-
-see demo GHGVC: http://www.ecosystemservicescalc.org/
