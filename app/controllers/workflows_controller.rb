@@ -33,7 +33,7 @@ class WorkflowsController < ApplicationController
     end
     if Rails.env == "production"
         rscript_rundir = "#{Rails.root}/tmp/run"
-        ghgvcR_instantiation_path = "/usr/local/ghgvcR/"
+        ghgvcR_instantiation_path = "#{Rails.root}/../ghgvcR"
         rscript_outdir = "#{Rails.root}/tmp/out"
     end
   
