@@ -226,16 +226,17 @@ class WorkflowsController < ApplicationController
     # Paths
     rscript_rundir = "#{Rails.root}/tmp/run"
     rscript_outdir = "#{Rails.root}/tmp/out"
+    
     #for development on laptop without much hard drive space:
     netcdf_dir = "/run/media/potterzot/zfire1/work/ebimodeling/netcdf"
     #for actual use:
     #netcdf_dir = "#{Rails.root}/netcdf"
 
-    ghgvcR_path = "/opt/ghgvc/ghgvcR/"
+    ghgvcR_path = "#{Rails.root}/ghgvcR/"
     
-    def get_biome (ghgvcR_path, r_rundir, r_outdir, netcdf_dir, latitude, longitude)
+    def get_biomeR (ghgvcR_path, r_rundir, r_outdir, netcdf_dir, latitude, longitude)
       # Get data from netcdf using R.
-      rcmd = "cd #{ghgvcR_path} && ./src/get_biome.R #{r_rundir} #{r_outdir} #{netcdf_dir} #{latitude} #{longitude}"
+      rcmd = "cd #{ghgvcR_path} && ./src/get_biome.R #{Rails.root}/ghgvc #{r_rundir} #{r_outdir} #{netcdf_dir} #{latitude} #{longitude}"
       r = `#{rcmd} 2>&1`
       logger.info("\n\n#{r} \n\n")
       @res = JSON.parse(File.read( "#{r_outdir}/biome.json"))
@@ -243,7 +244,7 @@ class WorkflowsController < ApplicationController
       @res
     end
 
-    @biome_data = get_biome(rscript_rundir, rscript_outdir, ghgvcR_path, latitude, longitude)
+    @biome_data = get_biomeR(rscript_rundir, rscript_outdir, ghgvcR_path, latitude, longitude)
 
     respond_to do |format|
       format.json { render json: @biome_data }
