@@ -222,7 +222,7 @@ class WorkflowsController < ApplicationController
   def get_biome
     def get_biomeR (latitude, longitude, ecosystems_file)
       # Get data from netcdf using R.
-      rcmd = "cd #{@ghgvcR_instantiation_path} && ./inst/scripts/get_biome.R #{Rails.root}/ghgvc #{latitude} #{longitude} #{@netcdf_dir} #{ecosystems_file} #{@rscript_outdir}"
+      rcmd = "cd #{@ghgvcR_path} && ./inst/scripts/get_biome.R #{latitude} #{longitude} #{@netcdf_dir} #{ecosystems_file} #{@rscript_outdir}"
       r = `#{rcmd} 2>&1`
       logger.info("\n\n#{r} \n\n")
       logger.info("r_outdir is #{@rscript_outdir}\n\n")
@@ -232,19 +232,20 @@ class WorkflowsController < ApplicationController
     end
     
     if Rails.env == "development"
-        @rscript_outdir = "#{Rails.root}/tmp/run"
+        @rscript_outdir = "#{Rails.root}/tmp/run/"
         @ghgvcR_path = "/opt/ghgvc/ghgvcR/"
-        @netcdf_dir = "/run/media/potterzot/zfire1/work/ebimodeling/netcdf"
+        @netcdf_dir = "/run/media/potterzot/zfire1/work/ebimodeling/netcdf/"
     end
     if Rails.env == "production"
-        @rscript_outdir = "#{Rails.root}/tmp/run"
-        @ghgvcR_path = "#{Rails.root}/..ghgvcR"
-        @netcdf_dir = "#{Rails.root}/netcdf"
+        @rscript_outdir = "#{Rails.root}/tmp/run/"
+        @ghgvcR_path = "#{Rails.root}/../ghgvcR/"
+        @netcdf_dir = "#{Rails.root}/netcdf/"
     end
     
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
+    #@name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
+    @name_indexed_ecosystems = "#{Rails.root}/public/data/final_ecosystems.json"
     
     logger.info("params: #{@ghgvcR_path}, #{@latitude}")
     @biome_data = get_biomeR(@latitude, @longitude, @name_indexed_ecosystems)
