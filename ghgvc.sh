@@ -84,9 +84,26 @@ R-core-devel
 sqlite-devel
 '
 
+CENTOS_PACKAGES='
+epel-release
+git
+libxml2
+libxml2-devel
+mysql
+mysql-devel
+netcdf
+netcdf-devel
+nodejs
+R
+ruby
+sqlite
+sqlite-devel
+'
 
 function determine_distro {
-  if [[ -f /etc/redhat-release ]]; then
+  if [[ -f /etc/centos-release ]]; then
+    DISTRO=centos
+  elif [[ -f /etc/redhat-release ]]; then
     DISTRO=el
   elif grep Ubuntu /etc/issue >/dev/null 2>&1; then
     DISTRO=ubuntu
@@ -122,6 +139,12 @@ function install_packages_yum {
   sudo yum -y install $YUM_PACKAGES
 }
 
+function install_packages_centos {
+  sudo yum clean all
+  sudo yum -y update
+  sudo yum -y install $CENTOS_PACKAGES
+}
+
 function prepare_install_dir {
   sudo rm -rf $INSTALL_DIR
   sudo mkdir -p $INSTALL_DIR
@@ -130,12 +153,14 @@ function prepare_install_dir {
 
 function git_clone {
   cd $INSTALL_DIR
-  git clone $GIT_GHGVC
-  git clone $GIT_GHGVCR
+  sudo git clone $GIT_GHGVC
+  sudo git clone $GIT_GHGVCR
+  sudo chown -R $USER $INSTALL_DIR
 }
 
 function install_rvm {
   cd ~
+  gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
   curl -L https://get.rvm.io | bash -s stable --ruby=$RUBY_VERSION --autolibs=enable --auto-dotfiles
   source ~/.rvm/scripts/rvm
   rvm reload
@@ -168,6 +193,7 @@ function install_netcdf {
 
 function install_bundle {
   cd $INSTALL_DIR/ghgvc
+  gem install bundler
   bundle install --without development
   # build out and workaround for specifying production
   RAILS_ENV=production bundle exec rake db:create db:schema:load
@@ -207,7 +233,7 @@ function install_nginx {
 }
 
 function configure_nginx {
-  cat <<EOF > nginx.conf
+  sudo cat <<EOF > nginx.conf
 worker_processes  1;
 events {
   worker_connections  1024;
@@ -237,7 +263,7 @@ http {
 }
 EOF
 
-  cat <<'EOF' > nginx.init.el
+  sudo cat <<'EOF' > nginx.init.centos
 #!/bin/sh
 #
 # nginx - this script starts and stops the nginx daemon
@@ -382,7 +408,152 @@ case "$1" in
 esac
 EOF
 
-  cat <<'EOF' > nginx.init.ubuntu
+  sudo cat <<'EOF' > nginx.init.el
+#!/bin/sh
+#
+# nginx - this script starts and stops the nginx daemon
+#
+# chkconfig:   - 85 15
+# description:  Nginx is an HTTP(S) server, HTTP(S) reverse \
+#               proxy and IMAP/POP3 proxy server
+# processname: nginx
+# config:      /etc/nginx/nginx.conf
+# config:      /etc/sysconfig/nginx
+# pidfile:     /var/run/nginx.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+nginx="/opt/nginx/sbin/nginx"
+prog=$(basename $nginx)
+
+NGINX_CONF_FILE="/opt/nginx/conf/nginx.conf"
+
+[ -f /etc/sysconfig/nginx ] && . /etc/sysconfig/nginx
+
+lockfile=/var/lock/subsys/nginx
+
+start() {
+    [ -x $nginx ] || exit 5
+    [ -f $NGINX_CONF_FILE ] || exit 6
+    echo -n $"Starting $prog: "
+    daemon $nginx -c $NGINX_CONF_FILE
+    retval=$?
+    echo
+    [ $retval -eq 0 ] && touch $lockfile
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -TERM
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        if [ "$CONSOLETYPE" != "serial" ]; then
+           echo -en "\\033[16G"
+        fi
+        while rh_status_q
+        do
+            sleep 1
+            echo -n $"."
+        done
+        rm -f $lockfile
+    fi
+    echo
+    return $retval
+}
+
+restart() {
+    configtest || return $?
+    stop
+    start
+}
+
+reload() {
+    configtest || return $?
+    echo -n $"Reloading $prog: "
+    killproc $nginx -HUP
+    sleep 1
+    RETVAL=$?
+    echo
+}
+
+configtest() {
+  $nginx -t -c $NGINX_CONF_FILE
+}
+
+rh_status() {
+    status $prog
+}
+
+rh_status_q() {
+    rh_status >/dev/null 2>&1
+}
+
+# Upgrade the binary with no downtime.
+upgrade() {
+    local pidfile="/var/run/${prog}.pid"
+    local oldbin_pidfile="${pidfile}.oldbin"
+
+    configtest || return $?
+    echo -n $"Staring new master $prog: "
+    killproc $nginx -USR2
+    sleep 1
+    retval=$?
+    echo 
+    if [[ -f ${oldbin_pidfile} && -f ${pidfile} ]];  then
+        echo -n $"Graceful shutdown of old $prog: "
+        killproc -p ${oldbin_pidfile} -TERM
+        sleep 1
+        retval=$?
+        echo 
+        return 0
+    else
+        echo $"Something bad happened, manual intervention required, maybe restart?"
+        return 1
+    fi
+}
+
+case "$1" in
+    start)
+        rh_status_q && exit 0
+        $1
+        ;;
+    stop)
+        rh_status_q || exit 0
+        $1
+        ;;
+    restart|configtest)
+        $1
+        ;;
+    force-reload|upgrade) 
+        rh_status_q || exit 7
+        upgrade
+        ;;
+    reload)
+        rh_status_q || exit 7
+        $1
+        ;;
+    status|status_q)
+        rh_$1
+        ;;
+    condrestart|try-restart)
+        rh_status_q || exit 7
+        restart
+	    ;;
+    *)
+        echo $"Usage: $0 {start|stop|reload|configtest|status|force-reload|upgrade|restart}"
+        exit 2
+esac
+EOF
+
+  sudo cat <<'EOF' > nginx.init.ubuntu
 #! /bin/sh
 
 ### BEGIN INIT INFO
@@ -497,6 +668,9 @@ function install_packages {
     el)
       install_packages_yum
     ;;
+    centos)
+      install_packages_centos
+    ;;
     ubuntu)
       install_packages_apt
     ;;
@@ -513,6 +687,10 @@ function disable_apache {
       sudo service httpd stop >/dev/null 2>&1 || true
       sudo chkconfig httpd off >/dev/null 2>&1 || true
     ;;
+    centos)
+      sudo service httpd stop >/dev/null 2>&1 || true
+      sudo chkconfig httpd off >/dev/null 2>&1 || true
+    ;;
     ubuntu)
       sudo service apache2 stop >/dev/null 2>&1 || true
       sudo update-rc.d -f apache2 remove >/dev/null 2>&1 || true
@@ -526,6 +704,10 @@ function disable_apache {
 
 function enable_nginx {
   case $DISTRO in
+    centos)
+      sudo chkconfig --add nginx || true
+      sudo chkconfig nginx on
+    ;;
     el)
       sudo chkconfig --add nginx || true
       sudo chkconfig nginx on
