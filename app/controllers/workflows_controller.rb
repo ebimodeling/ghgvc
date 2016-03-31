@@ -62,7 +62,7 @@ class WorkflowsController < ApplicationController
         @ghgvcR_instantiation_path = "/opt/ghgvc/ghgvcR/"
     end
     if Rails.env == "production"
-        @ghgvcR_instantiation_path = "#{Rails.root}/..ghgvcR"
+        @ghgvcR_instantiation_path = "#{Rails.root}/../ghgvcR"
     end
     
     
