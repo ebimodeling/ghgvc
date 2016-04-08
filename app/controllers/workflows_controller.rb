@@ -55,14 +55,14 @@ class WorkflowsController < ApplicationController
       xml_string << "\t</pft>\n"
     end
     
-    @rscript_rundir = "#{Rails.root}/tmp/run"
-    @rscript_outdir = "#{Rails.root}/tmp/out"
+    @rscript_rundir = "#{Rails.root}/tmp/run/"
+    @rscript_outdir = "#{Rails.root}/tmp/out/"
     if Rails.env == "development"
         #@ghgvcR_instantiation_path = "/home/ubuntu/ghgvc/ghgvcR/"
         @ghgvcR_instantiation_path = "/opt/ghgvc/ghgvcR/"
     end
     if Rails.env == "production"
-        @ghgvcR_instantiation_path = "#{Rails.root}/../ghgvcR"
+        @ghgvcR_instantiation_path = "#{Rails.root}/../ghgvcR/"
     end
     
     
@@ -130,7 +130,7 @@ class WorkflowsController < ApplicationController
 	  r = `#{rcmd} 2>&1`
     logger.info("\n\nOutput from R script is:\n\n#{r}\n\n")
     # then poll to see if script is finished 
-    @ghgvcR_output = JSON.parse(File.read( "#{@rscript_outdir}/ghgv.json" ))
+    @ghgvcR_output = JSON.parse(File.read( "#{@rscript_outdir}ghgv.json" ))
 
     p @ghgvcR_output
     
@@ -183,13 +183,13 @@ class WorkflowsController < ApplicationController
     # We don't need all this below any more.  To-Do: delete this code
     # and unneeded code it depends upon.
     if Rails.env == "development"
-        @ghgvcR_output_path = "#{Rails.root}/tmp/out/output.json"
+        @ghgvcR_output_path = "#{Rails.root}/tmp/out/"
     end
     if Rails.env == "production"
-        @ghgvcR_output_path = "#{Rails.root}/tmp/out/output.json"
+        @ghgvcR_output_path = "#{Rails.root}/tmp/out/"
     end
     
-    @json_output = JSON.parse(File.read( "#{@ghgvcR_output_path}"  ))
+    @json_output = JSON.parse(File.read( "#{@ghgvcR_output_path}/output.json"  ))
     header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	Rnet latent CRV".split(" ")
 
     @output_csv = File.open("#{Rails.root}/public/output.csv","w")
@@ -226,7 +226,7 @@ class WorkflowsController < ApplicationController
       r = `#{rcmd} 2>&1`
       logger.info("\n\n#{r} \n\n")
       logger.info("r_outdir is #{@rscript_outdir}\n\n")
-      @res = JSON.parse(File.read( "#{@rscript_outdir}/biome.json"))
+      @res = JSON.parse(File.read( "#{@rscript_outdir}biome.json"))
       logger.info("\n\nresult is: #{@res}\n\n")
       @res
     end
