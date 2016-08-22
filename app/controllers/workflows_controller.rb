@@ -38,8 +38,12 @@ class WorkflowsController < ApplicationController
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
         
-        logger.info(value)
-        isolated_value = value.to_a[0]
+        if value.class.to_s == "Array"
+          isolated_value = value.to_a[0]
+        else
+          isolated_value = value.to_a[0][1]
+        end
+        #logger.info(isolated_value)
         
         ## Checking sanity        
         raise "ERROR: Expecting superclass to be Hash \n\t... evaluated as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
@@ -210,7 +214,7 @@ class WorkflowsController < ApplicationController
     
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
-    @ecosystem_default_file = "#{Rails.root}/public/data/final_ecosystems.json"
+    @ecosystem_default_file = "#{Rails.root}/public/data/name_indexed_ecosystems.json"
     @mapdata_dir = "#{Rails.root}/public/data/maps/"    
     #logger.info("params: #{@rscript_path}, #{@latitude}")
     @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file, @netcdf_dir, @mapdata_dir, @rscript_rundir)
