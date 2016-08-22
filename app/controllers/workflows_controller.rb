@@ -181,11 +181,11 @@ class WorkflowsController < ApplicationController
     # $.post("get_biome", { lng: 106, lat: 127 });
   # returns JSON object of the biome
   def get_biome
-    def get_biomeR (latitude, longitude, ecosystem_default_file)
+    def get_biomeR (latitude, longitude, ecosystem_default_file, netcdf_dir, mapdata_dir, rscript_rundir)
       # Get data from netcdf using R.
-      rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{@ecosystem_default_file} #{@netcdf_dir} #{@rscript_rundir}"
+      rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{ecosystem_default_file} #{netcdf_dir} #{mapdata_dir} #{rscript_rundir}"
       r = `#{rcmd} 2>&1`
-      #logger.info("\n\n#{r} \n\n")
+      logger.info("\n\n#{r} \n\n")
       #logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
       @res = JSON.parse(File.read( "#{@rscript_rundir}biome.json"))
       logger.info("\n\nresult is: #{@res}\n\n")
@@ -207,9 +207,9 @@ class WorkflowsController < ApplicationController
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
     @ecosystem_default_file = "#{Rails.root}/public/data/final_ecosystems.json"
-    
+    @mapdata_dir = "#{Rails.root}/public/data/maps/"    
     #logger.info("params: #{@rscript_path}, #{@latitude}")
-    @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file)
+    @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file, @netcdf_dir, @mapdata_dir, @rscript_rundir)
 
     respond_to do |format|
       format.json { render json: @biome_data }
