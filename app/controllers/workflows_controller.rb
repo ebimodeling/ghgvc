@@ -1,6 +1,7 @@
 #require "numru/netcdf"
 require "cobravsmongoose"
 require "json"
+require "fileutils"
 
 class WorkflowsController < ApplicationController
   # GET /workflows
@@ -40,7 +41,7 @@ class WorkflowsController < ApplicationController
         isolated_value = value.to_a[0][1][0]
         
         ## Checking sanity        
-        raise "ERROR: Expecting superclass to be Hash \n\t... evaluted as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
+        raise "ERROR: Expecting superclass to be Hash \n\t... evaluated as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
         raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"     
 
         # rework data to badgerfish convention
@@ -57,13 +58,7 @@ class WorkflowsController < ApplicationController
     
     @rscript_rundir = "#{Rails.root}/tmp/run/"
     @rscript_outdir = "#{Rails.root}/tmp/out/"
-    if Rails.env == "development"
-        #@ghgvcR_instantiation_path = "/home/ubuntu/ghgvc/ghgvcR/"
-        @ghgvcR_instantiation_path = "/opt/ghgvc/ghgvcR/"
-    end
-    if Rails.env == "production"
-        @ghgvcR_instantiation_path = "#{Rails.root}/../ghgvcR/"
-    end
+    @rscript_path = "#{Rails.root}/script/"
     
     
     @ecosystems = params[:ecosystems]
@@ -79,9 +74,9 @@ class WorkflowsController < ApplicationController
     
     @ecosystems.each do |key, value|
       site_name = "site_#{key.split('-')[1]}_data"
-      puts "key #{key}"
-      puts "value #{value}"
-      puts site_name
+      #puts "key #{key}"
+      #puts "value #{value}"
+      #puts site_name
       # We should build the beginning and end biome_instance-0/site_0_data tags first
       
       # start the xml tag for the site
@@ -93,8 +88,8 @@ class WorkflowsController < ApplicationController
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
         value['native_eco'].each do | ecosystem_k, ecosystem_v |
-          logger.info("ecosystem_k: #{ecosystem_k}\n\n")
-          logger.info("ecosystem_v: #{ecosystem_v}\n\n")
+          #logger.info("ecosystem_k: #{ecosystem_k}\n\n")
+          #logger.info("ecosystem_v: #{ecosystem_v}\n\n")
           file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
         end
       end      
@@ -124,15 +119,15 @@ class WorkflowsController < ApplicationController
     File.open("#{@rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( "</ghgvc>" ) }
 
     # Ruby script running a shell command to run a R script
-    rcmd = "cd #{@ghgvcR_instantiation_path} && ./inst/scripts/calc_ghgv.R #{@rscript_rundir} #{@rscript_outdir}"
-    puts "The shell command we're running: \n\t#{rcmd}"
+    rcmd = "cd #{@rscript_path} && ./calc_ghgv.R #{@rscript_rundir} #{@rscript_outdir}"
+    #puts "The shell command we're running: \n\t#{rcmd}"
     # this will wait for the script to finish
 	  r = `#{rcmd} 2>&1`
     logger.info("\n\nOutput from R script is:\n\n#{r}\n\n")
     # then poll to see if script is finished 
-    @ghgvcR_output = JSON.parse(File.read( "#{@rscript_outdir}ghgv.json" ))
+    @rscript_output = JSON.parse(File.read( "#{@rscript_outdir}ghgv.json" ))
 
-    p @ghgvcR_output
+    p @rscript_output
     
     
     
@@ -156,7 +151,7 @@ class WorkflowsController < ApplicationController
 
     ## TODO: HANDLE "NA"
     # in a few instances we get back values of "NA" .. replace those with zero    
-    @ghgvcR_output.each do | site_k, site_v |
+    @rscript_output.each do | site_k, site_v |
       site_v.each do |i| # site_v is an array
         i.each do |k,v|
           if v == "NA" || v == "NaN"
@@ -168,7 +163,7 @@ class WorkflowsController < ApplicationController
 
     
     respond_to do |format|
-      format.json { render json: @ghgvcR_output }
+      format.json { render json: @rscript_output }
     end
   
   end
@@ -176,40 +171,6 @@ class WorkflowsController < ApplicationController
   
   def download_csv
     send_file("#{Rails.root}/tmp/out/ghgv.csv",
-              :filename => "output.csv",
-              :type => "text/csv")
-    return
-
-    # We don't need all this below any more.  To-Do: delete this code
-    # and unneeded code it depends upon.
-    if Rails.env == "development"
-        @ghgvcR_output_path = "#{Rails.root}/tmp/out/"
-    end
-    if Rails.env == "production"
-        @ghgvcR_output_path = "#{Rails.root}/tmp/out/"
-    end
-    
-    @json_output = JSON.parse(File.read( "#{@ghgvcR_output_path}/output.json"  ))
-    header = "biome S_CO2	S_CH4	S_N2O	F_CO2	F_CH4	F_N2O	D_CO2	D_CH4	D_N2O	Rnet latent CRV".split(" ")
-
-    @output_csv = File.open("#{Rails.root}/public/output.csv","w")
-    @output_csv << header.join(",") << "\n"
-
-    @json_output.each do |location_k, location_v|
-      @output_csv << location_k << "\n"      
-      location_v.each do |i|
-        row = []
-        # Each location can have multiple biomes which are stored as an array
-        i.each do | biome_output_k, biome_output_v |
-          row << biome_output_v
-        end
-                
-        @output_csv << row.join(",") << "\n"
-      end
-    end
-    @output_csv.close()
-  
-    send_file("#{Rails.root}/public/output.csv",
               :filename => "output.csv",
               :type => "text/csv")
   end
@@ -220,35 +181,35 @@ class WorkflowsController < ApplicationController
     # $.post("get_biome", { lng: 106, lat: 127 });
   # returns JSON object of the biome
   def get_biome
-    def get_biomeR (latitude, longitude, ecosystems_file)
+    def get_biomeR (latitude, longitude, ecosystem_default_file)
       # Get data from netcdf using R.
-      rcmd = "cd #{@ghgvcR_path} && ./inst/scripts/get_biome.R #{latitude} #{longitude} #{@netcdf_dir} #{ecosystems_file} #{@rscript_outdir}"
+      rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{@ecosystem_default_file} #{@netcdf_dir} #{@rscript_rundir}"
       r = `#{rcmd} 2>&1`
-      logger.info("\n\n#{r} \n\n")
-      logger.info("r_outdir is #{@rscript_outdir}\n\n")
-      @res = JSON.parse(File.read( "#{@rscript_outdir}biome.json"))
+      #logger.info("\n\n#{r} \n\n")
+      #logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
+      @res = JSON.parse(File.read( "#{@rscript_rundir}biome.json"))
       logger.info("\n\nresult is: #{@res}\n\n")
       @res
     end
     
+    @rscript_rundir = "#{Rails.root}/tmp/run/"
+    @rscript_outdir = "#{Rails.root}/tmp/out/"
+    @rscript_path = "#{Rails.root}/script/"
+    
+    #NETCDF Data location
     if Rails.env == "development"
-        @rscript_outdir = "#{Rails.root}/tmp/run/"
-        @ghgvcR_path = "/opt/ghgvc/ghgvcR/"
         @netcdf_dir = "/run/media/potterzot/zfire1/work/ebimodeling/netcdf/"
     end
     if Rails.env == "production"
-        @rscript_outdir = "#{Rails.root}/tmp/run/"
-        @ghgvcR_path = "#{Rails.root}/../ghgvcR/"
         @netcdf_dir = "#{Rails.root}/netcdf/"
     end
     
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
-    #@name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/final_ecosystems.json" , "r" ).read )
-    @name_indexed_ecosystems = "#{Rails.root}/public/data/final_ecosystems.json"
+    @ecosystem_default_file = "#{Rails.root}/public/data/final_ecosystems.json"
     
-    logger.info("params: #{@ghgvcR_path}, #{@latitude}")
-    @biome_data = get_biomeR(@latitude, @longitude, @name_indexed_ecosystems)
+    #logger.info("params: #{@rscript_path}, #{@latitude}")
+    @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file)
 
     respond_to do |format|
       format.json { render json: @biome_data }
@@ -267,6 +228,20 @@ class WorkflowsController < ApplicationController
   # GET /workflows/new.json
   def new
     @workflow = Workflow.new
+    
+    @rscript_rundir = "#{Rails.root}/tmp/run/"
+    @rscript_outdir = "#{Rails.root}/tmp/out/"
+    @rscript_path = "#{Rails.root}/script/"
+    
+    #Remove the previous run/out files
+    FileUtils.rm("#{@rscript_rundir}/biome.json", :force => TRUE)
+    FileUtils.rm("#{@rscript_rundir}/multisite_config.xml", :force => TRUE)
+    FileUtils.rm("#{@rscript_outdir}/ghgv.json", :force => TRUE)
+    FileUtils.rm("#{@rscript_outdir}/ghgv.csv", :force => TRUE)
+    FileUtils.rm("#{@rscript_outdir}/output.svg", :force => TRUE)
+    
+    
+    
     # open data/default_ecosystems.json and parse
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
