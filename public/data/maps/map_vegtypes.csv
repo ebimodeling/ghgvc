@@ -1,6 +1,6 @@
 Map,Value,Category,Broadleaf Evergreen Forest,Broadleaf Deciduous Forest,Mixed Broadleaf-Conifer Forest,Conifer Evergreen Forest,Conifer Deciduous Forest,Savanna,Shrub,Grass,Pasture,Cropland,Barren,Other
 SYNMAP,0,Water,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
-SYNMAP,1,Trees / Needle / Evergreen,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,1,Trees / Needle / Evergreen,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
 SYNMAP,2,Trees / Needle / Deciduous,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
 SYNMAP,3,Trees / Needle / Mixed,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
 SYNMAP,4,Trees / Broad / Evergreen,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
