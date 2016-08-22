@@ -27,4 +27,7 @@ public/output.csv
 
 *.sublime-*
 
+# Include needed csv files
+!/public/data/maps/*.csv
+
 NOTES.md

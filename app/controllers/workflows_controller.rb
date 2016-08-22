@@ -38,7 +38,8 @@ class WorkflowsController < ApplicationController
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
         
-        isolated_value = value.to_a[0][1][0]
+        logger.info(value)
+        isolated_value = value.to_a[0]
         
         ## Checking sanity        
         raise "ERROR: Expecting superclass to be Hash \n\t... evaluated as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
@@ -73,6 +74,7 @@ class WorkflowsController < ApplicationController
     File.open("#{@rscript_rundir}/multisite_config.xml", 'a') { |file| file.write(opening_header) }
     
     @ecosystems.each do |key, value|
+      
       site_name = "site_#{key.split('-')[1]}_data"
       #puts "key #{key}"
       #puts "value #{value}"
@@ -88,13 +90,15 @@ class WorkflowsController < ApplicationController
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
         value['native_eco'].each do | ecosystem_k, ecosystem_v |
-          #logger.info("ecosystem_k: #{ecosystem_k}\n\n")
-          #logger.info("ecosystem_v: #{ecosystem_v}\n\n")
+          logger.info("ecosystem_k: #{ecosystem_k}\n\n")
+          logger.info("ecosystem_v: #{ecosystem_v}\n\n")
           file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
         end
       end      
       if value['agroecosystem_eco'] != nil
         value['agroecosystem_eco'].each do | agroecosystem_k, agroecosystem_v |
+          logger.info("agroecosystem_k: #{agroecosystem_k}\n\n")
+          logger.info("agroecosystem_v: #{agroecosystem_v}\n\n")
           file_string << convert_single_level_hash_to_xml( agroecosystem_k, agroecosystem_v )
           
         end
@@ -185,10 +189,10 @@ class WorkflowsController < ApplicationController
       # Get data from netcdf using R.
       rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{ecosystem_default_file} #{netcdf_dir} #{mapdata_dir} #{rscript_rundir}"
       r = `#{rcmd} 2>&1`
-      logger.info("\n\n#{r} \n\n")
+      #logger.info("\n\n#{r} \n\n")
       #logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
       @res = JSON.parse(File.read( "#{@rscript_rundir}biome.json"))
-      logger.info("\n\nresult is: #{@res}\n\n")
+      #logger.info("\n\nresult is: #{@res}\n\n")
       @res
     end
     

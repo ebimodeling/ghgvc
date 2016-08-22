@@ -83,21 +83,21 @@ function populate_html_from_latlng( lat, lng ) {
     var active_biome_site = get_active_site_number();
     
     // expand all values to their full source names
-    data.native_eco = $.each( data.native_eco, function(k,v) {
-      $.each( v, function(eco_k, eco_v) {
-        data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-      });
-    });
+    //data.native_eco = $.each( data.native_eco, function(k,v) {
+    //  $.each( v, function(eco_k, eco_v) {
+    //    data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+    //  });
+    //});
     // data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
     //   $.each( v, function(eco_k, eco_v) {
     //     data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
     //   });
     // });
-    data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
-      $.each( v, function(eco_k, eco_v) {
-        data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-      });
-    });
+    //data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
+    //  $.each( v, function(eco_k, eco_v) {
+    //    data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+    //  });
+    //});
     // data.biofuel_eco = $.each( data.biofuel_eco, function(k,v) {
     //   $.each( v, function(eco_k, eco_v) {
     //     data["biofuel_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
@@ -118,20 +118,20 @@ function populate_html_from_latlng( lat, lng ) {
     var data_defaults = data;
 
     // write default values to all CSEPs
-    if ( data_defaults.native_eco != null ) {
-      $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
-        $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-        });
-      });
-    };
-    if ( data_defaults.agroecosystem_eco != null ) {
-      $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
-        $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-        });
-      })
-    };
+    //if ( data_defaults.native_eco != null ) {
+    //  $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
+    //    $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
+    //      data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
+    //    });
+    //  });
+    //};
+    //if ( data_defaults.agroecosystem_eco != null ) {
+    // $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
+    //    $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
+    //      data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
+    //    });
+    //  })
+    //};
     // if ( data_defaults.aggrading_eco != null ) {
     //   $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
     //     $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
@@ -580,7 +580,7 @@ $(document).ready(function() {
         ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
         
         // Current R code requires sensible value, even though we dont use sensible
-        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+        //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
         
         
         // TODO: Fix the issue with missing data in the public/data/* files
