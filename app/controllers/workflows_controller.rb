@@ -217,6 +217,12 @@ class WorkflowsController < ApplicationController
     @ecosystem_default_file = "#{Rails.root}/public/data/name_indexed_ecosystems.json"
     @mapdata_dir = "#{Rails.root}/public/data/maps/"    
     #logger.info("params: #{@rscript_path}, #{@latitude}")
+    
+    #Remove the previous biome data before loading new. This is especially important because 
+    #if there is no biome data (e.g. water), then no new biome file is written.
+    FileUtils.rm("#{@rscript_rundir}/biome.json", :force => TRUE)
+    
+    #Now get the biome data
     @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file, @netcdf_dir, @mapdata_dir, @rscript_rundir)
 
     respond_to do |format|
