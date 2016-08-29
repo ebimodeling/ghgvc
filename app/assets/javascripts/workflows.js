@@ -171,6 +171,7 @@ function populate_html_from_latlng( lat, lng ) {
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
+            '<a class="biome_pdf_link" href=""><img src="/assets/images/pdf_24x24.png"></a>' +
           '</div>'
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
@@ -566,7 +567,7 @@ $(document).ready(function() {
                                   
       $.each( ecosystem_to_include, function(i,v){
         // and each ecosystem
-
+        console.log( v[1].replace(/ /g, "_") )
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
         console.log( input_ecosystem_json );
         var biome_group_string = biome_group.attr('id');
@@ -585,10 +586,9 @@ $(document).ready(function() {
         
         // TODO: Fix the issue with missing data in the public/data/* files
         if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
-            ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = ["0"];
         }
-        
-        
       });
     });
 
