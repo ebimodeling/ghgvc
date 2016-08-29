@@ -220,18 +220,18 @@ function initalize_google_map(lat, lng, zoom) {
   );
 
   var mapMinZoom = 2;
-  var mapMaxZoom = 5;
+  var mapMaxZoom = 7;
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(31,-15);
   var overlayOptions = {
     opacity: 0.6,
     zoom: mapMinZoom,
+    zoom: mapMinZoom,
     streetViewControl: false,
     mapTypeControl: false,
     panControl: false,
     center: latlng,
-    zoom: mapMinZoom,
     mapTypeId: google.maps.MapTypeId.SATELLITE
   };
 
