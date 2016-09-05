@@ -238,6 +238,7 @@ function initalize_google_map(lat, lng, zoom) {
   map = new google.maps.Map(document.getElementById("map_canvas"), overlayOptions);
 
   // tile overlay code
+  // NOTE: THIS FUNCTION SHOULD NO LONGER BE USED
   var maptiler = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
         var proj = map.getProjection();
@@ -288,7 +289,6 @@ function initalize_google_map(lat, lng, zoom) {
     if (y > maxY) y = maxY;
 
     map.setCenter(new google.maps.LatLng(y, x));
-    map.overlayMapTypes.insertAt(0, maptiler);
   });
 
   // Limit the zoom level
