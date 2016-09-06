@@ -23,10 +23,17 @@
 }
 
 #map_canvas { 
-  width: 700px;
+  width: 1025px;
   height: 400px;
-  float: left;
 }
+
+#map_legend {
+  width: 230px;
+  height: 400px;
+  margin-left: 5px;
+  position: relative;
+}
+
 #csv_download_button, #new_simulation_button {
   display:none;
   width: 200px;
@@ -44,12 +51,7 @@ h2.application_title {
   display:none;
 }
 
-#map_legend {
-  width: 230px;
-  height: 400px;
-  margin-left: 5px;
-  position: relative;
-}
+
 .legend_color_container{
   text-align: right;
   vertical-align: top;
@@ -147,7 +149,7 @@ hr {
 }
 
 div[id|='biome_instance'] {
-  width: 940px;
+  width: 1010px;
 }
 
 #biome_input_container {
