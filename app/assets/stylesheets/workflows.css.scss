@@ -10,8 +10,12 @@
 
 }
 
+#map_canvas,
+div[id|='biome_instance'] {
+  width: 1025px;
+}
+
 #location_counter_container {
-  margin-left: 50px;
   h4 {
     position: relative;
     top: 15px;
@@ -23,8 +27,8 @@
 }
 
 #map_canvas { 
-  width: 700px;
   height: 400px;
+  width: 100%;
   float: left;
 }
 #csv_download_button, #new_simulation_button {
@@ -147,11 +151,10 @@ hr {
 }
 
 div[id|='biome_instance'] {
-  width: 940px;
+  margin: auto;
 }
 
 #biome_input_container {
-
   div[class*='_biomes'] {
     vertical-align: top;
     width: 210px;
@@ -242,6 +245,8 @@ div[class*='_biomes'] {
 
 #run_ghgvc_calculator {
   vertical-align: middle;
+  width: 1025;
+  margin: auto;
 }
 
 
@@ -258,7 +263,7 @@ div[class*='_biomes'] {
 }
 
 #run_button_container{
-  width: 300px;
+  margin: auto;
   padding: 7px;
 }
 
