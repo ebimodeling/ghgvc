@@ -1,0 +1,119 @@
+Map,Value,Category,Broadleaf Evergreen Forest,Broadleaf Deciduous Forest,Mixed Broadleaf-Conifer Forest,Conifer Evergreen Forest,Conifer Deciduous Forest,Savanna,Shrub,Grass,Pasture,Cropland,Barren,Other
+SYNMAP,0,Water,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,1,Trees / Needle / Evergreen,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,2,Trees / Needle / Deciduous,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,3,Trees / Needle / Mixed,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,4,Trees / Broad / Evergreen,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,5,Trees / Broad / Deciduous,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,6,Trees / Broad / Mixed,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,7,Trees / Mixed / Evergreen,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,8,Trees / Mixed / Deciduous,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,9,Trees / Mixed / Mixed,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+SYNMAP,10,Trees & Shrubs / Needle / Evergreen,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,11,Trees & Shrubs / Needle / Deciduous,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,12,Trees & Shrubs / Needle / Mixed,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,13,Trees & Shrubs / Broad / Evergreen,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,14,Trees & Shrubs / Broad / Deciduous,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,15,Trees & Shrubs / Broad / Mixed,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,16,Trees & Shrubs / Mixed / Evergreen,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,17,Trees & Shrubs / Mixed / Deciduous,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,18,Trees & Shrubs / Mixed / Mixed,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,19,Trees & Grasses / Needle / Evergreen,0.0,0.0,0.0,1.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,20,Trees & Grasses / Needle / Deciduous,0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,21,Trees & Grasses / Needle / Mixed,0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,22,Trees & Grasses / Broad / Evergreen,1.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,23,Trees & Grasses / Broad / Deciduous,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,24,Trees & Grasses / Broad / Mixed,0.0,1.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,25,Trees & Grasses / Mixed / Evergreen,0.0,0.0,1.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,26,Trees & Grasses / Mixed / Deciduous,0.0,0.0,1.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,27,Trees & Grasses / Mixed / Mixed,0.0,0.0,1.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,28,Trees & Crops / Needle / Evergreen,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,29,Trees & Crops / Needle / Deciduous,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,30,Trees & Crops / Needle / Mixed,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,31,Trees & Crops / Broad / Evergreen,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,32,Trees & Crops / Broad / Deciduous,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,33,Trees & Crops / Broad / Mixed,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,34,Trees & Crops / Mixed / Evergreen,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,35,Trees & Crops / Mixed / Deciduous,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,36,Trees & Crops / Mixed / Mixed,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,37,Shrubs,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+SYNMAP,38,Shrubs & Grasses,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,1.0,0.0,0.0,0
+SYNMAP,39,Shrubs & Crops,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0
+SYNMAP,40,Shrubs & Barren,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0
+SYNMAP,41,Grasses,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0
+SYNMAP,42,Grasses & Crops,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0
+SYNMAP,43,Grasses & Barren,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,1.0,0
+SYNMAP,44,Crops,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+SYNMAP,45,Barren,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0
+SYNMAP,46,Urban,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,Urban
+SYNMAP,47,Snow & Ice,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0
+KOPPEN,1,Af,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0
+KOPPEN,2,Am,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0
+KOPPEN,0,As,1.0,1.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,3,Aw,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,6,BSh,0.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,7,BSk,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0
+KOPPEN,4,BWh,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,0
+KOPPEN,5,BWk,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,0
+KOPPEN,14,Cfa,1.0,1.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,15,Cfb,1.0,1.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,16,Cfc,1.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0
+KOPPEN,8,Csa,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,9,Csb,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,10,Csc,1.0,0.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,0
+KOPPEN,11,Cwa,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,12,Cwb,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,13,Cwc,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,1.0,0
+KOPPEN,25,Dfa,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0
+KOPPEN,26,Dfb,0.0,1.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0
+KOPPEN,27,Dfc,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+KOPPEN,28,Dfd,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+KOPPEN,17,Dsa,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,18,Dsb,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,19,Dsc,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+KOPPEN,20,Dsd,0.0,0.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+KOPPEN,21,Dwa,0.0,1.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,1.0,0.0,0
+KOPPEN,22,Dwb,0.0,1.0,1.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0
+KOPPEN,23,Dwc,0.0,0.0,1.0,1.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,0
+KOPPEN,24,Dwd,0.0,0.0,0.0,0.0,1.0,0.0,1.0,1.0,0.0,0.0,0.0,0
+KOPPEN,30,EF,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+KOPPEN,32,EF,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+KOPPEN,29,ET,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+KOPPEN,31,ET,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+FAO,ba,Boreal coniferous forest,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,bm,Boreal mountain system,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,bb,Boreal tundra woodland,0.0,0.0,0.0,1.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0
+FAO,p,Polar,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0,0
+FAO,sbwh,Subtropical desert,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+FAO,scs,Subtropical dry forest,1.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0
+FAO,sfc,Subtropical humid forest,1.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0
+FAO,sm,Subtropical mountain system,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,sbsh,Subtropical steppe,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+FAO,tedc,Temperate continental forest,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,tebwk,Temperate desert,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+FAO,tem,Temperate mountain system,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,tedo,Temperate oceanic forest,1.0,1.0,0.0,1.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0
+FAO,tebsk,Temperate steppe,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0
+FAO,tbwh,Tropical desert,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+FAO,tawb,Tropical dry forest,0.0,1.0,0.0,0.0,0.0,1.0,1.0,1.0,0.0,0.0,0.0,0
+FAO,tawa,Tropical moist forest,1.0,1.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,0.0,0.0,0
+FAO,tm,Tropical mountain system,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,tar,Tropical rainforest,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+FAO,tbsh,Tropical shrubland,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+IBIS,7,boreal deciduous forest/woodland,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,6,boreal evergreen forest/woodland,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,11,dense shrubland,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+IBIS,14,desert,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0
+IBIS,8,evergreen/deciduous mixed forest/woodland,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,10,grassland/steppe,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0
+IBIS,12,open shrubland,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0
+IBIS,15,polar desert/rock/ice,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0
+IBIS,9,savanna,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,5,temperate deciduous forest/woodland,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,3,temperate evergreen broadleaf forest/woodland,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,4,temperate evergreen conifer forest/woodland,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,2,tropical deciduous forest/woodland,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,1,tropical evergreen forest/woodland,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0
+IBIS,13,tundra,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,0.0,0.0,1.0,0
+RAMANKUTTY,0,Pasture,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0
+RAMANKUTTY,0,Crops,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0

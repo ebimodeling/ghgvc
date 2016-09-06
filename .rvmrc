@@ -1,3 +1,0 @@
-rvm use ruby-1.9.3-p125@ghgvc --create 		# Sets the individual project gemset
-rvm_project_rvmrc_default=1 		# Enables gemset switch when leaving the dir
-

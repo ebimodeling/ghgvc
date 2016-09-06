@@ -1,0 +1,24 @@
+"CODE","NAME","GX","APX"
+"tar","Tropical rainforest","G1","AP1"
+"tawa","Tropical moist forest","G1","AP1"
+"tawb","Tropical dry forest","G2","AP1"
+"tbsh","Tropical shrubland","G2","AP1"
+"tbwh","Tropical desert","G2","AP1"
+"scf","Subtropical humid forest","G3","AP2"
+"scs","Subtropical dry forest","G4","AP2"
+"sbsh","Subtropical steppe","G4","AP2"
+"sbwh","Subtropical desert","G4","AP2"
+"tedo","Temperate oceanic forest","G5","AP2"
+"tedc","Temperate continental forest","G5","AP2"
+"tebsk","Temperate steppe","G6","AP2"
+"tebwk","Temperate continental forest","G6","AP2"
+"ba","Boreal coniferous forest","G7","AP2"
+"bb","Boreal tundra woodland","G7","AP2"
+"p","Polar",0,0
+0,0,0,0
+"water","Water",0,0
+"tem","Temperate mountain system",0,0
+"sm","Subtropical mountain system",0,0
+"bm","Boreal mountain system",0,0
+"tm","tropical mountain system",0,0
+"t",0,0,0

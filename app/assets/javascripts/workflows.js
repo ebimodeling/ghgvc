@@ -83,21 +83,21 @@ function populate_html_from_latlng( lat, lng ) {
     var active_biome_site = get_active_site_number();
     
     // expand all values to their full source names
-    data.native_eco = $.each( data.native_eco, function(k,v) {
-      $.each( v, function(eco_k, eco_v) {
-        data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-      });
-    });
+    //data.native_eco = $.each( data.native_eco, function(k,v) {
+    //  $.each( v, function(eco_k, eco_v) {
+    //    data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+    //  });
+    //});
     // data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
     //   $.each( v, function(eco_k, eco_v) {
     //     data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
     //   });
     // });
-    data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
-      $.each( v, function(eco_k, eco_v) {
-        data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-      });
-    });
+    //data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
+    //  $.each( v, function(eco_k, eco_v) {
+    //    data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
+    //  });
+    //});
     // data.biofuel_eco = $.each( data.biofuel_eco, function(k,v) {
     //   $.each( v, function(eco_k, eco_v) {
     //     data["biofuel_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
@@ -118,20 +118,20 @@ function populate_html_from_latlng( lat, lng ) {
     var data_defaults = data;
 
     // write default values to all CSEPs
-    if ( data_defaults.native_eco != null ) {
-      $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
-        $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-        });
-      });
-    };
-    if ( data_defaults.agroecosystem_eco != null ) {
-      $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
-        $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-          data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-        });
-      })
-    };
+    //if ( data_defaults.native_eco != null ) {
+    //  $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
+    //    $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
+    //      data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
+    //    });
+    //  });
+    //};
+    //if ( data_defaults.agroecosystem_eco != null ) {
+    // $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
+    //    $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
+    //      data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
+    //    });
+    //  })
+    //};
     // if ( data_defaults.aggrading_eco != null ) {
     //   $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
     //     $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
@@ -171,6 +171,7 @@ function populate_html_from_latlng( lat, lng ) {
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
+            '<a class="biome_pdf_link" href=""><img src="/assets/pdf_24x24.png" width="16"></a>' +
           '</div>'
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
@@ -214,12 +215,12 @@ function initalize_google_map(lat, lng, zoom) {
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
 
   var mapBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-85.8, -179.999894), // south-west
-      new google.maps.LatLng(90.8, 179.773283) // north-east
+      new google.maps.LatLng(-90, -180), // south-west
+      new google.maps.LatLng(90, 180) // north-east
   );
 
   var mapMinZoom = 2;
-  var mapMaxZoom = 5;
+  var mapMaxZoom = 13; //Goes to 19 according to google docs
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(31,-15);
@@ -230,13 +231,13 @@ function initalize_google_map(lat, lng, zoom) {
     mapTypeControl: false,
     panControl: false,
     center: latlng,
-    zoom: mapMinZoom,
     mapTypeId: google.maps.MapTypeId.SATELLITE
   };
 
   map = new google.maps.Map(document.getElementById("map_canvas"), overlayOptions);
 
   // tile overlay code
+  // NOTE: THIS FUNCTION SHOULD NO LONGER BE USED
   var maptiler = new google.maps.ImageMapType({
     getTileUrl: function(coord, zoom) { 
         var proj = map.getProjection();
@@ -264,8 +265,8 @@ function initalize_google_map(lat, lng, zoom) {
     
   // Bounds for A single map
   var strictBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-70, -170), // bottom-left
-    new google.maps.LatLng(70, 170)   // top-right
+    new google.maps.LatLng(-90, -180), // bottom-left
+    new google.maps.LatLng(90, 180)   // top-right
   );
 
   // Listen for the map click events
@@ -287,7 +288,6 @@ function initalize_google_map(lat, lng, zoom) {
     if (y > maxY) y = maxY;
 
     map.setCenter(new google.maps.LatLng(y, x));
-    map.overlayMapTypes.insertAt(0, maptiler);
   });
 
   // Limit the zoom level
@@ -566,7 +566,7 @@ $(document).ready(function() {
                                   
       $.each( ecosystem_to_include, function(i,v){
         // and each ecosystem
-
+        console.log( v[1].replace(/ /g, "_") )
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
         console.log( input_ecosystem_json );
         var biome_group_string = biome_group.attr('id');
@@ -580,15 +580,14 @@ $(document).ready(function() {
         ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
         
         // Current R code requires sensible value, even though we dont use sensible
-        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+        //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
         
         
         // TODO: Fix the issue with missing data in the public/data/* files
         if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
-            ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
+            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = ["0"];
         }
-        
-        
       });
     });
 

@@ -21,8 +21,13 @@ doc/
 /config/database.yml
 netcdf/Saatchi.zip
 netcdf/GlobalEcofloristicZones_ncFiles.zip
+*.nc4
+*.nc
 public/output.csv
 
 *.sublime-*
 
-NOTES
+# Include needed csv files
+!/public/data/maps/*.csv
+
+NOTES.md
