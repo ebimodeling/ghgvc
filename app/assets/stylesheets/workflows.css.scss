@@ -10,8 +10,12 @@
 
 }
 
+#map_canvas,
+div[id|='biome_instance'] {
+  width: 1025px;
+}
+
 #location_counter_container {
-  margin-left: 50px;
   h4 {
     position: relative;
     top: 15px;
@@ -153,7 +157,6 @@ div[id|='biome_instance'] {
 }
 
 #biome_input_container {
-
   div[class*='_biomes'] {
     vertical-align: top;
     width: 210px;
@@ -244,6 +247,8 @@ div[class*='_biomes'] {
 
 #run_ghgvc_calculator {
   vertical-align: middle;
+  width: 1025;
+  margin: auto;
 }
 
 
@@ -260,7 +265,7 @@ div[class*='_biomes'] {
 }
 
 #run_button_container{
-  width: 300px;
+  margin: auto;
   padding: 7px;
 }
 

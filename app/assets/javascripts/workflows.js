@@ -215,18 +215,17 @@ function initalize_google_map(lat, lng, zoom) {
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
 
   var mapBounds = new google.maps.LatLngBounds(
-      new google.maps.LatLng(-85.8, -179.999894), // south-west
-      new google.maps.LatLng(90.8, 179.773283) // north-east
+      new google.maps.LatLng(-90, -180), // south-west
+      new google.maps.LatLng(90, 180) // north-east
   );
 
   var mapMinZoom = 2;
-  var mapMaxZoom = 7;
+  var mapMaxZoom = 13; //Goes to 19 according to google docs
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(31,-15);
   var overlayOptions = {
     opacity: 0.6,
-    zoom: mapMinZoom,
     zoom: mapMinZoom,
     streetViewControl: false,
     mapTypeControl: false,
@@ -266,8 +265,8 @@ function initalize_google_map(lat, lng, zoom) {
     
   // Bounds for A single map
   var strictBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-70, -170), // bottom-left
-    new google.maps.LatLng(70, 170)   // top-right
+    new google.maps.LatLng(-90, -180), // bottom-left
+    new google.maps.LatLng(90, 180)   // top-right
   );
 
   // Listen for the map click events
