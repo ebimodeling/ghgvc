@@ -182,7 +182,7 @@ class WorkflowsController < ApplicationController
               :filename => "output.csv",
               :type => "text/csv")
   end
-
+  
   # accepts a longitude, latitude:
     # http://localhost:3000/get_biome?lng=-89.25&lat=41.75
     # OR
@@ -206,7 +206,7 @@ class WorkflowsController < ApplicationController
     
     #NETCDF Data location
     if Rails.env == "development"
-        @netcdf_dir = "/run/media/potterzot/zfire1/work/ebimodeling/netcdf/"
+        @netcdf_dir = "/run/media/potterzot/zfire11/work/ebimodeling/netcdf/"
     end
     if Rails.env == "production"
         @netcdf_dir = "#{Rails.root}/netcdf/"

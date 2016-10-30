@@ -171,7 +171,9 @@ function populate_html_from_latlng( lat, lng ) {
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
-            '<a class="biome_pdf_link" href=""><img src="/assets/pdf_24x24.png" width="16"></a>' +
+            '<a class="biome_pdf_link" href="' + 
+            '/assets/' + v.code + '.pdf' + //pdf file name 
+            '" download><img src="/assets/pdf_24x24.png" width="16"></a>' +
           '</div>'
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
