@@ -197,8 +197,8 @@ changeView = function(id) {
 	$("#" + id).show();
 }
 
-function create_new_divs_for_highchart_location(num) {
-  $("#highcharts_container").append(
+function create_new_divs_for_chart_location(num) {
+  $("#charts_container").append(
     '<br />' + '<h2>Location: ' + num + '</h2>' + '<hr />' +
     '<div id="storage_chart_' + num + '" class="inline-table"></div>' +
     '<div id="flux_chart_' + num + '" class="inline-table"></div>' +
@@ -231,7 +231,7 @@ $(document).ready(function() {
 	}
 
 	create_results_table = function(results_array, location_number) {		
-		create_new_divs_for_highchart_location(location_number);
+		create_new_divs_for_chart_location(location_number);
 				
 		$('#results_table thead tr').html('<th>&nbsp;</th>');
 

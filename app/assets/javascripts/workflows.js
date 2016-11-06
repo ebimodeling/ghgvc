@@ -469,14 +469,12 @@ function get_selected_ecosystems_name_and_type( location ) {
   return selected_ecosystem_names;    
 };
 
-/*
- * DISABLE HIGHCHARTS PER ISSUE 96
-function toggle_input_state_for_highcharts() {
+function toggle_input_state_for_charts() {
   $('#biome_input_container').toggle();
   $('#run_button_container').toggle();
   $('#add_additional_biome_site').toggle();
   $('#location_counter_container').toggle();
-};*/
+};
 
 function update_location_count(){
   $('#total_location_count').text( $('div[id|="biome_instance"]').length );
@@ -620,10 +618,7 @@ $(document).ready(function() {
     
     // Hide all the input portions
 
-    /* 
-     * DISABLE HIGHCHARTS per ISSUE 96
-    
-    toggle_input_state_for_highcharts();
+    toggle_input_state_for_charts();
     
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
         console.log("###### output from ghgvcR code: ######");
@@ -637,25 +632,11 @@ $(document).ready(function() {
                     {
                         if (svg_data != "Couldn't find svg file") {
                             //file exists
-                            $("#highcharts_container").html(svg_data);
+                            $("#charts_container").html(svg_data);
 
                         }
                         else {
-
-                            //file not exists
-                            console.log("couldn't load svg");
-
-                            // fall back to old way of making charts:
-                            
-                            // run highcharts scripts here
-                            $.each(data, function(k, v) {
-                                console.log("key: " + k + " .. and value:");
-                                console.log(v); 
-                                var location_num = k.split('_')[1];
-                                
-                                // TODO: parseFloat(v) might be needed here:
-                                create_results_table( v ,location_num );
-                            });
+                          $("#charts_container").html('<p>Error plotting results.</p>');
                         }
                     }
         });
@@ -668,7 +649,7 @@ $(document).ready(function() {
         $('#new_simulation_button').show();
       
 
-    });*/
+    });
     
     
     // use the JSON >> XML conversion code here
