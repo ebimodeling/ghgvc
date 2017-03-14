@@ -30,12 +30,26 @@ http {
 }
 ```
 
-Then copy the new saatchi.nc file to the server:
+Download files from https://uofi.box.com/v/ghgvc-inputs
+
+Then copy the files to the appropriate folders
 
 ```bash
 cd /opt/ghgvc/ghgvc/netcdf
-wget https://s3-us-west-2.amazonaws.com/ghgvc/saatchi.nc
+mkdir -p GCS/Maps
+for f in gez_2010_wgs84.nc Hurtt_SYNMAP_Global_HD_2010.nc hwsd.nc koppen_geiger.nc vegtype.nc;
+ do 
+ mv path/to/$f GCS/Maps/
+done;
+
+for f in path/to/*; 
+  do 
+  mv $f netcdf/
+done;
 ```
+
+(maybe uncomment lines 196, 197, 199 in app/controllers/workflows_controller.rb (?))
+
 
 Finally, you should be able to restart the nginx:
 ```bash
@@ -46,6 +60,4 @@ ps -A | grep nginx
 sudo kill <nginx PID>
 sudo systemctl start nginx
 ```
-
-
 
