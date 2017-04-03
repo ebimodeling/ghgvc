@@ -171,7 +171,9 @@ function populate_html_from_latlng( lat, lng ) {
             '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' + 
               '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' + 
             '</a>' + 
-            '<a class="biome_pdf_link" href=""><img src="/assets/pdf_24x24.png" width="16"></a>' +
+            '<a class="biome_pdf_link" href="' + 
+            '/assets/' + v.code + '.pdf' + //pdf file name 
+            '" download><img src="/assets/pdf_24x24.png" width="16"></a>' +
           '</div>'
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
@@ -467,7 +469,7 @@ function get_selected_ecosystems_name_and_type( location ) {
   return selected_ecosystem_names;    
 };
 
-function toggle_input_state_for_highcharts() {
+function toggle_input_state_for_charts() {
   $('#biome_input_container').toggle();
   $('#run_button_container').toggle();
   $('#add_additional_biome_site').toggle();
@@ -615,7 +617,8 @@ $(document).ready(function() {
     */
     
     // Hide all the input portions
-    toggle_input_state_for_highcharts();
+
+    toggle_input_state_for_charts();
     
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
         console.log("###### output from ghgvcR code: ######");
@@ -629,25 +632,11 @@ $(document).ready(function() {
                     {
                         if (svg_data != "Couldn't find svg file") {
                             //file exists
-                            $("#highcharts_container").html(svg_data);
+                            $("#charts_container").html(svg_data);
 
                         }
                         else {
-
-                            //file not exists
-                            console.log("couldn't load svg");
-
-                            // fall back to old way of making charts:
-                            
-                            // run highcharts scripts here
-                            $.each(data, function(k, v) {
-                                console.log("key: " + k + " .. and value:");
-                                console.log(v); 
-                                var location_num = k.split('_')[1];
-                                
-                                // TODO: parseFloat(v) might be needed here:
-                                create_results_table( v ,location_num );
-                            });
+                          $("#charts_container").html('<p>Error plotting results.</p>');
                         }
                     }
         });

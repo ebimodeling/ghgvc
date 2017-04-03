@@ -68,7 +68,6 @@ GEM
     mime-types (1.25)
     mini_portile (0.5.1)
     multi_json (1.8.1)
-    mysql2 (0.3.11)
     narray (0.6.0.8)
     narray_miss (1.2.8)
       narray
@@ -157,7 +156,6 @@ DEPENDENCIES
   coffee-rails (= 3.2.2)
   jquery-rails (= 2.0.2)
   json
-  mysql2 (= 0.3.11)
   narray (= 0.6.0.8)
   rails (= 3.2.11)
   rspec-rails (= 2.11.0)
@@ -165,3 +163,6 @@ DEPENDENCIES
   sass-rails (= 3.2.5)
   sqlite3 (= 1.3.5)
   uglifier (= 1.2.3)
+
+BUNDLED WITH
+   1.11.2

@@ -8,7 +8,6 @@ Ghgvc::Application.routes.draw do
 
   resources :priors
 
-
   match 'calculator/' => 'workflows#new'
   
   
