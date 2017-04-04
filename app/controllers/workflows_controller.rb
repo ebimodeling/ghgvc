@@ -193,10 +193,10 @@ class WorkflowsController < ApplicationController
       # Get data from netcdf using R.
       rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{ecosystem_default_file} #{netcdf_dir} #{mapdata_dir} #{rscript_rundir}"
       r = `#{rcmd} 2>&1`
-      #logger.info("\n\n#{r} \n\n")
-      #logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
+      logger.info("\n\n#{r} \n\n")
+      logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
       @res = JSON.parse(File.read( "#{@rscript_rundir}biome.json"))
-      #logger.info("\n\nresult is: #{@res}\n\n")
+      logger.info("\n\nresult is: #{@res}\n\n")
       @res
     end
     
