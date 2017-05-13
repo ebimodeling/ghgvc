@@ -31,6 +31,6 @@ get_biome(latitude            = script_args[1], #latitude
           mapdata_dir         = script_args[5], #mapdata directory
           output_dir          = script_args[6], #output directory
           output_filename     = "biome",
-          output_format       = c("json", "cvs"),
+          output_format       = c("json", "csv"),
           write_data          = write_data)
 
