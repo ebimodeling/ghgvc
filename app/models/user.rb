@@ -22,9 +22,5 @@
 #  postal_code               :string(255)
 #
 
-class User < ActiveRecord::Base
-  #specify what values a user can edit
-  # For example "created_at" and updated_at" are excluded 
-  # ... bc we assign that through the application, and don't want users editing those values
-  attr_accessible :city, :country, :email, :field, :login, :name, :postal_code, :state_prov
+class User < ApplicationRecord
 end

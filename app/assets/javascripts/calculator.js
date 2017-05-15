@@ -37,7 +37,7 @@ var options =
 
 var experiment = new Experiment("untitled", [], options);
 var included_ecosystems = experiment.ecosystems;
-	
+
 var ecosystems,
 	user_ecosystems;
 
@@ -46,8 +46,10 @@ $.ajax({
 	url: "data/default_ecosystems.json",
 	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	success: function(response) {
-		user_ecosystems = JSON.parse(response);
-		ecosystems = JSON.parse(response);
+		// user_ecosystems = response;
+		// ecosystems = response;
+		user_ecosystems = response;
+		ecosystems = response;
 	}
 });
 
@@ -58,7 +60,7 @@ $.ajax({
 	url: "data/variable_db.json",
 	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	success: function(response) {
-		variable_db = JSON.parse(response);
+		variable_db = response;
 	}
 });
 
@@ -69,7 +71,7 @@ $.ajax({
 	url: "/data/descriptions.json",
 	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	success: function(response) {
-		descriptions = JSON.parse(response);
+		descriptions = response;
 	}
 });
 
@@ -80,7 +82,7 @@ $.ajax({
 	url: "/data/sources.json",
 	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	success: function(response) {
-		sources = JSON.parse(response);
+		sources = response;
 	}
 });
 
@@ -94,7 +96,7 @@ var CONTENT;
 //	url: "loadContent.php",
 //	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 //	success: function(response) {
-//		CONTENT = JSON.parse(response);
+//		CONTENT = response;
 //	}
 //});
 
@@ -142,15 +144,15 @@ function showPopup(contentName) {
 	var popup = $("#popup_div");
 	var disable = $("#disable_div");
 	disable.show();
-	
+
 	var contentURL = "content/" + contentName + "/" + contentName + ".html",
 		scriptURL = "content/" + contentName + "/" + contentName + ".js";
-		
+
 	popup.html(CONTENT[contentName].html);
 	eval(CONTENT[contentName].js);
 	centerPopup();
 	popup.show();
-	
+
 	/*$.ajax({
 		type: "GET",
 		url: contentURL,
@@ -167,7 +169,7 @@ function centerPopup() {
 	var popup = $("#popup_div");
 	popup.css({ "margin-left": -popup.width() / 2, "margin-top": -popup.height() / 2 });
 }
-	
+
 function showPopupDiv() {
 	$("#disable_div").show();
 	$("#popup_div").show();
@@ -180,7 +182,7 @@ function hidePopupDiv() {
 	$("#popup_div").width("auto");
 	$("#popup_div").height("auto");
 }
-	
+
 var selected_index=-1;
 //Row clicks in overview table
 function tableRowClick(event) {
@@ -209,7 +211,7 @@ function create_new_divs_for_chart_location(num) {
 }
 
 $(document).ready(function() {
-	
+
 	$(window).resize(function(event) {
 		centerPopup();
 		var height = $(window).height() - 175;
@@ -218,21 +220,21 @@ $(document).ready(function() {
 		$("#legend").width(height * 1.5 - 25);
 		$(".mainView").css("max-height", (height + 37) + "px");
 	});
-	
+
 	new_experiment = function() {
 		if (confirm("Any unsaved data for the current experiment will be lost. Continue?")) {
 			experiment = new Experiment("untitled", [], options);
 			included_ecosystems = experiment.ecosystems;
-			
+
 			$("#add_table tbody tr").remove();
 			selected_index = -1;
 			changeView("comparison");
 		}
 	}
 
-	create_results_table = function(results_array, location_number) {		
+	create_results_table = function(results_array, location_number) {
 		create_new_divs_for_chart_location(location_number);
-				
+
 		$('#results_table thead tr').html('<th>&nbsp;</th>');
 
 		$('#co2_storage_row').html('<td>CO2 Storage</td>');
@@ -261,7 +263,7 @@ $(document).ready(function() {
 		var Rnet = [];
 		var latent = [];
 		var crv = [];
-	
+
 		for (i = 0; i < results_array.length; i++) {
 			result = results_array[i];
 
@@ -279,14 +281,14 @@ $(document).ready(function() {
 			$('#Rnet_dist_row').append('<td>' + result.swRFV + '</td>');
 			$('#latent_dist_row').append('<td>' + result.latent + '</td>');
 			$('#crv_dist_row').append('<td>' + result.crv + '</td>');
-			
+
 			names.push(result.name.replace("_"," "));
 			// Initial Storage
 			co2_storage.push(result.S_CO2);
 			ch4_storage.push(result.S_CH4);
 			n2o_storage.push(result.S_N2O);
       // Ongoing Exchange
-			co2_flux.push(result.F_CO2); 
+			co2_flux.push(result.F_CO2);
 			ch4_flux.push(result.F_CH4);
 			n2o_flux.push(result.F_N2O);
 			// Total GHGV
@@ -299,9 +301,9 @@ $(document).ready(function() {
 			// CRV
 			crv.push(result.crv);
 
-			
+
 		}
-		
+
 		console.log("NAMES:");
 		console.log(names);
 
@@ -326,12 +328,12 @@ $(document).ready(function() {
 				enabled: false
 			},
 			series: [
-			  { name: 'CO2', data: co2_storage }, 
-			  { name: 'CH4', data: ch4_storage }, 
+			  { name: 'CO2', data: co2_storage },
+			  { name: 'CH4', data: ch4_storage },
 			  { name: 'N2O', data: n2o_storage }
 			]
 		}).setSize(185, 170 + eval( names.length * 30 ));
-  	
+
     //// Ongoing Exchange
 		new Highcharts.Chart({
 			chart: {
@@ -354,7 +356,7 @@ $(document).ready(function() {
 				enabled: false
 			},
 			series: [
-			  { name: 'CO2', data: co2_flux }, 
+			  { name: 'CO2', data: co2_flux },
 			  { name: 'CH4', data: ch4_flux },
 			  { name: 'N2O', data: n2o_flux }
 			]
@@ -382,12 +384,12 @@ $(document).ready(function() {
 				enabled: false
 			},
 			series: [
-			  { name: 'CO2', data: co2_dist }, 
+			  { name: 'CO2', data: co2_dist },
 			  { name: 'CH4', data: ch4_dist },
 			  { name: 'N2O', data: n2o_dist }
 			]
 		}).setSize(185, 170 + eval( names.length * 30 ));
-		
+
 		//// Biophysical
 		new Highcharts.Chart({
 			chart: {
@@ -411,10 +413,10 @@ $(document).ready(function() {
 			},
 			series: [
 			  { name: 'Rnet', data: Rnet },
-			  { name: 'latent', data: latent }, 
+			  { name: 'latent', data: latent },
 			]
 		}).setSize(185, 170 + eval( names.length * 30 ));
-		
+
 		//// CRV
   	new Highcharts.Chart({
 			chart: {
@@ -440,7 +442,7 @@ $(document).ready(function() {
 			  { name: 'CRV', data: crv }
 			]
 		}).setSize(185, 170 + eval( names.length * 30 ));
-		
+
 		return 0;
 	}
 
@@ -448,9 +450,9 @@ $(document).ready(function() {
 		//Make sure at least 1 ecosystem is included in the calculation
 		if (included_ecosystems.length == 0) {
 			alert("You must include at least one ecosystem in the calculation.");
-			return false;	
+			return false;
 		}
-		
+
 		//including or excluding maximum ghgv values
 
 		var trav;
@@ -459,7 +461,7 @@ $(document).ready(function() {
 		for(trav=0;trav<(included_ecosystems.length);trav++)
 		{
 			var eco = included_ecosystems[trav];
-			orig_anth = eco["F_anth"];		
+			orig_anth = eco["F_anth"];
 			origAnthVals[trav] = orig_anth;
 		}
 
@@ -469,27 +471,27 @@ $(document).ready(function() {
 			var eco = included_ecosystems[trav];
 
 			var name = eco.name;
-			
-			var include_max_eco = JSON.parse(JSON.stringify(eco));
+
+			var include_max_eco = JSON.stringify(eco);
 			include_max_eco.name = name;
-			
+
 			if(eco["reg_ghgv"] == true)
 			{
-				name = name + "(Eco)";	
+				name = name + "(Eco)";
 				included_ecosystems[trav].name = name;
 			}
-			
+
 			if(eco["reg_ghgv"] == false && eco["max_ghgv"] == true)
 			{
 					/*set the ecosystem to a max ecosystem, then reset*/
 					name = name+"(Max)";
 					included_ecosystems[trav].name=name;
-					
+
 					if(eco["maxchec"]==0)
 					{
 					var valueETH = eco["eth_yield"];
 					var valueG_C02 = -(valueETH*(0.0348));
-				
+
 					var newF_anth = (valueG_C02) + eco["F_anth"];
 					eco["F_anth"] = newF_anth;
 					}
@@ -499,37 +501,37 @@ $(document).ready(function() {
 					eco["F_anth"] = (valueG_C02) + eco["F_anth"];
 					}
 			}
-		
+
 			if(eco["max_ghgv"] == true && eco["reg_ghgv"]==true)
 			{
 
 				include_max_eco["eco_copy"] = 1;
 				include_max_eco["reg_ghgv"] = 0;
 				include_max_eco.name = include_max_eco.name+"(Max)";
-				
+
 				/*set the variables associated with include max eco*/
 				if(include_max_eco["maxcheck"] == 0) /*have not edited ecosystem*/
 				{
 					var valueETH = include_max_eco["eth_yield"];
 					var valueG_C02 = -(valueETH*(0.0348));
-				
+
 					var newF_anth = (valueG_C02) + eco["F_anth"];
 					include_max_eco["F_anth"] = newF_anth;
 				}
-				
-				eco["eco_copy"]=0; /*set this to 0 don't change, orig eco is not an eco copy*/ 
+
+				eco["eco_copy"]=0; /*set this to 0 don't change, orig eco is not an eco copy*/
 				included_ecosystems.splice((trav+1),0,include_max_eco);
-				
+
 				trav++;
 			}
-		
+
 		}
-	
+
 		//Set time parameters to be the same for all ecosystems
-			$.each(included_ecosystems, function(i) 
+			$.each(included_ecosystems, function(i)
 			{
 				var eco = included_ecosystems[i];
-		
+
 				var eco = included_ecosystems[i];
 				eco.T_A = experiment.options.T_A;
 				eco.T_E = experiment.options.T_E;
@@ -537,11 +539,11 @@ $(document).ready(function() {
 			});
 
 		ecoData = JSON.stringify(included_ecosystems);
-		
+
 		showPopupDiv();
 		$("#popup_div").html('<p>Calculator is running, please wait...</p>');
 		centerPopup();
-		
+
 		//Send ecosystem and options data to the server and run the calculator
 		$.ajax({
 			type: "POST",
@@ -557,11 +559,11 @@ $(document).ready(function() {
 				//$("#results_image").width(height * 1.5);
 				//$("#legend").width(height * 1.5 - 25);
 				//response from server is a JSON object containing an array of results
-				create_results_table(JSON.parse(msg));
+				create_results_table(msg);
 				changeView("results");
 			}
 		});
-	
+
 		i = 0;
 		for(i; i<(included_ecosystems.length);i++)
 		{
@@ -584,7 +586,7 @@ $(document).ready(function() {
 			{
 			origName=name.split("(Max)");
 			included_ecosystems[i].name = origName[0];
-			}			
+			}
 		}
 		i=0;
 		for(i; i <(included_ecosystems.length);i++)
@@ -594,7 +596,7 @@ $(document).ready(function() {
 		}
 
 	};
-	
+
 	//add_ecosystem button click event handler
 	$("#add_ecosystem").click(function(event) {
 		showPopup("add_ecosystem");
@@ -608,7 +610,7 @@ $(document).ready(function() {
 		}
 		else showPopup("edit_ecosystem");
 	});
-	
+
 	//remove_ecosystem button click event handler
 	$("#remove_ecosystem").click(function(event) {
 		if(selected_index<0){
@@ -617,24 +619,24 @@ $(document).ready(function() {
 		}
 		else {
 			included_ecosystems.splice(selected_index, 1);
-			$("#add_table > tbody").children().eq(selected_index).remove();	
+			$("#add_table > tbody").children().eq(selected_index).remove();
 			selected_index=-1;
 		}
 	});
-	
+
 	//move_up button click event handler
 	$("#move_up").click(function(event) {
 		if (selected_index > 0) {
 			var temp = included_ecosystems[selected_index-1];
 			included_ecosystems[selected_index-1] = included_ecosystems[selected_index];
 			included_ecosystems[selected_index] = temp;
-			
+
 			var html = $("#add_table tbody tr").eq(selected_index).html(),
 				html1 = $("#add_table tbody tr").eq(selected_index-1).html();
-				
+
 			$("#add_table tbody tr").eq(selected_index-1).html(html);
 			$("#add_table tbody tr").eq(selected_index).html(html1);$("#add_table tr").css("background-color", "#FFFFFF");
-			
+
 			selected_index--;
 			$("#add_table tbody tr").css("background-color", "#FFFFFF");
 			$("#add_table tbody tr").css("color", "#000000");
@@ -642,20 +644,20 @@ $(document).ready(function() {
 			$("#add_table tbody tr").eq(selected_index).css("color", "#FFFFFF");
 		}
 	});
-	
+
 	//move_down button click event handler
 	$("#move_down").click(function(event) {
 		if (selected_index < included_ecosystems.length - 1) {
 			var temp = included_ecosystems[selected_index+1];
 			included_ecosystems[selected_index+1] = included_ecosystems[selected_index];
 			included_ecosystems[selected_index] = temp;
-			
+
 			var html = $("#add_table tbody tr").eq(selected_index).html(),
 				html1 = $("#add_table tbody tr").eq(selected_index+1).html();
-				
+
 			$("#add_table tbody tr").eq(selected_index+1).html(html);
 			$("#add_table tbody tr").eq(selected_index).html(html1);
-			
+
 			selected_index++;
 			$("#add_table tbody tr").css("background-color", "#FFFFFF");
 			$("#add_table tbody tr").css("color", "#000000");
@@ -663,28 +665,28 @@ $(document).ready(function() {
 			$("#add_table tbody tr").eq(selected_index).css("color", "#FFFFFF");
 		}
 	});
-	
+
 	changeView("comparison");
 	$(".mainView").css("max-height", ($(window).height() - 138) + "px");
-	
+
   asdf = $.parseJSON("[{\"name\":\"aggrading tropical non-forest\",\"S_CO2\":4.56891931874291,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-223.961767496771,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.6163375257073,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"aggrading boreal forest\",\"S_CO2\":4.56309041699992,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-262.729609260597,\"F_CH4\":-4.53044980599371,\"F_N2O\":13.8697519920716,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"switchgrass\",\"S_CO2\":51.50879518436,\"S_CH4\":0,\"S_N2O\":0,\"F_CO2\":24.81059436629,\"F_CH4\":-2.51698342701926,\"F_N2O\":24.3963309937809,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"temperate grassland\",\"S_CO2\":163.269213543001,\"S_CH4\":0.374980551700073,\"S_N2O\":0.40898449700934,\"F_CO2\":-58.9763006004584,\"F_CH4\":-2.97456206709505,\"F_N2O\":6.48278293459747,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"aggrading tropical forest\",\"S_CO2\":4.56309041699992,\"S_CH4\":0.0587650836752113,\"S_N2O\":0.0181995344292526,\"F_CO2\":-463.068959358755,\"F_CH4\":-4.53053004775435,\"F_N2O\":29.7798338969974,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"scrub/woodland\",\"S_CO2\":271.104915549568,\"S_CH4\":2.34182957152679,\"S_N2O\":2.55419110417906,\"F_CO2\":-247.868281691267,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.74989211681713,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"tropical savanna\",\"S_CO2\":269.449724925106,\"S_CH4\":1.62796892414889,\"S_N2O\":1.66918180225197,\"F_CO2\":-145.537158913679,\"F_CH4\":-3.7983189667624,\"F_N2O\":15.7649670336409,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"desert\",\"S_CO2\":112.345727330007,\"S_CH4\":0.31560727990541,\"S_N2O\":0.344227144686273,\"F_CO2\":-18.7575807337944,\"F_CH4\":-3.7982437401118,\"F_N2O\":2.88488687328781,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"tundra\",\"S_CO2\":418.77056256146,\"S_CH4\":3.83171499448908,\"S_N2O\":4.17918215384597,\"F_CO2\":-45.6761753997656,\"F_CH4\":-3.7982437401118,\"F_N2O\":6.48278293459747,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}]");
 
 //  asdf2 = $.parseJSON("{\"ecosystem_0_data\":[{\"name\":\"Tropical Forest\",\"S_CO2\":715.481930448906,\"S_CH4\":18.5897095138668,\"S_N2O\":11.2808552885403,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"Misty Mountain Top\",\"S_CO2\":183.54445481929,\"S_CH4\":140.39500394662,\"S_N2O\":446.523494486041,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}],\"ecosystem_1_data\":[{\"name\":\"Temperate Forest\",\"S_CO2\":715.481930448906,\"S_CH4\":18.5897095138668,\"S_N2O\":11.2808552885403,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0},{\"name\":\"Misty Mountain Hop\",\"S_CO2\":183.54445481929,\"S_CH4\":140.39500394662,\"S_N2O\":446.523494486041,\"F_CO2\":-264.088404311696,\"F_CH4\":-4.53053004775435,\"F_N2O\":43.9477537844218,\"D_CO2\":0,\"D_CH4\":0,\"D_N2O\":0}]}");
 
-// Example output from 
+// Example output from
 asdf2 = $.parseJSON('{"site_0_data":[{"name":"Tropical Forest","S_CO2":3077.19440798194,"S_CH4":8.71414987655346,"S_N2O":221.440495767305,"F_CO2":-777.589630035838,"F_CH4":198.153276609512,"F_N2O":9.21042004738499,"D_CO2":0,"D_CH4":0,"D_N2O":0},{"name":"Misty Mountain Top","S_CO2":715.481930448906,"S_CH4":18.5897095138668,"S_N2O":11.2808552885403,"F_CO2":-264.088404311696,"F_CH4":-4.53053004775435,"F_N2O":43.9477537844218,"D_CO2":0,"D_CH4":0,"D_N2O":0}],"site_1_data":[{"name":"Temperate Forest","S_CO2":4.56309041699992,"S_CH4":0.0587650836752113,"S_N2O":0.0181995344292526,"F_CO2":-463.068959358755,"F_CH4":-4.53053004775435,"F_N2O":29.7798338969974,"D_CO2":0,"D_CH4":0,"D_N2O":0},{"name":"Misty Mountain Hop","S_CO2":271.104915549568,"S_CH4":2.34182957152679,"S_N2O":2.55419110417906,"F_CO2":-247.868281691267,"F_CH4":-3.7982437401118,"F_N2O":6.74989211681713,"D_CO2":0,"D_CH4":0,"D_N2O":0}]}');
 
-	
+
 //  // Here we iterate through the ghgvcR output data ( Arrays of Hashes, key-indexed by their location: ecosystem_X_data )
 //  $.each(asdf2, function(k,v){
 //    console.log("key: "+k+" .. and value:");
-//    console.log(v); 
+//    console.log(v);
 //    var location_num = k.split('_')[1]
 //    create_results_table(v ,location_num );
 //  });
-  
+
 //  create_results_table(asdf,0);
 //  create_results_table(asdf,1);
-  
-	
+
+
 });

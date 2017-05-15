@@ -8,7 +8,7 @@ class WorkflowsController < ApplicationController
   # GET /workflows.json
   def index
     @workflows = Workflow.all
-    
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @workflows }
@@ -25,47 +25,47 @@ class WorkflowsController < ApplicationController
       format.json { render json: @workflow }
     end
   end
-  
+
   def create_config_input
     # Example call
-    # convert_single_level_hash_to_xml ("Desert", {"OM_ag"=>{"Anderson-Teixeira and DeLucia (2011)"=>"444.0"}, "OM_root"=>{"Anderson-Teixeira and DeLucia (2011)"=>"108.0"}} )    
+    # convert_single_level_hash_to_xml ("Desert", {"OM_ag"=>{"Anderson-Teixeira and DeLucia (2011)"=>"444.0"}, "OM_root"=>{"Anderson-Teixeira and DeLucia (2011)"=>"108.0"}} )
     def convert_single_level_hash_to_xml( name, csep_list )
       # each ecosystem is labled within an opening <pft> and closing </pft> tag
       xml_string = "\t<pft>"
       xml_string << "\n\t\t<name>#{name}</name>\n"
-  
-      csep_list.each do |key, value|        
+
+      csep_list.each do |key, value|
         # Value comes in as a hash with its source attached
         # we need to isolate the single value
-        
+
         if value.class.to_s == "Array"
           isolated_value = value.to_a[0]
         else
           isolated_value = value.to_a[0][1]
         end
         #logger.info(isolated_value)
-        
-        ## Checking sanity        
-        raise "ERROR: Expecting superclass to be Hash \n\t... evaluated as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"     
-        raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"     
+
+        ## Checking sanity
+        raise "ERROR: Expecting superclass to be Hash \n\t... evaluated as #{csep_list.class.superclass}" unless csep_list.class.superclass.to_s == "Hash"
+        raise "ERROR: Expecting a String got a #{isolated_value.class}" unless isolated_value.class.to_s == "String"
 
         # rework data to badgerfish convention
         # http://badgerfish.ning.com/
         csep_list[key] = { "$" => isolated_value }
         hash = { "#{key}" => csep_list[key] }
-        
+
         # parse into XML string
         xml = CobraVsMongoose.hash_to_xml(hash)
         xml_string << "\t\t" << xml << "\n"
       end
       xml_string << "\t</pft>\n"
     end
-    
+
     @rscript_rundir = "#{Rails.root}/tmp/run/"
     @rscript_outdir = "#{Rails.root}/tmp/out/"
     @rscript_path = "#{Rails.root}/script/"
-    
-    
+
+
     @ecosystems = params[:ecosystems]
     @biophys_workaround = []
 
@@ -74,23 +74,23 @@ class WorkflowsController < ApplicationController
     # Write in opening header
     opening_header = "<ghgvc>\n\t<options>\n\t\t<storage>TRUE</storage>\n\t\t<flux>TRUE</flux>\n\t\t<disturbance>FALSE</disturbance>\n\t\t"
     opening_header << "<co2>TRUE</co2>\n\t\t<ch4>TRUE</ch4>\n\t\t<n2o>TRUE</n2o>\n\t\t<T_A>100</T_A>\n\t\t<T_E>50</T_E>\n\t\t<r>0</r>\n\t</options>\n"
-    
+
     File.open("#{@rscript_rundir}/multisite_config.xml", 'a') { |file| file.write(opening_header) }
-    
+
     @ecosystems.each do |key, value|
-      
+
       site_name = "site_#{key.split('-')[1]}_data"
       #puts "key #{key}"
       #puts "value #{value}"
       #puts site_name
       # We should build the beginning and end biome_instance-0/site_0_data tags first
-      
+
       # start the xml tag for the site
       file_string = ""
       file_string << "<#{site_name} lat='#{value["lat"]}' lng='#{value["lng"]}'>\n"
 
       @ecosystem_index = key.split('-')[1].to_i
-      
+
       # Also needing to collapse out the native_eco, agroecosystem_eco, aggrading_eco, biofuel_eco
       if value['native_eco'] != nil
         value['native_eco'].each do | ecosystem_k, ecosystem_v |
@@ -98,13 +98,13 @@ class WorkflowsController < ApplicationController
           logger.info("ecosystem_v: #{ecosystem_v}\n\n")
           file_string << convert_single_level_hash_to_xml( ecosystem_k, ecosystem_v )
         end
-      end      
+      end
       if value['agroecosystem_eco'] != nil
         value['agroecosystem_eco'].each do | agroecosystem_k, agroecosystem_v |
           logger.info("agroecosystem_k: #{agroecosystem_k}\n\n")
           logger.info("agroecosystem_v: #{agroecosystem_v}\n\n")
           file_string << convert_single_level_hash_to_xml( agroecosystem_k, agroecosystem_v )
-          
+
         end
       end
       # if value['aggrading_eco'] != nil
@@ -116,13 +116,13 @@ class WorkflowsController < ApplicationController
       # if value['biofuel_eco'] != nil
       #   value['biofuel_eco'].each do | biofuel_k, biofuel_v |
       #     file_string << convert_single_level_hash_to_xml( biofuel_k, biofuel_v )
-      #   end      
+      #   end
       # end
       file_string << "</#{site_name}>\n"
 
       File.open("#{@rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( file_string ) }
     end
-    
+
     # and the closing ghgvc tag
     File.open("#{@rscript_rundir}/multisite_config.xml", 'a') { |file| file.write( "</ghgvc>" ) }
 
@@ -132,13 +132,13 @@ class WorkflowsController < ApplicationController
     # this will wait for the script to finish
 	  r = `#{rcmd} 2>&1`
     logger.info("\n\nOutput from R script is:\n\n#{r}\n\n")
-    # then poll to see if script is finished 
+    # then poll to see if script is finished
     @rscript_output = JSON.parse(File.read( "#{@rscript_outdir}ghgv.json" ))
 
     p @rscript_output
-    
-    
-    
+
+
+
 
 =begin
 {"site_4_data":[{
@@ -158,7 +158,7 @@ class WorkflowsController < ApplicationController
 =end
 
     ## TODO: HANDLE "NA"
-    # in a few instances we get back values of "NA" .. replace those with zero    
+    # in a few instances we get back values of "NA" .. replace those with zero
     @rscript_output.each do | site_k, site_v |
       site_v.each do |i| # site_v is an array
         i.each do |k,v|
@@ -169,20 +169,20 @@ class WorkflowsController < ApplicationController
       end
     end
 
-    
+
     respond_to do |format|
       format.json { render json: @rscript_output }
     end
-  
+
   end
-  
-  
+
+
   def download_csv
     send_file("#{Rails.root}/tmp/out/ghgv.csv",
               :filename => "output.csv",
               :type => "text/csv")
   end
-  
+
   # accepts a longitude, latitude:
     # http://localhost:3000/get_biome?lng=-89.25&lat=41.75
     # OR
@@ -190,38 +190,39 @@ class WorkflowsController < ApplicationController
   # returns JSON object of the biome
   def get_biome
     def get_biomeR (latitude, longitude, ecosystem_default_file, netcdf_dir, mapdata_dir, rscript_rundir)
+
+
       # Get data from netcdf using R.
       rcmd = "cd #{@rscript_path} && ./get_biome.R #{latitude} #{longitude} #{ecosystem_default_file} #{netcdf_dir} #{mapdata_dir} #{rscript_rundir}"
       r = `#{rcmd} 2>&1`
-      logger.info("\n\n#{r} \n\n")
+      logger.info("Command: #{rcmd}")
+      logger.info("******************************")
+      logger.info("#{r}")
+      logger.info("******************************")
       logger.info("rscript_rundir is #{@rscript_rundir}\n\n")
       @res = JSON.parse(File.read( "#{@rscript_rundir}biome.json"))
       logger.info("\n\nresult is: #{@res}\n\n")
       @res
     end
-    
+
     @rscript_rundir = "#{Rails.root}/tmp/run/"
     @rscript_outdir = "#{Rails.root}/tmp/out/"
     @rscript_path = "#{Rails.root}/script/"
-    
-    #NETCDF Data location
-    if Rails.env == "development"
-        @netcdf_dir = "/run/media/potterzot/zfire11/work/ebimodeling/netcdf/"
-    end
-    if Rails.env == "production"
-        @netcdf_dir = "#{Rails.root}/netcdf/"
-    end
-    
+
+    # TODO: This is not the best way to add a trailing slash
+    @netcdf_dir = ENV.fetch('NETCDF_DIR', "#{Rails.root}/netcdf/")
+
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
+
     @ecosystem_default_file = "#{Rails.root}/public/data/name_indexed_ecosystems.json"
-    @mapdata_dir = "#{Rails.root}/public/data/maps/"    
+    @mapdata_dir = "#{Rails.root}/public/data/maps/"
     #logger.info("params: #{@rscript_path}, #{@latitude}")
-    
-    #Remove the previous biome data before loading new. This is especially important because 
+
+    #Remove the previous biome data before loading new. This is especially important because
     #if there is no biome data (e.g. water), then no new biome file is written.
-    FileUtils.rm("#{@rscript_rundir}/biome.json", :force => TRUE)
-    
+    FileUtils.rm("#{@rscript_rundir}/biome.json", force: true)
+
     #Now get the biome data
     @biome_data = get_biomeR(@latitude, @longitude, @ecosystem_default_file, @netcdf_dir, @mapdata_dir, @rscript_rundir)
 
@@ -235,27 +236,27 @@ class WorkflowsController < ApplicationController
       send_file("#{Rails.root}/tmp/out/output.svg")
     rescue
       render(text: "Couldn't find svg file")
-    end 
+    end
   end
 
   # GET /workflows/new
   # GET /workflows/new.json
   def new
     @workflow = Workflow.new
-    
+
     @rscript_rundir = "#{Rails.root}/tmp/run/"
     @rscript_outdir = "#{Rails.root}/tmp/out/"
     @rscript_path = "#{Rails.root}/script/"
-    
+
     #Remove the previous run/out files
-    FileUtils.rm("#{@rscript_rundir}/biome.json", :force => TRUE)
-    FileUtils.rm("#{@rscript_rundir}/multisite_config.xml", :force => TRUE)
-    FileUtils.rm("#{@rscript_outdir}/ghgv.json", :force => TRUE)
-    FileUtils.rm("#{@rscript_outdir}/ghgv.csv", :force => TRUE)
-    FileUtils.rm("#{@rscript_outdir}/output.svg", :force => TRUE)
-    
-    
-    
+    FileUtils.rm("#{@rscript_rundir}/biome.json", force: true)
+    FileUtils.rm("#{@rscript_rundir}/multisite_config.xml", force: true)
+    FileUtils.rm("#{@rscript_outdir}/ghgv.json", force: true)
+    FileUtils.rm("#{@rscript_outdir}/ghgv.csv", force: true)
+    FileUtils.rm("#{@rscript_outdir}/output.svg", force: true)
+
+
+
     # open data/default_ecosystems.json and parse
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
@@ -264,12 +265,12 @@ class WorkflowsController < ApplicationController
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
 
-# This is where I'll open the Priors from the DB    
+# This is where I'll open the Priors from the DB
 #    @priors = Prior.all
 # A prior will have a number of variables
 # One of those variables can belong to a given citation
 
-# A PFT would be akin to an ecosystem 
+# A PFT would be akin to an ecosystem
 #render :partial => "my_partial", :locals => {:player => Player.new}
 
 

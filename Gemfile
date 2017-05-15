@@ -1,31 +1,36 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
-gem 'bootstrap-sass', '2.1'
-#gem 'mysql2', '0.3.11'
-gem 'sqlite3', '1.3.5'
-gem 'json'
-gem 'narray', '0.6.0.8'
-gem 'cobravsmongoose'
-gem 'jquery-rails', '2.0.2'
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
 
+gem 'rails', '~> 5.1.0'
+gem 'puma', '~> 3.0'
+gem 'sass-rails'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails'
+gem 'sprockets-rails', require: 'sprockets/railtie'
+gem 'jquery-rails'
+gem 'turbolinks', '~> 5'
+gem 'jbuilder', '~> 2.5'
+
+gem 'mysql2'
+gem 'narray'
+gem 'cobravsmongoose'
+gem 'bootstrap-sass'
 
 group :development do
-  gem 'annotate', '2.5.0'
-  gem 'ruby-netcdf', '0.6.6.1'
-end
-
-group :development, :test do
-  gem 'rspec-rails', '2.11.0'
-end
-
-group :assets do
-  gem 'sass-rails',   '3.2.5'
-  gem 'coffee-rails', '3.2.2'
-  gem 'uglifier', '1.2.3'
+  gem 'annotate'
+  gem 'byebug'
+  gem 'ruby-netcdf'
+  gem 'web-console'
+  gem 'listen'
+  gem 'spring'
+  gem 'spring-watcher-listen'
 end
 
 group :test do
-  gem 'capybara', '1.1.2'
+  gem 'capybara'
+  gem 'rspec-rails'
 end
-

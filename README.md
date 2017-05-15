@@ -1,9 +1,76 @@
-# Ecosystem Climate Regulation Services Calculator
+> This is a shallow clone of the Ecosystem Climate Regulation Services Calculator
+> found at https://github.com/ebimodeling/ghgvc used for Ruby for Good
 
-This is the source code repository for the Ecosystem Climate Regulation Services Calculator. Contributions, comments, bug reports, and feature requests are welcome!
+## Ecosystem Climate Regulation Services Calculator
+
+This is the source code repository for the Ecosystem Climate Regulation 
+Services Calculator. Contributions, comments, bug reports, and 
+feature requests are welcome!
+
+## Setup & Installation
+
+This is a first-pass at a standalone installation of all dependencies which will
+allow development on macOS. 
+
+```
+# Install homebrew for MacOS https://brew.sh/
+
+# You can skip installing git if you've already got it installed or prefer
+# not to upgrade your version
+brew install mysql node homebrew/science/netcdf caskroom/cask/xquartz homebrew/science/r git git-lfs
+brew services start mysql
+
+# Manually install R, because you need 3.3, not 3.4 in homebrew
+
+wget https://cran.r-project.org/bin/macosx/R-3.3.3.pkg
+
+# Use the installer. You can skip all the GUI items, you only need the core
+
+# NOTE: zsh users may have problems running the `r` command. `disable r` or 
+# `command r` to run it, or start with `/usr/bin/env r`
+
+# Update the git lfs hooks
+git lfs install
+
+# Configure git, setup SSH keys, etc.
+
+# Clone the repo
+git clone git@github.com:rubyforgood/climate_calculator.git && cd climate_calculator
+
+# Install ruby 2.4.1. If you don't have a plugin manager, try https://github.com/asdf-vm/asdf
+
+# Optional but recommended
+gem update --system
+
+# Install bundler
+gem install bundler
+
+# TODO: Replace this with bin/rails after upgrade
+bundle exec rake db:create db:schema:load
+
+# TODO: Issue #1
+# Download the netcdf files from here: https://uofi.box.com/v/ghgvc-inputs
+# Move the following 5 files in netcdf/GCS/Maps/ folder
+# gez_2010_wgs84.nc Hurtt_SYNMAP_Global_HD_2010.nc hwsd.nc koppen_geiger.nc vegtype.nc
+# Move the remaining files to netcdf folder
+
+# Install R packages
+# TODO: cd into a diff directory? We definitely don't want this in the repo
+# TODO: Move this into a separate service? Might make Rails app dev easier
+cd tmp
+git clone https://github.com/ebimodeling/ghgvcR
+
+R # into R shell
+
+> install.packages(c("devtools", "roxygen2", "rjson", "reshape", "XML", "ggplot2", "gridExtra", "Hmisc", "scales", "tidyr", "ncdf4"), repos = "http://cran.us.r-project.org")
+> install.packages("/full/path/to/ghgvcR", repos=NULL, type="source")
+> quit()
+
+# If you need to remove the package later run `R CMD REMOVE ghgvcr` from command line
+
+```
 
 # About the Ecosystem Climate Regulation Services Calculator
-
 
 Ecosystems regulate climate through both greenhouse-gas exchange with
 the atmosphere (biogeochemical mechanisms) and regulation of land
@@ -39,14 +106,12 @@ maps of climatically significant ecosystem properties (for example,
 biomass, soil carbon, biophysical services) to provide location-specific
 CRV estimates.
 
-Applications
-============
+## Applications
 
 The Ecosystem Climate Regulation Services Calculator has potential
 applications in a variety of fields. Below are some examples.
 
-Conservation
-------------
+## Conservation
 
 This calculator can be used to determine which areas of potential
 conservation interest are the most beneficial in terms of their net
@@ -54,8 +119,7 @@ effect on the climate. This information can then be used to help make
 land conservation decisions and inform the general public about the
 climate benefits of conserving lands.
 
-Sustainability Science
-----------------------
+## Sustainability Science
 
 The calculator can be used to evaluate the climate consequences of
 various land use decisions. For instance, the calculator can be used to
@@ -64,8 +128,7 @@ evaluate the impacts of various bioenergy production strategies
 also be used in determining the value of land when designing
 infrastructure projects, such as dams or highways.
 
-Education
----------
+## Education
 
 The calculator can be used to educate students or the general public
 about the climate regulation services of ecosystems around the globe.
@@ -75,8 +138,7 @@ understanding of the issues surrounding land use and conservation
 decisions. They can also use the calculator to learn more about the
 local ecosystems with which they are familiar.
 
-Business
---------
+## Business
 
 Increasing public interest in sustainable business practices creates a
 need for conscientious businesses to evaluate the climate impact of
@@ -84,8 +146,7 @@ business decisions, including those that affect land use patterns. For
 example, the calculator might be used to evaluate the climate impacts of
 land use change related to bioenergy production.
 
-Policy
-------
+## Policy
 
 Policy decisions regarding the conservation of domestic lands or those
 affecting international land use patterns can benefit from the most
@@ -98,8 +159,7 @@ outweigh greenhouse gas effects (Anderson-Teixeira *et al.*, 2011,
 biophysical climate regulation services, thereby providing a better
 understanding of the climate impacts of various policies.
 
-Further Reading
-===============
+## Further Reading
 
 Anderson-Teixeira KJ, Snyder PK, DeLucia EH (2011) Do biofuels life
 cycle analyses accurately quantify the climate impacts of
