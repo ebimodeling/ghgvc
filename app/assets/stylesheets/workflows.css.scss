@@ -308,10 +308,14 @@ div[class*='_biomes'] {
     .popup_value_field {
         width: 100px;
     }
+    .accordion-group {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
     a {
         color: #000;
         font-weight: bold;
-        padding: 18px;
+        padding: 10px;
         background-color: $green1;
         &:visited {
             color: #666;

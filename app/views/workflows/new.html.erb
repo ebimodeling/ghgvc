@@ -31,13 +31,16 @@
 
 <br />
 
-<div id="ecosystem_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
-    <div class='lightbox-header'>
-        <button id="hidden_close_button" type="button" class="close" data-dismiss="lightbox">&times;</button>
-    </div>
-    <div class='lightbox-content'>
-      <%= render :partial => "ecosystem_data_popup" %>
-    </div>
+<div id="ecosystem_popup" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <center>
+          <%= render :partial => "ecosystem_data_popup" %>
+        </center>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div>
 
 <div id="ghgvcR_processing_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">

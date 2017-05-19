@@ -168,7 +168,7 @@ function populate_html_from_latlng( lat, lng ) {
         $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
           '<div class="biome_match checkbox">' +
             '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="lightbox" href="#ecosystem_popup">' +
+            '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
               '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
             '</a>' +
             '<a class="biome_pdf_link action-link"href="' +
@@ -351,7 +351,7 @@ function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
 }
 
 function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
-  $("#ecosystem_popup").find(".lightbox-content").each(function() {
+  $("#ecosystem_popup").find(".modal-content").each(function() {
     $(this).find(".popup_heading").text( biome_type + ": " + biome_name.replace(/_/g," ") );
 
     // get the ecosystems from that biome_instance
@@ -366,7 +366,6 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
 
     // Clear out all existing drop-down values
     $('.popup_cite_dropdown').empty();
-
     // For the current_ecosystem ( EX: "miscanthus" )
     $.each( current_default_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
@@ -420,7 +419,10 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
               $(this).attr('selected', 'selected');
             };
           });
-
+          // R is sometimes returning [NaN] and [null] values in the resulting JSON
+          // This will cause problems when submitting the form with this data.
+          // This change prevents that
+          if(value == ["NaN"] || value == [null]) { value = ""; }
           $('#ecosystem_' + csep_key).attr("value", value);
 
         // At this point all the the saved options should be displaying as whats selected in the popup
@@ -718,18 +720,13 @@ $(document).ready(function() {
     // Finally write out the saved JSON
     $('#biome_instance-' + active_site_num ).find('.json_saved').text( JSON.stringify( all_ecosystems_at_site ) );
 
-    // This will hit the hidden close button and invoke the close operation in bootstrap-lightbox
-    $("#hidden_close_button").trigger("click");
+    // This will hit the hidden close button and invoke a close on the bootstrap modal
+    $('.close-modal-btn').click();
   });
 
-  $("#popup_discard_ecosystem_modifications").on('click', function() {
-    // This will hit the hidden close button and invoke the close operation in bootstrap-lightbox
-    $("#hidden_close_button").trigger("click");
-  });
-
-  $("#biome_input_container").delegate('.edit_icon', "click" , function() {
-    var site_id = $(this).closest('[id]|="biome_instance"').attr("id").split("-")[1]
-    var biome_name = $(this).closest(".biome_match").find("label.checkbox").text();
+  $("#biome_input_container").delegate('.edit_icon_link', "click" , function() {
+    var site_id = $(this).closest('div[id|="biome_instance"]').attr("id").split("-")[1]
+    var biome_name = $(this).closest(".biome_match.checkbox").find("label.biome-match").text();
     var biome_type = $(this).closest("[class*='_biomes']").attr("class").split(" ")[0].split("_")[0]
     populate_ecosystem_shadowbox( site_id, biome_type, biome_name );
   });
