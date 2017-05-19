@@ -24,13 +24,13 @@ if (length(script_args) == 7) {
 }
 
 #Get the biome data.
-get_biome(script_args[1], #latitude 
-          script_args[2], #longitude
-          script_args[3], #ecosystem defaults file
-          script_args[4], #netcdf directory
-          script_args[5], #mapdata directory
-          script_args[6], #output directory
-          write_data = write_data)
-
-
+get_biome(latitude            = script_args[1], #latitude 
+          longitude           = script_args[2], #longitude
+          biome_defaults_file = script_args[3], #ecosystem defaults file
+          netcdf_dir          = script_args[4], #netcdf directory
+          mapdata_dir         = script_args[5], #mapdata directory
+          output_dir          = script_args[6], #output directory
+          output_filename     = "biome",
+          output_format       = c("json", "csv"),
+          write_data          = write_data)
 
