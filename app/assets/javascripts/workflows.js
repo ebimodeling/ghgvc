@@ -168,12 +168,12 @@ function populate_html_from_latlng( lat, lng ) {
         $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
           '<div class="biome_match checkbox">' +
             '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' +
-              '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' +
+            '<a class="edit_icon_link action-link" data-toggle="lightbox" href="#ecosystem_popup">' +
+              '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
             '</a>' +
-            '<a class="biome_pdf_link" href="' +
+            '<a class="biome_pdf_link action-link"href="' +
             '/assets/' + v.code + '.pdf' + //pdf file name
-            '" download><img src="/assets/pdf_24x24.png" width="16"></a>' +
+            '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
           '</div>'
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
