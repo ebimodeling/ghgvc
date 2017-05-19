@@ -1,0 +1,19 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: <%= ENV.fetch('MYSQL_USER') %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD') %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: climate_calculator_dev
+
+test:
+  <<: *default
+  database: climate_calculator_test
+
+production:
+  <<: *default
+  database: climate_calculator_prod

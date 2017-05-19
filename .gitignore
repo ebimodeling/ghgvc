@@ -18,11 +18,11 @@ doc/
 .DS_Store
 .idea
 
-/config/database.yml
 netcdf/Saatchi.zip
 netcdf/GlobalEcofloristicZones_ncFiles.zip
 *.nc4
 *.nc
+*.zip
 public/output.csv
 
 *.sublime-*
