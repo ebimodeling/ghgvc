@@ -1,0 +1,14 @@
+language: ruby
+before_install:
+- gem update --system
+- gem --version
+notifications:
+  slack:
+    secure: B/KYaLyKSmdDyIg7g8fZW2fsnLo6r05DqGGwkbjRv2i+LaHvOhFKICTOlts/TeEpqderUM+KnCUwRGzfulUIBHBifMuln27I4gzJLGZxqFbhwgYu/XpO82bg8W8oyAY8D0F2UvYehNla/y4xfuCMoKFN4WUMsneeZEpV5hriPGt5xYx96sOWcDvIVrVFHymlMmDS6vE5cJ/4ARmdWc3e7Y3eW0jaSZUBLlZCdwdzQ8ra3mbUCwY55UO5dVVoFdwGVuccAFv3TvMy9Mr4kkh5cgD/6/jyOhP+JQZcWHvZwEJc+Paj9/Qd3HcNi86XGEgEQDo/RoeznkHW4ELBQAclNCGhRdti2HjdC1bzKqK33iqzNNWe9EgsepF39ixKL6aVGYzlFXVv+Ikpjbr9/TQl4vtVOZ/TueXpa/0ELJ8SLEPVkSBNmNL75wnzxavmXUmG6U5+7DLpzbVMSn2l0BogQZTB5YMHNwevyumgHwazeCWszkt+Cwb/5jfOnCzcJCxwuPiRIS/JYNqKteuVtql8oBljyY5daGSvnrAd6JaQvIy+0MlGVWWUn3JYfybe40LlpRzR49jWNyjI/NyAPV0cNUOSuzaPJ3vT2c04qaGSCrPChrki9sWdExcNhAt94oPMqRZWkAsx1LODI2h5f4Q6w2+ay7iLnmwjfBsQK1taMqE=
+addons:
+  apt:
+    packages:
+    - libxslt1-dev
+    - libxml2-dev
+    - libnetcdf-dev
+    - libmysqlclient-dev
