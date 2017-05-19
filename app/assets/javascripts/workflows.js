@@ -213,7 +213,7 @@ function populate_html_from_latlng( lat, lng ) {
 };
 
 // narf
-function initalize_google_map(lat, lng, zoom) {
+function initialize_google_map(lat, lng, zoom) {
   var type = $(document).find('.map_type_selector.active').html().toLowerCase();
 
   var mapBounds = new google.maps.LatLngBounds(
@@ -229,6 +229,7 @@ function initalize_google_map(lat, lng, zoom) {
   var overlayOptions = {
     opacity: 0.6,
     zoom: mapMinZoom,
+    minZoom: mapMinZoom,
     streetViewControl: false,
     mapTypeControl: false,
     panControl: false,
@@ -494,7 +495,7 @@ $(document).ready(function() {
 
 //  $('#calc_sub_modules').animate({opacity:'toggle'},500)
 
-  initalize_google_map();
+  initialize_google_map();
 
   $('#calc_ethanol_yield').on('click' ,function() {
     console.log("calc_ethanol_yield");
@@ -814,7 +815,7 @@ $(document).ready(function() {
     console.log("lat: " + map.getCenter().lat() );
     console.log("lng: " + map.getCenter().lng() );
 
-    initalize_google_map();
+    initialize_google_map();
   });
 
 });
