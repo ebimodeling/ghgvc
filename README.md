@@ -13,7 +13,9 @@ This is a first-pass at a standalone installation of all dependencies which will
 allow development on macOS.
 
 
-## Dependencies (MacOS)
+## Dependencies
+
+### MacOS
 
 * Install [homebrew for MacOS](https://brew.sh/)
 
@@ -37,6 +39,30 @@ brew install mysql node homebrew/science/netcdf homebrew/science/r git
 
 ```
 brew services start mysql
+```
+
+* Give the MySQL root user a password
+
+```
+mysql -uroot
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
+```
+
+### Ubuntu Linux
+
+The following Ubuntu packages are needed:
+
+* mysql-server
+* nodejs
+* libnetcdf-dev
+* r-base
+* libmysqlclient-dev
+* libxml2-dev
+
+Example install command:
+
+```
+sudo apt-get -y install mysql-server nodejs libnetcdf-dev r-base libmysqlclient-dev libxml2-dev
 ```
 
 * Give the MySQL root user a password
