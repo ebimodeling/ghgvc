@@ -26,7 +26,7 @@ div[id|='biome_instance'] {
   width: 140px;
 }
 
-#map_canvas { 
+#map_canvas {
   width: 1025px;
   height: 600px;
 }
@@ -154,7 +154,6 @@ div[id|='biome_instance'] {
   div[class*='_biomes'] {
     vertical-align: top;
     width: 210px;
-  
   }
 }
 
@@ -170,15 +169,13 @@ div[id|='biome_instance'] {
     thead {
       display:block;
       height: 30px;
-      
     }
     /* allows the tables to scroll */
     tbody {
-      height: 200px; 
-      overflow:auto; 
+      height: 200px;
+      overflow:auto;
       display:block;
     }
-    
   }
 }
 
@@ -263,3 +260,12 @@ div[class*='_biomes'] {
   padding: 7px;
 }
 
+.action-link {
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.download-pdf-icon {
+  width: 20px;
+  height: 20px;
+}
