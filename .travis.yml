@@ -12,3 +12,5 @@ addons:
     - libxml2-dev
     - libnetcdf-dev
     - libmysqlclient-dev
+notifications:
+  email: false
