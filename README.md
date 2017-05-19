@@ -1,74 +1,146 @@
 > This is a shallow clone of the Ecosystem Climate Regulation Services Calculator
 > found at https://github.com/ebimodeling/ghgvc used for Ruby for Good
 
-## Ecosystem Climate Regulation Services Calculator
+# Ecosystem Climate Regulation Services Calculator
 
-This is the source code repository for the Ecosystem Climate Regulation 
-Services Calculator. Contributions, comments, bug reports, and 
+This is the source code repository for the Ecosystem Climate Regulation
+Services Calculator. Contributions, comments, bug reports, and
 feature requests are welcome!
 
-## Setup & Installation
+# Setup & Installation
 
 This is a first-pass at a standalone installation of all dependencies which will
-allow development on macOS. 
+allow development on macOS.
+
+
+## Dependencies
+
+### MacOS
+
+* Install [homebrew for MacOS](https://brew.sh/)
+
+The following brew packages are required:
+* `mysql`
+* `node`
+* `homebrew/science/netcdf`
+* `homebrew/science/r`
+* `git` (optional if you already have git installed or prefer not to upgrade your version)
+
+Example homebrew install command:
 
 ```
-# Install homebrew for MacOS https://brew.sh/
+brew install mysql node homebrew/science/netcdf homebrew/science/r git
+```
 
-# You can skip installing git if you've already got it installed or prefer
-# not to upgrade your version
-brew install mysql node homebrew/science/netcdf caskroom/cask/xquartz homebrew/science/r git git-lfs
+**NOTE:** zsh users may have problems running the `r` command. `disable r` or
+`command r` to run it, or start with `/usr/bin/env r`
+
+* Start the MySQL database service:
+
+```
 brew services start mysql
+```
 
-# Manually install R, because you need 3.3, not 3.4 in homebrew
+* Give the MySQL root user a password
 
-wget https://cran.r-project.org/bin/macosx/R-3.3.3.pkg
+```
+mysql -uroot
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
+```
 
-# Use the installer. You can skip all the GUI items, you only need the core
+### Ubuntu Linux
 
-# NOTE: zsh users may have problems running the `r` command. `disable r` or 
-# `command r` to run it, or start with `/usr/bin/env r`
+The following Ubuntu packages are needed:
 
-# Update the git lfs hooks
-git lfs install
+* mysql-server
+* nodejs
+* libnetcdf-dev
+* r-base
+* libmysqlclient-dev
+* libxml2-dev
 
-# Configure git, setup SSH keys, etc.
+Example install command:
 
-# Clone the repo
-git clone git@github.com:rubyforgood/climate_calculator.git && cd climate_calculator
+```
+sudo apt-get -y install mysql-server nodejs libnetcdf-dev r-base libmysqlclient-dev libxml2-dev
+```
 
-# Install ruby 2.4.1. If you don't have a plugin manager, try https://github.com/asdf-vm/asdf
+* Give the MySQL root user a password
 
-# Optional but recommended
+```
+mysql -uroot
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
+```
+
+## Download the project
+
+* Clone the repo:
+
+```
+git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
+```
+
+* Install ruby 2.4.1. If you don't have a plugin manager, try https://github.com/asdf-vm/asdf.
+
+* Optional but recommended:
+
+```
 gem update --system
+```
 
-# Install bundler
+* Install bundler:
+
+```
 gem install bundler
+```
 
-# TODO: Replace this with bin/rails after upgrade
+* Install project library dependencies:
+
+```
+bundle install
+```
+
+* Set `MYSQL_USER` and `MYSQL_PASSWORD` environment variables to the username and
+password with database create privileges in MySQL.
+
+* Setup the database:
+
+```
 bundle exec rake db:create db:schema:load
+```
 
-# TODO: Issue #1
-# Download the netcdf files from here: https://uofi.box.com/v/ghgvc-inputs
-# Move the following 5 files in netcdf/GCS/Maps/ folder
-# gez_2010_wgs84.nc Hurtt_SYNMAP_Global_HD_2010.nc hwsd.nc koppen_geiger.nc vegtype.nc
-# Move the remaining files to netcdf folder
+## Retrieve the data files
 
-# Install R packages
-# TODO: cd into a diff directory? We definitely don't want this in the repo
-# TODO: Move this into a separate service? Might make Rails app dev easier
-cd tmp
-git clone https://github.com/ebimodeling/ghgvcR
+(TODO: Issue #1)
 
-R # into R shell
+* Download the netcdf files from here: https://uofi.box.com/v/ghgvc-inputs
+* Move the following 5 files in `netcdf/GCS/Maps/` folder
+    * `gez_2010_wgs84.nc`
+    * `Hurtt_SYNMAP_Global_HD_2010.nc`
+    * `hwsd.nc`
+    * `koppen_geiger.nc`
+    * `vegtype.nc`
+* Move the remaining files to `netcdf` folder
 
+## Install R packages
+
+( TODO: cd into a diff directory? We definitely don't want this in the repo
+
+  TODO: Move this into a separate service? Might make Rails app dev easier)
+
+```  
+> cd tmp
+> git clone https://github.com/ebimodeling/ghgvcR
+> r
+
+R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+...
 > install.packages(c("devtools", "roxygen2", "rjson", "reshape", "XML", "ggplot2", "gridExtra", "Hmisc", "scales", "tidyr", "ncdf4"), repos = "http://cran.us.r-project.org")
 > install.packages("/full/path/to/ghgvcR", repos=NULL, type="source")
 > quit()
-
-# If you need to remove the package later run `R CMD REMOVE ghgvcr` from command line
-
 ```
+
+If you need to remove the package later run `R CMD REMOVE ghgvcr` from command line
 
 # About the Ecosystem Climate Regulation Services Calculator
 
