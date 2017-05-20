@@ -17,34 +17,30 @@ allow development on macOS.
 
 ### MacOS
 
+* Install [Docker Community Edition for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
 * Install [homebrew for MacOS](https://brew.sh/)
 
 The following brew packages are required:
 * `mysql`
 * `node`
-* `homebrew/science/netcdf`
-* `homebrew/science/r`
 * `git` (optional if you already have git installed or prefer not to upgrade your version)
 
 Example homebrew install command:
 
 ```
-brew install mysql node homebrew/science/netcdf homebrew/science/r git
+> brew install mysql node git
 ```
-
-**NOTE:** zsh users may have problems running the `r` command. `disable r` or
-`command r` to run it, or start with `/usr/bin/env r`
 
 * Start the MySQL database service:
 
 ```
-brew services start mysql
+> brew services start mysql
 ```
 
 * Give the MySQL root user a password
 
 ```
-mysql -uroot
+> mysql -uroot
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
 ```
 
@@ -68,16 +64,21 @@ sudo apt-get -y install mysql-server nodejs libnetcdf-dev r-base libmysqlclient-
 * Give the MySQL root user a password
 
 ```
-mysql -uroot
+> mysql -uroot
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
 ```
 
-## Download the project
+## Download the web app (this Rails project)
 
-* Clone the repo:
+* Clone the repo. In these steps, we'll be putting the project in a directory
+named `code` in our home directory:
 
 ```
-git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
+> mkdir ~/code
+~/code > cd ~/code
+~/code > git clone git@github.com:rubyforgood/ghgvc.git
+~/code > cd ghgvc
+~/code/ghgvc >
 ```
 
 * Install ruby 2.4.1. If you don't have a plugin manager, try https://github.com/asdf-vm/asdf.
@@ -85,19 +86,19 @@ git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
 * Optional but recommended:
 
 ```
-gem update --system
+~/code/ghgvc > gem update --system
 ```
 
 * Install bundler:
 
 ```
-gem install bundler
+~/code/ghgvc > gem install bundler
 ```
 
 * Install project library dependencies:
 
 ```
-bundle install
+~/code/ghgvc > bundle install
 ```
 
 * Set `MYSQL_USER` and `MYSQL_PASSWORD` environment variables to the username and
@@ -106,14 +107,45 @@ password with database create privileges in MySQL.
 * Setup the database:
 
 ```
-bundle exec rake db:create db:schema:load
+~/code/ghgvc > bundle exec rake db:create db:schema:load
+```
+
+## Download the calculation engine (the R project)
+
+* Clone [the `ghgvcR` repo](https://github.com/ebimodeling/ghgvcR) to a
+  directory next to the `ghgvc` Rails project:
+
+```
+~/code > cd ~/code
+~/code > git clone git@github.com:ebimodeling/ghgvcR.git
+```
+
+**NOTE:** In the end, you should see the `ghgvc` and `ghgvcR`
+directories appear within the same directory:
+
+```
+> ls ~/code
+ghgvc ghgvcR
 ```
 
 ## Retrieve the data files
 
-(TODO: Issue #1)
+* Create a `ghgvcD` directory next to the `ghgvc` and `ghgvcR` directories:
 
-* Download the netcdf files from here: https://uofi.box.com/v/ghgvc-inputs
+```
+> cd ~/code
+~/code > mkdir ghgvcD
+```
+
+**NOTE:** In the end, you should see the `ghgvc`, `ghgvcR` and `ghgvcD`
+directories appear within the same directory:
+
+```
+> ls ~/code
+ghgvc  ghgvcD ghgvcR
+```
+
+* Download the netcdf files from here: https://uofi.box.com/v/ghgvc-input (TODO: Issue #1)s
 * Move the following 5 files in `netcdf/GCS/Maps/` folder
     * `gez_2010_wgs84.nc`
     * `Hurtt_SYNMAP_Global_HD_2010.nc`
@@ -122,25 +154,34 @@ bundle exec rake db:create db:schema:load
     * `vegtype.nc`
 * Move the remaining files to `netcdf` folder
 
-## Install R packages
+# Running the Web App
 
-( TODO: cd into a diff directory? We definitely don't want this in the repo
+* Start the R calculator service:
 
-  TODO: Move this into a separate service? Might make Rails app dev easier)
-
-```  
-> cd tmp
-> git clone https://github.com/ebimodeling/ghgvcR
-> r
-
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
-...
-> install.packages(c("devtools", "roxygen2", "rjson", "reshape", "XML", "ggplot2", "gridExtra", "Hmisc", "scales", "tidyr", "ncdf4"), repos = "http://cran.us.r-project.org")
-> install.packages("/full/path/to/ghgvcR", repos=NULL, type="source")
-> quit()
+```
+~/code/ghgvc >  docker-compose up
+Creating network "ghgvc_default" with the default driver
+Creating ghgvc_r_1
+... (first time: lots of output to build the R service)
+Attaching to ghgvc_r_1
+r_1  | -- running Rserve in this R session (pid=7), 1 server(s) --
+r_1  | (This session will block until Rserve is shut down)
 ```
 
-If you need to remove the package later run `R CMD REMOVE ghgvcr` from command line
+* Start the web process:
+
+```
+~/code/ghgvc > bin/rails s
+=> Booting Puma
+=> Rails 5.1.0 application starting in development on http://localhost:3000
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.8.2 (ruby 2.4.1-p111), codename: Sassy Salamander
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://0.0.0.0:3000
+Use Ctrl-C to stop
+```
 
 # About the Ecosystem Climate Regulation Services Calculator
 
