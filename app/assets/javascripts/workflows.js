@@ -165,41 +165,37 @@ function initialize_google_map(lat, lng, zoom) {
 
   $('div[id*="_biomes"]').find('.biomes').html("");
 
-  // Bounds for A single map
-  var strictBounds = new google.maps.LatLngBounds(
-    new google.maps.LatLng(-90, -180), // bottom-left
-    new google.maps.LatLng(90, 180)   // top-right
-  );
+  // These boundaries represent the northern- and southern-most latitudes we
+  // should allow the map to move to
+  var northBoundary = 85.07606520571666
+  var southBoundary = -85.05645476301743
 
-  // Listen for the map click events
-  google.maps.event.addListener(map, 'dragend', function() {
-    if (strictBounds.contains(map.getCenter())) return;
+  // Listen for the map click events and re-center the map if it's outside
+  // the bounds we've set. This method helps re-center the map so the user
+  // isn't left with an empty area above or below the map container
+  google.maps.event.addListener(map, "center_changed", function() {
+    var bounds = map.getBounds();
+    var ne = bounds.getNorthEast();
+    var sw = bounds.getSouthWest();
+    var center = map.getCenter();
 
-    // We're out of bounds - Move the map back within the bounds
-    var c = map.getCenter(),
-       x = c.lng(),
-       y = c.lat(),
-       maxX = strictBounds.getNorthEast().lng(),
-       maxY = strictBounds.getNorthEast().lat(),
-       minX = strictBounds.getSouthWest().lng(),
-       minY = strictBounds.getSouthWest().lat();
+    if(ne.lat() > northBoundary) {
+      map.setCenter({lat: center.lat() - (ne.lat() - northBoundary), lng: center.lng()})
+    }
 
-    if (x < minX) x = minX;
-    if (x > maxX) x = maxX;
-    if (y < minY) y = minY;
-    if (y > maxY) y = maxY;
-
-    map.setCenter(new google.maps.LatLng(y, x));
+    if(sw.lat() < southBoundary) {
+      map.setCenter({lat: center.lat() - (sw.lat() - southBoundary), lng: center.lng()})
+    }
   });
 
   // Limit the zoom level
-  google.maps.event.addListener(map, 'zoom_changed', function() {
+  google.maps.event.addListener(map, "zoom_changed", function() {
     if (map.getZoom() > mapMaxZoom) map.setZoom(mapMaxZoom);
   });
 
   markersArray = [];
-  google.maps.event.addListener(map, "click", function(event) {
 
+  google.maps.event.addListener(map, "click", function(event) {
     var lat = event.latLng.lat();
     var lng = event.latLng.lng();
 
