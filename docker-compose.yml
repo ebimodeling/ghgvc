@@ -1,0 +1,9 @@
+version: '2'
+services:
+  r:
+    build:
+      context: ../ghgvcR
+    volumes:
+      - ../ghgvcD:/home/ghgvcr/data
+    ports:
+      - "6311:6311"
