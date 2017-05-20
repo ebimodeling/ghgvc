@@ -19,10 +19,7 @@ function CustomEcosystem(name, eco_index, description, category, variables){
 	this.variables = variables;
 }
 
-
-
-var options =
-{
+var options = {
 	storage: true,
 	flux: true,
 	disturbance: false,
@@ -46,8 +43,6 @@ $.ajax({
 	url: "data/default_ecosystems.json",
 	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 	success: function(response) {
-		// user_ecosystems = response;
-		// ecosystems = response;
 		user_ecosystems = response;
 		ecosystems = response;
 	}
@@ -211,7 +206,6 @@ function create_new_divs_for_chart_location(num) {
 }
 
 $(document).ready(function() {
-
 	$(window).resize(function(event) {
 		centerPopup();
 		var height = $(window).height() - 175;
@@ -300,12 +294,9 @@ $(document).ready(function() {
 			latent.push(result.latent);
 			// CRV
 			crv.push(result.crv);
-
-
 		}
 
-		console.log("NAMES:");
-		console.log(names);
+		console.log("NAMES: " + JSON.stringify(names));
 
     //// Initial Storage
 		new Highcharts.Chart({
@@ -454,7 +445,6 @@ $(document).ready(function() {
 		}
 
 		//including or excluding maximum ghgv values
-
 		var trav;
 		var orig_anth;
 		var origAnthVals = new Array();
@@ -466,23 +456,18 @@ $(document).ready(function() {
 		}
 
 		/*eco copy tells you if it's the copy of the original ecosystem. you then place max ghgv in that one*/
-		for(trav = 0; trav < (included_ecosystems.length); trav++)
-		{
+		for(trav = 0; trav < (included_ecosystems.length); trav++) {
 			var eco = included_ecosystems[trav];
-
 			var name = eco.name;
-
 			var include_max_eco = JSON.stringify(eco);
 			include_max_eco.name = name;
 
-			if(eco["reg_ghgv"] == true)
-			{
+			if(eco["reg_ghgv"] == true) {
 				name = name + "(Eco)";
 				included_ecosystems[trav].name = name;
 			}
 
-			if(eco["reg_ghgv"] == false && eco["max_ghgv"] == true)
-			{
+			if(eco["reg_ghgv"] == false && eco["max_ghgv"] == true) {
 					/*set the ecosystem to a max ecosystem, then reset*/
 					name = name+"(Max)";
 					included_ecosystems[trav].name=name;
@@ -502,16 +487,13 @@ $(document).ready(function() {
 					}
 			}
 
-			if(eco["max_ghgv"] == true && eco["reg_ghgv"]==true)
-			{
-
+			if(eco["max_ghgv"] == true && eco["reg_ghgv"]==true) {
 				include_max_eco["eco_copy"] = 1;
 				include_max_eco["reg_ghgv"] = 0;
 				include_max_eco.name = include_max_eco.name+"(Max)";
 
 				/*set the variables associated with include max eco*/
-				if(include_max_eco["maxcheck"] == 0) /*have not edited ecosystem*/
-				{
+				if(include_max_eco["maxcheck"] == 0) { /*have not edited ecosystem*/
 					var valueETH = include_max_eco["eth_yield"];
 					var valueG_C02 = -(valueETH*(0.0348));
 
@@ -528,10 +510,7 @@ $(document).ready(function() {
 		}
 
 		//Set time parameters to be the same for all ecosystems
-			$.each(included_ecosystems, function(i)
-			{
-				var eco = included_ecosystems[i];
-
+			$.each(included_ecosystems, function(i) {
 				var eco = included_ecosystems[i];
 				eco.T_A = experiment.options.T_A;
 				eco.T_E = experiment.options.T_E;
@@ -565,36 +544,30 @@ $(document).ready(function() {
 		});
 
 		i = 0;
-		for(i; i<(included_ecosystems.length);i++)
-		{
+		for(i; i<(included_ecosystems.length);i++) {
 			eco = included_ecosystems[i];
 			name = included_ecosystems[i].name;
 			var origName;
-			if(eco["reg_ghgv"] == true && eco["max_ghgv"] == true)
-			{
+			if(eco["reg_ghgv"] == true && eco["max_ghgv"] == true) {
 			/*splice the second one out, rename the first*/
-			included_ecosystems.splice((i+1), 1);
-			origName = name.split("(Eco)");
-			included_ecosystems[i].name = origName[0];
+				included_ecosystems.splice((i+1), 1);
+				origName = name.split("(Eco)");
+				included_ecosystems[i].name = origName[0];
 			}
-			if(eco["reg_ghgv"] == true && eco["max_ghgv"] == false)
-			{
-			origName=name.split("(Eco)");
-			included_ecosystems[i].name = origName[0];
+			if(eco["reg_ghgv"] == true && eco["max_ghgv"] == false) {
+				origName=name.split("(Eco)");
+				included_ecosystems[i].name = origName[0];
 			}
-			if(eco["reg_ghgv"] == false && eco["max_ghgv"] == true)
-			{
-			origName=name.split("(Max)");
-			included_ecosystems[i].name = origName[0];
+			if(eco["reg_ghgv"] == false && eco["max_ghgv"] == true) {
+				origName=name.split("(Max)");
+				included_ecosystems[i].name = origName[0];
 			}
 		}
 		i=0;
-		for(i; i <(included_ecosystems.length);i++)
-		{
+		for(i; i <(included_ecosystems.length);i++) {
 			var eco = included_ecosystems[i];
 			eco["F_anth"] = origAnthVals[i];
 		}
-
 	};
 
 	//add_ecosystem button click event handler
@@ -604,7 +577,7 @@ $(document).ready(function() {
 
 	//edit_ecosystem button click event handler
 	$("#edit_ecosystem").click(function(event) {
-		if(selected_index < 0){
+		if(selected_index < 0) {
 			alert("Please select an ecosystem first.");
 			return;
 		}
@@ -653,7 +626,7 @@ $(document).ready(function() {
 			included_ecosystems[selected_index] = temp;
 
 			var html = $("#add_table tbody tr").eq(selected_index).html(),
-				html1 = $("#add_table tbody tr").eq(selected_index+1).html();
+			html1 = $("#add_table tbody tr").eq(selected_index+1).html();
 
 			$("#add_table tbody tr").eq(selected_index+1).html(html);
 			$("#add_table tbody tr").eq(selected_index).html(html1);
@@ -687,6 +660,4 @@ asdf2 = $.parseJSON('{"site_0_data":[{"name":"Tropical Forest","S_CO2":3077.1944
 
 //  create_results_table(asdf,0);
 //  create_results_table(asdf,1);
-
-
 });

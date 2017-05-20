@@ -52,8 +52,6 @@ function get_active_site_number() {
 // Expecting input formatted as:
 // {"s000":234,"s001":9992}
 function populate_data_sources_fullname_for_csep( csep_value ) {
-//  console.log("asdfasdf");
-//  console.log(csep_value);
   $.each( csep_value, function( sources_key, sources_value) {
     switch ( sources_key ) {
       case "s000":
@@ -75,35 +73,10 @@ function populate_data_sources_fullname_for_csep( csep_value ) {
 
 function populate_html_from_latlng( lat, lng ) {
   $.get("/get_biome", { lng: Math.round(lng), lat: Math.round(lat) }, function(data) {
-
     // Ensure we clear out existing stores, before making more
     $('[id|="biome_instance"]:not(.inactive_site)').find(".json_store").remove().find("json_saved").remove();
 
-
     var active_biome_site = get_active_site_number();
-
-    // expand all values to their full source names
-    //data.native_eco = $.each( data.native_eco, function(k,v) {
-    //  $.each( v, function(eco_k, eco_v) {
-    //    data["native_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-    //  });
-    //});
-    // data.aggrading_eco = $.each( data.aggrading_eco, function(k,v) {
-    //   $.each( v, function(eco_k, eco_v) {
-    //     data["aggrading_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-    //   });
-    // });
-    //data.agroecosystem_eco = $.each( data.agroecosystem_eco, function(k,v) {
-    //  $.each( v, function(eco_k, eco_v) {
-    //    data["agroecosystem_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-    //  });
-    //});
-    // data.biofuel_eco = $.each( data.biofuel_eco, function(k,v) {
-    //   $.each( v, function(eco_k, eco_v) {
-    //     data["biofuel_eco"][k][eco_k] = populate_data_sources_fullname_for_csep( eco_v );
-    //   });
-    // });
-
 
     $('#biome_instance-' + active_biome_site).find(".json_store").remove();
     $('#biome_instance-' + active_biome_site).find(".json_saved").remove();
@@ -117,38 +90,6 @@ function populate_html_from_latlng( lat, lng ) {
 
     var data_defaults = data;
 
-    // write default values to all CSEPs
-    //if ( data_defaults.native_eco != null ) {
-    //  $.each( data_defaults.native_eco, function( k, v ) { // ecosystems
-    //    $.each( data_defaults.native_eco[k] , function( csep_k, csep_v ){ // CSEPs
-    //      data_defaults.native_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-    //    });
-    //  });
-    //};
-    //if ( data_defaults.agroecosystem_eco != null ) {
-    // $.each( data_defaults.agroecosystem_eco, function( k, v ) { // ecosystems
-    //    $.each( data_defaults.agroecosystem_eco[k] , function( csep_k, csep_v ){ // CSEPs
-    //      data_defaults.agroecosystem_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-    //    });
-    //  })
-    //};
-    // if ( data_defaults.aggrading_eco != null ) {
-    //   $.each( data_defaults.aggrading_eco, function( k, v ) { // ecosystems
-    //     $.each( data_defaults.aggrading_eco[k] , function( csep_k, csep_v ){ // CSEPs
-    //       data_defaults.aggrading_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-    //     });
-    //   });
-    // };
-    // if ( data_defaults.biofuel_eco != null ) {
-    //  $.each( data_defaults.biofuel_eco, function( k, v ) { // ecosystems
-    //     $.each( data_defaults.biofuel_eco[k] , function( csep_k, csep_v ){ // CSEPs
-    //       data_defaults.biofuel_eco[k][csep_k] = {"Anderson-Teixeira and DeLucia (2011)": csep_v["Anderson-Teixeira and DeLucia (2011)"]};
-    //     });
-    //   });
-    // };
-
-
-
     $('#biome_instance-' + active_biome_site ).append( // used to store the values the user has selected
       '<div class="json_saved">' +
         JSON.stringify(data_defaults) + // stringify will work with IE8
@@ -156,7 +97,6 @@ function populate_html_from_latlng( lat, lng ) {
     );
 
     // given a marker... assign it a Location number ... and write that number into the marker
-
     marker = place_google_maps_pin( lat, lng, active_biome_site );
     marker.setMap(map); // To add the marker to the map, call setMap();
 
@@ -180,20 +120,6 @@ function populate_html_from_latlng( lat, lng ) {
       });
     };
 
-    // if ( data.biofuel_eco != null ) {
-    //   $.each( data.biofuel_eco, function(k,v) {
-    //     $('div.well:not(.inactive_site)').find('.biofuel_biomes').find('.biome_list').append(
-    //       '<div class="biome_match">' +
-    //         '<label class="checkbox inline-block"><input type="checkbox" class="inline-block">' + k.replace(/_/g," ") + '</input></label>' +
-    //         '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' +
-    //           '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' +
-    //         '</a>' +
-    //       '</div>'
-    //     ).parent().css("height", "auto");
-    //     // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
-    //   });
-    // };
-
     if ( data.agroecosystem_eco != null ) {
       $.each( data.agroecosystem_eco, function(k,v) {
         $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
@@ -207,8 +133,6 @@ function populate_html_from_latlng( lat, lng ) {
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
       });
     };
-
-
   });
 };
 
@@ -238,31 +162,6 @@ function initialize_google_map(lat, lng, zoom) {
   };
 
   map = new google.maps.Map(document.getElementById("map_canvas"), overlayOptions);
-
-  // tile overlay code
-  // NOTE: THIS FUNCTION SHOULD NO LONGER BE USED
-  var maptiler = new google.maps.ImageMapType({
-    getTileUrl: function(coord, zoom) {
-        var proj = map.getProjection();
-        var z2 = Math.pow(2, zoom);
-        var tileXSize = 256 / z2;
-        var tileYSize = 256 / z2;
-        var tileBounds = new google.maps.LatLngBounds(
-            proj.fromPointToLatLng(new google.maps.Point(coord.x * tileXSize, (coord.y + 1) * tileYSize)),
-            proj.fromPointToLatLng(new google.maps.Point((coord.x + 1) * tileXSize, coord.y * tileYSize))
-        );
-        var y = coord.y;
-        if (mapBounds.intersects(tileBounds) && (mapMinZoom <= zoom) && (zoom <= mapMaxZoom)) {
-            return "/map_tiles/" + zoom + "/" + coord.x + "/" + y + ".png";
-        } else {
-            return "http://www.maptiler.org/img/none.png";
-        }
-    },
-    tileSize: new google.maps.Size(256, 256),
-    isPng: true,
-    opacity: 0.6
-  });
-  //map.overlayMapTypes.insertAt(0, maptiler);
 
   $('div[id*="_biomes"]').find('.biomes').html("");
 
@@ -319,7 +218,6 @@ function initialize_google_map(lat, lng, zoom) {
 };
 
 function show_csep_groups_for_ecosystem( biome_type ,ecosystem_name ) {
-
   // Hide non-default groups
   $('#natural_fire').hide();
   $('#management_related').hide();
@@ -357,12 +255,9 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     // get the ecosystems from that biome_instance
     var location_default_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_store').text() );
     var current_default_ecosystem = location_default_ecosystems[biome_type + "_eco"][biome_name.replace(/ /g,"_")];
-
-    console.log("pushing this into popup:");
-    console.log(current_default_ecosystem);
+    console.log("pushing this into popup: " + JSON.stringify(current_default_ecosystem));
 
     show_csep_groups_for_ecosystem( biome_type, biome_name.replace(/_/g," ") );
-
 
     // Clear out all existing drop-down values
     $('.popup_cite_dropdown').empty();
@@ -371,7 +266,6 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-
         // if a custom field doesn't exist ... add it in
         if ( csep_value['User defined'] == null ) {
           csep_value['User defined'] = 'custom';
@@ -392,22 +286,12 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
     // ... which could be default values, or those that the user has saved )
     var user_saved_ecosystems = $.parseJSON( $('#biome_instance-' + site_id).find('.json_saved').text() );
     var user_current_saved_ecosystem = user_saved_ecosystems[biome_type + "_eco"][biome_name.replace(/ /g,"_")];
-
-    console.log("preselecting these:");
-    console.log(user_current_saved_ecosystem);
+    console.log("preselecting these: " + JSON.stringify(user_current_saved_ecosystem));
 
     $.each( user_current_saved_ecosystem, function( csep_key, csep_value ) {
       // Find the row corresponding to a CSEP value ( EX: "OM_ag")
-
-      console.log(csep_value);
-      if ( csep_key == "sw_radiative_forcing"  || csep_key == "latent" ){
-        console.log("DINGOESSSSSSSSS");
-        console.log(csep_value);
-      }
-
       $.each( $('#ecosystem_edit').find('tr#' + csep_key), function() {
         var csep_row = $(this);
-//        console.log(csep_row);
         // Each CSEP will have a value saved in the users json_saved
         // So we iterate through the json_saved
         // And set the dropdown for that CSEP to the value in json_saved
@@ -424,15 +308,10 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
           // This change prevents that
           if(value == ["NaN"] || value == [null]) { value = ""; }
           $('#ecosystem_' + csep_key).attr("value", value);
-
         // At this point all the the saved options should be displaying as whats selected in the popup
-
         });
       });
     });
-
-
-
   });
 };
 
@@ -449,15 +328,12 @@ function collapse_all_ecosystem_wells() {
       $(this).hide();
       // hide associated edit icon
       $(this).siblings('a').hide();
-
     }
   });
 };
 
-
 function get_selected_ecosystems_name_and_type( location ) {
   var ecosystems_at_this_location = location.find('label.checkbox');
-
   var selected_ecosystem_names = [];
 
   // Iterate through the checkboxes associated with the ecosystem names
@@ -514,17 +390,6 @@ $(document).ready(function() {
     );
   });
 
-
-
-
-//    -0.0348
-//US corn:
-//first * second = third
-//4th = 3rd * -0.0348
-
-
-
-
   $('#run_ghgvc_calculator').on('click' ,function() {
 
     // Check to see that we've got at least one "checked" input
@@ -545,8 +410,6 @@ $(document).ready(function() {
     var all_locations = $('[id|="biome_instance"]');
     var all_input_ecosystems = $('[id|="biome_instance"]').find('.json_saved');
 
-
-    //////
     // Here the values given by the user, or the default values for the CSEPs
     // are written into a json object to be used as input for the R script
 
@@ -555,8 +418,7 @@ $(document).ready(function() {
       var biome_group =  $(this);
       var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
-      console.log("current_biomes_json");
-      console.log(current_biomes_json);
+      console.log("current_biomes_json: " + JSON.stringify(current_biomes_json));
 
       var loc = biome_group.find(".biome_site_header .site_latlng").text();
       var lat_lng_matcher = /\( *([\d\.-]+) *, *([\d\.-]+) *\)/;
@@ -599,64 +461,36 @@ $(document).ready(function() {
 
     // At this point we've got the names of selected ecosystems at each location
     // Each CSEP contains a single Float value
-    console.log("ghgvcR_input");
-    console.log( ghgvcR_input );
+    console.log("ghgvcR_input: " + JSON.stringify(ghgvcR_input));
 
     //// Workaround for R-Code only running 1 biophysical value
     // Here we write the input swRadF value into the DOM
     // So we can compare it to the output swRadF value
     // Which gives us a scale factor to apply to the latent value
 
-    /*
-
-    Latent should already be in there...
-
-    for each lat/lng
-      for every biome_type_group
-        for each biome
-    write the latent
-
-
-    */
-
     // Hide all the input portions
-
     toggle_input_state_for_charts();
 
     $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
-        console.log("###### output from ghgvcR code: ######");
-        console.log(data);
-
+        console.log("###### output from ghgvcR code: " + JSON.stringify(data));
 
         $.ajax({
             url:'/get_svg',
-
-            success: function(svg_data)
-                    {
-                        if (svg_data != "Couldn't find svg file") {
-                            //file exists
-                            $("#charts_container").html(svg_data);
-
-                        }
-                        else {
-                          $("#charts_container").html('<p>Error plotting results.</p>');
-                        }
-                    }
+            success: function(svg_data) {
+              if (svg_data != "Couldn't find svg file") {
+                $("#charts_container").html(svg_data);
+              } else {
+                $("#charts_container").html('<p>Error plotting results.</p>');
+              }
+            }
         });
-
-
 
         // reactivate page with lightbox overlay
         $('#toggle_ghgvcR_processing_popup').trigger("click");
         $('#csv_download_button').show();
         $('#new_simulation_button').show();
-
-
     });
-
-
     // use the JSON >> XML conversion code here
-
   });
 
 
@@ -672,7 +506,6 @@ $(document).ready(function() {
 
   $("#popup_save_ecosystem_modifications").on('click', function() {
     // get all fields / values
-//    console.log( $('#ecosystem_edit').find('.popup_value_field') );
     var ecosystem_type_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[0] + "_eco";
     var ecosystem_being_saved = $('#ecosystem_edit').find('.popup_heading').text().split(":")[1].trim().replace(/ /g,"_");
     var active_site_num = get_active_site_number();
@@ -683,17 +516,13 @@ $(document).ready(function() {
     console.log(ecosystem_type_being_saved);
     console.log(ecosystem_being_saved);
 
-
     var ecosystem = all_ecosystems_at_site[ecosystem_type_being_saved][ecosystem_being_saved]
 
     // while in the popup
     // discard custom values... if the ecosystem is saved with one of the default values
 
     // then when populating the edit_popup ... if a ['custom'] exists .. use it as the default
-
-    console.log("Gets there");
-    console.log(ecosystem);
-
+    console.log("Ecosystem: " + JSON.stringify(ecosystem));
     $.each( ecosystem , function( csep_k, csep_v ){
       // find associated CSEP value and store whats in the .popup_value_field
       var save_csep_source = $("#" + csep_k + "-source option:selected").text();
@@ -702,20 +531,12 @@ $(document).ready(function() {
       ecosystem[csep_k] = {};
       ecosystem[csep_k][save_csep_source] = save_csep_value;
       console.log("Wrote out: " + csep_k + " as: " + save_csep_source +":"+save_csep_value);
-
     });
 
     // At this point the ecosystem object will contain *ONLY* a single key/value pair ( source / value pair )
     // It should cointain a Hash object for each CSEP
-    console.log("This is what was saved:");
-    console.log(ecosystem);
-
-
-
-    console.log("In this big guy:");
-    console.log(all_ecosystems_at_site);
-
-
+    console.log("This is what was saved:" + JSON.stringify(ecosystem));
+    console.log("Ecosystems at site: " + JSON.stringify(all_ecosystems_at_site));
 
     // Finally write out the saved JSON
     $('#biome_instance-' + active_site_num ).find('.json_saved').text( JSON.stringify( all_ecosystems_at_site ) );
@@ -732,23 +553,20 @@ $(document).ready(function() {
   });
 
   $('#add_additional_biome_site').on('click', function(event) {
-
     // If this is an actual user click, check that the currently
     // active site has at least one ecosystem checked:
     if ( !event['isTrigger'] &&
-         $('[id|="biome_instance"]:not(.inactive_site)')
-         .find('label.checkbox').find('input').is(':checked') == false )
+      $('[id|="biome_instance"]:not(.inactive_site)')
+      .find('label.checkbox').find('input').is(':checked') == false )
     {
       alert("Please check one or more ecosystems");
       return;
     };
 
-
     collapse_all_ecosystem_wells();
 
     if ( $('div[id|="biome_instance"]').length <= 9 && $('#add_additional_biome_site').hasClass("disabled") == false ) {
       // Add in new biome site, which will be ACTIVE
-
       var this_location_number = generate_id();
 
       $('#biome_input_container').prepend(
@@ -783,12 +601,10 @@ $(document).ready(function() {
     // Hide the 'Add Additional Site' button until user selects a map
     // location:
     $('#add_additional_biome_site').addClass("off_page");
-
   });
 
   // Add inital biome list using above code:
   $('#add_additional_biome_site').trigger('click');
-
 
   // handles reactivating a site when selected
   $('#biome_input_container').on("click", ".inactive_site" , function() {
@@ -814,5 +630,4 @@ $(document).ready(function() {
 
     initialize_google_map();
   });
-
 });
