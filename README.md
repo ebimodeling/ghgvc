@@ -24,12 +24,21 @@ The following brew packages are required:
 * `mysql`
 * `node`
 * `git` (optional if you already have git installed or prefer not to upgrade your version)
+* `chromedriver`
 
 Example homebrew install command:
 
 ```
-> brew install mysql node git
+> brew install mysql node git chromedriver
 ```
+
+* Start the chromedriver:
+
+```
+> brew services start chromedriver
+```
+
+*Note*: You also need a version of Chrome installed
 
 * Start the MySQL database service:
 
