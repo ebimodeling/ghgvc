@@ -9,8 +9,7 @@ Rails.application.routes.draw do
   get 'calculator' => 'workflows#new'
 
   # Static pages
-  get 'about/' => 'static_pages#about'
-  get 'guide/' => 'static_pages#guide'
+  get 'about' => 'static_pages#about'
 
   # AJAX handlers
   get 'get_biome' => 'workflows#get_biome'
