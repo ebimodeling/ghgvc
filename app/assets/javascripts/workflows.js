@@ -199,7 +199,7 @@ function populate_html_from_latlng( lat, lng ) {
         $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
           '<div class="biome_match checkbox">' +
             '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="lightbox" href="#ecosystem_popup">' +
+            '<a class="edit_icon_link action-link" data-toggle="modal" href="#ecosystem_popup">' +
               '<i class="glyphicon glyphicon-list-alt inline-block" rel="tooltip" title="Edit" />' +
             '</a>' +
           '</div>'
