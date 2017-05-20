@@ -37,4 +37,11 @@ end
 
 group :test, :development do
   gem 'rspec-rails'
+  gem 'binding_of_caller'
+  gem 'pry-rails'
+  gem 'pry-awesome_print'
+  gem 'pry-byebug'
+  gem 'pry-coolline'
+  gem 'pry-highlight'
+  gem 'pry-state'
 end
