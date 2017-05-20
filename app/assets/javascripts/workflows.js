@@ -199,8 +199,8 @@ function populate_html_from_latlng( lat, lng ) {
         $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
           '<div class="biome_match checkbox">' +
             '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link" data-toggle="lightbox" href="#ecosystem_popup">' +
-              '<i class="icon-search icon-list-alt inline-block edit_icon" rel="tooltip" title="edit"></i>' +
+            '<a class="edit_icon_link action-link" data-toggle="lightbox" href="#ecosystem_popup">' +
+              '<i class="glyphicon glyphicon-list-alt inline-block" rel="tooltip" title="Edit" />' +
             '</a>' +
           '</div>'
         ).parent().css("height", "auto");
@@ -755,7 +755,7 @@ $(document).ready(function() {
         '<div id="biome_instance-' + this_location_number + '" class="well well-small collapsed">' +
         '  <div class="biome_site_header inline-block"><h4><span class="site_latlng">( -- , -- )</span>: Location ' + this_location_number + '</h4></div>' +
         '  <div class="remove_biome_site btn btn-small btn-danger inline-block pull-right">' +
-        '    <i class="icon-search icon-remove"></i> Remove Location' +
+        '    <i class="glyphicon glyphicon-remove"></i> Remove Location' +
         '  </div>' + '  <br />' + '<hr/>' +
         '  <div class="native_biomes inline-block">' + '    <b>Native:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
         // '  <div class="aggrading_biomes inline-block">' + '    <b>Aggrading:</b>' + '    <div class="biome_list"></div>' + '  </div>' +
