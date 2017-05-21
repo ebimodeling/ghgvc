@@ -57,10 +57,15 @@
 <a id="toggle_ghgvcR_processing_popup" data-toggle="lightbox" href="#ghgvcR_processing_popup"></a>
 
 <div id="run_button_container" class="">
-    <div id="run_ghgvc_calculator" class="btn btn-large btn-success inline-block">
+    <div id="run_ghgvc_calculator" class="btn btn-md btn-success inline-block">
       Run Calculator
       <i class="glyphicon glyphicon-leaf"></i>
     </div>
+
+    <button class="btn btn-md btn-info" type="button" data-toggle="collapse" data-target="#advanced-settings" aria-expanded="false" aria-controls="advanced-settings">
+      Advanced Settings <span class="glyphicon glyphicon-cog" />
+    </button>
+    <%= render :partial => "advanced_settings" %>
 
     <div id="calc_sub_modules" class="inline-block">
       <input type="checkbox" id="biogeochemical" name="biogeochemical" value="biogeochemical">Biogeochemical</input> <br />
