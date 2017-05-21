@@ -1,4 +1,5 @@
 @import "custom";
+@import "nouislider.min";
 #radius {
     width: 100px;
 }
@@ -361,4 +362,29 @@ div[class*='_biomes'] {
 .download-pdf-icon {
     width: 20px;
     height: 20px;
+}
+
+#advanced-settings {
+    margin-top: 5px;
+}
+
+#advanced-settings-content {
+    padding-top: 10px;
+}
+
+// Custom styles for UI Slider
+.ui-slider {
+    margin: 5px;
+}
+
+.purple .noUi-connect {
+    background-color: #D99DEE;
+}
+
+.blue .noUi-connect {
+    background-color: #74B1FF;
+}
+
+.inline-checkbox {
+    margin-right: 5px !important;
 }

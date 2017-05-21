@@ -454,6 +454,20 @@ $(document).ready(function() {
       });
     });
 
+    function parseFormInput(element) {
+      if(setting.type === "checkbox") {
+        return setting.checked ? "TRUE" : "FALSE";
+      }
+      return setting.value;
+    }
+
+    // Get and set global settings
+    const optionsData = {}
+    const advancedSettings = document.querySelectorAll('#advanced-settings-form input');
+    for(var i = 0; i < advancedSettings.length; i++) {
+      var setting = advancedSettings[i]
+      optionsData[setting.name] = parseFormInput(setting)
+    }
 
     // At this point we've got the names of selected ecosystems at each location
     // Each CSEP contains a single Float value
@@ -467,7 +481,7 @@ $(document).ready(function() {
     // Hide all the input portions
     toggle_input_state_for_charts();
 
-    $.post("/create_config_input", { ecosystems: ghgvcR_input }, function(data) {
+    $.post("/create_config_input", { ecosystems: ghgvcR_input, options: optionsData }, function(data) {
         console.log("###### output from ghgvcR code: " + JSON.stringify(data));
 
         $.ajax({
@@ -626,4 +640,57 @@ $(document).ready(function() {
 
     initialize_google_map();
   });
+});
+
+function getMaximum(value) {
+  if(!value) { 
+    return 100; 
+  } else {
+    return parseFloat(value);
+  }
+}
+
+function getMinimum(value) {
+  if(!value) {
+    return 0;
+  } else {
+    return parseFloat(value);
+  }
+}
+
+function getSliderRange(input) {
+  const max = getMaximum(input.max);
+  const min = getMinimum(input.min);
+  return { 'min': min, 'max': max }
+}
+
+// Additional Settings Form Related JS
+$( document ).ready(function() {
+  var sliders = document.getElementsByClassName("ui-slider");
+  var slidersInputs = document.getElementsByClassName("ui-slider-input");
+
+  for ( var i = 0; i < sliders.length; i++ ) {
+    const slider = sliders[i];
+    const inputNumber = slidersInputs[i];
+    const steps = inputNumber.getAttribute('data-step-units');
+    const rounded = inputNumber.getAttribute('data-rounded') === "true";
+
+    var sliderOptions = {
+      start: inputNumber.value,
+      connect: [true, false],
+      range: getSliderRange(inputNumber),
+      tooltips: true
+    }
+    if(steps) sliderOptions.step = parseInt(steps);
+    if(rounded) sliderOptions.tooltips = [wNumb({decimals: 0})];
+
+    noUiSlider.create(slider, sliderOptions);
+
+    slider.noUiSlider.on('update', function( value ) {
+      inputNumber.value = rounded ? Math.round(value) : value;
+    });
+    inputNumber.addEventListener('change', function(){
+      slider.noUiSlider.set(this.value);
+    });
+  }
 });
