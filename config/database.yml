@@ -2,8 +2,9 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
+  host: <%= ENV.fetch('MYSQL_HOST', 'localhost') %>
   username: <%= ENV.fetch('MYSQL_USER') %>
-  password: <%= ENV.fetch('MYSQL_PASSWORD') %>
+  password: <%= ENV.fetch('MYSQL_PASSWORD', '') %>
   timeout: 5000
 
 development:
