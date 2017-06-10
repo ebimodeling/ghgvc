@@ -73,10 +73,25 @@
     </div>
 </div>
 
-<div id="charts_container">
+<!-- Start tabs -->
+<div id="charts_container" class="hidden">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#layperson" aria-controls="layperson" role="tab" data-toggle="tab">Miles Driven</a></li>
+    <li role="presentation"><a href="#technical" aria-controls="technical" role="tab" data-toggle="tab">Technical</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="layperson">
+      <div id="mi_container"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="technical">
+      <div id="co2_container"></div>
+    </div>
+  </div>
 </div>
 
-<p>Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.</p>
+<p id="dot_container"></p>
 
 <a href="download_csv/" class="link_no_underline">
 <div id="csv_download_button" class="btn btn-large btn-success">
@@ -99,5 +114,6 @@
 
 <%#= render 'form' %>
 
-<%#= link_to 'Back', workflows_path %><div id="flux_chart" class="inline-table">
-</div>
+<%#= link_to 'Back', workflows_path %>
+
+<div id="flux_chart" class="inline-table"></div>

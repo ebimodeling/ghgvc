@@ -1,9 +1,21 @@
 require 'rserve'
 
 class ClimateRegulatingValues
-  def self.calculate(biomes)
-    connection = Rserve::Connection.new
-    connection.assign("biomes", biomes.to_json)
-    response = connection.eval("ghgvcr::calc_ghgv(biomes)").to_ruby
+  class << self
+    def calculate(hash_data)
+      # These get passed by the form and are unnecessary for R
+      hash_data.delete(:controller)
+      hash_data.delete(:action)
+
+      connection.assign("data", hash_data.to_json)
+
+      connection.eval("ghgvcr::calc_ghgv(data)").to_ruby
+    end
+
+    private
+
+      def connection
+        @_connection ||= Rserve::Connection.new
+      end
   end
 end
