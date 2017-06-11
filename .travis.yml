@@ -6,18 +6,20 @@ before_install:
   - gem update --system
   - gem --version
 env:
-  - MYSQL_USER=travis
+  matrix:
+    - MYSQL_USER=travis
+  global:
+    secure: wDg85GedgvVh8oSMsNz6P/l65TxnbqtioODX7Qhm0P8VZx235xSUs6L/VRa/56akwTtIOErpOXN9bM6KSGZGBCs+b39ZLDWzpdJL7uifk1PbcYKsTlvb6K73RRFQWPLJVpk+sOR7fQCIvUgQJgAC79GijlThGcdYtwa/wTCfdzAsBi6kbCwrOqfN8QWzc/Bl6DIp7aZlksIhBtvTMun737QyuTQLo90Trt5yrwHTXpn5OjkH9Pg4nmb3ui7K7qjnQ/z8/nnmWbS/MvtWJXfeMCEHP5OTvixmFiCrm0U6+SWds2khqDqIrdAhmbCeRHRkNwHAI1/AyPoSfyUl/vryln/LR9wfs4A+KaF0BfJUCyjrdPzQjuKojx2Q+FPBN1/kk0FGdnEGe9mWer1fnJ1f8nd1qicE080waT2Cn9hMMbzceoZ6zqDaOLQT+jWxvn6suuacMWZ9IUL7f/PPnm0f4GElnM38h7QimYttb3evIHqj9xnLztotm/2gziZjs/DZma89bzTw/UaiOzqNBU3znyBkXWoN97E5ITc1kP1eCiZAbC7GjpLAlQWzaU4MLmPuanXm9eN6iRDfrGlGFHW/v5Pzkw8anmbD1NqQZ9UBxkQ9lVd9HIydnGqXSf2irfCp5dYVf+/q0FqnBmWJ6OHpGTrw/cgTPELx0FcZper8wpA=
 notifications:
+  email: false
   slack:
     secure: B/KYaLyKSmdDyIg7g8fZW2fsnLo6r05DqGGwkbjRv2i+LaHvOhFKICTOlts/TeEpqderUM+KnCUwRGzfulUIBHBifMuln27I4gzJLGZxqFbhwgYu/XpO82bg8W8oyAY8D0F2UvYehNla/y4xfuCMoKFN4WUMsneeZEpV5hriPGt5xYx96sOWcDvIVrVFHymlMmDS6vE5cJ/4ARmdWc3e7Y3eW0jaSZUBLlZCdwdzQ8ra3mbUCwY55UO5dVVoFdwGVuccAFv3TvMy9Mr4kkh5cgD/6/jyOhP+JQZcWHvZwEJc+Paj9/Qd3HcNi86XGEgEQDo/RoeznkHW4ELBQAclNCGhRdti2HjdC1bzKqK33iqzNNWe9EgsepF39ixKL6aVGYzlFXVv+Ikpjbr9/TQl4vtVOZ/TueXpa/0ELJ8SLEPVkSBNmNL75wnzxavmXUmG6U5+7DLpzbVMSn2l0BogQZTB5YMHNwevyumgHwazeCWszkt+Cwb/5jfOnCzcJCxwuPiRIS/JYNqKteuVtql8oBljyY5daGSvnrAd6JaQvIy+0MlGVWWUn3JYfybe40LlpRzR49jWNyjI/NyAPV0cNUOSuzaPJ3vT2c04qaGSCrPChrki9sWdExcNhAt94oPMqRZWkAsx1LODI2h5f4Q6w2+ay7iLnmwjfBsQK1taMqE=
 addons:
   apt:
     packages:
-      - libxslt1-dev
-      - libxml2-dev
-      - libnetcdf-dev
-      - libmysqlclient-dev
-notifications:
-  email: false
+    - libxslt1-dev
+    - libxml2-dev
+    - libnetcdf-dev
+    - libmysqlclient-dev
 rvm:
   - 2.4.1
