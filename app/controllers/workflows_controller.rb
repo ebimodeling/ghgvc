@@ -27,11 +27,7 @@ class WorkflowsController < ApplicationController
   end
 
   def create_config_input
-    Rails.logger.info("ECOSYSTEMS: #{params[:ecosystems]}")
-    @ecosystems = params[:ecosystems]
-    @biophys_workaround = []
-
-    @rscript_output = ClimateRegulatingValues.calculate @ecosystems
+    @rscript_output = JSON.parse(ClimateRegulatingValues.calculate params)
 
     ## TODO: HANDLE "NA"
     # in a few instances we get back values of "NA" .. replace those with zero
@@ -50,17 +46,15 @@ class WorkflowsController < ApplicationController
     end
   end
 
-  def download_csv
-    send_file("#{Rails.root}/tmp/out/ghgv.csv",
-              :filename => "output.csv",
-              :type => "text/csv")
-  end
-
-  # accepts a longitude, latitude:
-    # http://localhost:3000/get_biome?lng=-89.25&lat=41.75
-    # OR
-    # $.post("get_biome", { lng: 106, lat: 127 });
-  # returns JSON object of the biome
+  # Accepts a longitude, latitude:
+  #
+  #   http://localhost:3000/get_biome?lng=-89.25&lat=41.75
+  #
+  # OR
+  #
+  #   $.post("get_biome", { lng: 106, lat: 127 });
+  #
+  # Returns JSON object of the biome
   def get_biome
     @longitude = params[:lng].to_f
     @latitude = params[:lat].to_f
@@ -72,31 +66,10 @@ class WorkflowsController < ApplicationController
     end
   end
 
-  def get_svg
-    begin
-      send_file("#{Rails.root}/tmp/out/output.svg")
-    rescue
-      render(text: "Couldn't find svg file")
-    end
-  end
-
   # GET /workflows/new
   # GET /workflows/new.json
   def new
     @workflow = Workflow.new
-
-    @rscript_rundir = "#{Rails.root}/tmp/run/"
-    @rscript_outdir = "#{Rails.root}/tmp/out/"
-    @rscript_path = "#{Rails.root}/script/"
-
-    #Remove the previous run/out files
-    FileUtils.rm("#{@rscript_rundir}/biome.json", force: true)
-    FileUtils.rm("#{@rscript_rundir}/multisite_config.xml", force: true)
-    FileUtils.rm("#{@rscript_outdir}/ghgv.json", force: true)
-    FileUtils.rm("#{@rscript_outdir}/ghgv.csv", force: true)
-    FileUtils.rm("#{@rscript_outdir}/output.svg", force: true)
-
-
 
     # open data/default_ecosystems.json and parse
     # object returned is an array of hashes... Ex:
@@ -105,15 +78,6 @@ class WorkflowsController < ApplicationController
     @ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/default_ecosystems.json" , "r" ).read )
     @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
     @ecosystem = @ecosystems[0]
-
-# This is where I'll open the Priors from the DB
-#    @priors = Prior.all
-# A prior will have a number of variables
-# One of those variables can belong to a given citation
-
-# A PFT would be akin to an ecosystem
-#render :partial => "my_partial", :locals => {:player => Player.new}
-
 
     respond_to do |format|
       format.html # new.html.erb

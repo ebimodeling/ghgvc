@@ -5,6 +5,31 @@ function remove_google_maps_pin( biome_site_id ) {
   if ( markersArray[biome_site_id] != undefined ) { markersArray[biome_site_id].setMap(null) };
 };
 
+// The calculation is posted from JS, so we need a way to return the result and
+// convert it into a CSV & JSON to allow for downloading. This is a first pass
+// at inspecting the results and looking to create a CSV from the JS object.
+//
+// TODO: Replace this with an actual JS library that handles quotes, commas,
+// etc. Shouldn't need to hand-roll this
+function ConvertToCSV(array) {
+  var str = '';
+  for (var site in array) {
+    for (var name in array[site]){
+      Object.keys(array[site][name]).map(function(key, idx){
+        str += site;
+        str += ',';
+        str += name;
+        str += ',';
+        str += key;
+        str += ',';
+        str += array[site][name][key][0]
+        str += '\r\n';
+      })
+    }
+  }
+  console.log(str);
+}
+
 function activate_biome_location( obj ) {
     collapse_all_ecosystem_wells();
     obj.find('.remove_biome_site').show();
@@ -329,7 +354,7 @@ function collapse_all_ecosystem_wells() {
 };
 
 function get_selected_ecosystems_name_and_type( location ) {
-  var ecosystems_at_this_location = location.find('label.checkbox');
+  var ecosystems_at_this_location = location.find('label');
   var selected_ecosystem_names = [];
 
   // Iterate through the checkboxes associated with the ecosystem names
@@ -387,7 +412,6 @@ $(document).ready(function() {
   });
 
   $('#run_ghgvc_calculator').on('click' ,function() {
-
     // Check to see that we've got at least one "checked" input
     if ( $('[id|="biome_instance"]').find('label.biome-match').find('input').is(':checked') == false ) {
       alert("Please check one or more ecosystems");
@@ -395,8 +419,8 @@ $(document).ready(function() {
     };
 
     // when we're missing values, the output will be the same regardless of what checkboxes are checked.
-//    $('#biogeochemical').is(':checked')
-//    $('#biophysical').is(':checked')
+    // $('#biogeochemical').is(':checked')
+    // $('#biophysical').is(':checked')
 
     // deactivate page with lightbox overlay
     $('#toggle_ghgvcR_processing_popup').trigger("click");
@@ -422,35 +446,25 @@ $(document).ready(function() {
       var lat = result[1];
       var lng = result[2];
 
-      var biome_group_string = biome_group.attr('id');
+      const biome_group_id_splits = biome_group.attr('id').split('-');
+      const siteNumber = biome_group_id_splits[biome_group_id_splits.length - 1];
+      var biome_group_string = "site_" + siteNumber + "_data";
+
       ghgvcR_input[biome_group_string] = {}
       ghgvcR_input[biome_group_string]['lat'] = lat
       ghgvcR_input[biome_group_string]['lng'] = lng
+      ghgvcR_input[biome_group_string]["ecosystems"] = {}
 
-      $.each( ecosystem_to_include, function(i,v){
-        // and each ecosystem
-        console.log( v[1].replace(/ /g, "_") )
+      $.each( ecosystem_to_include, function(i,v) {
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
         console.log( input_ecosystem_json );
-        var biome_group_string = biome_group.attr('id');
-        var biome_type_string = v[0] + "_eco";
         var biome_name_string = v[1].replace(/ /g,"_")
 
-        // if keys dont exist ... add them
-        if (!( biome_group_string in ghgvcR_input ))  ghgvcR_input[biome_group_string] = {};
-        if (!( biome_type_string in ghgvcR_input[biome_group_string] ))  ghgvcR_input[biome_group_string][biome_type_string] = {};
-
-        ghgvcR_input[biome_group_string][biome_type_string][biome_name_string] = input_ecosystem_json;
-
-        // Current R code requires sensible value, even though we dont use sensible
-        //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["sensible"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
-
-
-        // TODO: Fix the issue with missing data in the public/data/* files
-        if ( typeof ( ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] ) == "undefined" ) {
-            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = {"Anderson-Teixeira and DeLucia (2011)":"0"};
-            //ghgvcR_input[biome_group_string][biome_type_string][biome_name_string]["latent"] = ["0"];
-        }
+        ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string] = input_ecosystem_json;
+        // Remove unnecessary settings that are in global
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["T_A"];
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["T_E"];
+        delete ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string]["r"];
       });
     });
 
@@ -471,48 +485,47 @@ $(document).ready(function() {
 
     // At this point we've got the names of selected ecosystems at each location
     // Each CSEP contains a single Float value
-    console.log("ghgvcR_input: " + JSON.stringify(ghgvcR_input));
-
-    //// Workaround for R-Code only running 1 biophysical value
-    // Here we write the input swRadF value into the DOM
-    // So we can compare it to the output swRadF value
-    // Which gives us a scale factor to apply to the latent value
+    // console.log("ghgvcR_input: " + JSON.stringify(ghgvcR_input));
 
     // Hide all the input portions
     toggle_input_state_for_charts();
 
-    $.post("/create_config_input", { ecosystems: ghgvcR_input, options: optionsData }, function(data) {
-        console.log("###### output from ghgvcR code: " + JSON.stringify(data));
+    const data = { sites: ghgvcR_input, options: optionsData };
 
-        $.ajax({
-            url:'/get_svg',
-            success: function(svg_data) {
-              if (svg_data != "Couldn't find svg file") {
-                $("#charts_container").html(svg_data);
-              } else {
-                $("#charts_container").html('<p>Error plotting results.</p>');
-              }
-            }
-        });
+    $.post("/create_config_input", data, function(data) {
+      // Data is already returned as an object, no need to parse or stringify
 
-        // reactivate page with lightbox overlay
-        $('#toggle_ghgvcR_processing_popup').trigger("click");
-        $('#csv_download_button').show();
-        $('#new_simulation_button').show();
+      // Base64 decoding for SVG images
+      mi_svg = atob(data.plots.mi[0]);
+      co2_svg = atob(data.plots.co2[0]);
+
+      // Place SVGs on the map
+      $("#mi_container").html(mi_svg);
+      $("#co2_container").html(co2_svg);
+
+      // Add the message about the black dots
+      $('#dot_container').html('Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
+
+      debugger;
+
+      // Reactivate page with lightbox overlay
+      $('#toggle_ghgvcR_processing_popup').trigger("click");
+      $('#csv_download_button').show();
+      $('#new_simulation_button').show();
+      // Show the charts class again
+      $('#charts_container').removeClass('hidden');
     });
-    // use the JSON >> XML conversion code here
   });
-
 
   $('.popup_cite_dropdown').change( function() {
-    // Assign the selected value in the drop down, to the subling input box
+    // Assign the selected value in the drop down, to the sibling input box
     $(this).parentsUntil('tbody').find('.popup_value_field').val( $(this).val() );
   });
+
   $('.popup_value_field').on('focus', function() {
-    // Assign the selected value in the drop down, to the subling input box
+    // Assign the selected value in the drop down, to the sibling input box
     $(this).parentsUntil('tbody').find('.popup_cite_dropdown').val("user defined");
   });
-
 
   $("#popup_save_ecosystem_modifications").on('click', function() {
     // get all fields / values
@@ -643,8 +656,8 @@ $(document).ready(function() {
 });
 
 function getMaximum(value) {
-  if(!value) { 
-    return 100; 
+  if(!value) {
+    return 100;
   } else {
     return parseFloat(value);
   }
