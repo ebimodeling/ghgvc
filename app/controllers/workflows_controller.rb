@@ -27,7 +27,7 @@ class WorkflowsController < ApplicationController
   end
 
   def create_config_input
-    @rscript_output = JSON.parse(ClimateRegulatingValues.calculate params)
+    @rscript_output = JSON.parse(ClimateRegulatingValues.calculate(params))
 
     ## TODO: HANDLE "NA"
     # in a few instances we get back values of "NA" .. replace those with zero
