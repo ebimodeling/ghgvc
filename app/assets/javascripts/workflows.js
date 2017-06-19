@@ -506,7 +506,7 @@ $(document).ready(function() {
       // Add the message about the black dots
       $('#dot_container').html('Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
 
-      debugger;
+      // debugger;
 
       // Reactivate page with lightbox overlay
       $('#toggle_ghgvcR_processing_popup').trigger("click");
