@@ -1,4 +1,4 @@
-> This is a shallow clone of the Ecosystem Climate Regulation Services Calculator
+> This is a fork of the Ecosystem Climate Regulation Services Calculator
 > found at https://github.com/ebimodeling/ghgvc used for Ruby for Good
 
 # Ecosystem Climate Regulation Services Calculator
@@ -9,188 +9,46 @@ feature requests are welcome!
 
 # Setup & Installation
 
-This is a first-pass at a standalone installation of all dependencies which will
-allow development on macOS.
+This project uses Docker to manage dependencies.
 
-
-## Dependencies
-
-### MacOS
-
-* Install [Docker Community Edition for Mac](https://store.docker.com/editions/community/docker-ce-desktop-mac)
-* Install [homebrew for MacOS](https://brew.sh/)
-
-The following brew packages are required:
-* `mysql`
-* `node`
-* `git` (optional if you already have git installed or prefer not to upgrade your version)
-* `chromedriver`
-
-Example homebrew install command:
+* Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
+* Create a new empty folder on your host OS and clone this project &amp; the R server
 
 ```
-> brew install mysql node git chromedriver
+mkdir my_ghgvc_project && cd my_ghgvc_project
+
+# Clone the rails application
+git clone git@github.com/rubyforgood/ghgvc.git
+
+# Clone the R server. Use this branch for now
+git clone -b fix/jay_test git@github.com:jaydorsey/ghgvcR.git
 ```
 
-* Start the chromedriver:
+# Building & running the application
+
+Ensure Docker is running, and navigate to your ghgvc repo.
 
 ```
-> brew services start chromedriver
+cd ghgvc
+
+docker-compose build
+
+# Download the required netcdf files
+# NOTE: curl won't show progress but it's working
+docker-compose up get_data
+
+# bundle install
+docker-compose up bundler
+
+# Database setup, migration won't work here
+docker-compose run --rm app bundle exec rails db:create
+docker-compose run --rm app bundle exec rails db:schema:load
+
+# Actually runs the application
+docker-compose up app
 ```
 
-*Note*: You also need a version of Chrome installed
-
-* Start the MySQL database service:
-
-```
-> brew services start mysql
-```
-
-* Give the MySQL root user a password
-
-```
-> mysql -uroot
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
-```
-
-### Ubuntu Linux
-
-The following Ubuntu packages are needed:
-
-* mysql-server
-* nodejs
-* libnetcdf-dev
-* r-base
-* libmysqlclient-dev
-* libxml2-dev
-
-Example install command:
-
-```
-sudo apt-get -y install mysql-server nodejs libnetcdf-dev r-base libmysqlclient-dev libxml2-dev
-```
-
-* Give the MySQL root user a password
-
-```
-> mysql -uroot
-mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'somesupersecretpassword'
-```
-
-## Download the web app (this Rails project)
-
-* Clone the repo. In these steps, we'll be putting the project in a directory
-named `code` in our home directory:
-
-```
-> mkdir ~/code
-~/code > cd ~/code
-~/code > git clone git@github.com:rubyforgood/ghgvc.git
-~/code > cd ghgvc
-~/code/ghgvc >
-```
-
-* Install ruby 2.4.1. If you don't have a plugin manager, try https://github.com/asdf-vm/asdf.
-
-* Optional but recommended:
-
-```
-~/code/ghgvc > gem update --system
-```
-
-* Install bundler:
-
-```
-~/code/ghgvc > gem install bundler
-```
-
-* Install project library dependencies:
-
-```
-~/code/ghgvc > bundle install
-```
-
-* Set `MYSQL_USER` and `MYSQL_PASSWORD` environment variables to the username and
-password with database create privileges in MySQL.
-
-* Setup the database:
-
-```
-~/code/ghgvc > bundle exec rake db:create db:schema:load
-```
-
-## Download the calculation engine (the R project)
-
-* Clone [the `ghgvcR` repo](https://github.com/ebimodeling/ghgvcR) to a
-  directory next to the `ghgvc` Rails project:
-
-```
-~/code > cd ~/code
-~/code > git clone git@github.com:ebimodeling/ghgvcR.git
-```
-
-**NOTE:** In the end, you should see the `ghgvc` and `ghgvcR`
-directories appear within the same directory:
-
-```
-> ls ~/code
-ghgvc ghgvcR
-```
-
-## Retrieve the data files
-
-* Create a `ghgvcD` directory next to the `ghgvc` and `ghgvcR` directories:
-
-```
-> cd ~/code
-~/code > mkdir ghgvcD
-```
-
-**NOTE:** In the end, you should see the `ghgvc`, `ghgvcR` and `ghgvcD`
-directories appear within the same directory:
-
-```
-> ls ~/code
-ghgvc  ghgvcD ghgvcR
-```
-
-* Download the netcdf files from here: https://uofi.box.com/v/ghgvc-input (TODO: Issue #1)s
-* Move the following 5 files in `netcdf/GCS/Maps/` folder
-    * `gez_2010_wgs84.nc`
-    * `Hurtt_SYNMAP_Global_HD_2010.nc`
-    * `hwsd.nc`
-    * `koppen_geiger.nc`
-    * `vegtype.nc`
-* Move the remaining files to `netcdf` folder
-
-# Running the Web App
-
-* Start the R calculator service:
-
-```
-~/code/ghgvc >  docker-compose up
-Creating network "ghgvc_default" with the default driver
-Creating ghgvc_r_1
-... (first time: lots of output to build the R service)
-Attaching to ghgvc_r_1
-r_1  | -- running Rserve in this R session (pid=7), 1 server(s) --
-r_1  | (This session will block until Rserve is shut down)
-```
-
-* Start the web process:
-
-```
-~/code/ghgvc > bin/rails s
-=> Booting Puma
-=> Rails 5.1.0 application starting in development on http://localhost:3000
-=> Run `rails server -h` for more startup options
-Puma starting in single mode...
-* Version 3.8.2 (ruby 2.4.1-p111), codename: Sassy Salamander
-* Min threads: 5, max threads: 5
-* Environment: development
-* Listening on tcp://0.0.0.0:3000
-Use Ctrl-C to stop
-```
+Navigate to http://localhost:3000/ in your web browser.
 
 # About the Ecosystem Climate Regulation Services Calculator
 
