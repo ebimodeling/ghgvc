@@ -13,7 +13,7 @@ volumes:
 services:
   get_data:
     image: alpine:3.6
-    command: ash -c "apk add --update curl unzip && rm -rf /var/cache/apk/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/2g2x58fkolgnn76/app_data.zip?dl=1 && unzip /home/ghgvcr/data/app_data.zip && rm -rf /home/ghgvcr/data/app_data.zip"
+    command: ash -c "apk add --update curl unzip && rm -rf /var/cache/apk/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/allcc92qj8iyfmf/app_data_compressed.zip?dl=1 && unzip /home/ghgvcr/data/app_data.zip && rm -rf /home/ghgvcr/data/app_data.zip"
     volumes:
       - netcdf-data:/home/ghgvcr/data/
 
