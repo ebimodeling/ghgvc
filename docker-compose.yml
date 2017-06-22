@@ -11,19 +11,18 @@ volumes:
     driver: local
 
 services:
-  get_data:
-    image: alpine:3.6
-    command: ash -c "apk add --update curl unzip && rm -rf /var/cache/apk/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/allcc92qj8iyfmf/app_data_compressed.zip?dl=1 && unzip /home/ghgvcr/data/app_data.zip && rm -rf /home/ghgvcr/data/app_data.zip"
-    volumes:
-      - netcdf-data:/home/ghgvcr/data/
-
-  r:
+  r: &r_base
     build:
       context: ../ghgvcR
     volumes:
       - netcdf-data:/home/ghgvcr/data/
     ports:
       - "127.0.0.1:6311:6311"
+
+  get_data:
+    <<: *r_base
+    user: root
+    command: bash -c "apt-get update && apt-get -y install curl unzip && rm -rf /var/lib/apt/lists/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/allcc92qj8iyfmf/app_data_compressed.zip?dl=1 && unzip /home/ghgvcr/data/app_data.zip -d /home/ghgvcr/data/ && rm /home/ghgvcr/data/app_data.zip && chown -R ghgvcr:ghgvcr /home/ghgvcr/data"
 
   database:
     image: mariadb
