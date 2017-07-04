@@ -1,6 +1,6 @@
 {
-  "controller": "delete",
-  "action": "delete",
+  "controller": "workflows",
+  "action": "create_config_input",
   "sites": {
     "site_1_data": {
       "lat": "33.43",

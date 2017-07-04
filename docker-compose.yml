@@ -1,9 +1,76 @@
-version: '2'
+version: "3"
+
+volumes:
+  bundler-data:
+    driver: local
+  db-data:
+    driver: local
+  netcdf-data:
+    driver: local
+  tmp-data:
+    driver: local
+
 services:
-  r:
+  r: &r_base
     build:
       context: ../ghgvcR
     volumes:
-      - ../ghgvcD:/home/ghgvcr/data
+      - netcdf-data:/home/ghgvcr/data/
     ports:
       - "127.0.0.1:6311:6311"
+
+  get_data:
+    <<: *r_base
+    user: root
+    command: bash -c "apt-get update && apt-get -y install curl unzip && rm -rf /var/lib/apt/lists/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/allcc92qj8iyfmf/app_data_compressed.zip?dl=1 && unzip /home/ghgvcr/data/app_data.zip -d /home/ghgvcr/data/ && rm /home/ghgvcr/data/app_data.zip && chown -R ghgvcr:ghgvcr /home/ghgvcr/data"
+
+  database:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root_password
+      # We don't actually use this, but should. Need to grant access to the
+      # test & dev databases. Will fix this later.
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - tmp-data:/app/tmp
+      - db-data:/var/lib/mysql
+
+  app_base: &app_base
+    build:
+      context: .
+      args:
+        - bundle_jobs=3
+    volumes:
+      - .:/app
+      - bundler-data:/usr/local/bundle
+
+  app:
+    <<: *app_base
+    # Need to run the db:migrate command separately before the up
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    # Whatever variables you put here will be injected into the application
+    #
+    # If you don't assign a value, it will use the environment value from
+    # your current local environment
+    environment:
+      - RAILS_ENV=development
+      - MYSQL_ROOT_USER=root
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=password
+      - CALC_HOST=r
+    ports:
+      - "127.0.0.1:3000:3000"
+    links:
+      - r
+      - database
+    stdin_open: true
+    tty: true
+
+  bundler:
+    <<: *app_base
+    command: bundle

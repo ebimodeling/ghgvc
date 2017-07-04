@@ -1,4 +1,4 @@
-require 'rserve'
+require "rserve"
 
 class ClimateRegulatingValues
   class << self
@@ -7,15 +7,11 @@ class ClimateRegulatingValues
       hash_data.delete(:controller)
       hash_data.delete(:action)
 
+      connection = Rserve::Connection.new(hostname: ENV.fetch("CALC_HOST", "127.0.0.1"))
+
       connection.assign("data", hash_data.to_json)
 
       connection.eval("ghgvcr::calc_ghgv(data)").to_ruby
     end
-
-    private
-
-      def connection
-        @_connection ||= Rserve::Connection.new
-      end
   end
 end
