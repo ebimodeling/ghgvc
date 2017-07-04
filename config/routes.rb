@@ -16,8 +16,5 @@ Rails.application.routes.draw do
   post 'create_config_input' => 'workflows#create_config_input'
   get 'download_csv' => 'workflows#download_csv'
 
-  # File accessors
-  get 'get_svg' => 'workflows#get_svg'
-
   root :to => 'workflows#new'
 end
