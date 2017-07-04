@@ -3,3 +3,55 @@
 
 en:
   hello: "Hello world"
+  popover:
+    ecosystem-years: "Because land use changes typically persist on time scales of decades to centuries, it is appropriate that the climate regulation services of ecosystems be assessed over a decadal time frame. This parameter controls the number of years over which ecosystem-climate interactions are assessed. We consider 50 years to be an appropriate default choice.
+
+
+For a technical discussion of how ecosystem climate services vary with this parameter, see the following references:
+
+
+Anderson-Teixeira KJ, DeLucia EH (2011) The greenhouse gas value of ecosystems. Global Change Biology, 17, 425–438.
+
+
+Anderson-Teixeira KJ, Snyder PK, Twine TE, Cuadra SV, Costa MH, DeLucia EH (2012) Climate-regulation services of natural and agricultural ecoregions of the Americas. Nature Climate Change, 2, 177–181."
+
+    analysis-years: "Because greenhouse gasses remain in the atmosphere – and thereby impact the climate – for many years following their release, it may be desirable to evaluate the climate impact of ecosystem-atmosphere GHG exchange over a time frame that is longer that that over which ecosystem-atmosphere exchange of greenhouse gasses is assessed. We consider 50 years (or 100 years when biophysical effects are not included) to be an appropriate default choice.
+
+
+For a technical discussion of how ecosystem climate services vary with this parameter, see the following references:
+
+
+Anderson-Teixeira KJ, DeLucia EH (2011) The greenhouse gas value of ecosystems. Global Change Biology, 17, 425–438.
+
+
+Anderson-Teixeira KJ, Snyder PK, Twine TE, Cuadra SV, Costa MH, DeLucia EH (2012) Climate-regulation services of natural and agricultural ecoregions of the Americas. Nature Climate Change, 2, 177–181."
+
+    discount-rate: "Applying an annual discount rate places greater weight on current than on future ecosystem-climate exchanges. When annual discount rate is zero, no weighting is applied; higher values place progressively less weight on later exchanges. Applying an annual discount rate may be desirable because (1) earlier exchanges may be more likely to determine the fate of climate change in that they could trigger feedback mechanisms or push the climate system past critical damage thresholds, and (2) society tends to place more value on near-term than on long-term costs and benefits, leading economic and policy applications to often apply an annual discount rate to future greenhouse gas emissions (typically, annual discount rate 0.10). As a default, we do not apply an annual discount rate (annual discount rate=0).
+
+
+For a technical discussion of how ecosystem climate services vary with this parameter, see the following reference:
+
+
+Anderson-Teixeira KJ, DeLucia EH (2011) The greenhouse gas value of ecosystems. Global Change Biology, 17, 425–438."
+
+    greenhouse-gasses: "The greenhouse gasses carbon dioxide (CO2), methane (CH4), and nitrous oxide (N2O) are exchanged between ecosystems and the atmosphere. While CO2 is generally the most important of these for unmanaged terrestrial ecosystems, CH4 and N2O can contribute significantly to an ecosystem’s greenhouse gas value, particularly for wetlands (CH4), fertilized croplands (N2O), and pasture (CH4 and N2O). User may select which to include. As a default, we recommend inclusion of all three.
+
+
+For a technical discussion of how ecosystem climate services are shaped by greenhouse gases, see the following reference:
+
+
+Anderson-Teixeira KJ, DeLucia EH (2011) The greenhouse gas value of ecosystems. Global Change Biology, 17, 425–438."
+    biophysical-components: "In addition to exchanging greenhouse gasses with the atmosphere, ecosystems also strongly influence the energy balance of the land surface. There is not yet scientific consensus as to the best method for integrating greenhouse gases and biophysical components into a single metric; the calculator applies one of several proposed metrics. As a default, we recommend inclusion of biophysical components. However, we note that the calculator is currently able to compute biophysical effects for a subset of ecosystem types.
+
+
+For a technical discussion of how ecosystem climate services are shaped by biophysical components, see the following reference:
+
+
+Anderson-Teixeira KJ, Snyder PK, Twine TE, Cuadra SV, Costa MH, DeLucia EH (2012) Climate-regulation services of natural and agricultural ecoregions of the Americas. Nature Climate Change, 2, 177–181."
+    components: "Ecosystems contribute to climate regulation through storage of organic matter and ongoing ecosystem-atmosphere exchange. Moreover, climate regulation values are reduced in ecosystems that are likely to undergo a major disturbance (for example, fire) within the time frame of interest. Users may select which of these components to include. As a default, we recommend inclusion of all, but note that default disturbance rates are currently set to zero and treatment of disturbance remains rudimentary. Disturbance can only be calculated if user edits disturbance-related parameters (for example, disturbance rate).
+
+
+For a technical discussion of how ecosystem climate services are shaped each of these components, see the following reference:
+
+
+Anderson-Teixeira KJ, DeLucia EH (2011) The greenhouse gas value of ecosystems. Global Change Biology, 17, 425–438."
