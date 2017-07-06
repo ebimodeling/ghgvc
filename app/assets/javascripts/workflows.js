@@ -180,6 +180,7 @@ function initialize_google_map(lat, lng, zoom) {
   var geocoder;
   var address;
   var latlng = new google.maps.LatLng(31,-15);
+  // set scrollwheel: false in options to disable accidental zoom on scroll
   var overlayOptions = {
     opacity: 0.6,
     zoom: mapMinZoom,
@@ -396,7 +397,6 @@ $(document).ready(function() {
 //      $('#calc_sub_modules').css("display","none");
 //  });
 
-
 //  $('#calc_sub_modules').animate({opacity:'toggle'},500)
 
   initialize_google_map();
@@ -583,10 +583,7 @@ $(document).ready(function() {
   $('#add_additional_biome_site').on('click', function(event) {
     // If this is an actual user click, check that the currently
     // active site has at least one ecosystem checked:
-    if ( !event['isTrigger'] &&
-      $('[id|="biome_instance"]:not(.inactive_site)')
-      .find('label.checkbox').find('input').is(':checked') == false )
-    {
+    if (!event['isTrigger'] && $('[id|="biome_instance"]:not(.inactive_site)').find('label.biome-match').find('input').is(':checked') == false) {
       alert("Please check one or more ecosystems");
       return;
     };
