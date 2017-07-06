@@ -18,19 +18,14 @@ This project uses Docker to manage dependencies.
 mkdir my_ghgvc_project && cd my_ghgvc_project
 
 # Clone the rails application
-git clone git@github.com/rubyforgood/ghgvc.git
-
-# Clone the R server. Use this branch for now
-git clone -b fix/jay_test git@github.com:jaydorsey/ghgvcR.git
+git clone git@github.com/rubyforgood/ghgvc.git && cd ghgvc
 ```
 
 # Building & running the application
 
-Ensure Docker is running, and navigate to your ghgvc repo.
+Ensure Docker is running, the ghgvc app is cloned, and you've navigated to your ghgvc repo.
 
 ```
-cd ghgvc
-
 docker-compose build
 
 # Download the required netcdf files
