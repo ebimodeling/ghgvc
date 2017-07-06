@@ -12,8 +12,7 @@ volumes:
 
 services:
   r: &r_base
-    build:
-      context: ../ghgvcR
+    image : jaydorsey/ghgvcr:latest
     volumes:
       - netcdf-data:/home/ghgvcr/data/
     ports:
