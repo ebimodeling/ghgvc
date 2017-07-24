@@ -14,10 +14,14 @@ This project uses Docker to manage dependencies and R server to....
 1. Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
 
 2. Create a directory on your host OS to clone this project &amp; the R server:
-`mkdir my_ghgvc_project && cd my_ghgvc_project`
+```
+mkdir my_ghgvc_project && cd my_ghgvc_project`
+```
 
 3. Clone the rails application:
-`git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc`
+```
+git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
+```
 
 4. Install R server...
 
