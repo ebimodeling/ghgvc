@@ -9,41 +9,49 @@ feature requests are welcome!
 
 # Setup & Installation
 
-This project uses Docker to manage dependencies.
+This project uses Docker to manage dependencies and R server to....
 
-* Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
-* Create a new empty folder on your host OS and clone this project &amp; the R server
+1. Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
 
-```
-mkdir my_ghgvc_project && cd my_ghgvc_project
+2. Create a directory on your host OS to clone this project &amp; the R server:
+`mkdir my_ghgvc_project && cd my_ghgvc_project`
 
-# Clone the rails application
-git clone git@github.com/rubyforgood/ghgvc.git && cd ghgvc
-```
+3. Clone the rails application:
+`git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc`
+
+4. Install R server...
 
 # Building & running the application
 
 Ensure Docker is running, the ghgvc app is cloned, and you've navigated to your ghgvc repo.
 
+1. Build Docker: 
 ```
 docker-compose build
+```
 
-# Download the required netcdf files
-# NOTE: curl won't show progress but it's working
+2. Download the required netcdf files (NOTE: curl won't show progress but it's working):
+```
 docker-compose up get_data
+```
 
-# bundle install
+3. Bundle install:
+```
 docker-compose up bundler
+```
 
-# Database setup, migration won't work here
+4. Database setup (migration won't work here):
+```
 docker-compose run --rm app bundle exec rails db:create
 docker-compose run --rm app bundle exec rails db:schema:load
+```
 
-# Actually runs the application
+5. Run the application:
+```
 docker-compose up app
 ```
 
-Navigate to http://localhost:3000/ in your web browser.
+6. Navigate to http://localhost:3000/ in your web browser.
 
 # About the Ecosystem Climate Regulation Services Calculator
 
