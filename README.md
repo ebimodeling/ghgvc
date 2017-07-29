@@ -9,21 +9,14 @@ feature requests are welcome!
 
 # Setup & Installation
 
-This project uses Docker to manage dependencies and R server to....
+This project uses Docker to manage dependencies.
 
 1. Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
 
-2. Create a directory on your host OS to clone this project &amp; the R server:
-```
-mkdir my_ghgvc_project && cd my_ghgvc_project`
-```
-
-3. Clone the rails application:
+2. Clone the rails application:
 ```
 git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
 ```
-
-4. Install R server...
 
 # Building & running the application
 
@@ -38,6 +31,7 @@ docker-compose build
 ```
 docker-compose up get_data
 ```
+  * This process may pause in the middle; let it run. The CLI should return `ghgvc_get_data_1 exited with code 0` at the end.
 
 3. Bundle install:
 ```
@@ -50,12 +44,64 @@ docker-compose run --rm app bundle exec rails db:create
 docker-compose run --rm app bundle exec rails db:schema:load
 ```
 
-5. Run the application:
+5. Ensure R Server is running:
+```
+docker-compose ps
+```
+  * You should see something similar to:
+
+  ```
+  Name                    Command               State            Ports
+  ------------------------------------------------------------------------------------
+  ghgvc_app_1        bundle exec rails s -p 300 ...   Up      127.0.0.1:3000->3000/tcp
+  ghgvc_database_1   docker-entrypoint.sh mysqld      Up      127.0.0.1:3306->3306/tcp
+  ghgvc_r_1          /bin/sh -c Rscript start.R       Up      127.0.0.1:6311->6311/tcp
+  ```
+  * If `ghgvc_r_1` is in `Exit` State, something went wrong, try: 
+  ```
+  docker-compose down # stop everything
+  docker-compose up app # restart the R server
+  ```
+
+6. Run the application:
 ```
 docker-compose up app
 ```
 
-6. Navigate to http://localhost:3000/ in your web browser.
+7. Navigate to http://localhost:3000/ in your web browser.
+  *  If clicking on the map does not return ecosystems, ensure that data was downloaded: 
+```
+docker-compose run r /bin/bash
+cd data
+ls
+```
+  * This should show a file `name_indexed_ecosystems.json`, and two directories: `maps` and `netcdf`. If it is empty, try:
+  ```
+  docker-compose down # stop everything
+  docker-compose up get_data # should re-download & un-zip the data	
+  ```
+  * If there is still an issue, try: 
+  ```
+  docker-compose down # stop everything
+  docker-compose volume rm ghgvc_netcdf-data # removes the volume
+  docker-compose up get_data # should re-download & un-zip the data	
+  ```
+  * `ghgvc_netcdf-data` name should be the name of the volume. If that command fails, try `docker volume ls` and look for one that matches on the netcdf-data
+   * If all of the above fails (if you can't force it to stop with docker-compose or docker commands), try restarting either docker or your machine (sometimes both; it usually means the container was put into a state that it shouldn't be). 
+   
+# Development & Test
+* Enter the Rails console:
+```
+docker-compose run --rm app bin/rails c
+```
+* Run all tests:
+```
+docker-compose run --rm app rspec
+```
+* Run a singular test:
+```
+docker-compose run --rm app rspec spec/<test file path>
+```
 
 # About the Ecosystem Climate Regulation Services Calculator
 
@@ -93,7 +139,7 @@ maps of climatically significant ecosystem properties (for example,
 biomass, soil carbon, biophysical services) to provide location-specific
 CRV estimates.
 
-## Applications
+# Applications
 
 The Ecosystem Climate Regulation Services Calculator has potential
 applications in a variety of fields. Below are some examples.
