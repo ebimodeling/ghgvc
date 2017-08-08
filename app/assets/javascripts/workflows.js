@@ -142,7 +142,7 @@ function populate_html_from_latlng( lat, lng ) {
               '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
             '</a>' +
             '<a class="biome_pdf_link action-link"href="' +
-            '/assets/' + v.code + '.pdf' + //pdf file name
+            '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
             '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
           '</div>'
         ).parent().css("height", "auto");
