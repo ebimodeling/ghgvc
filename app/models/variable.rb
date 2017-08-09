@@ -1,2 +1,0 @@
-class Variable < ApplicationRecord
-end

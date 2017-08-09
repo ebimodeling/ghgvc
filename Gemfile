@@ -16,7 +16,6 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'rserve-client'
 
-gem 'mysql2'
 gem 'narray'
 gem 'cobravsmongoose'
 gem 'bootstrap-sass'

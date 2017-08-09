@@ -22,7 +22,7 @@ git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
 
 Ensure Docker is running, the ghgvc app is cloned, and you've navigated to your ghgvc repo.
 
-1. Build Docker: 
+1. Build Docker:
 ```
 docker-compose build
 ```
@@ -38,13 +38,7 @@ docker-compose up get_data
 docker-compose up bundler
 ```
 
-4. Database setup (migration won't work here):
-```
-docker-compose run --rm app bundle exec rails db:create
-docker-compose run --rm app bundle exec rails db:schema:load
-```
-
-5. Ensure R Server is running:
+4. Ensure R Server is running:
 ```
 docker-compose ps
 ```
@@ -54,10 +48,9 @@ docker-compose ps
   Name                    Command               State            Ports
   ------------------------------------------------------------------------------------
   ghgvc_app_1        bundle exec rails s -p 300 ...   Up      127.0.0.1:3000->3000/tcp
-  ghgvc_database_1   docker-entrypoint.sh mysqld      Up      127.0.0.1:3306->3306/tcp
   ghgvc_r_1          /bin/sh -c Rscript start.R       Up      127.0.0.1:6311->6311/tcp
   ```
-  * If `ghgvc_r_1` is in `Exit` State, something went wrong, try: 
+  * If `ghgvc_r_1` is in `Exit` State, something went wrong, try:
   ```
   docker-compose down # stop everything
   docker-compose up app # restart the R server
@@ -69,7 +62,7 @@ docker-compose up app
 ```
 
 7. Navigate to http://localhost:3000/ in your web browser.
-  *  If clicking on the map does not return ecosystems, ensure that data was downloaded: 
+  *  If clicking on the map does not return ecosystems, ensure that data was downloaded:
 ```
 docker-compose run r /bin/bash
 cd data
@@ -78,17 +71,17 @@ ls
   * This should show a file `name_indexed_ecosystems.json`, and two directories: `maps` and `netcdf`. If it is empty, try:
   ```
   docker-compose down # stop everything
-  docker-compose up get_data # should re-download & un-zip the data	
+  docker-compose up get_data # should re-download & un-zip the data
   ```
-  * If there is still an issue, try: 
+  * If there is still an issue, try:
   ```
   docker-compose down # stop everything
   docker-compose volume rm ghgvc_netcdf-data # removes the volume
-  docker-compose up get_data # should re-download & un-zip the data	
+  docker-compose up get_data # should re-download & un-zip the data
   ```
   * `ghgvc_netcdf-data` name should be the name of the volume. If that command fails, try `docker volume ls` and look for one that matches on the netcdf-data
-   * If all of the above fails (if you can't force it to stop with docker-compose or docker commands), try restarting either docker or your machine (sometimes both; it usually means the container was put into a state that it shouldn't be). 
-   
+   * If all of the above fails (if you can't force it to stop with docker-compose or docker commands), try restarting either docker or your machine (sometimes both; it usually means the container was put into a state that it shouldn't be).
+
 # Development & Test
 * Enter the Rails console:
 ```

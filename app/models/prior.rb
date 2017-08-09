@@ -1,2 +1,0 @@
-class Prior < ApplicationRecord
-end
