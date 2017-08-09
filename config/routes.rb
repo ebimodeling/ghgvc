@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  resources :variables
-  resources :citations
-  resources :priors
-  resources :workflows
-  resources :pfts
   resources :users
 
   get 'calculator' => 'workflows#new'
