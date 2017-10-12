@@ -14,7 +14,7 @@ if (length(script_args) < 6 | length(script_args) > 7) {
         longitude:        The longitude to load data for.
         named_ecosystem:  Ecosystem defaults file.
         netcdf_dir:       Full path to the netcdf biome data.
-        mapdata_dir:      Full path to the map biome data dir.
+        map_dir:          Full path to the map biome data dir.
         output_dir:       Full path to write the biome data to.
         output_filename:  File name of file
         output_format:    Format (json or csv)
