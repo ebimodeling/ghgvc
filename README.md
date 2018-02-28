@@ -15,7 +15,7 @@ This project uses Docker to manage dependencies.
 
 2. Clone the rails application:
 ```
-git clone git@github.com:rubyforgood/ghgvc.git && cd ghgvc
+git clone git@github.com:rubyforgood/ghgvc.git --depth 1 && cd ghgvc
 ```
 
 # Building & running the application
