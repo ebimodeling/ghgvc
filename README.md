@@ -38,30 +38,13 @@ docker-compose up get_data
 docker-compose up bundler
 ```
 
-4. Ensure R Server is running:
-```
-docker-compose ps
-```
-  * You should see something similar to:
-
-  ```
-  Name                    Command               State            Ports
-  ------------------------------------------------------------------------------------
-  ghgvc_app_1        bundle exec rails s -p 300 ...   Up      127.0.0.1:3000->3000/tcp
-  ghgvc_r_1          /bin/sh -c Rscript start.R       Up      127.0.0.1:6311->6311/tcp
-  ```
-  * If `ghgvc_r_1` is in `Exit` State, something went wrong, try:
-  ```
-  docker-compose down # stop everything
-  docker-compose up app # restart the R server
-  ```
-
-6. Run the application:
+4. Run the application:
 ```
 docker-compose up app
 ```
 
-7. Navigate to http://localhost:3000/ in your web browser.
+5. Navigate to http://localhost:3000/ in your web browser.
+
   *  If clicking on the map does not return ecosystems, ensure that data was downloaded:
 ```
 docker-compose run r /bin/bash
@@ -83,6 +66,7 @@ ls
    * If all of the above fails (if you can't force it to stop with docker-compose or docker commands), try restarting either docker or your machine (sometimes both; it usually means the container was put into a state that it shouldn't be).
 
 # Development & Test
+
 * Enter the Rails console:
 ```
 docker-compose run --rm app bin/rails c
