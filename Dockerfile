@@ -7,12 +7,12 @@ RUN gem install bundler && gem update bundler && \
       libnetcdf-dev libmysqlclient-dev libxml2-dev && \
       rm -rf /var/lib/apt/lists/*
 
-ENV APP_HOME /app
-RUN mkdir -p $APP_HOME
-WORKDIR $APP_HOME
+ENV APP_PATH /app
+RUN mkdir -p $APP_PATH
+WORKDIR $APP_PATH
 
 ARG bundle_jobs
 
 ENV BUNDLE_JOBS=$bundle_jobs
 
-ADD . $APP_HOME
+COPY . $APP_PATH

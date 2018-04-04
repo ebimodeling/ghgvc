@@ -5,50 +5,31 @@ volumes:
     driver: local
   netcdf-data:
     driver: local
-  tmp-data:
-    driver: local
 
 services:
-  r: &r_base
-    image : jaydorsey/ghgvcr:latest
+  ghgvcr:
+    image : ebimodeling/ghgvcr:latest
     volumes:
-      - netcdf-data:/home/ghgvcr/data/
+      - netcdf-data:/app/data
     ports:
       - "127.0.0.1:6311:6311"
 
-  get_data:
-    <<: *r_base
-    user: root
-    command: bash -c "apt-get update && apt-get -y install curl unzip && rm -rf /var/lib/apt/lists/* && curl -L -o /home/ghgvcr/data/app_data.zip https://www.dropbox.com/s/2g2x58fkolgnn76/app_data.zip?dl=1 && unzip -o /home/ghgvcr/data/app_data.zip -d /home/ghgvcr/data/ && rm /home/ghgvcr/data/app_data.zip && chown -R ghgvcr:ghgvcr /home/ghgvcr/data"
-
-  app_base: &app_base
+  app:
     build:
       context: .
       args:
         - bundle_jobs=3
-    volumes:
-      - .:/app
-      - bundler-data:/usr/local/bundle
-
-  app:
-    <<: *app_base
-    # Need to run the db:migrate command separately before the up
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     entrypoint: /app/docker-entrypoint.sh
-    # Whatever variables you put here will be injected into the application
-    #
-    # If you don't assign a value, it will use the environment value from
-    # your current local environment
     environment:
       - RAILS_ENV=development
-      - CALC_HOST=r
+      - CALC_HOST=ghgvcr
     ports:
       - "127.0.0.1:3000:3000"
     links:
-      - r
+      - ghgvcr
     stdin_open: true
     tty: true
-
-  bundler:
-    <<: *app_base
-    command: bundle
+    volumes:
+      - .:/app
+      - bundler-data:/usr/local/bundle

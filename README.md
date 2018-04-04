@@ -14,40 +14,39 @@ This project uses Docker to manage dependencies.
 1. Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
 
 2. Clone the rails application:
-```
-git clone git@github.com:rubyforgood/ghgvc.git --depth 1 && cd ghgvc
-```
+
+    git clone git@github.com:rubyforgood/ghgvc.git --depth 1 && cd ghgvc
 
 # Building & running the application
 
 Ensure Docker is running, the ghgvc app is cloned, and you've navigated to your ghgvc repo.
 
 1. Build Docker:
-```
-docker-compose build
-```
 
-2. Download the required netcdf files (NOTE: curl won't show progress but it's working):
-```
-docker-compose up get_data
-```
-  * This process may pause in the middle; let it run. The CLI should return `ghgvc_get_data_1 exited with code 0` at the end.
+    docker-compose build
+
+2. Download the required netcdf files
+
+    docker-compose run --rm ghgvcr ./download-netcdf.sh
+
+    > This stores the netcdf data in a volume that will persist across containers
 
 3. Bundle install:
-```
-docker-compose up bundler
-```
+
+    docker-compose run --rm app bundle
+
+    > This stores the downloaded gems in a volume that will persist across containers
 
 4. Run the application:
-```
-docker-compose up app
-```
+
+    docker-compose up app
 
 5. Navigate to http://localhost:3000/ in your web browser.
 
   *  If clicking on the map does not return ecosystems, ensure that data was downloaded:
-```
-docker-compose run r /bin/bash
+
+  ```
+docker-compose run --rm ghgvcr bash
 cd data
 ls
 ```
