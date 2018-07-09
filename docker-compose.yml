@@ -1,0 +1,35 @@
+version: "3"
+
+volumes:
+  bundler-data:
+    driver: local
+  netcdf-data:
+    driver: local
+
+services:
+  ghgvcr:
+    image : ebimodeling/ghgvcr:latest
+    volumes:
+      - netcdf-data:/app/data
+    ports:
+      - "127.0.0.1:6311:6311"
+
+  app:
+    build:
+      context: .
+      args:
+        - bundle_jobs=3
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    entrypoint: /app/docker-entrypoint.sh
+    environment:
+      - RAILS_ENV=development
+      - CALC_HOST=ghgvcr
+    ports:
+      - "127.0.0.1:3000:3000"
+    links:
+      - ghgvcr
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - bundler-data:/usr/local/bundle

@@ -1,0 +1,137 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+/* mixins, variables, etc. */
+
+/* http://www.colourlovers.com/palette/100694/Machu_Picchu# */
+
+$green3: #607848;
+$green2: #789048;
+$green1: #C0D860;
+$offWhite: #F0F0D8;
+$offPlum: 604848;
+$grayMediumLight: #eaeaea;
+
+/* universal */
+
+html {
+    overflow-y: scroll;
+}
+
+/* Dropshadow on the navbar header */
+.navbar {
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+    box-shadow: 0 8px 6px -6px #999;
+}
+
+.container {
+    width: 1025px;
+    margin: auto;
+}
+
+section {
+    overflow: auto;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.center {
+    text-align: center;
+    h1 {
+        margin-bottom: 10px;
+    }
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+.inline-table {
+    display: inline-table;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+/* typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1;
+}
+
+h1 {
+    font-size: 3em;
+    letter-spacing: -2px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.7em;
+    letter-spacing: -1px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: normal;
+    color: $gray-light;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.7em;
+}
+
+/* header */
+
+#header_container {
+    top: -20px;
+    position: relative;
+}
+
+#logo {
+    float: left;
+    /*  margin-right: 10px;*/
+    font-size: 1.5em;
+    color: darkgrey;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+    margin-top: 9px;
+    font-weight: bold;
+    line-height: 1;
+    &:hover {
+        color: lightgreen;
+        text-decoration: none;
+    }
+    h2 {
+        margin: none;
+        padding: none;
+    }
+}
+
+/* footer */
+
+footer {
+    margin-top: 45px;
+    padding-top: 5px;
+    border-top: 1px solid $grayMediumLight;
+    color: $gray-light;
+    a {
+        color: $gray;
+        &:hover {
+            color: $gray-darker;
+        }
+    }
+    small {}
+}
+
+.modal-lg {
+    width: 950px;
+}

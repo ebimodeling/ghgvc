@@ -1,11 +1,11 @@
 <div class="btn-group dropdown center">
   <button class="btn map_type_selector active">VEGTYPE</button>
-<!--  <button class="btn map_type_selector">GLOBALBIOMES</button>-->
+  <!--  <button class="btn map_type_selector">GLOBALBIOMES</button>-->
   <button class="btn map_type_selector">GEOPOLITICAL</button>
 </div>
 
 <div id="geo_refined_input">
-  <div id="map_canvas" class="inline-table"></div>
+  <div id="map_canvas"></div>
 </div>
 
 <!-- https://developers.google.com/maps/documentation/javascript/maptypes -->
@@ -17,7 +17,7 @@
 </div>
 
 <div id="add_additional_biome_site" class="btn btn-large btn-primary inline-table">
-  <i class="icon-search icon-plus-sign"></i>
+  <i class="glyphicon glyphicon-plus-sign"></i>
   Add Additional Location
 </div>
 
@@ -29,18 +29,18 @@
   </h4>
 </div>
 
-
 <br />
 
-
-<% if true %>
-<div id="ecosystem_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
-    <div class='lightbox-header'>
-        <button id="hidden_close_button" type="button" class="close" data-dismiss="lightbox">&times;</button>
-    </div>
-    <div class='lightbox-content'>
-      <%= render :partial => "ecosystem_data_popup" %>
-    </div>
+<div id="ecosystem_popup" class="modal fade" tabindex="-1">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <center>
+          <%= render :partial => "ecosystem_data_popup" %>
+        </center>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
 </div>
 
 <div id="ghgvcR_processing_popup" class="lightbox hide fade"  role="dialog" aria-hidden="true">
@@ -50,9 +50,6 @@
       <%= image_tag "processing.gif" %>
     </div>
 </div>
-<% end %>
-
-
 
 <!--This is where all the biome adding happens, however its handled in jQuery-->
 <div id="biome_input_container"></div>
@@ -60,26 +57,46 @@
 <a id="toggle_ghgvcR_processing_popup" data-toggle="lightbox" href="#ghgvcR_processing_popup"></a>
 
 <div id="run_button_container" class="">
-    <div id="run_ghgvc_calculator" class="btn btn-large btn-success inline-block">
+    <div id="run_ghgvc_calculator" class="btn btn-md btn-success inline-block">
       Run Calculator
-      <i class="icon-search icon-leaf"></i>
+      <i class="glyphicon glyphicon-leaf"></i>
     </div>
+
+    <button class="btn btn-md btn-info" type="button" data-toggle="collapse" data-target="#advanced-settings" aria-expanded="false" aria-controls="advanced-settings">
+      Advanced Settings <span class="glyphicon glyphicon-cog" />
+    </button>
+    <%= render :partial => "advanced_settings" %>
 
     <div id="calc_sub_modules" class="inline-block">
       <input type="checkbox" id="biogeochemical" name="biogeochemical" value="biogeochemical">Biogeochemical</input> <br />
-      <input type="checkbox" id="biophysical" name="biophysical" value="biophysical">Biophysical</input> 
+      <input type="checkbox" id="biophysical" name="biophysical" value="biophysical">Biophysical</input>
     </div>
 </div>
 
-<div id="charts_container">
+<!-- Start tabs -->
+<div id="charts_container" class="hidden">
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#layperson" aria-controls="layperson" role="tab" data-toggle="tab">Miles Driven</a></li>
+    <li role="presentation"><a href="#technical" aria-controls="technical" role="tab" data-toggle="tab">Technical</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="layperson">
+      <div id="mi_container"></div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="technical">
+      <div id="co2_container"></div>
+    </div>
+  </div>
 </div>
 
-<p>Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.</p>
+<p id="dot_container"></p>
 
 <a href="download_csv/" class="link_no_underline">
 <div id="csv_download_button" class="btn btn-large btn-success">
   Download .CSV
-  <i class="icon-search icon-download-alt"></i>
+  <i class="glyphicon glyphicon-download-alt"></i>
 </div>
 </a>
 
@@ -88,96 +105,15 @@
 <br />
 
 <a href="/" class="link_no_underline">
-<div id="new_simulation_button" class="btn btn-large btn-success">
-  Run New Simulation
-  <i class="icon-search icon-leaf"></i>
-</div>
+  <div id="new_simulation_button" class="btn btn-large btn-success">
+    Run New Simulation <i class="glyphicon glyphicon-leaf"></i>
+  </div>
 </a>
-
-
-<!--############### Old items -->
-<% if false %>
-<div class="container-fluid">
-   <div class="accordion" id="geo_refined_pft_accordion">
-      <!-- ###### Native ####### -->
-      <div id="dingo" class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-            Native
-          </a>
-        </div>
-        <div id="collapseOne" class="accordion-body collapse" style="height: 0px;">
-          <div class="accordion-inner">
-            <% for e in 0...@ecosystems.length %>
-              <% if @ecosystems[e]["category"].to_s == "native" %>
-                <%= p @ecosystems[e]["name"] %> <br />
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </div> <!-- <div class="accordion-group"> -->
-
-      <!-- ###### Aggrading ####### -->
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-           Aggrading
-          </a>
-        </div>
-        <div id="collapseTwo" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <% for e in 0...@ecosystems.length %>
-              <% if @ecosystems[e]["category"].to_s == "aggrading" %>
-                <%= p @ecosystems[e]["name"] %> <br />
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </div> <!-- <div class="accordion-group"> -->
-
-      <!-- ###### Agroecosystems ####### -->
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-            Agroecosystems
-          </a>
-        </div>
-        <div id="collapseThree" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <% for e in 0...@ecosystems.length %>
-              <% if @ecosystems[e]["category"].to_s == "agroecosystem" %>
-                <%= p @ecosystems[e]["name"] %> <br />
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </div> <!-- <div class="accordion-group"> -->
-
-      <!-- ###### Biofuels ####### -->
-      <div class="accordion-group">
-        <div class="accordion-heading">
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-            Biofuels
-          </a>
-        </div>
-        <div id="collapseThree" class="accordion-body collapse">
-          <div class="accordion-inner">
-            <% for e in 0...@ecosystems.length %>
-              <% if @ecosystems[e]["category"].to_s == "biofuels" %>
-                <%= p @ecosystems[e]["name"] %> <br />
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      </div> <!-- <div class="accordion-group"> -->
-
-  </div> <!-- <div class="container-fluid">  -->
-</div> <!-- <div class="accordion" id="accordion2"> -->
-<% end %>
 
 <%= p @biome.to_s %>
 
 <%#= render 'form' %>
 
-<%#= link_to 'Back', workflows_path %><div id="flux_chart" class="inline-table">
-</div>
+<%#= link_to 'Back', workflows_path %>
+
+<div id="flux_chart" class="inline-table"></div>

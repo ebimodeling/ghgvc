@@ -1,42 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>
-    GHGVcalc
-    </title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ecosystem Climate Regulation Services Calculator</title>
     <%= stylesheet_link_tag "application", media: "all" %>
-    
     <!-- Speed: use googles jQuery ... bc if they use google they've already got the lib cached-->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
-    
     <!--[if lt IE 9]>
-    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <!-- <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />-->
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyA9Ac4XswpkdjIslQcRJzgwnbkEDdomZS4&amp;sensor=false"></script>
-<!--    <script src="https://maptilercdn.s3.amazonaws.com/klokantech.js"></script>-->
-    
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyA9Ac4XswpkdjIslQcRJzgwnbkEDdomZS4"></script>
   </head>
   <body>
-    <header id="header_container" class="navbar navbar-fixed-top navbar">
-
-      <div class="navbar-inner">
-        <div class="container">
-          <%= link_to "Ecosystem Climate Regulation Services Calculator", calculator_path, id: "logo" %>
-          <nav>
-            <ul class="nav pull-right">
-              <li><%= link_to "About", about_path %></li>
-                <li><%= link_to "Guide", guide_path %></li>
-            </ul>
-          </nav>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">Ecosystem Climate Regulation Services Calculator</a>
+        </div>
+        <div id="navbar">
+          <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to 'About', about_path %></li>
+            <li><%= link_to 'Guide', '/Users_Manual_4_7_2014.pdf' %></li>
+            <li><%= link_to 'Methods & Sources', '/GHGVC_Methods_Sources.pdf' %></li>
+          </ul>
         </div>
       </div>
-
-    </header>
+    </nav>
     <div class="container">
       <%= yield %>
     </div>
+    <footer class="navbar navbar-default navbar-static-bottom" >
+      <div class="contianer">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="http://www.globalchange.gov/agency/smithsonian-institution">Smithsonian Institution</a>
+          <a class="navbar-brand" href="https://github.com/ebimodeling/ghgvc">Github Repository</a>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

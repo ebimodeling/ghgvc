@@ -1,9 +1,85 @@
+> This is a fork of the Ecosystem Climate Regulation Services Calculator
+> found at https://github.com/ebimodeling/ghgvc used for Ruby for Good
+
 # Ecosystem Climate Regulation Services Calculator
 
-This is the source code repository for the Ecosystem Climate Regulation Services Calculator. Contributions, comments, bug reports, and feature requests are welcome!
+This is the source code repository for the Ecosystem Climate Regulation
+Services Calculator. Contributions, comments, bug reports, and
+feature requests are welcome!
+
+# Setup & Installation
+
+This project uses Docker to manage dependencies.
+
+1. Install [Docker Community Edition](https://store.docker.com/search?offering=community&type=edition) for your OS
+
+2. Clone the rails application:
+
+    git clone git@github.com:rubyforgood/ghgvc.git --depth 1 && cd ghgvc
+
+# Building & running the application
+
+Ensure Docker is running, the ghgvc app is cloned, and you've navigated to your ghgvc repo.
+
+1. Build Docker:
+
+    docker-compose build
+
+2. Download the required netcdf files
+
+    docker-compose run --rm ghgvcr ./download-netcdf.sh
+
+    > This stores the netcdf data in a volume that will persist across containers
+
+3. Bundle install:
+
+    docker-compose run --rm app bundle
+
+    > This stores the downloaded gems in a volume that will persist across containers
+
+4. Run the application:
+
+    docker-compose up app
+
+5. Navigate to http://localhost:3000/ in your web browser.
+
+  *  If clicking on the map does not return ecosystems, ensure that data was downloaded:
+
+  ```
+docker-compose run --rm ghgvcr bash
+cd data
+ls
+```
+  * This should show a file `name_indexed_ecosystems.json`, and two directories: `maps` and `netcdf`. If it is empty, try:
+  ```
+  docker-compose down # stop everything
+  docker-compose up get_data # should re-download & un-zip the data
+  ```
+  * If there is still an issue, try:
+  ```
+  docker-compose down # stop everything
+  docker-compose volume rm ghgvc_netcdf-data # removes the volume
+  docker-compose up get_data # should re-download & un-zip the data
+  ```
+  * `ghgvc_netcdf-data` name should be the name of the volume. If that command fails, try `docker volume ls` and look for one that matches on the netcdf-data
+   * If all of the above fails (if you can't force it to stop with docker-compose or docker commands), try restarting either docker or your machine (sometimes both; it usually means the container was put into a state that it shouldn't be).
+
+# Development & Test
+
+* Enter the Rails console:
+```
+docker-compose run --rm app bin/rails c
+```
+* Run all tests:
+```
+docker-compose run --rm app rspec
+```
+* Run a singular test:
+```
+docker-compose run --rm app rspec spec/<test file path>
+```
 
 # About the Ecosystem Climate Regulation Services Calculator
-
 
 Ecosystems regulate climate through both greenhouse-gas exchange with
 the atmosphere (biogeochemical mechanisms) and regulation of land
@@ -39,14 +115,12 @@ maps of climatically significant ecosystem properties (for example,
 biomass, soil carbon, biophysical services) to provide location-specific
 CRV estimates.
 
-Applications
-============
+# Applications
 
 The Ecosystem Climate Regulation Services Calculator has potential
 applications in a variety of fields. Below are some examples.
 
-Conservation
-------------
+## Conservation
 
 This calculator can be used to determine which areas of potential
 conservation interest are the most beneficial in terms of their net
@@ -54,8 +128,7 @@ effect on the climate. This information can then be used to help make
 land conservation decisions and inform the general public about the
 climate benefits of conserving lands.
 
-Sustainability Science
-----------------------
+## Sustainability Science
 
 The calculator can be used to evaluate the climate consequences of
 various land use decisions. For instance, the calculator can be used to
@@ -64,8 +137,7 @@ evaluate the impacts of various bioenergy production strategies
 also be used in determining the value of land when designing
 infrastructure projects, such as dams or highways.
 
-Education
----------
+## Education
 
 The calculator can be used to educate students or the general public
 about the climate regulation services of ecosystems around the globe.
@@ -75,8 +147,7 @@ understanding of the issues surrounding land use and conservation
 decisions. They can also use the calculator to learn more about the
 local ecosystems with which they are familiar.
 
-Business
---------
+## Business
 
 Increasing public interest in sustainable business practices creates a
 need for conscientious businesses to evaluate the climate impact of
@@ -84,8 +155,7 @@ business decisions, including those that affect land use patterns. For
 example, the calculator might be used to evaluate the climate impacts of
 land use change related to bioenergy production.
 
-Policy
-------
+## Policy
 
 Policy decisions regarding the conservation of domestic lands or those
 affecting international land use patterns can benefit from the most
@@ -98,8 +168,7 @@ outweigh greenhouse gas effects (Anderson-Teixeira *et al.*, 2011,
 biophysical climate regulation services, thereby providing a better
 understanding of the climate impacts of various policies.
 
-Further Reading
-===============
+## Further Reading
 
 Anderson-Teixeira KJ, Snyder PK, DeLucia EH (2011) Do biofuels life
 cycle analyses accurately quantify the climate impacts of

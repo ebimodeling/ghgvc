@@ -1,4 +1,4 @@
-<div id="ecosystem_edit" class="well well-small">
+<div id="ecosystem_edit" class="well well-small text-left">
   <h4 class="popup_heading"></h4>
   <hr />
   <!--  This will contain the hashed data for the current biome -->
@@ -6,16 +6,16 @@
   <%= form_tag do %>
   <div class="container-fluid">
 	  <div class="accordion" id="geo_refined_pft_accordion">
-	  
+
   	  <h6>Biogeochemical Attributes</h6>
       <!-- ###### Initial Storage of Organic Matter ####### -->
-      <div id="initial_storage" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_initial_storage">  
+      <div id="initial_storage" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_initial_storage">
             Initial Storage of Organic Matter
-          </a>  
-        </div>  
-        <div id="collapse_initial_storage" class="accordion-body collapse" style="height: 0px;">  
+          </a>
+        </div>
+        <div id="collapse_initial_storage" class="accordion-body collapse" style="height: 0px;">
           <div class="accordion-inner">
             <table class="table">
               <thead>
@@ -59,19 +59,19 @@
                 </tr>
               </tbody>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Initial Storage of Organic Matter ####### -->
-      
+
       <!-- ###### Land-Clearing Fire Characteristics  ####### -->
-      <div id="land_clearing" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_land_clearing">  
-           Land-Clearing Fire Characteristics  
-          </a>  
-        </div>  
-        <div id="collapse_land_clearing" class="accordion-body collapse">  
+      <div id="land_clearing" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_land_clearing">
+           Land-Clearing Fire Characteristics
+          </a>
+        </div>
+        <div id="collapse_land_clearing" class="accordion-body collapse">
           <div class="accordion-inner">
             <table class="table">
               <thead>
@@ -117,20 +117,20 @@
                 <td> <%= text_field :ecosystem,"Ec_N2O", :value => @ecosystem["Ec_N2O"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### / Land-Clearing Fire Characteristics  ####### -->
-            
+
       <!-- ###### Organic Matter Decomposition Following Clearing ####### -->
-      <div id="organic_matter" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_organic_matter">  
+      <div id="organic_matter" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_organic_matter">
             Organic Matter Decomposition Following Clearing
-          </a>  
-        </div>  
-        <div id="collapse_organic_matter" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_organic_matter" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -225,20 +225,20 @@
                 <td> <%= text_field :ecosystem,"Ed_N2O_litter", :value => @ecosystem["Ed_N2O_litter"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Organic Matter Decomposition Following Clearing ####### -->
 
       <!-- ###### Ongoing (Annual) Greenhouse Gas Exchange ####### -->
-      <div id="ongoing_annual" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_ongoing_annual">  
+      <div id="ongoing_annual" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_ongoing_annual">
             Ongoing (Annual) Greenhouse Gas Exchange
-          </a>  
-        </div>  
-        <div id="collapse_ongoing_annual" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_ongoing_annual" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -263,20 +263,20 @@
                 <td> <%= text_field :ecosystem,"F_N2O", :value => @ecosystem["F_N2O"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Ongoing (Annual) Greenhouse Gas Exchange ####### -->
-      
+
       <!-- ###### Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
-      <div id="age_dependent" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_age_dependent">  
+      <div id="age_dependent" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_age_dependent">
             Age-Dependent Changes in Annual Greenhouse Gas Exchange
-          </a>  
-        </div>  
-        <div id="collapse_age_dependent" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_age_dependent" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -306,20 +306,20 @@
                 <td> <%= text_field :ecosystem,"new_F_N2O", :value => @ecosystem["new_F_N2O"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Age-Dependent Changes in Annual Greenhouse Gas Exchange ####### -->
 
       <!-- ###### Natural Fire-Recovery Cycles ####### -->
-      <div id="natural_fire" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_natural_fire">  
+      <div id="natural_fire" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_natural_fire">
             Natural Fire-Recovery Cycles
-          </a>  
-        </div>  
-        <div id="collapse_natural_fire" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_natural_fire" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -386,24 +386,24 @@
                 </tr>
               </tbody>
             </table>
-            
-          </div>  
-        </div>  
+
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Natural Fire-Recovery Cycles ####### -->
-      
-      
-      
+
+
+
 
       <!-- ###### Management-Related GHG Emissions ####### -->
-      <div id="management_related" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_management_related">  
+      <div id="management_related" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_management_related">
             Management-Related GHG Emissions
-          </a>  
-        </div>  
-        <div id="collapse_management_related" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_management_related" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -418,22 +418,22 @@
                 <td> <%= text_field :ecosystem,"F_anth", :value => @ecosystem["F_anth"].to_f, :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Management-Related GHG Emissions ####### -->
-      
-      
-      
+
+
+
       <!-- ###### Fossil Fuel Displacement ####### -->
-      <div id="fossil_fuel" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_fossil_fuel">  
+      <div id="fossil_fuel" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_fossil_fuel">
             Fossil Fuel Displacement
-          </a>  
-        </div>  
-        <div id="collapse_fossil_fuel" class="accordion-body collapse">  
-          <div class="accordion-inner">  
+          </a>
+        </div>
+        <div id="collapse_fossil_fuel" class="accordion-body collapse">
+          <div class="accordion-inner">
             <table class="table">
               <thead>
                 <tr>
@@ -466,20 +466,20 @@
               </tr>
 
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /Fossil Fuel Displacement ####### -->
 
   	  <h6>Biophysical Attributes</h6>
       <!-- ###### biophysical ####### -->
-      <div id="biophysical" class="accordion-group">  
-        <div class="accordion-heading">  
-          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_biophysical">  
+      <div id="biophysical" class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse_biophysical">
             Biophysical
-          </a>  
-        </div>  
-        <div id="collapse_biophysical" class="accordion-body collapse" style="height: 0px;">  
+          </a>
+        </div>
+        <div id="collapse_biophysical" class="accordion-body collapse" style="height: 0px;">
           <div class="accordion-inner">
             <table class="table">
               <thead>
@@ -500,23 +500,25 @@
                 <td> <%= text_field :ecosystem, "latent", :value => "none", :class => "popup_value_field" %> </td>
               </tr>
             </table>
-          </div>  
-        </div>  
+          </div>
+        </div>
       </div> <!-- <div class="accordion-group"> -->
       <!-- ###### /biophysical ####### -->
 
 	  </div>
   </div>
-  
+
   <% end %>
 </div>
 
-<div id="popup_save_ecosystem_modifications" class="btn btn-large btn-primary inline">
-  <i class="icon-search icon-ok"></i>
-  Store Modified Values
-</div>
+<div class="modal-action-buttons text-left">
+  <div id="popup_save_ecosystem_modifications" class="btn btn-large btn-primary inline">
+    <i class="glyphicon glyphicon-ok"></i>
+    Store Modified Values
+  </div>
 
-<div id="popup_discard_ecosystem_modifications" class="btn btn-large btn-danger inline">
-  <i class="icon-search icon-remove"></i>
-  Cancel
+  <div id="popup_discard_ecosystem_modifications" class="btn btn-large btn-danger inline close-modal-btn" data-dismiss="modal">
+    <i class="glyphicon glyphicon-remove"></i>
+    Cancel
+  </div>
 </div>

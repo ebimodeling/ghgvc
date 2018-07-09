@@ -13,4 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require nouislider.min
+//= require wNumb
 //= require_tree .

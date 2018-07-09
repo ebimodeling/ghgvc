@@ -1,0 +1,92 @@
+<div class="collapse" id="advanced-settings">
+  <div class="well" id="advanced-settings-content">
+    <h4>Advanced Settings</h4>
+    <hr />
+    <div class="row" id="advanced-settings-form">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-5">
+            <div class="form-group text-right">
+              <label for="T_E">
+                Years of Ecosystem-Climate Exchange
+                <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.ecosystem-years") %>"><span>
+              </label>
+             <div id="T_E-slider" class="blue ui-slider"></div>
+             <input type="number" id="T_E" name="T_E" class="form-control ui-slider-input hidden" value="50" max="100" data-rounded="true" data-step-units="5">
+            </div>
+            <div class="form-group text-right">
+              <label for="T_A">
+                Years of Analysis
+                <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.analysis-years") %>"><span>
+              </label>
+              <div id="T_A-slider" class="purple ui-slider"></div>
+              <input type="number" id="T_A" name="T_A" class="form-control ui-slider-input hidden" value="100" max="500" data-rounded="true" data-step-units="5">
+            </div>
+            <div class="form-group text-right">
+              <label for="r">
+                Annual Discount Rate
+                <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.discount-rate") %>"><span>
+              </label>
+              <div id="decay-rate-slider" class="green ui-slider"></div>
+              <input type="number" id="r" name="r" class="form-control ui-slider-input hidden" value="0" max="0.3">
+            </div>
+          </div>
+          <div class="col-md-1">&nbsp;</div>
+          <div class="col-md-3">
+            <h5>
+              Greenhouse Gasses
+              <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.greenhouse-gasses") %>"><span>
+            </h5>
+            <div class="form-group">
+              <%= check_box_tag 'co2', 1, true, { class: "inline-checkbox" }  %>
+              <label for="CO2">CO<sub>2</sub></label>
+            </div>
+            <div class="form-group">
+              <%= check_box_tag 'n2o', 1, true, { class: "inline-checkbox" }  %>
+              <label for="N2O">N<sub>2</sub>O</label>
+            </div>
+            <div class="form-group">
+              <%= check_box_tag 'ch4', 1, true, { class: "inline-checkbox" }  %>
+              <label for="CH4">CH<sub>4</sub></label>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <h5>
+              Components
+              <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.components") %>"><span>
+            </h5>
+            <div class="form-group">
+              <%= check_box_tag 'storage', 1, true, { class: "inline-checkbox" }  %>
+              <label for="storage">Storage</label>
+            </div>
+            <div class="form-group">
+              <%= check_box_tag 'flux', 1, true, { class: "inline-checkbox" }  %>
+              <label for="flux">Flux</label>
+            </div>
+            <div class="form-group">
+              <%= check_box_tag 'disturbance', 1, true, { class: "inline-checkbox" }  %>
+              <label for="disturbance">Disturbance</label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">&nbsp;</div>
+          <div class="col-md-3">
+            <h5>
+              Biophysical Components
+              <span class="glyphicon glyphicon-info-sign" data-toggle="popover" data-content="<%= I18n.t("popover.biophysical-components") %>"><span>
+            </h5>
+              <div class="form-group">
+                <%= check_box_tag 'includeANTH', 1, true, { class: "inline-checkbox" }  %>
+                <label for="includeANTH">Anthropogenic Effects</label>
+              </div>
+              <div class="form-group">
+                <%= check_box_tag 'includeBIO', 1, true, { class: "inline-checkbox" }  %>
+                <label for="includeBIO">Biophysical Effects</label>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

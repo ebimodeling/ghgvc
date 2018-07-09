@@ -1,0 +1,395 @@
+{
+  "controller": "workflows",
+  "action": "create_config_input",
+  "sites": {
+    "site_1_data": {
+      "lat": "33.43",
+      "lng": "-96.07",
+      "ecosystems": {
+        "Grass": {
+          "biophysical_net": [
+            "0.145"
+          ],
+          "OM_ag": [
+            "1.6"
+          ],
+          "OM_root": [
+            "4.5"
+          ],
+          "OM_wood": [
+            "0"
+          ],
+          "OM_litter": [
+            "3.8"
+          ],
+          "OM_peat": [
+            "0"
+          ],
+          "OM_SOM": [
+            "29.1843"
+          ],
+          "fc_ag_wood_litter": [
+            "0"
+          ],
+          "fc_root": [
+            "0"
+          ],
+          "fc_peat": [
+            "0"
+          ],
+          "fc_SOM": [
+            "0"
+          ],
+          "Ec_CO2": [
+            "36.65909091"
+          ],
+          "Ec_CH4": [
+            "0.14375"
+          ],
+          "Ec_N2O": [
+            "0.004772727"
+          ],
+          "k_ag_wood_litter": [
+            "0.4"
+          ],
+          "k_root": [
+            "0.4"
+          ],
+          "k_peat": [
+            "0"
+          ],
+          "k_SOM": [
+            "0.4"
+          ],
+          "termite": [
+            "0"
+          ],
+          "Ed_CO2_ag_wood_litter": [
+            "41.66666667"
+          ],
+          "Ed_CO2_root": [
+            "41.66666667"
+          ],
+          "Ed_CO2_peat": [
+            "45"
+          ],
+          "Ed_CO2_litter": [
+            "48.33333333"
+          ],
+          "Ed_CH4_ag_wood_litter": [
+            "0"
+          ],
+          "Ed_CH4_root": [
+            "0"
+          ],
+          "Ed_CH4_peat": [
+            "0"
+          ],
+          "Ed_CH4_litter": [
+            "0"
+          ],
+          "Ed_N2O_ag_wood_litter": [
+            "0"
+          ],
+          "Ed_N2O_root": [
+            "0"
+          ],
+          "Ed_N2O_peat": [
+            "0"
+          ],
+          "Ed_N2O_litter": [
+            "0"
+          ],
+          "F_CO2": [
+            "-14.97433204"
+          ],
+          "F_CH4": [
+            "-0.14828125"
+          ],
+          "F_N2O": [
+            "0.01203786"
+          ],
+          "rd": [
+            "0"
+          ],
+          "tR": [
+            "-9999"
+          ],
+          "FR_CO2": [
+            "-9999"
+          ],
+          "FR_CH4": [
+            "-9999"
+          ],
+          "FR_N2O": [
+            "-9999"
+          ],
+          "dfc_ag_wood_litter": [
+            "-9999"
+          ],
+          "dfc_root": [
+            "0"
+          ],
+          "dfc_peat": [
+            "0"
+          ],
+          "dk_ag_wood_litter": [
+            "0.4"
+          ],
+          "dk_root": [
+            "0.4"
+          ],
+          "dk_peat": [
+            "0"
+          ],
+          "age_transition": [
+            "-9999"
+          ],
+          "new_F_CO2": [
+            "-9999"
+          ],
+          "new_F_CH4": [
+            "-9999"
+          ],
+          "new_F_N2O": [
+            "-9999"
+          ],
+          "F_anth": [
+            "0"
+          ],
+          "sw_radiative_forcing": [
+            "0.1775"
+          ],
+          "latent": [
+            "0.145"
+          ],
+          "sensible": [
+            "MAP"
+          ],
+          "code": [
+            "G4"
+          ],
+          "vegtype": [
+            "Grass"
+          ],
+          "name": [
+            "Grass"
+          ],
+          "NACP_FI_AGB_US": [
+            "59.7812"
+          ],
+          "NACP_LiDAR_Boreal_AGB": [
+            "0"
+          ],
+          "LiDAR_AGB_Boreal_Eurasia": [
+            ""
+          ],
+          "SOC": [
+            "51.7241"
+          ],
+          "in_synmap": [
+            "true"
+          ]
+        },
+        "Broadleaf_Evergreen_Forest": {
+          "biophysical_net": [
+            "0"
+          ],
+          "OM_ag": [
+            "255.5172406"
+          ],
+          "OM_root": [
+            "38.42294255"
+          ],
+          "OM_wood": [
+            "89.74741135"
+          ],
+          "OM_litter": [
+            "21.91786052"
+          ],
+          "OM_peat": [
+            "0"
+          ],
+          "OM_SOM": [
+            "29.1843"
+          ],
+          "fc_ag_wood_litter": [
+            "0"
+          ],
+          "fc_root": [
+            "0"
+          ],
+          "fc_peat": [
+            "0"
+          ],
+          "fc_SOM": [
+            "0"
+          ],
+          "Ec_CO2": [
+            "35.65909091"
+          ],
+          "Ec_CH4": [
+            "0.29375"
+          ],
+          "Ec_N2O": [
+            "0.005909091"
+          ],
+          "k_ag_wood_litter": [
+            "0.055"
+          ],
+          "k_root": [
+            "0.02"
+          ],
+          "k_peat": [
+            "0"
+          ],
+          "k_SOM": [
+            "0.4"
+          ],
+          "termite": [
+            "0"
+          ],
+          "Ed_CO2_ag_wood_litter": [
+            "41.66666667"
+          ],
+          "Ed_CO2_root": [
+            "41.66666667"
+          ],
+          "Ed_CO2_peat": [
+            "45"
+          ],
+          "Ed_CO2_litter": [
+            "48.33333333"
+          ],
+          "Ed_CH4_ag_wood_litter": [
+            "0"
+          ],
+          "Ed_CH4_root": [
+            "0"
+          ],
+          "Ed_CH4_peat": [
+            "0"
+          ],
+          "Ed_CH4_litter": [
+            "0"
+          ],
+          "Ed_N2O_ag_wood_litter": [
+            "0"
+          ],
+          "Ed_N2O_root": [
+            "0"
+          ],
+          "Ed_N2O_peat": [
+            "0"
+          ],
+          "Ed_N2O_litter": [
+            "0"
+          ],
+          "F_CO2": [
+            "-154.1064815"
+          ],
+          "F_CH4": [
+            "-0.22584375"
+          ],
+          "F_N2O": [
+            "0.025755278"
+          ],
+          "rd": [
+            "0"
+          ],
+          "tR": [
+            "-9999"
+          ],
+          "FR_CO2": [
+            "-9999"
+          ],
+          "FR_CH4": [
+            "-9999"
+          ],
+          "FR_N2O": [
+            "-9999"
+          ],
+          "dfc_ag_wood_litter": [
+            "-9999"
+          ],
+          "dfc_root": [
+            "0"
+          ],
+          "dfc_peat": [
+            "0"
+          ],
+          "dk_ag_wood_litter": [
+            "0.055"
+          ],
+          "dk_root": [
+            "0.02"
+          ],
+          "dk_peat": [
+            "0"
+          ],
+          "age_transition": [
+            "-9999"
+          ],
+          "new_F_CO2": [
+            "-9999"
+          ],
+          "new_F_CH4": [
+            "-9999"
+          ],
+          "new_F_N2O": [
+            "-9999"
+          ],
+          "F_anth": [
+            "0"
+          ],
+          "sw_radiative_forcing": [
+            "0"
+          ],
+          "latent": [
+            "0"
+          ],
+          "sensible": [
+            "MAP"
+          ],
+          "code": [
+            "T4"
+          ],
+          "vegtype": [
+            "Broadleaf Evergreen Forest"
+          ],
+          "name": [
+            "Broadleaf_Evergreen_Forest"
+          ],
+          "NACP_FI_AGB_US": [
+            "59.7812"
+          ],
+          "NACP_LiDAR_Boreal_AGB": [
+            "0"
+          ],
+          "LiDAR_AGB_Boreal_Eurasia": [
+            ""
+          ],
+          "SOC": [
+            "51.7241"
+          ],
+          "in_synmap": [
+            "false"
+          ]
+        }
+      }
+    }
+  },
+  "options": {
+    "T_A": "100",
+    "T_E": "50",
+    "r": "0.00",
+    "includeANTH": "TRUE",
+    "includeBIO": "TRUE",
+    "co2": "TRUE",
+    "n2o": "TRUE",
+    "ch4": "TRUE",
+    "storage": "TRUE",
+    "flux": "TRUE",
+    "disturbance": "TRUE"
+  }
+}
