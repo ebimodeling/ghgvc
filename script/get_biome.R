@@ -27,14 +27,16 @@ if (length(script_args) == 9) {
   write_data <- as.logical(script_args[9])
 }
 
-latitude <- script_args[1]
-longitude <- script_args[2]
-ecosystem_defaults <- script_args[3]
-netcdf_dir <- script_args[4]
-map_dir <- script_args[5]
-output_dir <- script_args[6]
-output_filename <- "biome" # script_args[7]
-output_format <- "json" # script_args[8]
+#Get the biome data.
+get_biome(latitude            = script_args[1], #latitude 
+          longitude           = script_args[2], #longitude
+          biome_defaults_file = script_args[3], #ecosystem defaults file
+          netcdf_dir          = script_args[4], #netcdf directory
+          mapdata_dir         = script_args[5], #mapdata directory
+          output_dir          = script_args[6], #output directory
+          output_filename     = "biome",
+          output_format       = c("json", "csv"),
+          write_data          = write_data)
 
 #Get the biome data.
 get_biome(latitude, longitude, ecosystem_defaults, netcdf_dir, map_dir, output_dir, output_filename, output_format, write_data)
