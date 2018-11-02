@@ -1,5 +1,4 @@
-> This is a fork of the Ecosystem Climate Regulation Services Calculator
-> found at https://github.com/ebimodeling/ghgvc used for Ruby for Good
+
 
 # Ecosystem Climate Regulation Services Calculator
 
