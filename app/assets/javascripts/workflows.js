@@ -32,6 +32,16 @@ function ConvertToCSV(array) {
       })
     }
   }
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(str));
+  element.setAttribute('download', 'data.csv');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
   console.log(str);
 }
 
@@ -473,6 +483,8 @@ $(document).ready(function() {
       });
     });
 
+
+
     function parseFormInput(element) {
       if(setting.type === "checkbox") {
         return setting.checked ? "TRUE" : "FALSE";
@@ -502,12 +514,18 @@ $(document).ready(function() {
 
       // Base64 decoding for SVG images
       mi_svg = atob(data.plots.mi[0]);
+      var re = new RegExp('glyph','g');
+      mi_svg = mi_svg.replace(re, "glyph-mi")
       co2_svg = atob(data.plots.co2[0]);
+      mi_svg = mi_svg.replace(re, "glyph-co2")
+      
 
       // Place SVGs on the map
       $("#mi_container").html(mi_svg);
       $("#co2_container").html(co2_svg);
-
+	
+      // make the returned data available so it can be exported to a csv
+      window.json_data = data.results;
       // Add the message about the black dots
       $('#dot_container').html('Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
 
