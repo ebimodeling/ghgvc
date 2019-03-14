@@ -10,7 +10,8 @@ class ClimateRegulatingValues
       connection = Rserve::Connection.new(hostname: ENV.fetch("CALC_HOST", "127.0.0.1"))
 
       connection.assign("data", hash_data.to_json)
-
+      
+      #puts(hash_data.to_json)
       connection.eval("ghgvcr::calc_ghgv(data)").to_ruby
     end
   end

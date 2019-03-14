@@ -24,6 +24,7 @@ class WorkflowsController < ApplicationController
     end
   end
 
+
   # Accepts a longitude, latitude:
   #
   #   http://localhost:3000/get_biome?lng=-89.25&lat=41.75

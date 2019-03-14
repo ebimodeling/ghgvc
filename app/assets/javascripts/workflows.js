@@ -16,22 +16,27 @@ function remove_google_maps_pin( biome_site_id ) {
 //
 // TODO: Replace this with an actual JS library that handles quotes, commas,
 // etc. Shouldn't need to hand-roll this
-function ConvertToCSV(array) {
-  var str = '';
-  for (var site in array) {
-    for (var name in array[site]){
-      Object.keys(array[site][name]).map(function(key, idx){
-        str += site;
-        str += ',';
-        str += name;
-        str += ',';
-        str += key;
-        str += ',';
-        str += array[site][name][key][0]
-        str += '\r\n';
-      })
+function convert_to_csv(json_data) {
+  columns = Object.keys(json_data['site_1_data']['Grass']);
+  json2csvParser = json2csv.Parser;
+  parser = new json2csvParser(columns, flatten=true);
+  flat_data = [];
+  for (site in json_data) {
+    for (ecosystem in json_data[site]) {
+      flat_data.push(json_data[site][ecosystem]);
     }
   }
+  str = parser.parse(flat_data)
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(str));
+  element.setAttribute('download', 'data.csv');
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
   console.log(str);
 }
 
@@ -473,6 +478,8 @@ $(document).ready(function() {
       });
     });
 
+
+
     function parseFormInput(element) {
       if(setting.type === "checkbox") {
         return setting.checked ? "TRUE" : "FALSE";
@@ -502,12 +509,18 @@ $(document).ready(function() {
 
       // Base64 decoding for SVG images
       mi_svg = atob(data.plots.mi[0]);
+      var re = new RegExp('glyph','g');
+      mi_svg = mi_svg.replace(re, "glyph-mi")
       co2_svg = atob(data.plots.co2[0]);
+      mi_svg = mi_svg.replace(re, "glyph-co2")
+      
 
       // Place SVGs on the map
       $("#mi_container").html(mi_svg);
       $("#co2_container").html(co2_svg);
-
+	
+      // make the returned data available so it can be exported to a csv
+      window.json_data = data.results;
       // Add the message about the black dots
       $('#dot_container').html('Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
 

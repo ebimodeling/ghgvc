@@ -7,8 +7,14 @@ volumes:
     driver: local
 
 services:
+  webserver:
+    build: ./nginx
+    ports: ["80:80"]
+    links:
+      - app:app
+
   ghgvcr:
-    image : ebimodeling/ghgvcr:latest
+    image : ghgvcr_ghgvcr:latest
     volumes:
       - netcdf-data:/app/data
     ports:
