@@ -17,7 +17,7 @@ function remove_google_maps_pin( biome_site_id ) {
 // TODO: Replace this with an actual JS library that handles quotes, commas,
 // etc. Shouldn't need to hand-roll this
 function convert_to_csv(json_data) {
-  columns = Object.keys(json_data['site_1_data']['Grass']);
+  columns = Object.keys(Object.values(json_data)[0]);
   json2csvParser = json2csv.Parser;
   parser = new json2csvParser(columns, flatten=true);
   flat_data = [];
@@ -513,12 +513,12 @@ $(document).ready(function() {
       mi_svg = mi_svg.replace(re, "glyph-mi")
       co2_svg = atob(data.plots.co2[0]);
       mi_svg = mi_svg.replace(re, "glyph-co2")
-      
+
 
       // Place SVGs on the map
       $("#mi_container").html(mi_svg);
       $("#co2_container").html(co2_svg);
-	
+
       // make the returned data available so it can be exported to a csv
       window.json_data = data.results;
       // Add the message about the black dots
