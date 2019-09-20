@@ -155,12 +155,12 @@ function populate_html_from_latlng( lat, lng ) {
     function biome_div(type) {
       return function make_element(k,v) {
         element = '<div class="biome_match checkbox">' +
-          '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input>'
+          '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>'
         if(v['in_synmap'][0]){
           element = element.concat('<span class="synmap-flag" style="color: red; font-size: 20px;">*</span>')
           $('#synmap-key').css("display","inline")
         }
-        element = element.concat('</label>' +
+        element = element.concat(
         '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
           '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
         '</a>' +
