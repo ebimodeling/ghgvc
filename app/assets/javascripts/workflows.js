@@ -16,16 +16,30 @@ function remove_google_maps_pin( biome_site_id ) {
 //
 // TODO: Replace this with an actual JS library that handles quotes, commas,
 // etc. Shouldn't need to hand-roll this
+
+
 function convert_to_csv(json_data) {
-  columns = Object.keys(Object.values(json_data)[0]);
   json2csvParser = json2csv.Parser;
-  parser = new json2csvParser(columns, flatten=true);
   flat_data = [];
   for (site in json_data) {
     for (ecosystem in json_data[site]) {
-      flat_data.push(json_data[site][ecosystem]);
+      for(field in json_data[site][ecosystem]){
+          cleaned = json_data[site][ecosystem][field].join(", ")
+      }
+      flat_data.push(cleaned);
     }
   }
+  columns= flat_data.reduce(function (x, y) {
+    keys = Object.keys(y)
+    for(columns in keys){
+      if(x.indexOf(keys[columns]) === -1){
+        x.push(keys[columns])
+      }
+    }
+    return x
+  },[])
+
+  parser = new json2csvParser(columns, flatten=true);
   str = parser.parse(flat_data)
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(str));
