@@ -23,8 +23,9 @@ function convert_to_csv(json_data) {
   flat_data = [];
   for (site in json_data) {
     for (ecosystem in json_data[site]) {
-      for(field in json_data[site][ecosystem]){
-          cleaned = json_data[site][ecosystem][field].join(", ")
+      cleaned = json_data[site][ecosystem]
+      for(field in cleaned){
+          cleaned[field] = json_data[site][ecosystem][field].join(", ")
       }
       flat_data.push(cleaned);
     }
@@ -151,36 +152,33 @@ function populate_html_from_latlng( lat, lng ) {
 
     // Tag the site w the given lat and lng
     $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lng.toFixed(2) + " )");
-
-    if ( data.native_eco != null ) {
-      $.each( data.native_eco, function(k,v) {
-        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-          '<div class="biome_match checkbox">' +
-            '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
-              '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
-            '</a>' +
-            '<a class="biome_pdf_link action-link"href="' +
-            '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
-            '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
-          '</div>'
+    function biome_div(type) {
+      return function make_element(k,v) {
+        element = '<div class="biome_match checkbox">' +
+          '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input>'
+        if(v['in_synmap'][0]){
+          element = element.concat('<span class="synmap-flag" style="color: red; font-size: 20px;">*</span>')
+          $('#synmap-key').css("display","inline")
+        }
+        element = element.concat('</label>' +
+        '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
+          '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
+        '</a>' +
+        '<a class="biome_pdf_link action-link"href="' +
+        '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
+        '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
+      '</div>')
+        $('div.well:not(.inactive_site)').find(type).find('.biome_list').append(
+          element
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
-      });
+      };
     };
-
+    if ( data.native_eco != null ) {
+      $.each( data.native_eco, biome_div('.native_biomes'));
+    };
     if ( data.agroecosystem_eco != null ) {
-      $.each( data.agroecosystem_eco, function(k,v) {
-        $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
-          '<div class="biome_match checkbox">' +
-            '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="modal" href="#ecosystem_popup">' +
-              '<i class="glyphicon glyphicon-list-alt inline-block" rel="tooltip" title="Edit" />' +
-            '</a>' +
-          '</div>'
-        ).parent().css("height", "auto");
-        // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
-      });
+      $.each( data.agroecosystem_eco, biome_div('.agroecosystem_biomes'));
     };
   });
 };
