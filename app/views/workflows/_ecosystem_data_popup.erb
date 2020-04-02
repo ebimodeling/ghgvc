@@ -30,32 +30,32 @@
                 <tr id="OM_ag">
                   <td> Aboveground biomass: live (Mg/ha) </td>
                   <td> <%= select_tag("OM_ag-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_ag", :value => @ecosystem["OM_ag"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem, "OM_ag", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="OM_root">
                   <td> Root biomass (Mg/ha) </td>
                   <td> <%= select_tag("OM_root-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_root", :value => @ecosystem["OM_root"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem, "OM_root", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="OM_wood">
                   <td> Dead wood (dead trees, course woody debris) (Mg/ha) </td>
                   <td> <%= select_tag("OM_wood-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_wood", :value => @ecosystem["OM_wood"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem, "OM_wood", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="OM_litter">
                   <td> Litter (Mg/ha) </td>
                   <td> <%= select_tag("OM_litter-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_litter", :value => @ecosystem["OM_litter"].to_f, :class => "popup_value_field"  %> </td>
+                  <td> <%= text_field :ecosystem, "OM_litter", :value => 0.0, :class => "popup_value_field"  %> </td>
                 </tr>
                 <tr id="OM_peat">
                   <td> Peat (Mg/ha) </td>
                   <td> <%= select_tag("OM_peat-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_peat", :value => @ecosystem["OM_peat"].to_f, :class => "popup_value_field"  %> </td>
+                  <td> <%= text_field :ecosystem, "OM_peat", :value => 0.0, :class => "popup_value_field"  %> </td>
                 </tr>
                 <tr id="OM_SOM">
                   <td> Potential Soil Organic Matter loss (Mg/ha) </td>
                   <td> <%= select_tag("OM_SOM-source", options_for_select([] , "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem, "OM_SOM", :value => @ecosystem["OM_SOM"].to_f, :class => "popup_value_field"  %> </td>
+                  <td> <%= text_field :ecosystem, "OM_SOM", :value => 0.0, :class => "popup_value_field"  %> </td>
                 </tr>
               </tbody>
             </table>
@@ -84,37 +84,37 @@
               <tr id="fc_ag_wood_litter">
                 <td> Fraction of combustible biomass (aboveground, wood, litter) burned </td>
                 <td> <%= select_tag("fc_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"fc_ag_wood_litter", :value => @ecosystem["fc_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"fc_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="fc_root">
                 <td> Fraction of root biomass burned </td>
                 <td> <%= select_tag("fc_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"fc_root", :value => @ecosystem["fc_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"fc_root", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="fc_peat">
                 <td> Fraction of peat burned </td>
                 <td> <%= select_tag("fc_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"fc_peat", :value => @ecosystem["fc_peat"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"fc_peat", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="fc_SOM">
                 <td> Fraction of SOM burned  </td>
                 <td> <%= select_tag("fc_SOM-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"fc_SOM", :value => @ecosystem["fc_SOM"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"fc_SOM", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ec_CO2">
                 <td> Proportional release of CO2 for each unit of biomass burned (kmol/ Mg dry matter) </td>
                 <td> <%= select_tag("Ec_CO2-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ec_CO2", :value => @ecosystem["Ec_CO2"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ec_CO2", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ec_CH4">
                 <td> Proportional release of CH4 for each unit of biomass burned (kmol/ Mg dry matter) </td>
                 <td> <%= select_tag("Ec_CH4-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ec_CH4", :value => @ecosystem["Ec_CH4"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ec_CH4", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ec_N2O">
                 <td> Proportional release of N2O for each unit of biomass burned (kmol/ Mg dry matter) </td>
                 <td> <%= select_tag("Ec_N2O-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ec_N2O", :value => @ecosystem["Ec_N2O"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ec_N2O", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>
@@ -142,87 +142,87 @@
               <tr id="k_ag_wood_litter">
                 <td> Decay constant (k) for combustible biomass </td>
                 <td> <%= select_tag("k_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"k_ag_wood_litter", :value => @ecosystem["k_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"k_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="k_root">
                 <td> Decay constant (k) for roots </td>
                 <td> <%= select_tag("k_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"k_root", :value => @ecosystem["k_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"k_root", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="k_peat">
                 <td> Decay constant (k) for peat </td>
                 <td> <%= select_tag("k_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"k_peat", :value => @ecosystem["k_peat"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"k_peat", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="k_SOM">
                 <td> Decay constant (k) for SOM  </td>
                 <td> <%= select_tag("k_SOM-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"k_SOM", :value => @ecosystem["k_SOM"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"k_SOM", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="termite">
                 <td> % termite mediated decomposition </td>
                 <td> <%= select_tag("termite-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"termite", :value => @ecosystem["termite"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"termite", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CO2_ag_wood_litter">
                 <td> Proportional release of CH4 for each unit of combustible biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_CO2_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CO2_ag_wood_litter", :value => @ecosystem["Ed_CO2_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CO2_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CO2_root">
                 <td> Proportional release of CO2 for each unit of litter biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_CO2_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CO2_root", :value => @ecosystem["Ed_CO2_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CO2_root", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CO2_peat">
                 <td> Proportional release of CO2 for each unit of peat biomass decomposed </td>
                 <td> <%= select_tag("Ed_CO2_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CO2_peat", :value => @ecosystem["Ed_CO2_peat"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CO2_peat", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CO2_litter">
                 <td> Proportional release of CO2 for each unit of litter biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_CO2_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CO2_litter", :value => @ecosystem["Ed_CO2_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CO2_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
 	            <tr id="Ed_CH4_ag_wood_litter">
                 <td> Proportional release of CH4 for each unit of combustible biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_CH4_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CH4_ag_wood_litter", :value => @ecosystem["Ed_CH4_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CH4_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CH4_root">
                 <td> Proportional release of CH4 for each unit of root biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_CH4_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CH4_root", :value => @ecosystem["Ed_CH4_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CH4_root", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CH4_peat">
                 <td> Proportional release of CH4 for each unit of peat biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_CH4_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CH4_peat", :value => @ecosystem["Ed_CH4_peat"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CH4_peat", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_CH4_litter">
                 <td> Proportional release of CH4 for each unit of litter biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_CH4_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_CH4_litter", :value => @ecosystem["Ed_CH4_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_CH4_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_N2O_ag_wood_litter">
                 <td> Proportional release of N2O for each unit of combustible biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_N2O_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_N2O_ag_wood_litter", :value => @ecosystem["Ed_N2O_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_N2O_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_N2O_root">
                 <td> Proportional release of N2O for each unit of root biomass decomposed		 </td>
                 <td> <%= select_tag("Ed_N2O_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_N2O_root", :value => @ecosystem["Ed_N2O_root"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_N2O_root", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
 		          <tr id="Ed_N2O_peat">
                 <td> Proportional release of N2O for each unit of peat biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_N2O_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_N2O_peat", :value => @ecosystem["Ed_N2O_peat"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_N2O_peat", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="Ed_N2O_litter">
                 <td> Proportional release of N2O for each unit of litter biomass decomposed	 </td>
                 <td> <%= select_tag("Ed_N2O_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"Ed_N2O_litter", :value => @ecosystem["Ed_N2O_litter"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"Ed_N2O_litter", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>
@@ -250,17 +250,17 @@
               <tr id="F_CO2">
                 <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr)</td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                 <td> <%= select_tag("F_CO2-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"F_CO2", :value => @ecosystem["F_CO2"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"F_CO2", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="F_CH4">
                 <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere.-->
                 <td> <%= select_tag("F_CH4-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"F_CH4", :value => @ecosystem["F_CH4"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"F_CH4", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="F_N2O">
                 <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr); + indicates uptake by ecosystem, - indicates release to atmosphere. </td><!-- -->
                 <td> <%= select_tag("F_N2O-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"F_N2O", :value => @ecosystem["F_N2O"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"F_N2O", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>
@@ -288,22 +288,22 @@
               <tr id="age_transition">
                 <td> Age of transition (time at which biomass accumulation rate declines) (years)	 </td>
                 <td> <%= select_tag("age_transition-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"age_transition", :value => @ecosystem["age_transition"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"age_transition", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="new_F_CO2">
                 <td> Average annual net ecosystem-atmosphere CO2 exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                 <td> <%= select_tag("new_F_CO2-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"new_F_CO2", :value => @ecosystem["new_F_CO2"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"new_F_CO2", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="new_F_CH4">
                 <td> Average annual net ecosystem-atmosphere CH4 exchange (kmol/ha/yr) after transition</td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                 <td> <%= select_tag("new_F_CH4-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"new_F_CH4", :value => @ecosystem["new_F_CH4"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"new_F_CH4", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="new_F_N2O">
                 <td> Average annual net ecosystem-atmosphere N2O exchange (kmol/ha/yr) after transition </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                 <td> <%= select_tag("new_F_N2O-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"new_F_N2O", :value => @ecosystem["new_F_N2O"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"new_F_N2O", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>
@@ -332,57 +332,57 @@
                 <tr id="rd">
                   <td> Rate of disturbance events (#/year) </td>
                   <td> <%= select_tag("rd-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"rd", :value => @ecosystem["rd"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"rd", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="tR">
                   <td> Time required to recover pre-disturbance biomass stocks (years)	 </td>
                   <td> <%= select_tag("tR-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"tR", :value => @ecosystem["tR"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"tR", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="FR_CO2">
                   <td> Average annual net ecosystem-atmosphere CO2 exchange during recovery (kmol/ha/yr) </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                   <td> <%= select_tag("FR_CO2-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"FR_CO2", :value => @ecosystem["FR_CO2"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"FR_CO2", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="FR_CH4">
                   <td> Average annual net ecosystem-atmosphere CH4 exchange during recovery (kmol/ha/yr) </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                   <td> <%= select_tag("FR_CH4-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"FR_CH4", :value => @ecosystem["FR_CH4"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"FR_CH4", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="FR_N2O">
                   <td> Average annual net ecosystem-atmosphere N2O exchange during recovery (kmol/ha/yr) </td><!-- + indicates uptake by ecosystem, - indicates release to atmosphere. -->
                   <td> <%= select_tag("FR_N2O-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"FR_N2O", :value => @ecosystem["FR_N2O"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"FR_N2O", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dfc_ag_wood_litter">
                   <td> Fraction of combustible biomass (aboveground, wood, litter) burned (when disturbance is fire)	</td>
                   <td> <%= select_tag("dfc_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dfc_ag_wood_litter", :value => @ecosystem["dfc_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dfc_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dfc_root">
                   <td>Fraction of root biomass burned (when disturbance is fire)	</td>
                   <td> <%= select_tag("dfc_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dfc_root", :value => @ecosystem["dfc_root"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dfc_root", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dfc_peat">
                   <td> Fraction of peat biomass burned (when disturbance is fire) </td>
                   <td> <%= select_tag("dfc_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dfc_peat", :value => @ecosystem["dfc_peat"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dfc_peat", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dk_ag_wood_litter">
                   <td> Decay constant (k) of combustible biomass (aboveground, wood, litter) following disturbance </td>
                   <td> <%= select_tag("dk_ag_wood_litter-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dk_ag_wood_litter", :value => @ecosystem["dk_ag_wood_litter"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dk_ag_wood_litter", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dk_root">
                   <td> Decay constant (k) of combustible root biomass following disturbance </td>
                   <td> <%= select_tag("dk_root-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dk_root", :value => @ecosystem["dk_root"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dk_root", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
                 <tr id="dk_peat">
                   <td> Decay constant (k) of peat following disturbance </td>
                   <td> <%= select_tag("dk_peat-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                  <td> <%= text_field :ecosystem,"dk_peat", :value => @ecosystem["dk_peat"].to_f, :class => "popup_value_field" %> </td>
+                  <td> <%= text_field :ecosystem,"dk_peat", :value => 0.0, :class => "popup_value_field" %> </td>
                 </tr>
               </tbody>
             </table>
@@ -415,7 +415,7 @@
               <tr id="F_anth">
                 <td> Average annual CO2 emissions associated with management (kmol/ha/yr) </td>
                 <td> <%= select_tag("F_anth-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"F_anth", :value => @ecosystem["F_anth"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"F_anth", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
             </table>
           </div>
@@ -447,22 +447,22 @@
               <tr id="ac_yield">
                 <td> Biomass Yield (Mg dry biomass/ ha/ yr) </td> <!-- ac_yield -->
                 <td> <%= select_tag("ac_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"ac_yield", :value => @ecosystem["ac_yield"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"ac_yield", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="con_energy">
                 <td> Conversion Efficiency (liters ethanol/ Mg dry biomass) </td><!-- con_energy -->
                 <td> <%= select_tag("con_energy-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"con_energy", :value => @ecosystem["con_energy"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"con_energy", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="eth_yield">
                 <td> Ethanol Yield (liters ethanol/ ha/ yr) </td><!-- eth_yield -->
                 <td> <%= select_tag("eth_yield-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"eth_yield", :value => @ecosystem["eth_yield"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"eth_yield", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
               <tr id="G_C02">
                 <td> Displaced Gasoline CO2 Emissions (kmol C02/ ha/ yr) </td> <!-- G_C02 -->
                 <td> <%= select_tag("G_C02-source", options_for_select([], "1"), :class => "popup_cite_dropdown" ) %> </td>
-                <td> <%= text_field :ecosystem,"G_C02", :value => @ecosystem["G_C02"].to_f, :class => "popup_value_field" %> </td>
+                <td> <%= text_field :ecosystem,"G_C02", :value => 0.0, :class => "popup_value_field" %> </td>
               </tr>
 
             </table>
