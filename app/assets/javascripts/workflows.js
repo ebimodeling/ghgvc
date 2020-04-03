@@ -479,7 +479,7 @@ $(document).ready(function() {
 
       $.each( ecosystem_to_include, function(i,v) {
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
-        console.log( input_ecosystem_json );
+        //console.log( input_ecosystem_json );
         var biome_name_string = v[1].replace(/ /g,"_")
 
         ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string] = input_ecosystem_json;
