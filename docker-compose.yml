@@ -25,6 +25,7 @@ services:
       context: .
       args:
         - bundle_jobs=3
+    command: rm /app/tmp/pids/server.pid
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
     entrypoint: /app/docker-entrypoint.sh
     environment:
