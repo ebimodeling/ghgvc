@@ -47,6 +47,7 @@ function showPopup(contentName) {
 	eval(CONTENT[contentName].js);
 	centerPopup();
 	popup.show();
+}
 
 function centerPopup() {
 	var popup = $("#popup_div");
