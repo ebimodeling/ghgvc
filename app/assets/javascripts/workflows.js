@@ -460,7 +460,7 @@ $(document).ready(function() {
       var biome_group =  $(this);
       var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
-      console.log("current_biomes_json: " + JSON.stringify(current_biomes_json));
+      //console.log("current_biomes_json: " + JSON.stringify(current_biomes_json));
 
       var loc = biome_group.find(".biome_site_header .site_latlng").text();
       var lat_lng_matcher = /\( *([\d\.-]+) *, *([\d\.-]+) *\)/;
