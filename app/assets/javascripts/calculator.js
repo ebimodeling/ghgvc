@@ -35,106 +35,6 @@ var options = {
 var experiment = new Experiment("untitled", [], options);
 var included_ecosystems = experiment.ecosystems;
 
-var ecosystems,
-	user_ecosystems;
-
-$.ajax({
-	type: "GET",
-	url: "data/default_ecosystems.json",
-	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	success: function(response) {
-		user_ecosystems = response;
-		ecosystems = response;
-	}
-});
-
-var variable_db;
-
-$.ajax({
-	type: "GET",
-	url: "data/variable_db.json",
-	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	success: function(response) {
-		variable_db = response;
-	}
-});
-
-var descriptions;
-
-$.ajax({
-	type: "GET",
-	url: "/data/descriptions.json",
-	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	success: function(response) {
-		descriptions = response;
-	}
-});
-
-var sources;
-
-$.ajax({
-	type: "GET",
-	url: "/data/sources.json",
-	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-	success: function(response) {
-		sources = response;
-	}
-});
-
-
-var addhtml, addjs, edithtml, editjs;
-
-var CONTENT;
-
-//$.ajax({
-//	type: "GET",
-//	url: "loadContent.php",
-//	contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-//	success: function(response) {
-//		CONTENT = response;
-//	}
-//});
-
-/*$.ajax({
-	type: "GET",
-	url: "content/add_ecosystem/add_ecosystem.html",
-	success: function(response) {
-		addhtml = response;
-	}
-});
-
-$.ajax({
-	type: "GET",
-	url: "content/add_ecosystem/add_ecosystem.js",
-	success: function(response) {
-		addjs = response;
-	}
-});
-
-$.ajax({
-	type: "GET",
-	url: "content/edit_ecosystem/edit_ecosystem.html",
-	success: function(response) {
-		edithtml = response;
-	}
-});
-
-$.ajax({
-	type: "GET",
-	url: "content/edit_ecosystem/edit_ecosystem.js",
-	success: function(response) {
-		editjs = response;
-	}
-});*/
-
-//ddsmoothmenu.init({
-//	mainmenuid: "mainmenu",
-//	orientation: 'h',
-//	classname: "ddsmoothmenu",
-//	customtheme: ["#007700", "#003300"],
-//	contentsource: "markup"
-//})
-
 function showPopup(contentName) {
 	var popup = $("#popup_div");
 	var disable = $("#disable_div");
@@ -147,17 +47,6 @@ function showPopup(contentName) {
 	eval(CONTENT[contentName].js);
 	centerPopup();
 	popup.show();
-
-	/*$.ajax({
-		type: "GET",
-		url: contentURL,
-		success: function(content) {
-			popup.html(content);
-			popup.append('<script type="text/javascript" src="' + scriptURL + '"></script>');
-			popup.append('<script type="text/javascript">centerPopup();</script>');
-			popup.show();
-		}
-	});*/
 }
 
 function centerPopup() {

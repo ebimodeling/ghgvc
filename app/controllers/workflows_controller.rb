@@ -52,9 +52,9 @@ class WorkflowsController < ApplicationController
     # object returned is an array of hashes... Ex:
     # p @ecosystems[0] # will return a Hash
     # p @ecosystems[0]["category"] # => "native"
-    @ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/default_ecosystems.json" , "r" ).read )
-    @name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
-    @ecosystem = @ecosystems[0]
+    #@ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/default_ecosystems.json" , "r" ).read )
+    #@name_indexed_ecosystems = JSON.parse( File.open( "#{Rails.root}/public/data/name_indexed_ecosystems.json" , "r" ).read )
+    #@ecosystem = @ecosystems[0]
 
     respond_to do |format|
       format.html

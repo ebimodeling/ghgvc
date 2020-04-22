@@ -16,16 +16,31 @@ function remove_google_maps_pin( biome_site_id ) {
 //
 // TODO: Replace this with an actual JS library that handles quotes, commas,
 // etc. Shouldn't need to hand-roll this
+
+
 function convert_to_csv(json_data) {
-  columns = Object.keys(json_data['site_1_data']['Grass']);
   json2csvParser = json2csv.Parser;
-  parser = new json2csvParser(columns, flatten=true);
   flat_data = [];
   for (site in json_data) {
     for (ecosystem in json_data[site]) {
-      flat_data.push(json_data[site][ecosystem]);
+      cleaned = json_data[site][ecosystem]
+      for(field in cleaned){
+          cleaned[field] = json_data[site][ecosystem][field].join(", ")
+      }
+      flat_data.push(cleaned);
     }
   }
+  columns= flat_data.reduce(function (x, y) {
+    keys = Object.keys(y)
+    for(columns in keys){
+      if(x.indexOf(keys[columns]) === -1){
+        x.push(keys[columns])
+      }
+    }
+    return x
+  },[])
+
+  parser = new json2csvParser(columns, flatten=true);
   str = parser.parse(flat_data)
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(str));
@@ -137,36 +152,33 @@ function populate_html_from_latlng( lat, lng ) {
 
     // Tag the site w the given lat and lng
     $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lng.toFixed(2) + " )");
-
-    if ( data.native_eco != null ) {
-      $.each( data.native_eco, function(k,v) {
-        $('div.well:not(.inactive_site)').find('.native_biomes').find('.biome_list').append(
-          '<div class="biome_match checkbox">' +
-            '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
-              '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
-            '</a>' +
-            '<a class="biome_pdf_link action-link"href="' +
-            '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
-            '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
-          '</div>'
+    function biome_div(type) {
+      return function make_element(k,v) {
+        element = '<div class="biome_match checkbox">' +
+          '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>'
+        if(v['in_synmap'][0]){
+          element = element.concat('<span class="synmap-flag" style="color: red; font-size: 20px;">*</span>')
+          $('#synmap-key').css("display","inline")
+        }
+        element = element.concat(
+        '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
+          '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
+        '</a>' +
+        '<a class="biome_pdf_link action-link"href="' +
+        '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
+        '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
+      '</div>')
+        $('div.well:not(.inactive_site)').find(type).find('.biome_list').append(
+          element
         ).parent().css("height", "auto");
         // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
-      });
+      };
     };
-
+    if ( data.native_eco != null ) {
+      $.each( data.native_eco, biome_div('.native_biomes'));
+    };
     if ( data.agroecosystem_eco != null ) {
-      $.each( data.agroecosystem_eco, function(k,v) {
-        $('div.well:not(.inactive_site)').find('.agroecosystem_biomes').find('.biome_list').append(
-          '<div class="biome_match checkbox">' +
-            '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>' +
-            '<a class="edit_icon_link action-link" data-toggle="modal" href="#ecosystem_popup">' +
-              '<i class="glyphicon glyphicon-list-alt inline-block" rel="tooltip" title="Edit" />' +
-            '</a>' +
-          '</div>'
-        ).parent().css("height", "auto");
-        // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
-      });
+      $.each( data.agroecosystem_eco, biome_div('.agroecosystem_biomes'));
     };
   });
 };
@@ -448,7 +460,7 @@ $(document).ready(function() {
       var biome_group =  $(this);
       var ecosystem_to_include = get_selected_ecosystems_name_and_type( $(this) );
       var current_biomes_json = $.parseJSON( biome_group.find('.json_saved').text() );
-      console.log("current_biomes_json: " + JSON.stringify(current_biomes_json));
+      //console.log("current_biomes_json: " + JSON.stringify(current_biomes_json));
 
       var loc = biome_group.find(".biome_site_header .site_latlng").text();
       var lat_lng_matcher = /\( *([\d\.-]+) *, *([\d\.-]+) *\)/;
@@ -467,7 +479,7 @@ $(document).ready(function() {
 
       $.each( ecosystem_to_include, function(i,v) {
         var input_ecosystem_json = current_biomes_json[v[0] + "_eco"][v[1].replace(/ /g,"_")];
-        console.log( input_ecosystem_json );
+        //console.log( input_ecosystem_json );
         var biome_name_string = v[1].replace(/ /g,"_")
 
         ghgvcR_input[biome_group_string]["ecosystems"][biome_name_string] = input_ecosystem_json;
@@ -513,12 +525,12 @@ $(document).ready(function() {
       mi_svg = mi_svg.replace(re, "glyph-mi")
       co2_svg = atob(data.plots.co2[0]);
       mi_svg = mi_svg.replace(re, "glyph-co2")
-      
+
 
       // Place SVGs on the map
       $("#mi_container").html(mi_svg);
       $("#co2_container").html(co2_svg);
-	
+
       // make the returned data available so it can be exported to a csv
       window.json_data = data.results;
       // Add the message about the black dots
