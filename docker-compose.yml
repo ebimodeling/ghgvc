@@ -7,11 +7,11 @@ volumes:
     driver: local
 
 services:
-  #webserver:
-    #build: ./nginx
-    #ports: ["80:80"]
-    #links:
-      #- app:app
+  webserver:
+    build: ./nginx
+    ports: ["80:80"]
+    links:
+      - app:app
 
   ghgvcr:
     image : ghgvcr_ghgvcr:latest
