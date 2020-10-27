@@ -18,14 +18,16 @@ function remove_google_maps_pin( biome_site_id ) {
 // etc. Shouldn't need to hand-roll this
 
 
-function convert_to_csv(json_data) {
+function convert_to_csv(input_data) {
+  const data = {...input_data}
+  debugger
   json2csvParser = json2csv.Parser;
-  flat_data = [];
-  for (site in json_data) {
-    for (ecosystem in json_data[site]) {
-      cleaned = json_data[site][ecosystem]
+  let flat_data = [];
+  for (site in data) {
+    for (ecosystem in data[site]) {
+      let cleaned = {...data[site][ecosystem]}
       for(field in cleaned){
-          cleaned[field] = json_data[site][ecosystem][field].join(", ")
+          cleaned[field] = data[site][ecosystem][field].join(", ")
       }
       flat_data.push(cleaned);
     }
@@ -350,7 +352,7 @@ function populate_ecosystem_shadowbox( site_id, biome_type, biome_name ) {
           // R is sometimes returning [NaN] and [null] values in the resulting JSON
           // This will cause problems when submitting the form with this data.
           // This change prevents that
-          if(value == ["NaN"] || value == [null]) { value = ""; }
+          if(value == ["NaN"] || value == [null] || value == undefined) { value = ""; }
           $('#ecosystem_' + csep_key).attr("value", value);
         // At this point all the the saved options should be displaying as whats selected in the popup
         });
