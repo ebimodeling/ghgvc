@@ -534,7 +534,7 @@ $(document).ready(function() {
       // make the returned data available so it can be exported to a csv
       window.json_data = data.results;
       // Add the message about the black dots
-      $('#dot_container').html('Black dots indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
+      $('#dot_container').html('Black dots (•) indicate net values, and are displayed when all components are quantified. Missing values (particularly common for biophysical components) indicate that climate regulating values cannot be calculated because of insufficient data.');
 
       // debugger;
 
