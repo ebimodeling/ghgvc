@@ -20,7 +20,6 @@ function remove_google_maps_pin( biome_site_id ) {
 
 function convert_to_csv(input_data) {
   const data = {...input_data}
-  debugger
   json2csvParser = json2csv.Parser;
   let flat_data = [];
   for (site in data) {
