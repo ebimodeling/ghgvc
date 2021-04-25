@@ -155,24 +155,31 @@ function populate_html_from_latlng( lat, lng ) {
     $('div.well:not(.inactive_site)').find('.site_latlng').text("( "+ lat.toFixed(2) + ", " + lng.toFixed(2) + " )");
     function biome_div(type) {
       return function make_element(k,v) {
-        element = '<div class="biome_match checkbox">' +
-          '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>'
-        if(v['in_synmap'][0]){
-          element = element.concat('<span class="synmap-flag" style="color: red; font-size: 20px;">*</span>')
-          $('#synmap-key').css("display","inline")
+        if (k === "Barren") {
+          $('div.well:not(.inactive_site)').find(type).find('.biome_list').append(
+            '<p class="barren-note">* Barren ecosystems may also exist in this location.</p>'
+          ).parent().css("height", "auto");
         }
-        element = element.concat(
-        '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
-          '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
-        '</a>' +
-        '<a class="biome_pdf_link action-link"href="' +
-        '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
-        '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
-      '</div>')
-        $('div.well:not(.inactive_site)').find(type).find('.biome_list').append(
-          element
-        ).parent().css("height", "auto");
-        // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
+        else {
+          element = '<div class="biome_match checkbox">' +
+            '<label class="biome-match"><input type="checkbox">' + k.replace(/_/g," ") + '</input></label>'
+          if(v['in_synmap'][0]){
+            element = element.concat('<span class="synmap-flag" style="color: red; font-size: 20px;">*</span>')
+            $('#synmap-key').css("display","inline")
+          }
+          element = element.concat(
+          '<a class="edit_icon_link action-link" data-toggle="modal" data-target="#ecosystem_popup" href="#ecosystem_popup">' +
+            '<i class="glyphicon glyphicon-list-alt" rel="tooltip" title="Edit"></i>' +
+          '</a>' +
+          '<a class="biome_pdf_link action-link"href="' +
+          '/ecosystem_fact_sheets/' + v.code + '.pdf' + //pdf file name
+          '" download><img class="download-pdf-icon" src="/assets/pdf_24x24.png"></a>' +
+        '</div>')
+          $('div.well:not(.inactive_site)').find(type).find('.biome_list').append(
+            element
+          ).parent().css("height", "auto");
+          // Could add delegate option here to show / hide the EDIT icon on checking the checkbox
+        };
       };
     };
     if ( data.native_eco != null ) {
